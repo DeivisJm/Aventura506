@@ -25,16 +25,14 @@
 </a>
 
 
-
-
-
 <body class="bg-gray-100">
     <x-navbar />
 
-    <main>
-        @yield('content')
-    </main>
+   <main class="pt-24 md:pt-">
+    @yield('content')
+</main>
 
+<
     <x-footer />
 </body>
 
