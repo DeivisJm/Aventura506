@@ -10,16 +10,12 @@
 
 
             {{-- Desktop menu --}}
-            <ul class="hidden md:flex space-x-6 font-medium">
-                <li>
-                    <a href="#" class="text-green-600 font-semibold">
-                        Inicio
-                    </a>
-                </li>
+            <ul class="nav-links hidden md:flex space-x-6 font-medium">
 
-                <li><a href="#" class="text-gray-700 hover:text-green-600 transition-colors">Destinos</a></li>
-                <li><a href="#" class="text-gray-700 hover:text-green-600 transition-colors">Paquetes</a></li>
-                <li><a href="#" class="text-gray-700 hover:text-green-600 transition-colors">Contacto</a></li>
+                <li> <a href="#" class="nav-link active"> Inicio</a></li>
+                <li> <a href="#destinos" class="nav-link">Destinos</a></li>
+                <li> <a href="#paquetes" class="nav-link">Paquetes</a></li>
+                <li> <a href="#contacto" class="nav-link">Contacto</a></li>
 
             </ul>
 

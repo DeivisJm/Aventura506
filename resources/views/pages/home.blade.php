@@ -29,25 +29,22 @@
             </p>
 
             {{-- BOTONES --}}
-            <div class="mt-8 flex flex-col sm:flex-row gap-4
-                        opacity-0 animate-hero hero-delay-4">
+            <div class="mt-8 flex flex-col sm:flex-row gap-4 hero-buttons">
 
+                {{-- BOTÓN PRINCIPAL --}}
                 <a href="#tours"
-                   class="inline-flex items-center justify-center px-8 py-4 rounded-full
-                          bg-green-600 text-white font-semibold shadow-lg
-                          hover:bg-green-700 hover:scale-105
-                          transition-all duration-300">
+                    class="btn-primary">
                     Explorar Tours
                 </a>
 
+                {{-- BOTÓN SECUNDARIO --}}
                 <a href="#hospedaje"
-                   class="inline-flex items-center justify-center px-8 py-4 rounded-full
-                          border-2 border-green-600 text-green-600 font-semibold
-                          hover:bg-green-600 hover:text-white hover:scale-105
-                          transition-all duration-300">
+                    class="btn-secondary">
                     Ver Hospedaje
                 </a>
+
             </div>
+
         </div>
 
         {{-- IMÁGENES --}}
@@ -59,8 +56,7 @@
                 alt="Volcán Arenal - La Fortuna"
                 class="rounded-2xl shadow-xl object-cover h-56 w-full
                        transition-all duration-500 ease-out
-                       hover:scale-110 hover:-translate-y-1 cursor-pointer"
-            >
+                       hover:scale-110 hover:-translate-y-1 cursor-pointer">
 
             {{-- Catarata La Fortuna --}}
             <img
@@ -68,8 +64,7 @@
                 alt="Catarata La Fortuna"
                 class="rounded-2xl shadow-xl object-cover h-72 w-full row-span-2
                        transition-all duration-500 ease-out
-                       hover:scale-110 hover:-translate-y-1 cursor-pointer"
-            >
+                       hover:scale-110 hover:-translate-y-1 cursor-pointer">
 
             {{-- Aventura / Naturaleza --}}
             <img
@@ -77,8 +72,7 @@
                 alt="Aventura en La Fortuna"
                 class="rounded-2xl shadow-xl object-cover h-48 w-full
                        transition-all duration-500 ease-out
-                       hover:scale-110 hover:-translate-y-1 cursor-pointer"
-            >
+                       hover:scale-110 hover:-translate-y-1 cursor-pointer">
 
             {{-- Overlay decorativo --}}
             <div class="absolute -z-10 -top-10 -right-10 w-72 h-72 bg-green-100 rounded-full blur-3xl"></div>
