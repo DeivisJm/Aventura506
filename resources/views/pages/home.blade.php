@@ -79,8 +79,82 @@
         </div>
 
     </div>
+    {{-- ================= END HERO ================= --}}
 </section>
-{{-- ================= END HERO ================= --}}
+
+{{-- YOUTUBE EXPERIENCE --}}
+<section class="bg-white py-28 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6">
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+
+            {{-- LEFT / CONTENT --}}
+            <div class="scroll-hero space-y-8">
+
+                {{-- TITLE --}}
+                <h2
+                    class="text-3xl md:text-4xl xl:text-5xl font-extrabold
+                           text-gray-900 leading-tight">
+
+                    Explorá La Fortuna
+                    <span class="block text-green-600">
+                        desde una nueva perspectiva
+                    </span>
+                </h2>
+
+                {{-- DESCRIPTION --}}
+                <p class="text-lg text-gray-600 max-w-xl leading-relaxed">
+                    Viví experiencias reales a través de contenido auténtico,
+                    creado por viajeros y guías locales que conocen La Fortuna
+                    como nadie más.
+                </p>
+
+                {{-- AUTHOR --}}
+                <div class="flex items-center gap-3 text-sm text-gray-500">
+
+                    {{-- YOUTUBE ICON --}}
+                    <svg class="w-5 h-5 text-red-500" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M23.498 6.186a2.958 2.958 0 00-2.08-2.092C19.585 3.5 12 3.5 12 3.5s-7.585 0-9.418.594A2.958 2.958 0 00.502 6.186 30.07 30.07 0 000 12a30.07 30.07 0 00.502 5.814 2.958 2.958 0 002.08 2.092C4.415 20.5 12 20.5 12 20.5s7.585 0 9.418-.594a2.958 2.958 0 002.08-2.092A30.07 30.07 0 0024 12a30.07 30.07 0 00-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                    </svg>
+
+                    <a
+                        href="https://www.youtube.com/@SebasAventuracr"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="hover:text-red-600 transition-colors">
+
+                        Videos por
+                        <strong class="text-gray-700 hover:text-green-600 transition-colors">
+                            Sebas Aventura
+                        </strong>
+                    </a>
+
+                </div>
+            </div>
+
+            {{-- RIGHT / VIDEO --}}
+            <div class="scroll-hero">
+                <div
+                    class="relative rounded-3xl overflow-hidden shadow-2xl
+                           ring-1 ring-black/5">
+
+                    <iframe
+                        class="w-full aspect-video"
+                        src="https://www.youtube.com/embed/videoseries?list=PLzJaAzeEwGMPF1XbEBB2U-LY1xvzZPmzP"
+                        title="Aventura506 Experiences"
+                        frameborder="0"
+                        loading="lazy"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                    </iframe>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
 
 {{-- ================= INFO CARDS ================= --}}
 <section class="max-w-7xl mx-auto px-4 py-16 grid gap-8 md:grid-cols-3">

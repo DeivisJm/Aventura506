@@ -1,38 +1,90 @@
 import './bootstrap';
-// Mobile menu toggle
+
 document.addEventListener('DOMContentLoaded', () => {
+
+    /* =====================================================
+       MOBILE MENU TOGGLE
+    ===================================================== */
     const menuBtn = document.getElementById('menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
 
-    if (menuBtn) {
+    if (menuBtn && mobileMenu) {
         menuBtn.addEventListener('click', () => {
             mobileMenu.classList.toggle('hidden');
         });
     }
-});
-// Scroll reveal effect
-document.addEventListener("DOMContentLoaded", () => {
 
-    const elements = document.querySelectorAll(".scroll-hero");
+    /* =====================================================
+       SCROLL REVEAL (SCROLL-HERO)
+    ===================================================== */
+    const elements = document.querySelectorAll('.scroll-hero');
 
-    const observer = new IntersectionObserver(
-        (entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add("show");
-                    observer.unobserve(entry.target); // solo una vez
-                }
-            });
+    if (elements.length) {
+        const observer = new IntersectionObserver(
+            (entries, obs) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('show');
+                        obs.unobserve(entry.target); // solo una vez
+                    }
+                });
+            },
+            {
+                root: null,
+                threshold: 0,
+                rootMargin: '0px 0px -20% 0px',
+            }
+        );
+
+        elements.forEach(el => observer.observe(el));
+    }
+
+    /* =====================================================
+       THEME TOGGLE (DESKTOP + MOBILE) + LOGO SWITCH
+    ===================================================== */
+    const html = document.documentElement;
+    const logo = document.getElementById('navbar-logo');
+
+    const toggles = [
+        {
+            btn: document.getElementById('theme-toggle'),
+            sun: document.getElementById('icon-sun'),
+            moon: document.getElementById('icon-moon'),
         },
         {
-            root: null,
-            threshold: 0,
-            // obliga a que el usuario baje para ver (quienes somos)
-            rootMargin: "0px 0px -20% 0px"
+            btn: document.getElementById('theme-toggle-mobile'),
+            sun: document.getElementById('icon-sun-mobile'),
+            moon: document.getElementById('icon-moon-mobile'),
+        },
+    ];
+
+    const applyTheme = (isDark) => {
+        html.classList.toggle('dark', isDark);
+
+        // Logo switch
+        if (logo) {
+            logo.src = isDark ? logo.dataset.dark : logo.dataset.light;
         }
-    );
 
-    elements.forEach(el => observer.observe(el));
+        // Icons switch (desktop + mobile)
+        toggles.forEach(t => {
+            if (!t.btn) return;
+            t.sun.classList.toggle('hidden', isDark);
+            t.moon.classList.toggle('hidden', !isDark);
+        });
+
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    };
+
+    // Load saved theme
+    applyTheme(localStorage.getItem('theme') === 'dark');
+
+    // Click events
+    toggles.forEach(t => {
+        if (!t.btn) return;
+        t.btn.addEventListener('click', () => {
+            applyTheme(!html.classList.contains('dark'));
+        });
+    });
+
 });
-
-
