@@ -7,3 +7,4 @@ Route::get('/', fn() => view('pages.home'));
 Route::get('/contact', fn() => view('pages.contact'));
 Route::get('/destinations', fn() => view('pages.destinations'));
 Route::get('/packages', fn() => view('pages.packages'));
+Route::get('/about_us', fn() => view('pages.about_us'));

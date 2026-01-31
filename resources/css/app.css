@@ -5,11 +5,7 @@
 @tailwind components;
 @tailwind utilities;
 
-
-/* =====================================================
-   HERO – PREMIUM ENTRANCE ANIMATION
-===================================================== */
-
+/*  HERO – PREMIUM ENTRANCE ANIMATION */
 @keyframes heroReveal {
     0% {
         opacity: 0;
@@ -51,9 +47,7 @@
 }
 
 
-/* =====================================================
-   HERO BUTTONS – INTERACTION PRO
-===================================================== */
+/* HERO BUTTONS – INTERACTION PRO */
 
 .hero-buttons {
     display: flex;
@@ -97,9 +91,7 @@
     color: #16a34a;
 }
 
-/* =====================================================
-   NAVBAR – ACTIVE vs HOVER (FIX PROFESIONAL)
-===================================================== */
+/* NAVBAR – ACTIVE vs HOVER */
 
 /* ---------- LINKS BASE ---------- */
 .nav-link,
@@ -124,15 +116,8 @@
     color: #16a34a;
 }
 
-/* =====================================================
-   DESKTOP: CONTEXTO DE HOVER (CLAVE)
-===================================================== */
+/* DESKTOP: CONTEXTO DE HOVER (CLAVE) */
 
-/* 
-   Cuando el mouse entra al menú:
-   TODOS los links (incluido el active)
-   pierden el verde
-*/
 .nav-links:hover .nav-link,
 .nav-links:hover .nav-link.active {
     color: #374151;
@@ -140,23 +125,13 @@
     font-weight: 500;
 }
 
-/*
-   SOLO el link hovereado
-   se mantiene verde
-*/
+/* SOLO el link hovereado se mantiene verde */
 .nav-links:hover .nav-link:hover {
     color: #16a34a;
     font-weight: 600;
 }
 
-/* =====================================================
-   WHATSAPP FLOAT BUTTON
-   -----------------------------------------------------
-   Floating Action Button (FAB)
-   - Ícono oficial
-   - Tamaño correcto
-   - Hover profesional
-===================================================== */
+/*WHATSAPP FLOAT BUTTON */
 
 .whatsapp-float {
     position: fixed;
@@ -190,4 +165,55 @@
     width: 26px;
     height: 26px;
     fill: #ffffff;
+}
+
+/* =====================================================
+   SCROLL REVEAL ANIMATION
+===================================================== */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reveal.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Variante más suave (para textos largos) */
+.reveal-soft {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+}
+
+.reveal-soft.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* SCROLL HERO SECTIONS */
+
+.scroll-hero > * {
+    opacity: 0;
+    transform: translateY(40px) scale(0.98);
+    filter: blur(4px);
+}
+
+.scroll-hero.show > * {
+    animation: heroReveal 1.1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Delays automáticos por orden */
+.scroll-hero.show > *:nth-child(1) { animation-delay: 0.1s; }
+.scroll-hero.show > *:nth-child(2) { animation-delay: 0.25s; }
+.scroll-hero.show > *:nth-child(3) { animation-delay: 0.4s; }
+.scroll-hero.show > *:nth-child(4) { animation-delay: 0.55s; }
+.scroll-hero.show > *:nth-child(5) { animation-delay: 0.7s; }
+
+/* Slight stagger between columns */
+.scroll-hero:nth-of-type(2) {
+    transition-delay: 0.15s;
 }

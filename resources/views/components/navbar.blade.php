@@ -38,6 +38,12 @@
                         Paquetes
                     </a>
                 </li>
+                <li>
+                    <a href="/about_us"
+                        class="nav-link {{ request()->is('about_us') ? 'active' : '' }}">
+                        Sobre Nosotros
+                    </a>
+                </li>
 
                 <li>
                     <a href="/contact"
@@ -82,6 +88,13 @@
                 <a href="/packages"
                     class="mobile-nav-link {{ request()->is('packages') ? 'active' : '' }}">
                     Paquetes
+                </a>
+            </li>
+
+            <li>
+                <a href="/about_us"
+                    class="nav-link {{ request()->is('about_us') ? 'active' : '' }}">
+                    Sobre Nosotros
                 </a>
             </li>
 
