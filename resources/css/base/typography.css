@@ -1,0 +1,16 @@
+/* =====================================================
+   TEXT HELPERS
+===================================================== */
+.text-gray-900 { color: var(--text) !important; }
+.text-gray-600,
+.text-gray-500 { color: var(--muted) !important; }
+
+.dark h1,
+.dark h2,
+.dark h3 {
+    color: #e5e7eb;
+}
+
+.dark p {
+    color: #9ca3af;
+}

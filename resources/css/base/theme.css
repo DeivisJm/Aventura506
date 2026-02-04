@@ -1,0 +1,53 @@
+/* =====================================================
+   THEME VARIABLES
+===================================================== */
+:root {
+    --bg: #ffffff;
+    --text: #111827;
+    --muted: #6b7280;
+    --card: #f9fafb;
+    --accent: #16a34a;
+}
+
+.dark {
+    --bg: #0f172a;
+    --text: #e5e7eb;
+    --muted: #9ca3af;
+    --card: #020617;
+    --accent: #22c55e;
+}
+
+/* Global application */
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* Tailwind overrides */
+.bg-white {
+    background-color: var(--bg) !important;
+}
+
+.bg-gray-50 {
+    background-color: var(--card) !important;
+}
+
+.dark header {
+    background-color: #020617;
+}
+
+/* =====================================================
+   HEADERS HOVER – DARK MODE FIX
+===================================================== */
+
+.dark h1:hover,
+.dark h2:hover,
+.dark h3:hover {
+    color: var(--accent);
+    transition: color 0.25s ease;
+}
+.dark .tours-page h1:hover,
+.dark .tours-page h2:hover {
+    color: var(--accent);
+}

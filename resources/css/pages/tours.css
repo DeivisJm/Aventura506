@@ -1,0 +1,23 @@
+/* =====================================================
+   TOURS PAGE
+===================================================== */
+
+.tours-page {
+    background-color: var(--bg);
+    color: var(--text);
+}
+
+/* Hero title area */
+.tours-page .tours-hero {
+    background-color: transparent;
+}
+
+/* Dark mode fix */
+.dark .tours-page {
+    background-color: var(--bg);
+}
+
+/* Subtitle */
+.dark .tours-page p {
+    color: var(--muted);
+}

@@ -1,0 +1,53 @@
+/* =====================================================
+   TOUR FILTER CARDS
+===================================================== */
+
+.filter-card {
+    padding: 1.2rem 1rem;
+    border-radius: 1rem;
+    border: 2px solid #e5e7eb; /* gray-200 */
+    font-weight: 600;
+    text-align: center;
+    background-color: var(--bg);
+    color: var(--text);
+    cursor: pointer;
+    transition: 
+        border-color 0.25s ease,
+        background-color 0.25s ease,
+        color 0.25s ease,
+        transform 0.25s ease;
+}
+
+/* ---------- HOVER (LIGHT MODE) ---------- */
+.filter-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+}
+
+/* ---------- ACTIVE (ALL MODES) ---------- */
+.filter-card.active {
+    background-color: var(--accent);
+    border-color: var(--accent);
+    color: #ffffff;
+}
+
+/* =====================================================
+   DARK MODE SUPPORT
+===================================================== */
+
+.dark .filter-card {
+    border-color: #334155; /* slate-700 */
+    color: #e5e7eb;
+}
+
+/* 🔥 CLAVE: hover en dark mode */
+.dark .filter-card:hover {
+    border-color: var(--accent);
+}
+
+/* Active en dark mode */
+.dark .filter-card.active {
+    background-color: var(--accent);
+    border-color: var(--accent);
+    color: #022c22; /* buen contraste */
+}

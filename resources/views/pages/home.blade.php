@@ -32,7 +32,7 @@
             <div class="mt-8 flex flex-col sm:flex-row gap-4 hero-buttons">
 
                 {{-- BOTÓN PRINCIPAL --}}
-                <a href="#tours"
+                <a href="/tours"
                     class="btn-primary">
                     Explorar Tours
                 </a>

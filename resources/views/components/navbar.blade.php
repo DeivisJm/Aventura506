@@ -28,14 +28,14 @@
                     </li>
 
                     <li>
-                        <a href="/destinations" class="nav-link {{ request()->is('destinations') ? 'active' : '' }}">
-                            Destinos
+                        <a href="/tours" class="nav-link {{ request()->is('tours') ? 'active' : '' }}">
+                            Tours
                         </a>
                     </li>
 
                     <li>
-                        <a href="/packages" class="nav-link {{ request()->is('packages') ? 'active' : '' }}">
-                            Paquetes
+                        <a href="/accommodations" class="nav-link {{ request()->is('accommodations') ? 'active' : '' }}">
+                            Hospedajes
                         </a>
                     </li>
 
@@ -117,14 +117,14 @@
             </li>
 
             <li>
-                <a href="/destinations" class="mobile-nav-link {{ request()->is('destinations') ? 'active' : '' }}">
-                    Destinos
+                <a href="/tours" class="mobile-nav-link {{ request()->is('tours') ? 'active' : '' }}">
+                    Tours
                 </a>
             </li>
 
             <li>
-                <a href="/packages" class="mobile-nav-link {{ request()->is('packages') ? 'active' : '' }}">
-                    Paquetes
+                <a href="/accommodations" class="mobile-nav-link {{ request()->is('accommodations') ? 'active' : '' }}">
+                    Hospedajes
                 </a>
             </li>
 
