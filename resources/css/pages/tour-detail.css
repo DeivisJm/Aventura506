@@ -1,0 +1,30 @@
+/* =====================================================
+   TOUR DETAIL PAGE
+   Este archivo se usa para estilos exclusivos
+   de la página de detalle de tours
+===================================================== */
+
+/* Hero del tour */
+.tour-hero {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Imagen principal del tour */
+.tour-image {
+    max-height: 520px;
+    object-fit: cover;
+}
+
+/* Sección de detalles */
+.tour-details {
+    gap: 3rem;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+    .tour-hero {
+        padding-top: 4rem;
+        padding-bottom: 4rem;
+    }
+}

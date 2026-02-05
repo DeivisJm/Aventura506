@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Sobre Nosotros')
+
 @section('content')
 
 {{-- =====================================================
@@ -30,7 +32,7 @@
 </section>
 
 {{-- ABOUT US – CONTENT--}}
-<section class="bg-gray-50 py-20">
+<section class="py-20">
     <div class="max-w-6xl mx-auto px-6">
 
         {{-- WRAPPER OBSERVADO --}}

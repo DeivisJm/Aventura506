@@ -1,7 +1,15 @@
+/* =====================================================
+   HERO BUTTONS GROUP
+===================================================== */
+
 .hero-buttons {
     display: flex;
     gap: 1rem;
 }
+
+/* =====================================================
+   BASE BUTTON STYLES
+===================================================== */
 
 .btn-primary,
 .btn-secondary {
@@ -9,17 +17,29 @@
     border-radius: 9999px;
     font-weight: 600;
     border: 2px solid var(--accent);
-    transition: all 0.3s ease;
+    transition: 
+        background-color 0.3s ease,
+        color 0.3s ease,
+        transform 0.25s ease;
+    cursor: pointer;
 }
+
+/* =====================================================
+   PRIMARY BUTTON
+===================================================== */
 
 .btn-primary {
     background-color: var(--accent);
-    color: #fff;
+    color: #ffffff;
 }
 
 .btn-primary:hover {
     transform: scale(1.05);
 }
+
+/* =====================================================
+   SECONDARY BUTTON
+===================================================== */
 
 .btn-secondary {
     background-color: transparent;
@@ -28,5 +48,32 @@
 
 .btn-secondary:hover {
     background-color: var(--accent);
-    color: #fff;
+    color: #ffffff;
+    transform: scale(1.05);
+}
+
+/* =====================================================
+   🔥 CLAVE: INTERACCIÓN ENTRE BOTONES
+   Cuando uno se hace hover, el otro vuelve a "secondary"
+===================================================== */
+
+/* Si paso el mouse sobre el secundario,
+   el primario se vuelve transparente */
+.hero-buttons:hover .btn-primary {
+    background-color: transparent;
+    color: var(--accent);
+}
+
+/* Pero si el hover está SOBRE el primario,
+   este sigue siendo verde */
+.hero-buttons .btn-primary:hover {
+    background-color: var(--accent);
+    color: #ffffff;
+}
+
+/* Y el secundario queda transparente */
+.hero-buttons .btn-secondary:hover ~ .btn-primary,
+.hero-buttons .btn-primary:hover ~ .btn-secondary {
+    background-color: transparent;
+    color: var(--accent);
 }

@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Contacto')
+
 @section('content')
 
 {{-- =====================================================
@@ -24,7 +26,7 @@
    CONTACT CONTENT
    Información + Formulario
 ===================================================== --}}
-<section class="bg-gray-50 py-20">
+<section class="py-20">
     <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
 
         {{-- ================= LEFT: INFO ================= --}}

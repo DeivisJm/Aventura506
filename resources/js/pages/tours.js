@@ -48,13 +48,13 @@ document.addEventListener('DOMContentLoaded', () => {
             description: 'Recorré senderos en cuadraciclo.'
         },
         {
-            id: 6,
             name: 'Nature Tours La Fortuna',
             slug: 'nature-tours-la-fortuna',
             category: 'nature',
-            image: 'https://source.unsplash.com/600x400/?rainforest,waterfall,costa-rica',
-            description: 'Experiencias guiadas de naturaleza, biodiversidad y senderos ecológicos en La Fortuna.'
+            image: '...',
+            description: '...'
         }
+
     ];
 
 
@@ -73,26 +73,41 @@ document.addEventListener('DOMContentLoaded', () => {
         noResults.classList.add('hidden');
 
         filtered.forEach(tour => {
-            toursGrid.innerHTML += `
-                <article class="bg-white rounded-2xl shadow hover:shadow-lg transition overflow-hidden">
-                    <img src="${tour.image}" alt="${tour.name}"
-                         class="h-48 w-full object-cover">
 
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">${tour.name}</h3>
-                        <p class="text-gray-600 text-sm mb-4">
-                            ${tour.description}
-                        </p>
+            const card = document.createElement('article');
 
-                        <a href="/tours/${tour.slug}"
-                           class="btn-secondary inline-block text-sm">
-                            Ver más
-                        </a>
+            card.className =
+                'scroll-hero bg-white rounded-2xl shadow hover:shadow-lg transition overflow-hidden';
 
-                    </div>
-                </article>
-            `;
+            card.innerHTML = `
+        <img src="${tour.image}" alt="${tour.name}"
+             class="h-48 w-full object-cover">
+
+        <div class="p-6">
+            <h3 class="text-xl font-semibold mb-2">${tour.name}</h3>
+
+            <p class="text-gray-600 text-sm mb-4">
+                ${tour.description}
+            </p>
+
+            <a href="/tours/${tour.slug}"
+               class="btn-primary inline-block text-sm">
+                Ver más
+            </a>
+        </div>
+    `;
+
+            toursGrid.appendChild(card);
+
+            // 🔥 AHORA SÍ FUNCIONA
+            if (window.scrollObserver) {
+                window.scrollObserver.observe(card);
+            } else {
+                // fallback de seguridad
+                card.classList.add('show');
+            }
         });
+
     }
 
     filterCards.forEach(card => {
