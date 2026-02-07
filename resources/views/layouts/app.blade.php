@@ -19,6 +19,18 @@
 
     {{-- VITE --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+   
+    // META SEO
+    @if(app()->getLocale() === 'es')
+    <link rel="alternate" hreflang="es-cr" href="{{ url()->current() }}" />
+    <link rel="alternate" hreflang="en" href="{{ route('lang.switch', 'en') }}" />
+    @else
+    <link rel="alternate" hreflang="en" href="{{ url()->current() }}" />
+    <link rel="alternate" hreflang="es-cr" href="{{ route('lang.switch', 'es') }}" />
+    @endif
+
+    <link rel="alternate" hreflang="x-default" href="{{ url('/') }}" />
+
 </head>
 
 

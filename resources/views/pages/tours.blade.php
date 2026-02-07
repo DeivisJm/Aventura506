@@ -1,5 +1,6 @@
 @extends('layouts.app')
-@section('title', 'Tours')
+
+@section('title', __('tours.page_title'))
 
 @section('content')
 
@@ -12,20 +13,21 @@
 
             <span class="inline-block text-green-600 font-semibold tracking-wide uppercase text-sm
                          opacity-0 animate-hero hero-delay-1">
-                Tours & Experiencias
+                {{ __('tours.hero_badge') }}
             </span>
 
             <h1 class="mt-4 text-4xl md:text-5xl xl:text-6xl font-extrabold
                        text-gray-900 leading-tight
                        opacity-0 animate-hero hero-delay-2">
-                Tours en
-                <span class="text-green-600">La Fortuna</span>
+                {{ __('tours.hero_title_prefix') }}
+                <span class="text-green-600">
+                    {{ __('tours.hero_title_highlight') }}
+                </span>
             </h1>
 
             <p class="mt-6 text-lg text-gray-600 max-w-2xl mx-auto
                       opacity-0 animate-hero hero-delay-3">
-                Explorá experiencias únicas en La Fortuna.
-                Filtrá los tours según tu estilo de aventura.
+                {{ __('tours.hero_description') }}
             </p>
 
         </header>
@@ -34,7 +36,7 @@
         <section class="mb-16">
 
             <h2 class="text-xl font-semibold text-gray-800 mb-6">
-                Filtrar por tipo de tour
+                {{ __('tours.filter_title') }}
             </h2>
 
             {{-- Filter cards container --}}
@@ -42,27 +44,27 @@
                 class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
 
                 <button class="filter-card active" data-category="all">
-                    Todos
+                    {{ __('tours.filters.all') }}
                 </button>
 
                 <button class="filter-card" data-category="adventure">
-                    Aventura
+                    {{ __('tours.filters.adventure') }}
                 </button>
 
                 <button class="filter-card" data-category="extreme">
-                    Extremo
+                    {{ __('tours.filters.extreme') }}
                 </button>
 
                 <button class="filter-card" data-category="nature">
-                    Naturaleza
+                    {{ __('tours.filters.nature') }}
                 </button>
 
                 <button class="filter-card" data-category="water">
-                    Agua
+                    {{ __('tours.filters.water') }}
                 </button>
 
                 <button class="filter-card" data-category="vehicle">
-                    Vehículos
+                    {{ __('tours.filters.vehicle') }}
                 </button>
 
             </div>
@@ -73,12 +75,12 @@
 
             <div id="tours-grid"
                 class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                {{-- Cards renderizadas por JS --}}
+                {{-- Cards rendered by JS --}}
             </div>
 
             <p id="no-results"
                 class="hidden mt-12 text-center text-gray-500">
-                No hay tours disponibles para esta categoría.
+                {{ __('tours.no_results') }}
             </p>
 
         </section>

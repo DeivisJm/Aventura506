@@ -5,6 +5,11 @@
     transition: color 0.25s ease;
 }
 
+.dark .nav-link,
+.dark .mobile-nav-link {
+    color: #e5e7eb;
+}
+
 .nav-link.active,
 .mobile-nav-link.active {
     color: var(--accent);
@@ -16,31 +21,89 @@
     color: var(--accent);
 }
 
-.dark .nav-link,
-.dark .mobile-nav-link {
-    color: #e5e7eb;
+/* Header transition */
+header {
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Underline animation */
+.nav-link {
+    position: relative;
+    padding-bottom: 2px;
+}
+
+.nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 0;
+    height: 2px;
+    background-color: var(--accent);
+    transition: width 0.25s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+    width: 100%;
 }
 
 /* =====================================================
-   NAVBAR ACTIVE LINK – DARK MODE FIX
-   Active link must always have priority
+   ICONS WITH SAME HOVER STYLE AS NAV LINKS
 ===================================================== */
 
-.dark .nav-link.active {
-    color: var(--accent) !important;
-    font-weight: 600;
+.nav-icon {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* Even when hovering the navbar */
-.dark .nav-links:hover .nav-link.active {
-    color: var(--accent) !important;
+/* underline (same as nav-link) */
+.nav-icon::after {
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background-color: var(--accent);
+    transition: width 0.25s ease;
 }
 
-/* =====================================================
-   NAVBAR HOVER – DARK MODE FIX
-===================================================== */
-
-.dark .nav-link:hover,
-.dark .mobile-nav-link:hover {
-    color: var(--accent);
+/* hover effect */
+.nav-icon:hover::after {
+    width: 100%;
 }
+
+/* dark mode safety */
+.dark .nav-icon::after {
+    background-color: var(--accent);
+}
+
+/* =====================================
+   MOBILE MENU – SMOOTH ANIMATION
+===================================== */
+
+.mobile-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+
+    opacity: 0;
+    transform: translateY(-8px);
+    pointer-events: none;
+
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease;
+}
+
+.mobile-menu.open {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
