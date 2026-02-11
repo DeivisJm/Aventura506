@@ -7,3 +7,4 @@ import './core/themeToggle';
 
 /* ================= PAGES ================= */
 import './pages/tours';
+import './pages/booking';

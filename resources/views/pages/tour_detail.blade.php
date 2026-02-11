@@ -29,8 +29,8 @@
     {{-- IMAGE --}}
     <div class="mt-16 scroll-hero">
         <img src="{{ $tour['image'] }}"
-             alt="{{ $tour['name'] }}"
-             class="rounded-3xl shadow-lg w-full object-cover">
+            alt="{{ $tour['name'] }}"
+            class="rounded-3xl shadow-lg w-full object-cover">
     </div>
 
     {{-- DETAILS --}}
@@ -43,7 +43,7 @@
 
             <ul class="space-y-3 text-muted list-disc list-inside">
                 @foreach ($tour['includes'] as $item)
-                    <li>{{ $item }}</li>
+                <li>{{ $item }}</li>
                 @endforeach
             </ul>
         </div>
@@ -55,7 +55,7 @@
 
             <ul class="space-y-3 text-muted list-disc list-inside">
                 @foreach ($tour['ideal_for'] as $item)
-                    <li>{{ $item }}</li>
+                <li>{{ $item }}</li>
                 @endforeach
             </ul>
         </div>
@@ -118,8 +118,8 @@
                 </div>
 
                 <a href="{{ $tour['map_directions_url'] }}"
-                   target="_blank"
-                   class="btn-primary w-full text-center text-lg py-4">
+                    target="_blank"
+                    class="btn-primary w-full text-center text-lg py-4">
                     {{ __('tour_detail.get_directions') }}
                 </a>
 
@@ -128,15 +128,13 @@
         </div>
 
     </section>
-
-    {{-- CTA --}}
     <div class="mt-20 text-center scroll-hero">
-        <a href="https://wa.me/50683217459?text=Hola,%20me%20interesa%20el%20tour:%20{{ urlencode($tour['name']) }}"
-           target="_blank"
-           class="btn-primary text-lg px-10 py-4">
+        {{--BOOKING BUTTON  --}}
+        <button id="openBooking" class="btn-primary text-lg px-10 py-4">
             {{ __('tour_detail.reserve') }}
-        </a>
+        </button>
     </div>
+
 
 </section>
 

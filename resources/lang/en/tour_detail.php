@@ -20,5 +20,5 @@ return [
 
     // Buttons
     'get_directions' => 'Get directions',
-    'reserve' => 'Book this tour',
+    'reserve' => 'Book',
 ];

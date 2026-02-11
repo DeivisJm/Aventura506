@@ -12,6 +12,7 @@
 @import './components/navbar.css';
 @import './components/whatsapp.css';
 @import './components/filters.css';
+@import './components/booking.css';
 
 /* Pages */
 @import './pages/tours.css';
