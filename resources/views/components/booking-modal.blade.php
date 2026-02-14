@@ -72,20 +72,33 @@
                     </div>
                 </div>
 
-                <form class="space-y-6">
+                <form method="POST"
+                    action="{{ route('booking.store') }}"
+                    class="space-y-6">
+
+                    @csrf
+
 
                     <div>
                         <label class="booking-label">
                             {{ __('booking.name') }}
                         </label>
-                        <input type="text" class="booking-input w-full">
+                        <input type="text"
+                            name="name"
+                            required
+                            class="booking-input w-full">
+
                     </div>
 
                     <div>
                         <label class="booking-label">
                             {{ __('booking.email') }}
                         </label>
-                        <input type="email" class="booking-input w-full">
+                        <input type="email"
+                            name="email"
+                            required
+                            class="booking-input w-full">
+
                     </div>
 
                     <div>
@@ -93,8 +106,11 @@
                             {{ __('booking.phone') }}
                         </label>
                         <input type="tel"
+                            name="phone"
                             id="phoneInput"
+                            required
                             class="booking-input w-full">
+
                     </div>
 
                     <div>
@@ -103,10 +119,13 @@
                         </label>
 
                         <input type="number"
+                            name="persons"
                             id="personsInput"
                             min="1"
                             value="1"
+                            required
                             class="booking-input w-full">
+
                     </div>
 
                     <div>
@@ -115,16 +134,23 @@
                         </label>
 
                         <input type="text"
+                            name="nationality"
                             id="nationalityInput"
+                            required
                             class="booking-input w-full">
+
                     </div>
 
                     <div class="booking-total">
                         <span>Total:</span>
                         <span id="totalPrice">${{ $tour['price'] ?? 30 }}</span>
                     </div>
+                
+                    <input type="hidden" name="date" id="hiddenDate">
+                    <input type="hidden" name="time" id="hiddenTime">
+                    <input type="hidden" name="total" id="hiddenTotal">
 
-                    <button type="button"
+                    <button type="submit"
                         class="booking-confirm w-full">
                         {{ __('booking.confirm') }}
                     </button>

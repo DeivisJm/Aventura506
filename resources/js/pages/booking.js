@@ -1,15 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    /* =====================================================
-       LOCALE
-    ===================================================== */
-
+    /* LOCALE*/
     const locale = window.appLocale === 'es' ? 'es-CR' : 'en-US';
 
-    /* =====================================================
-       ELEMENTS
-    ===================================================== */
-
+    /*ELEMENTS*/
     const modal = document.getElementById('bookingModal');
     const openBtn = document.getElementById('openBooking');
     const closeBtn = document.getElementById('closeBooking');
@@ -60,27 +54,29 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target === modal) closeModal();
     });
 
-    /* =====================================================
-       DAYS HEADER (Localized)
-    ===================================================== */
-
+    /*DAYS HEADER (Localized) */
     function renderDaysHeader() {
 
         daysHeader.innerHTML = "";
 
+        const baseDate = new Date(2023, 0, 1);
+
         for (let i = 0; i < 7; i++) {
-            const day = new Date(2024, 0, i + 1);
+
+            const date = new Date(baseDate);
+            date.setDate(baseDate.getDate() + i);
+
             const span = document.createElement('span');
+
             span.textContent =
-                day.toLocaleDateString(locale, { weekday: 'short' });
+                date.toLocaleDateString(locale, { weekday: 'short' });
+
             daysHeader.appendChild(span);
         }
     }
 
-    /* =====================================================
-       CALENDAR
-    ===================================================== */
 
+    /* CALENDAR*/
     function renderCalendar() {
 
         calendarGrid.innerHTML = "";
@@ -94,7 +90,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const year = currentMonth.getFullYear();
         const month = currentMonth.getMonth();
 
-        const firstDay = new Date(year, month, 1).getDay();
+        let firstDay = new Date(year, month, 1).getDay();
+
+
+        if (firstDay < 0) firstDay = 0;
+
         const daysInMonth = new Date(year, month + 1, 0).getDate();
 
         for (let i = 0; i < firstDay; i++) {
@@ -199,11 +199,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
             timeButtons.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
+
+            document.getElementById('hiddenTime').value = btn.dataset.time;
+            document.getElementById('hiddenDate').value =
+                selectedDate.toISOString().split('T')[0];
         });
     });
 
-    /* PRICE CALCULATION*/
 
+    /* PRICE CALCULATION*/
     personsInput?.addEventListener('input', () => {
 
         let persons = Math.max(1, parseInt(personsInput.value) || 1);
@@ -211,6 +215,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         totalPrice.textContent =
             "$" + (persons * basePrice);
+            
+        document.getElementById('hiddenTotal').value =
+            persons * basePrice;
+
     });
 
     /* PHONE INPUT (intl-tel-input) */

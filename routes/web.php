@@ -2,9 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TourController;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Session;
+use App\Http\Controllers\BookingController;
 
 /*PÁGINAS PRINCIPALES*/
-
 Route::get('/', fn() => view('pages.home'))->name('home');
 
 Route::get('/tours', fn() => view('pages.tours'))
@@ -37,12 +39,16 @@ Route::get('/tours/{slug}', [TourController::class, 'show'])
 
 //Change language
 Route::get('/lang/{locale}', function ($locale) {
-    if (!in_array($locale, ['es', 'en'])) {
+    if (! in_array($locale, ['es', 'en'])) {
         abort(400);
     }
 
-    session(['locale' => $locale]);
-    app()->setLocale($locale);
+    App::setLocale($locale);
+    Session::put('locale', $locale);
 
     return redirect()->back();
 })->name('lang.switch');
+
+//route email booking
+Route::post('/booking', [BookingController::class, 'store'])
+    ->name('booking.store');
