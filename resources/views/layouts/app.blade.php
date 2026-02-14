@@ -43,6 +43,8 @@
 
     <x-navbar />
 
+    <x-booking-success />
+
     <main class="pt-24 md:pt-28">
         @yield('content')
     </main>

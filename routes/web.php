@@ -49,6 +49,6 @@ Route::get('/lang/{locale}', function ($locale) {
     return redirect()->back();
 })->name('lang.switch');
 
-//route email booking
+// Ruta para manejar la reserva (envío del formulario)
 Route::post('/booking', [BookingController::class, 'store'])
     ->name('booking.store');
