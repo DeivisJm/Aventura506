@@ -2,6 +2,12 @@
 
 return [
 
+    /*
+    |--------------------------------------------------------------------------
+    | Booking Page
+    |--------------------------------------------------------------------------
+    */
+
     // Header
     'title_tour' => 'Reserva del tour',
     'title_accommodation' => 'Reserva de hospedaje',
@@ -21,9 +27,16 @@ return [
     'confirm' => 'Confirmar reserva',
     'persons' => 'Número de personas',
 
-    // Email
+    /*
+    |--------------------------------------------------------------------------
+    | Email
+    |--------------------------------------------------------------------------
+    */
+
     'email_subject' => 'Nueva Reserva - Aventura506',
-    'email_heading' => 'Nueva Reserva Recibida',
+    'email_new_booking' => 'Nueva Reserva Recibida',
+    'email_details' => 'Detalles de la Reserva',
+
     'email_name' => 'Nombre',
     'email_email' => 'Correo',
     'email_phone' => 'Teléfono',
@@ -33,12 +46,17 @@ return [
     'email_time' => 'Horario',
     'email_total' => 'Total',
 
-    // Notifications
+    'email_footer' => 'Este correo fue generado automáticamente.',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Notifications
+    |--------------------------------------------------------------------------
+    */
+
     'success_title' => '¡Reserva enviada!',
     'success_message' => 'Tu solicitud de reserva ha sido enviada correctamente. Nos pondremos en contacto pronto.',
 
     'error_title' => 'Error al enviar',
     'error_message' => 'Hubo un problema enviando la reserva. Inténtalo nuevamente.',
-
-
 ];

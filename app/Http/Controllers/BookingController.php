@@ -29,17 +29,15 @@ class BookingController extends Controller
 
         try {
 
-            $receiver = config('mail.booking_receiver');
+            // Send email to business
+            Mail::to(config('mail.booking_receiver'))
+                ->send(new BookingMail($validated));
 
-            if (!$receiver) {
-                throw new \Exception('Booking receiver email not configured.');
-            }
-
-            Mail::to($receiver)
+            // Send copy to customer
+            Mail::to($validated['email'])
                 ->send(new BookingMail($validated));
 
             return back()->with('booking_success', true);
-            
         } catch (\Throwable $e) {
 
             Log::error('Booking email failed', [

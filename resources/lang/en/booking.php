@@ -2,9 +2,15 @@
 
 return [
 
+    /*
+    |--------------------------------------------------------------------------
+    | Booking Page
+    |--------------------------------------------------------------------------
+    */
+
     // Header
-    'title_tour' => 'Tour reservation',
-    'title_accommodation' => 'Accommodation reservation',
+    'title_tour' => 'Tour Reservation',
+    'title_accommodation' => 'Accommodation Reservation',
     'per_person' => 'per person',
 
     // Step 1
@@ -16,13 +22,18 @@ return [
     // Form
     'name' => 'Full name',
     'email' => 'Email address',
-    'phone' => 'Phone number',
+    'phone' => 'Phone',
     'nationality' => 'Nationality',
-    'confirm' => 'Confirm reservation',
+    'confirm' => 'Confirm booking',
     'persons' => 'Number of persons',
 
-    // Email
-    'email_subject' => 'New Booking Request - Aventura506',
+    /*
+    |--------------------------------------------------------------------------
+    | Email
+    |--------------------------------------------------------------------------
+    */
+
+    'email_subject' => 'New Booking - Aventura506',
     'email_heading' => 'New Booking Received',
     'email_name' => 'Name',
     'email_email' => 'Email',
@@ -33,13 +44,26 @@ return [
     'email_time' => 'Time',
     'email_total' => 'Total',
 
+    /*
+    |--------------------------------------------------------------------------
+    | Notifications
+    |--------------------------------------------------------------------------
+    */
 
-    // Notifications
-    'success_title' => 'Reservation Sent!',
-    'success_message' => 'Your booking request has been successfully sent. We will contact you shortly.',
+    'success_title' => 'Booking sent!',
+    'success_message' => 'Your booking request has been successfully sent. We will contact you soon.',
 
     'error_title' => 'Sending Error',
     'error_message' => 'There was a problem sending your booking. Please try again.',
 
+    /*
+    |--------------------------------------------------------------------------
+    | Email Content
+    |--------------------------------------------------------------------------
+    */
+
+    'email_new_booking' => 'New Booking Received',
+    'email_details' => 'Booking Details',
+    'email_footer' => 'This email was generated automatically.',
 
 ];
