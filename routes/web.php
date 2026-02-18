@@ -5,8 +5,10 @@ use App\Http\Controllers\TourController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\BookingController;
+use Illuminate\Support\Facades\Mail;
 
 /*PÁGINAS PRINCIPALES*/
+
 Route::get('/', fn() => view('pages.home'))->name('home');
 
 Route::get('/tours', fn() => view('pages.tours'))
@@ -52,3 +54,4 @@ Route::get('/lang/{locale}', function ($locale) {
 // Ruta para manejar la reserva (envío del formulario)
 Route::post('/booking', [BookingController::class, 'store'])
     ->name('booking.store');
+

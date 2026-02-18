@@ -72,13 +72,8 @@
                     </div>
                 </div>
 
-                <form method="POST"
-                    action="{{ route('booking.store') }}"
-                    class="space-y-6">
-
+                <form method="POST" action="{{ route('booking.store') }}" class="space-y-6">
                     @csrf
-
-
                     <div>
                         <label class="booking-label">
                             {{ __('booking.name') }}
@@ -145,7 +140,7 @@
                         <span>Total:</span>
                         <span id="totalPrice">${{ $tour['price'] ?? 30 }}</span>
                     </div>
-                
+
                     <input type="hidden" name="date" id="hiddenDate">
                     <input type="hidden" name="time" id="hiddenTime">
                     <input type="hidden" name="total" id="hiddenTotal">

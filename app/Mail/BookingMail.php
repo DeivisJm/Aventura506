@@ -19,13 +19,14 @@ class BookingMail extends Mailable
     {
         $this->data = $data;
     }
-
     /**
      * Build the email message.
      */
     public function build()
     {
-        return $this->subject('New Booking Request - Aventura506')
-                    ->view('emails.booking');
+        return $this
+            // Subject translated according to current locale
+            ->subject(__('booking.email_subject'))
+            ->view('emails.booking');
     }
 }

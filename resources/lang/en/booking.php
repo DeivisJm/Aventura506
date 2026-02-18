@@ -38,4 +38,8 @@ return [
     'success_title' => 'Reservation Sent!',
     'success_message' => 'Your booking request has been successfully sent. We will contact you shortly.',
 
+    'error_title' => 'Sending Error',
+    'error_message' => 'There was a problem sending your booking. Please try again.',
+
+
 ];

@@ -19,6 +19,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const basePrice = parseFloat(
         document.getElementById('basePrice')?.textContent.replace('$', '')
     ) || 30;
+    // --------------------------------------------------
+    // Initialize total on page load (IMPORTANT FIX)
+    // --------------------------------------------------
+    if (personsInput) {
+
+        const initialPersons = parseInt(personsInput.value) || 1;
+        const initialTotal = initialPersons * basePrice;
+
+        totalPrice.textContent = "$" + initialTotal;
+
+        const hiddenTotal = document.getElementById('hiddenTotal');
+        if (hiddenTotal) {
+            hiddenTotal.value = initialTotal;
+        }
+    }
 
     const timeSection = document.getElementById('timeSection');
     const selectedDateDisplay = document.getElementById('selectedDateDisplay');
@@ -215,7 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         totalPrice.textContent =
             "$" + (persons * basePrice);
-            
+
         document.getElementById('hiddenTotal').value =
             persons * basePrice;
 
@@ -247,4 +262,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
     }
+});
+const form = document.querySelector('form');
+
+form.addEventListener('submit', function (e) {
+
+    if (!document.getElementById('hiddenDate').value ||
+        !document.getElementById('hiddenTime').value) {
+
+        e.preventDefault();
+        alert("Please select date and time.");
+    }
+
 });

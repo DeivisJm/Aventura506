@@ -37,4 +37,8 @@ return [
     'success_title' => '¡Reserva enviada!',
     'success_message' => 'Tu solicitud de reserva ha sido enviada correctamente. Nos pondremos en contacto pronto.',
 
+    'error_title' => 'Error al enviar',
+    'error_message' => 'Hubo un problema enviando la reserva. Inténtalo nuevamente.',
+
+
 ];
