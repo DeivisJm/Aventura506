@@ -6,16 +6,19 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use App\Mail\BookingMail;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class BookingController extends Controller
 {
     /**
      * Handle incoming booking request.
-     * Validates data and sends email using SMTP (Gmail).
-     * Returns localized success or error feedback.
+     * Validates data, generates PDF and sends email via SMTP (Gmail).
      */
     public function store(Request $request)
     {
+        // -------------------------------------------------
+        // Validate incoming request
+        // -------------------------------------------------
         $validated = $request->validate([
             'name'        => 'required|string|max:255',
             'email'       => 'required|email|max:255',
@@ -29,21 +32,47 @@ class BookingController extends Controller
 
         try {
 
-            // Send email to business
-            Mail::to(config('mail.booking_receiver'))
-                ->send(new BookingMail($validated));
+            // -------------------------------------------------
+            // Generate localized PDF
+            // -------------------------------------------------
+            $pdf = Pdf::loadView('emails.booking-pdf', [
+                'data' => $validated
+            ])->setPaper('a4');
 
-            // Send copy to customer
-            Mail::to($validated['email'])
-                ->send(new BookingMail($validated));
+            $pdfContent = $pdf->output();
 
+            // Dynamic PDF filename (professional touch)
+            $fileName = 'Aventura506-Booking-' . now()->format('YmdHis') . '.pdf';
+
+            // -------------------------------------------------
+            // Send email with PDF attachment
+            // -------------------------------------------------
+            Mail::to(config('mail.booking_receiver'))      // Admin email
+                ->cc($validated['email'])                  // Customer copy
+                ->send(
+                    (new BookingMail($validated))
+                        ->attachData($pdfContent, $fileName, [
+                            'mime' => 'application/pdf',
+                        ])
+                );
+
+            // -------------------------------------------------
+            // Success response
+            // -------------------------------------------------
             return back()->with('booking_success', true);
         } catch (\Throwable $e) {
 
+            // -------------------------------------------------
+            // Log error for debugging
+            // -------------------------------------------------
             Log::error('Booking email failed', [
                 'error' => $e->getMessage(),
+                'booking_data' => $validated
             ]);
 
+            // -------------------------------------------------
+            // Error response
+            // -------------------------------------------------
             return back()->with('booking_error', true);
         }
     }

@@ -3,30 +3,59 @@
 namespace App\Mail;
 
 use Illuminate\Mail\Mailable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Bus\Queueable;
+use Illuminate\Mail\Mailables\Content;
+use Illuminate\Mail\Mailables\Envelope;
+use Symfony\Component\Mime\Email;
 
 class BookingMail extends Mailable
 {
-    use Queueable, SerializesModels;
-
     public array $data;
 
-    /**
-     * Create a new message instance.
-     */
     public function __construct(array $data)
     {
         $this->data = $data;
     }
-    /**
-     * Build the email message.
-     */
+
+    /*
+    |--------------------------------------------------------------------------
+    | Email Subject
+    |--------------------------------------------------------------------------
+    */
+    public function envelope(): Envelope
+    {
+        return new Envelope(
+            subject: __('booking.email_subject'),
+        );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Email Content
+    |--------------------------------------------------------------------------
+    */
+    public function content(): Content
+    {
+        return new Content(
+            view: 'emails.booking',
+            with: [
+                'data' => $this->data,
+            ],
+        );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Attach logo inline using Symfony Mailer
+    |--------------------------------------------------------------------------
+    */
     public function build()
     {
-        return $this
-            // Subject translated according to current locale
-            ->subject(__('booking.email_subject'))
-            ->view('emails.booking');
+        return $this->withSymfonyMessage(function (Email $message) {
+            $message->embedFromPath(
+                public_path('images/logo.png'),
+                'logo',
+                'image/png'
+            );
+        });
     }
 }

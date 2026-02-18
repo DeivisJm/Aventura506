@@ -16,10 +16,24 @@
 
                     <tr>
                         <td style="background:linear-gradient(135deg,#0f172a,#1e293b); padding:30px; text-align:center; color:#ffffff;">
-                            <h1 style="margin:0; font-size:24px;">🌿 Aventura506</h1>
-                            <p style="margin:5px 0 0 0; font-size:14px; opacity:0.8;">
+
+                            <!-- Logo -->
+                            <img
+                                src="cid:logo"
+                                alt="Aventura506 Logo"
+                                width="80"
+                                style="display:block; margin:0 auto 15px auto;">
+
+                            <!-- Brand Name -->
+                            <h1 style="margin:0; font-size:22px; font-weight:bold;">
+                                Aventura506
+                            </h1>
+
+                            <!-- Dynamic Heading (Multilanguage) -->
+                            <p style="margin:8px 0 0 0; font-size:14px; opacity:0.8;">
                                 {{ __('booking.email_new_booking') }}
                             </p>
+
                         </td>
                     </tr>
 
