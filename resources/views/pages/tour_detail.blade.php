@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', ($tour->name ?? 'Tour') . ' | Aventura506')
+@section('title', $tour->name ?? 'Tour')
 
 @section('content')
 
@@ -18,7 +18,7 @@
     <div class="relative z-10 text-center px-6 text-white max-w-3xl">
 
         <span class="uppercase tracking-widest text-green-400 text-sm font-semibold">
-            {{ strtoupper($tour->category) }}
+            {{ strtoupper(__('categories.' . $tour->category)) }}
         </span>
 
         <h1 class="mt-4 text-4xl md:text-6xl font-extrabold">
@@ -26,7 +26,9 @@
         </h1>
 
         <p class="mt-6 text-lg text-gray-200">
-            {{ $tour->short_description }}
+            {{ $tour->short_description[app()->getLocale()] 
+                ?? $tour->short_description['es'] 
+                ?? '' }}
         </p>
 
         <div class="mt-6 flex flex-col items-center gap-2 text-sm text-gray-200">
@@ -62,7 +64,9 @@
         </h2>
 
         <p class="text-muted leading-relaxed">
-            {{ $tour->detail?->full_description ?? $tour->short_description }}
+            {{ $tour->detail?->full_description[app()->getLocale()] 
+                ?? $tour->detail?->full_description['es'] 
+                ?? $tour->short_description }}
         </p>
 
         {{-- INCLUDES --}}
@@ -73,7 +77,12 @@
             </h3>
 
             <ul class="list-disc list-inside space-y-2 text-muted">
-                @foreach($tour->detail->includes as $item)
+                @foreach(
+                $tour->detail->includes[app()->getLocale()]
+                ?? $tour->detail->includes['es']
+                ?? []
+                as $item
+                )
                 <li>{{ $item }}</li>
                 @endforeach
             </ul>
@@ -88,7 +97,12 @@
             </h3>
 
             <ul class="list-disc list-inside space-y-2 text-muted">
-                @foreach($tour->detail->ideal_for as $item)
+                @foreach(
+                $tour->detail->ideal_for[app()->getLocale()]
+                ?? $tour->detail->ideal_for['es']
+                ?? []
+                as $item
+                )
                 <li>{{ $item }}</li>
                 @endforeach
             </ul>
@@ -152,7 +166,6 @@
             class="btn-primary w-full mt-10 text-lg py-4 shadow-lg">
             {{ __('tour_detail.reserve') }}
         </button>
-
 
     </div>
 

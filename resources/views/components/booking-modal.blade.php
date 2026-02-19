@@ -120,6 +120,17 @@
                             required
                             class="booking-input w-full">
                     </div>
+                    <div>
+                        <label class="booking-label">
+                            {{ __('booking.additional_notes') }}
+                        </label>
+                        <textarea
+                            name="notes"
+                            rows="3"
+                            class="booking-input w-full"></textarea>
+
+                    </div>
+
 
                     <div class="booking-total">
                         <span>Total:</span>

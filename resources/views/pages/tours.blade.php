@@ -73,6 +73,25 @@
 
                 @forelse ($tours as $tour)
 
+                @php
+                // Obtener descripción multilenguaje segura
+                $description = '';
+
+                if (is_array($tour->short_description ?? null)) {
+                $description = $tour->short_description[app()->getLocale()]
+                ?? $tour->short_description['es']
+                ?? '';
+                } elseif (!empty($tour->short_description)) {
+                $description = $tour->short_description;
+                } elseif (is_array($tour->description ?? null)) {
+                $description = $tour->description[app()->getLocale()]
+                ?? $tour->description['es']
+                ?? '';
+                } else {
+                $description = $tour->description ?? '';
+                }
+                @endphp
+
                 <article class="scroll-hero bg-white rounded-2xl shadow hover:shadow-lg transition overflow-hidden">
 
                     <img src="{{ asset($tour->image) }}"
@@ -86,7 +105,7 @@
                         </h3>
 
                         <p class="text-gray-600 text-sm mb-4">
-                            {{ $tour->short_description ?? Str::limit($tour->description, 120) }}
+                            {{ Str::limit($description, 120) }}
                         </p>
 
                         <a href="{{ route('tours.show', $tour->slug) }}"

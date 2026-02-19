@@ -35,6 +35,8 @@ return [
 
     'email_subject' => 'New Booking - Aventura506',
     'email_heading' => 'New Booking Received',
+    'email_tour' => 'Tour',
+    'email_company' => 'Company',
     'email_name' => 'Name',
     'email_email' => 'Email',
     'email_phone' => 'Phone',
@@ -46,10 +48,7 @@ return [
     'view_more' => 'View more times',
     'view_less' => 'View less times',
     'total' => 'Total',
-
-
-
-
+    'additional_notes' => 'Additional notes',
     /*
     |--------------------------------------------------------------------------
     | Notifications

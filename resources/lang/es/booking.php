@@ -29,7 +29,7 @@ return [
     'view_more' => 'Ver más horarios',
     'view_less' => 'Ver menos horarios',
     'total' => 'Total',
-
+    'additional_notes' => 'Notas adicionales',
 
     /*
     |--------------------------------------------------------------------------
@@ -40,7 +40,8 @@ return [
     'email_subject' => 'Nueva Reserva - Aventura506',
     'email_new_booking' => 'Nueva Reserva Recibida',
     'email_details' => 'Detalles de la Reserva',
-
+    'email_tour' => 'Tour',
+    'email_company' => 'Empresa',
     'email_name' => 'Nombre',
     'email_email' => 'Correo',
     'email_phone' => 'Teléfono',

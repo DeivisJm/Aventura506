@@ -12,8 +12,10 @@
         <tr>
             <td align="center">
 
-                <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff; border-radius:10px; overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,0.05);">
+                <table width="600" cellpadding="0" cellspacing="0"
+                    style="background:#ffffff; border-radius:10px; overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,0.05);">
 
+                    {{-- HEADER --}}
                     <tr>
                         <td style="background:linear-gradient(135deg,#0f172a,#1e293b); padding:30px; text-align:center; color:#ffffff;">
 
@@ -31,6 +33,7 @@
                         </td>
                     </tr>
 
+                    {{-- BODY --}}
                     <tr>
                         <td style="padding:30px;">
 
@@ -38,8 +41,18 @@
                                 {{ __('booking.email_details') }}
                             </h2>
 
+
                             <table width="100%" cellpadding="10" cellspacing="0"
                                 style="border-collapse:collapse; font-size:14px;">
+                                <tr>
+                                    <td><strong>{{ __('booking.email_company') }}</strong></td>
+                                    <td>{{ $booking->tour->company_name ?? 'Aventura506' }}</td>
+                                </tr>
+
+                                <tr style="background:#f9fafb;">
+                                    <td width="40%"><strong>{{ __('booking.email_tour') }}</strong></td>
+                                    <td>{{ $booking->tour->name }}</td>
+                                </tr>
 
                                 <tr style="background:#f9fafb;">
                                     <td><strong>{{ __('booking.email_name') }}</strong></td>
@@ -71,13 +84,20 @@
                                     <td>{{ $booking->time }}</td>
                                 </tr>
 
-                                {{-- 🔥 NUEVO: DESGLOSE POR TIPO --}}
+                                @if($booking->notes)
                                 <tr style="background:#f9fafb;">
+                                    <td><strong>{{ __('booking.additional_notes') }}</strong></td>
+                                    <td>{{ $booking->notes }}</td>
+                                </tr>
+                                @endif
+
+                                {{-- DESGLOSE --}}
+                                <tr>
                                     <td><strong>{{ __('booking.email_persons') }}</strong></td>
                                     <td>
                                         @foreach($booking->details as $detail)
                                         {{ $detail->tourPrice->type }}
-                                        {{ $detail->quantity }} <br>
+                                        ({{ $detail->quantity }})<br>
                                         @endforeach
                                     </td>
                                 </tr>
@@ -94,6 +114,7 @@
                         </td>
                     </tr>
 
+                    {{-- FOOTER --}}
                     <tr>
                         <td style="background:#f9fafb; padding:20px; text-align:center; font-size:12px; color:#6b7280;">
                             © {{ date('Y') }} Aventura506 · La Fortuna, Costa Rica<br>

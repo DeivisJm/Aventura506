@@ -92,6 +92,16 @@
 
         <table>
             <tr>
+                <td class="label">{{ __('booking.email_company') }}</td>
+                <td>{{ $booking->tour->company_name ?? 'Aventura506' }}</td>
+            </tr>
+
+            <tr>
+                <td class="label">{{ __('booking.email_tour') }}</td>
+                <td>{{ $booking->tour->name }}</td>
+            </tr>
+
+            <tr>
                 <td class="label">{{ __('booking.email_name') }}</td>
                 <td>{{ $booking->name }}</td>
             </tr>
@@ -121,15 +131,22 @@
                 <td>{{ $booking->time }}</td>
             </tr>
 
-            {{-- 🔥 DESGLOSE --}}
+            @if($booking->notes)
+            <tr>
+                <td class="label">{{ __('booking.additional_notes') }}</td>
+                <td>{{ $booking->notes }}</td>
+            </tr>
+            @endif
+
+            {{-- DESGLOSE CORRECTO --}}
             @foreach($booking->details as $detail)
             <tr>
-                {{ $detail->tourPrice->type }}
-                <td>
-                    {{ $detail->quantity }} x
-                    ${{ number_format($detail->price, 2) }}
+                <td class="label">
+                    {{ $detail->tourPrice->type }}
                 </td>
-
+                <td>
+                    {{ $detail->quantity }} x ${{ number_format($detail->price, 2) }}
+                </td>
             </tr>
             @endforeach
 

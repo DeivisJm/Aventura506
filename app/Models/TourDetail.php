@@ -21,9 +21,11 @@ class TourDetail extends Model
     ];
 
     protected $casts = [
+        'full_description' => 'array',
         'includes' => 'array',
         'ideal_for' => 'array',
     ];
+
 
     /**
      * Relation with Tour

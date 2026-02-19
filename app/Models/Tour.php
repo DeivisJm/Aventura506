@@ -14,20 +14,24 @@ class Tour extends Model
         'image',
         'is_active'
     ];
+    protected $casts = [
+        'description' => 'array',
+        'short_description' => 'array',
+    ];
 
-   public function detail()
-{
-    return $this->hasOne(TourDetail::class);
-}
 
-public function prices()
-{
-    return $this->hasMany(TourPrice::class);
-}
+    public function detail()
+    {
+        return $this->hasOne(TourDetail::class);
+    }
 
-public function schedules()
-{
-    return $this->hasMany(TourSchedule::class);
-}
+    public function prices()
+    {
+        return $this->hasMany(TourPrice::class);
+    }
 
+    public function schedules()
+    {
+        return $this->hasMany(TourSchedule::class);
+    }
 }

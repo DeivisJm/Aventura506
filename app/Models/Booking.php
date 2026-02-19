@@ -9,18 +9,17 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Booking extends Model
 {
     protected $fillable = [
-    'tour_id',
-    'name',
-    'email',
-    'phone',
-    'nationality',
-    'persons',
-    'date',
-    'time',
-    'total',
-    'status',
-];
-
+        'tour_id',
+        'name',
+        'email',
+        'phone',
+        'nationality',
+        'notes', 
+        'date',
+        'time',
+        'total',
+        'status',
+    ];
 
     /**
      * Booking belongs to a tour.
