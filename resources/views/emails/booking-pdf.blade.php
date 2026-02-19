@@ -93,42 +93,49 @@
         <table>
             <tr>
                 <td class="label">{{ __('booking.email_name') }}</td>
-                <td>{{ $data['name'] }}</td>
+                <td>{{ $booking->name }}</td>
             </tr>
 
             <tr>
                 <td class="label">{{ __('booking.email_email') }}</td>
-                <td>{{ $data['email'] }}</td>
+                <td>{{ $booking->email }}</td>
             </tr>
 
             <tr>
                 <td class="label">{{ __('booking.email_phone') }}</td>
-                <td>{{ $data['phone'] }}</td>
+                <td>{{ $booking->phone }}</td>
             </tr>
 
             <tr>
                 <td class="label">{{ __('booking.email_nationality') }}</td>
-                <td>{{ $data['nationality'] }}</td>
-            </tr>
-
-            <tr>
-                <td class="label">{{ __('booking.email_persons') }}</td>
-                <td>{{ $data['persons'] }}</td>
+                <td>{{ $booking->nationality }}</td>
             </tr>
 
             <tr>
                 <td class="label">{{ __('booking.email_date') }}</td>
-                <td>{{ $data['date'] }}</td>
+                <td>{{ $booking->date }}</td>
             </tr>
 
             <tr>
                 <td class="label">{{ __('booking.email_time') }}</td>
-                <td>{{ $data['time'] }}</td>
+                <td>{{ $booking->time }}</td>
             </tr>
+
+            {{-- 🔥 DESGLOSE --}}
+            @foreach($booking->details as $detail)
+            <tr>
+                {{ $detail->tourPrice->type }}
+                <td>
+                    {{ $detail->quantity }} x
+                    ${{ number_format($detail->price, 2) }}
+                </td>
+
+            </tr>
+            @endforeach
 
             <tr class="total-row">
                 <td class="label">{{ __('booking.email_total') }}</td>
-                <td class="total">${{ $data['total'] }}</td>
+                <td class="total">${{ number_format($booking->total, 2) }}</td>
             </tr>
         </table>
 

@@ -9,18 +9,13 @@ use Symfony\Component\Mime\Email;
 
 class BookingMail extends Mailable
 {
-    public array $data;
+    public $booking;
 
-    public function __construct(array $data)
+    public function __construct($booking)
     {
-        $this->data = $data;
+        $this->booking = $booking;
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Email Subject
-    |--------------------------------------------------------------------------
-    */
     public function envelope(): Envelope
     {
         return new Envelope(
@@ -28,26 +23,16 @@ class BookingMail extends Mailable
         );
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Email Content
-    |--------------------------------------------------------------------------
-    */
     public function content(): Content
     {
         return new Content(
             view: 'emails.booking',
             with: [
-                'data' => $this->data,
+                'booking' => $this->booking,
             ],
         );
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Attach logo inline using Symfony Mailer
-    |--------------------------------------------------------------------------
-    */
     public function build()
     {
         return $this->withSymfonyMessage(function (Email $message) {

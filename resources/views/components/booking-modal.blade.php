@@ -15,10 +15,9 @@
                 </h2>
 
                 <div class="booking-prices mt-6 space-y-3"></div>
-
             </div>
 
-            <button id="closeBooking" class="booking-close text-3xl">
+            <button type="button" id="closeBooking" class="booking-close text-3xl">
                 ✕
             </button>
         </div>
@@ -29,9 +28,9 @@
             <div class="calendar-side p-12 border-r border-gray-200 dark:border-gray-800 transition-all duration-500 md:block">
 
                 <div class="flex justify-between items-center mb-8">
-                    <button id="prevMonth" class="month-btn">‹</button>
+                    <button type="button" id="prevMonth" class="month-btn">‹</button>
                     <h3 id="currentMonth" class="text-xl font-semibold"></h3>
-                    <button id="nextMonth" class="month-btn">›</button>
+                    <button type="button" id="nextMonth" class="month-btn">›</button>
                 </div>
 
                 <div id="daysHeader"
@@ -61,8 +60,6 @@
                         class="grid grid-cols-2 gap-4 transition-all duration-500 ease-in-out">
                     </div>
 
-
-
                     <button type="button"
                         id="toggleSchedules"
                         class="text-sm text-green-600 mt-3 hidden">
@@ -71,8 +68,15 @@
 
                 </div>
 
-                <form method="POST" action="{{ route('booking.store') }}" class="space-y-6">
+                {{-- ================= FORM ================= --}}
+                <form method="POST"
+                    action="{{ route('booking.store') }}"
+                    class="space-y-6">
+
                     @csrf
+
+                    <input type="hidden" name="tour_id" value="{{ $tour->id }}">
+
                     <div>
                         <label class="booking-label">
                             {{ __('booking.name') }}
@@ -81,7 +85,6 @@
                             name="name"
                             required
                             class="booking-input w-full">
-
                     </div>
 
                     <div>
@@ -92,7 +95,6 @@
                             name="email"
                             required
                             class="booking-input w-full">
-
                     </div>
 
                     <div>
@@ -104,31 +106,26 @@
                             id="phoneInput"
                             required
                             class="booking-input w-full">
-
                     </div>
 
-                    <div id="dynamicPriceOptions" class="space-y-4">
-
-
-
-                    </div>
+                    <div id="dynamicPriceOptions" class="space-y-4"></div>
 
                     <div>
                         <label class="booking-label">
                             {{ __('booking.nationality') }}
                         </label>
-
                         <input type="text"
                             name="nationality"
                             id="nationalityInput"
                             required
                             class="booking-input w-full">
-
                     </div>
 
                     <div class="booking-total">
                         <span>Total:</span>
-                        <span id="totalPrice">${{ $tour['price'] ?? 0 }}</span>
+                        <span id="totalPrice">
+                            ${{ number_format($tour->prices->first()->price ?? 0, 2) }}
+                        </span>
                     </div>
 
                     <input type="hidden" name="date" id="hiddenDate">
@@ -141,14 +138,9 @@
                     </button>
 
                 </form>
+                {{-- ================= END FORM ================= --}}
 
             </div>
-
         </div>
-
     </div>
 </div>
-
-<script>
-    window.appLocale = "{{ app()->getLocale() }}";
-</script>

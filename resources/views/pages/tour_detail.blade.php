@@ -123,7 +123,7 @@
 
         </div>
 
-        {{-- PRICE TYPES (ADAPTADO A TU BD) --}}
+        {{-- PRICE TYPES --}}
         @if($tour->prices->count())
         <div class="mt-8 space-y-3">
             @foreach($tour->prices as $price)
@@ -147,10 +147,12 @@
         </div>
         @endif
 
-        <button id="openBooking"
+        <button type="button"
+            id="openBooking"
             class="btn-primary w-full mt-10 text-lg py-4 shadow-lg">
             {{ __('tour_detail.reserve') }}
         </button>
+
 
     </div>
 
@@ -192,5 +194,7 @@
     data-schedules='@json($tour->schedules)'
     class="hidden">
 </div>
+
+<x-booking-modal :tour="$tour" />
 
 @endsection

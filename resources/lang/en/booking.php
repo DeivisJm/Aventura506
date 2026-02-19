@@ -44,6 +44,7 @@ return [
     'email_time' => 'Time',
     'email_total' => 'Total',
     'view_more' => 'View more times',
+    'view_less' => 'View less times',
     'total' => 'Total',
 
 

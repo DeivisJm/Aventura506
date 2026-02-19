@@ -49,8 +49,6 @@
         @yield('content')
     </main>
 
-    <x-booking-modal />
-
     <x-footer />
 
     {{-- ================= WHATSAPP FLOAT BUTTON ================= --}}

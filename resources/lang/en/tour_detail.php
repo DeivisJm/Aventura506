@@ -8,7 +8,7 @@ return [
     'includes_title' => 'Includes',
     'ideal_for_title' => 'Ideal for',
     'price_from' => 'Price from',
-    'reserve' => 'Reserve',
+    'reserve' => 'Book now',
     'how_to_get_title' => 'How to get there',
     'distance_title' => 'Distance',
     'km' => 'km',

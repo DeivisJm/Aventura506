@@ -7,13 +7,13 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use App\Mail\BookingMail;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\Booking;
+use App\Models\BookingDetail;
+use App\Models\TourPrice;
+use Illuminate\Support\Facades\DB;
 
 class BookingController extends Controller
 {
-    /**
-     * Handle incoming booking request.
-     * Validates data, generates PDF and sends email via SMTP (Gmail).
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -21,58 +21,92 @@ class BookingController extends Controller
             'name'        => 'required|string|max:255',
             'email'       => 'required|email|max:255',
             'phone'       => 'required|string|max:30',
-            'persons'     => 'required|integer|min:1',
             'nationality' => 'required|string|max:255',
             'date'        => 'required|date',
             'time'        => 'required|string|max:20',
+            'prices'      => 'required|array',
         ]);
+
+        $selectedPrices = array_filter($validated['prices'], function ($qty) {
+            return (int) $qty > 0;
+        });
+
+        if (count($selectedPrices) === 0) {
+            return back()->withErrors([
+                'prices' => 'You must select at least one ticket.'
+            ])->withInput();
+        }
+
 
         try {
 
-            // Get tour to calculate price properly
             $tour = \App\Models\Tour::findOrFail($validated['tour_id']);
 
-            $total = $tour->price * $validated['persons'];
+            $total = 0;
+            $persons = 0;
 
-            // Save booking to database
-            $booking = \App\Models\Booking::create([
-                'tour_id'    => $tour->id,
-                'name'       => $validated['name'],
-                'email'      => $validated['email'],
-                'phone'      => $validated['phone'],
+            $booking = Booking::create([
+                'tour_id'     => $tour->id,
+                'name'        => $validated['name'],
+                'email'       => $validated['email'],
+                'phone'       => $validated['phone'],
                 'nationality' => $validated['nationality'],
-                'persons'    => $validated['persons'],
-                'date'       => $validated['date'],
-                'time'       => $validated['time'],
-                'total'      => $total,
-                'status'     => 'pending',
+                'persons'     => 0,
+                'date'        => $validated['date'],
+                'time'        => $validated['time'],
+                'total'       => 0,
+                'status'      => 'pending',
             ]);
 
-            // Generate PDF
-            $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('emails.booking-pdf', [
-                'data' => $booking
+            foreach ($validated['prices'] as $priceId => $quantity) {
+
+                if ($quantity > 0) {
+
+                    $tourPrice = TourPrice::findOrFail($priceId);
+
+                    BookingDetail::create([
+                        'booking_id'    => $booking->id,
+                        'tour_price_id' => $tourPrice->id,
+                        'quantity'      => $quantity,
+                        'price'         => $tourPrice->price,
+                    ]);
+
+                    if (!$tourPrice->is_free) {
+                        $total += $quantity * $tourPrice->price;
+                    }
+
+                    $persons += $quantity;
+                }
+            }
+
+            $booking->update([
+                'persons' => $persons,
+                'total'   => $total,
+            ]);
+
+            $booking->load('details.tourPrice');
+
+            $pdf = Pdf::loadView('emails.booking-pdf', [
+                'booking' => $booking
             ]);
 
             $pdfContent = $pdf->output();
 
-            // Send email
             Mail::to(config('mail.booking_receiver'))
-                ->cc($validated['email'])
+                ->cc($booking->email)
                 ->send(
-                    (new \App\Mail\BookingMail($booking->toArray()))
+                    (new BookingMail($booking))
                         ->attachData($pdfContent, 'booking.pdf', [
                             'mime' => 'application/pdf',
                         ])
                 );
 
-            return back()->with('booking_success', true);
+            return redirect()
+                ->route('tours.show', $tour->slug)
+                ->with('booking_success', true);
         } catch (\Throwable $e) {
 
-            Log::error('Booking email failed', [
-                'error' => $e->getMessage(),
-            ]);
-
-            return back()->with('booking_error', true);
+            dd($e->getMessage());
         }
     }
 }

@@ -285,15 +285,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }
 });
-const form = document.querySelector('form');
 
-form.addEventListener('submit', function (e) {
+document.addEventListener('DOMContentLoaded', function () {
 
-    if (!document.getElementById('hiddenDate').value ||
-        !document.getElementById('hiddenTime').value) {
+    const form = document.querySelector('#bookingModal form');
 
-        e.preventDefault();
-        alert("Please select date and time.");
-    }
+    if (!form) return;
+
+    form.addEventListener('submit', function (e) {
+
+        const hiddenDate = document.getElementById('hiddenDate');
+        const hiddenTime = document.getElementById('hiddenTime');
+
+        if (!hiddenDate.value || !hiddenTime.value) {
+
+            e.preventDefault();
+            alert("Please select date and time.");
+            return;
+        }
+
+    });
 
 });
+

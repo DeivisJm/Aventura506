@@ -27,6 +27,7 @@ return [
     'confirm' => 'Confirmar reserva',
     'persons' => 'Número de personas',
     'view_more' => 'Ver más horarios',
+    'view_less' => 'Ver menos horarios',
     'total' => 'Total',
 
 

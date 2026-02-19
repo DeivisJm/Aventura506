@@ -17,19 +17,13 @@
                     <tr>
                         <td style="background:linear-gradient(135deg,#0f172a,#1e293b); padding:30px; text-align:center; color:#ffffff;">
 
-                            <!-- Logo -->
-                            <img
-                                src="cid:logo"
-                                alt="Aventura506 Logo"
-                                width="80"
+                            <img src="cid:logo" alt="Aventura506 Logo" width="80"
                                 style="display:block; margin:0 auto 15px auto;">
 
-                            <!-- Brand Name -->
                             <h1 style="margin:0; font-size:22px; font-weight:bold;">
                                 Aventura506
                             </h1>
 
-                            <!-- Dynamic Heading (Multilanguage) -->
                             <p style="margin:8px 0 0 0; font-size:14px; opacity:0.8;">
                                 {{ __('booking.email_new_booking') }}
                             </p>
@@ -44,47 +38,54 @@
                                 {{ __('booking.email_details') }}
                             </h2>
 
-                            <table width="100%" cellpadding="10" cellspacing="0" style="border-collapse:collapse; font-size:14px;">
+                            <table width="100%" cellpadding="10" cellspacing="0"
+                                style="border-collapse:collapse; font-size:14px;">
 
                                 <tr style="background:#f9fafb;">
                                     <td><strong>{{ __('booking.email_name') }}</strong></td>
-                                    <td>{{ $data['name'] }}</td>
+                                    <td>{{ $booking->name }}</td>
                                 </tr>
 
                                 <tr>
                                     <td><strong>{{ __('booking.email_email') }}</strong></td>
-                                    <td>{{ $data['email'] }}</td>
+                                    <td>{{ $booking->email }}</td>
                                 </tr>
 
                                 <tr style="background:#f9fafb;">
                                     <td><strong>{{ __('booking.email_phone') }}</strong></td>
-                                    <td>{{ $data['phone'] }}</td>
+                                    <td>{{ $booking->phone }}</td>
                                 </tr>
 
                                 <tr>
                                     <td><strong>{{ __('booking.email_nationality') }}</strong></td>
-                                    <td>{{ $data['nationality'] }}</td>
+                                    <td>{{ $booking->nationality }}</td>
                                 </tr>
 
                                 <tr style="background:#f9fafb;">
-                                    <td><strong>{{ __('booking.email_persons') }}</strong></td>
-                                    <td>{{ $data['persons'] }}</td>
+                                    <td><strong>{{ __('booking.email_date') }}</strong></td>
+                                    <td>{{ $booking->date }}</td>
                                 </tr>
 
                                 <tr>
-                                    <td><strong>{{ __('booking.email_date') }}</strong></td>
-                                    <td>{{ $data['date'] }}</td>
+                                    <td><strong>{{ __('booking.email_time') }}</strong></td>
+                                    <td>{{ $booking->time }}</td>
                                 </tr>
 
+                                {{-- 🔥 NUEVO: DESGLOSE POR TIPO --}}
                                 <tr style="background:#f9fafb;">
-                                    <td><strong>{{ __('booking.email_time') }}</strong></td>
-                                    <td>{{ $data['time'] }}</td>
+                                    <td><strong>{{ __('booking.email_persons') }}</strong></td>
+                                    <td>
+                                        @foreach($booking->details as $detail)
+                                        {{ $detail->tourPrice->type }}
+                                        {{ $detail->quantity }} <br>
+                                        @endforeach
+                                    </td>
                                 </tr>
 
                                 <tr>
                                     <td><strong>{{ __('booking.email_total') }}</strong></td>
                                     <td style="font-size:16px; font-weight:bold; color:#16a34a;">
-                                        ${{ $data['total'] }}
+                                        ${{ number_format($booking->total, 2) }}
                                     </td>
                                 </tr>
 
