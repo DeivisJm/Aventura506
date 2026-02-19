@@ -37,7 +37,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const timeSection = document.getElementById('timeSection');
     const selectedDateDisplay = document.getElementById('selectedDateDisplay');
-    const timeButtons = document.querySelectorAll('.booking-time');
 
     /* =====================================================
        DATE SETUP
@@ -132,6 +131,8 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.addEventListener('click', () => {
 
                 selectedDate = date;
+                window.selectedDate = selectedDate;
+
 
                 document.querySelectorAll('#calendarGrid button')
                     .forEach(b => b.classList.remove('active'));
@@ -188,38 +189,59 @@ document.addEventListener('DOMContentLoaded', () => {
     /*TIME VALIDATION*/
     function validateTimes() {
 
+        if (!selectedDate) return;
+
+        const now = new Date();
+
+        const timeButtons = document.querySelectorAll('.booking-time');
+
         timeButtons.forEach(btn => {
 
-            const [h, m] = btn.dataset.time.split(':');
+            const [h, m] = btn.dataset.time.split(':').map(Number);
+
             const selectedDateTime = new Date(selectedDate);
             selectedDateTime.setHours(h, m, 0, 0);
 
-            if (selectedDateTime <= new Date()) {
+            const isToday =
+                selectedDate.getFullYear() === now.getFullYear() &&
+                selectedDate.getMonth() === now.getMonth() &&
+                selectedDate.getDate() === now.getDate();
+
+            if (!isToday) {
+                btn.disabled = false;
+                btn.classList.remove('time-disabled');
+                return;
+            }
+
+            if (selectedDateTime <= now) {
                 btn.disabled = true;
-                btn.style.opacity = 0.3;
-                btn.style.pointerEvents = "none";
+                btn.classList.add('time-disabled');
             } else {
                 btn.disabled = false;
-                btn.style.opacity = 1;
-                btn.style.pointerEvents = "auto";
+                btn.classList.remove('time-disabled');
             }
+
         });
     }
+    document.addEventListener('click', function (e) {
 
-    timeButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
+        if (!e.target.classList.contains('booking-time')) return;
 
-            if (!selectedDate) return;
-            if (btn.disabled) return;
+        const btn = e.target;
 
-            timeButtons.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
+        if (!selectedDate) return;
+        if (btn.disabled) return;
 
-            document.getElementById('hiddenTime').value = btn.dataset.time;
-            document.getElementById('hiddenDate').value =
-                selectedDate.toISOString().split('T')[0];
-        });
+        document.querySelectorAll('.booking-time')
+            .forEach(b => b.classList.remove('active'));
+
+        btn.classList.add('active');
+
+        document.getElementById('hiddenTime').value = btn.dataset.time;
+        document.getElementById('hiddenDate').value =
+            selectedDate.toISOString().split('T')[0];
     });
+
 
 
     /* PRICE CALCULATION*/

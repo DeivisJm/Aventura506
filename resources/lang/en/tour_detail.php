@@ -1,24 +1,17 @@
 <?php
 
 return [
-
-    /*
-    |--------------------------------------------------------------------------
-    | Tour Detail Page (English)
-    |--------------------------------------------------------------------------
-    */
-
-    // Sections
-    'includes_title' => 'What is included?',
+    'duration' => 'Duration',
+    'available_hours' => 'Available Hours',
+    'about_title' => 'About this tour',
+    'quick_info' => 'Quick info',
+    'includes_title' => 'Includes',
     'ideal_for_title' => 'Ideal for',
+    'price_from' => 'Price from',
+    'reserve' => 'Reserve',
     'how_to_get_title' => 'How to get there',
-    'distance_title' => 'Approximate distance',
-
-    // Units
+    'distance_title' => 'Distance',
     'km' => 'km',
     'miles' => 'miles',
-
-    // Buttons
     'get_directions' => 'Get directions',
-    'reserve' => 'Book',
 ];

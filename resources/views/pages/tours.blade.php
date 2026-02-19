@@ -1,3 +1,5 @@
+@php use Illuminate\Support\Str; @endphp
+
 @extends('layouts.app')
 
 @section('title', __('tours.page_title'))
@@ -39,33 +41,27 @@
                 {{ __('tours.filter_title') }}
             </h2>
 
-            {{-- Filter cards container --}}
-            <div id="tour-filters"
-                class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+            @php
+            $currentCategory = request('category', 'all');
+            @endphp
 
-                <button class="filter-card active" data-category="all">
-                    {{ __('tours.filters.all') }}
-                </button>
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
 
-                <button class="filter-card" data-category="adventure">
-                    {{ __('tours.filters.adventure') }}
-                </button>
+                @foreach([
+                'all' => __('tours.filters.all'),
+                'adventure' => __('tours.filters.adventure'),
+                'extreme' => __('tours.filters.extreme'),
+                'nature' => __('tours.filters.nature'),
+                'water' => __('tours.filters.water'),
+                'vehicle' => __('tours.filters.vehicle'),
+                ] as $value => $label)
 
-                <button class="filter-card" data-category="extreme">
-                    {{ __('tours.filters.extreme') }}
-                </button>
+                <a href="{{ route('tours.index', ['category' => $value]) }}"
+                    class="filter-card {{ $currentCategory === $value ? 'active' : '' }}">
+                    {{ $label }}
+                </a>
 
-                <button class="filter-card" data-category="nature">
-                    {{ __('tours.filters.nature') }}
-                </button>
-
-                <button class="filter-card" data-category="water">
-                    {{ __('tours.filters.water') }}
-                </button>
-
-                <button class="filter-card" data-category="vehicle">
-                    {{ __('tours.filters.vehicle') }}
-                </button>
+                @endforeach
 
             </div>
         </section>
@@ -73,15 +69,44 @@
         {{-- ================= TOURS GRID ================= --}}
         <section class="scroll-hero">
 
-            <div id="tours-grid"
-                class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                {{-- Cards rendered by JS --}}
-            </div>
+            <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
 
-            <p id="no-results"
-                class="hidden mt-12 text-center text-gray-500">
-                {{ __('tours.no_results') }}
-            </p>
+                @forelse ($tours as $tour)
+
+                <article class="scroll-hero bg-white rounded-2xl shadow hover:shadow-lg transition overflow-hidden">
+
+                    <img src="{{ asset($tour->image) }}"
+                        alt="{{ $tour->name }}"
+                        class="h-48 w-full object-cover">
+
+                    <div class="p-6">
+
+                        <h3 class="text-xl font-semibold mb-2">
+                            {{ $tour->name }}
+                        </h3>
+
+                        <p class="text-gray-600 text-sm mb-4">
+                            {{ $tour->short_description ?? Str::limit($tour->description, 120) }}
+                        </p>
+
+                        <a href="{{ route('tours.show', $tour->slug) }}"
+                            class="btn-primary inline-block text-sm">
+                            {{ __('tours.view_more') }}
+                        </a>
+
+                    </div>
+
+                </article>
+
+                @empty
+
+                <p class="col-span-3 text-center text-gray-500">
+                    {{ __('tours.no_results') }}
+                </p>
+
+                @endforelse
+
+            </div>
 
         </section>
 

@@ -21,7 +21,6 @@
 }
 
 /* Container */
-
 .booking-container {
     background: var(--card);
     color: var(--text);
@@ -30,7 +29,8 @@
     max-height: 90vh;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    overflow-y: auto;
+    /* CAMBIO AQUÍ */
     border-radius: 16px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
     transform: translateY(40px) scale(0.96);
@@ -38,17 +38,22 @@
     transition: all 0.4s cubic-bezier(.16, 1, .3, 1);
 }
 
+
 .booking-overlay.active .booking-container {
     transform: translateY(0) scale(1);
     opacity: 1;
 }
 
-/* Internal scroll */
+/* Desktop scroll control */
+@media (min-width: 1025px) {
+    .booking-content {
+        overflow-y: auto;
+        max-height: 75vh;
+    }
 
-.booking-content,
-.form-side {
-    overflow-y: auto;
-    max-height: 75vh;
+    .form-side {
+        overflow-y: auto;
+    }
 }
 
 .booking-content::-webkit-scrollbar,
@@ -277,3 +282,40 @@
     background: #1f2937;
 }
 
+/* ===============================
+   PRICE ROW STYLE
+=============================== */
+
+#dynamicPriceOptions>div {
+    padding: 12px 0;
+    transition: all 0.2s ease;
+}
+
+#dynamicPriceOptions>div:hover {
+    background: rgba(34, 197, 94, 0.05);
+}
+
+.qty-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: #f3f4f6;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.qty-btn:hover {
+    background: #22c55e;
+    color: white;
+}
+
+.qty-value {
+    min-width: 20px;
+    text-align: center;
+}
+
+.time-disabled {
+    opacity: 0.35;
+    pointer-events: none;
+    cursor: not-allowed;
+}

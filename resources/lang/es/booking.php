@@ -26,6 +26,9 @@ return [
     'nationality' => 'Nacionalidad',
     'confirm' => 'Confirmar reserva',
     'persons' => 'Número de personas',
+    'view_more' => 'Ver más horarios',
+    'total' => 'Total',
+
 
     /*
     |--------------------------------------------------------------------------

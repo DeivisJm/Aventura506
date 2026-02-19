@@ -14,12 +14,8 @@
                     {{ __('booking.title_tour') }}
                 </h2>
 
-                <div class="mt-2 text-4xl font-extrabold text-green-600">
-                    <span id="basePrice">${{ $tour['price'] ?? 30 }}</span>
-                    <span class="text-base text-gray-500 dark:text-gray-400">
-                        / {{ __('booking.per_person') }}
-                    </span>
-                </div>
+                <div class="booking-prices mt-6 space-y-3"></div>
+
             </div>
 
             <button id="closeBooking" class="booking-close text-3xl">
@@ -27,10 +23,10 @@
             </button>
         </div>
 
-        <div class="booking-content grid md:grid-cols-2">
+        <div class="booking-content flex flex-col md:grid md:grid-cols-2">
 
             {{-- LEFT SIDE CALENDAR --}}
-            <div class="calendar-side p-12 border-r border-gray-200 dark:border-gray-800">
+            <div class="calendar-side p-12 border-r border-gray-200 dark:border-gray-800 transition-all duration-500 md:block">
 
                 <div class="flex justify-between items-center mb-8">
                     <button id="prevMonth" class="month-btn">‹</button>
@@ -61,15 +57,18 @@
                         {{ __('booking.select_time') }}
                     </h4>
 
-                    <div class="grid grid-cols-2 gap-4">
-                        @foreach(['08:00','10:00','13:00','15:00'] as $time)
-                        <button type="button"
-                            data-time="{{ $time }}"
-                            class="booking-time">
-                            {{ $time }}
-                        </button>
-                        @endforeach
+                    <div id="dynamicSchedules"
+                        class="grid grid-cols-2 gap-4 transition-all duration-500 ease-in-out">
                     </div>
+
+
+
+                    <button type="button"
+                        id="toggleSchedules"
+                        class="text-sm text-green-600 mt-3 hidden">
+                        {{ __('booking.view_more') }}
+                    </button>
+
                 </div>
 
                 <form method="POST" action="{{ route('booking.store') }}" class="space-y-6">
@@ -108,18 +107,9 @@
 
                     </div>
 
-                    <div>
-                        <label class="booking-label">
-                            {{ __('booking.persons') }}
-                        </label>
+                    <div id="dynamicPriceOptions" class="space-y-4">
 
-                        <input type="number"
-                            name="persons"
-                            id="personsInput"
-                            min="1"
-                            value="1"
-                            required
-                            class="booking-input w-full">
+
 
                     </div>
 
@@ -138,7 +128,7 @@
 
                     <div class="booking-total">
                         <span>Total:</span>
-                        <span id="totalPrice">${{ $tour['price'] ?? 30 }}</span>
+                        <span id="totalPrice">${{ $tour['price'] ?? 0 }}</span>
                     </div>
 
                     <input type="hidden" name="date" id="hiddenDate">

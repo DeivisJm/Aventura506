@@ -76,6 +76,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/country-select-js/2.1.0/js/countrySelect.min.js"></script>
 
 
+    @stack('scripts')
 
 </body>
 

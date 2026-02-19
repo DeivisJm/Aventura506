@@ -43,6 +43,11 @@ return [
     'email_date' => 'Date',
     'email_time' => 'Time',
     'email_total' => 'Total',
+    'view_more' => 'View more times',
+    'total' => 'Total',
+
+
+
 
     /*
     |--------------------------------------------------------------------------

@@ -6,5 +6,5 @@ import './core/scrollReveal';
 import './core/themeToggle';
 
 /* ================= PAGES ================= */
-import './pages/tours';
 import './pages/booking';
+import './pages/booking-dynamic';

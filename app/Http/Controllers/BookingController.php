@@ -16,10 +16,8 @@ class BookingController extends Controller
      */
     public function store(Request $request)
     {
-        // -------------------------------------------------
-        // Validate incoming request
-        // -------------------------------------------------
         $validated = $request->validate([
+            'tour_id'     => 'required|exists:tours,id',
             'name'        => 'required|string|max:255',
             'email'       => 'required|email|max:255',
             'phone'       => 'required|string|max:30',
@@ -27,52 +25,53 @@ class BookingController extends Controller
             'nationality' => 'required|string|max:255',
             'date'        => 'required|date',
             'time'        => 'required|string|max:20',
-            'total'       => 'required|numeric|min:0'
         ]);
 
         try {
 
-            // -------------------------------------------------
-            // Generate localized PDF
-            // -------------------------------------------------
-            $pdf = Pdf::loadView('emails.booking-pdf', [
-                'data' => $validated
-            ])->setPaper('a4');
+            // Get tour to calculate price properly
+            $tour = \App\Models\Tour::findOrFail($validated['tour_id']);
+
+            $total = $tour->price * $validated['persons'];
+
+            // Save booking to database
+            $booking = \App\Models\Booking::create([
+                'tour_id'    => $tour->id,
+                'name'       => $validated['name'],
+                'email'      => $validated['email'],
+                'phone'      => $validated['phone'],
+                'nationality' => $validated['nationality'],
+                'persons'    => $validated['persons'],
+                'date'       => $validated['date'],
+                'time'       => $validated['time'],
+                'total'      => $total,
+                'status'     => 'pending',
+            ]);
+
+            // Generate PDF
+            $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('emails.booking-pdf', [
+                'data' => $booking
+            ]);
 
             $pdfContent = $pdf->output();
 
-            // Dynamic PDF filename (professional touch)
-            $fileName = 'Aventura506-Booking-' . now()->format('YmdHis') . '.pdf';
-
-            // -------------------------------------------------
-            // Send email with PDF attachment
-            // -------------------------------------------------
-            Mail::to(config('mail.booking_receiver'))      // Admin email
-                ->cc($validated['email'])                  // Customer copy
+            // Send email
+            Mail::to(config('mail.booking_receiver'))
+                ->cc($validated['email'])
                 ->send(
-                    (new BookingMail($validated))
-                        ->attachData($pdfContent, $fileName, [
+                    (new \App\Mail\BookingMail($booking->toArray()))
+                        ->attachData($pdfContent, 'booking.pdf', [
                             'mime' => 'application/pdf',
                         ])
                 );
 
-            // -------------------------------------------------
-            // Success response
-            // -------------------------------------------------
             return back()->with('booking_success', true);
         } catch (\Throwable $e) {
 
-            // -------------------------------------------------
-            // Log error for debugging
-            // -------------------------------------------------
             Log::error('Booking email failed', [
                 'error' => $e->getMessage(),
-                'booking_data' => $validated
             ]);
 
-            // -------------------------------------------------
-            // Error response
-            // -------------------------------------------------
             return back()->with('booking_error', true);
         }
     }
