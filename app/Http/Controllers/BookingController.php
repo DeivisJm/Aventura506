@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 use App\Mail\BookingMail;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Booking;
 use App\Models\BookingDetail;
 use App\Models\TourPrice;
-use Illuminate\Support\Facades\DB;
+use App\Models\Tour;
+use Carbon\Carbon;
 
 class BookingController extends Controller
 {
@@ -23,7 +25,7 @@ class BookingController extends Controller
             'phone'       => 'required|string|max:30',
             'nationality' => 'required|string|max:255',
             'notes'       => 'nullable|string|max:1000',
-            'date'        => 'required|date',
+            'date'        => 'required',
             'time'        => 'required|string|max:20',
             'prices'      => 'required|array',
         ]);
@@ -38,13 +40,17 @@ class BookingController extends Controller
             ])->withInput();
         }
 
+        DB::beginTransaction();
 
         try {
 
-            $tour = \App\Models\Tour::findOrFail($validated['tour_id']);
+            $tour = Tour::findOrFail($validated['tour_id']);
 
             $total = 0;
             $persons = 0;
+
+            // 🔥 Normalizar fecha SIEMPRE
+            $formattedDate = Carbon::parse($validated['date'])->format('Y-m-d');
 
             $booking = Booking::create([
                 'tour_id'     => $tour->id,
@@ -54,7 +60,7 @@ class BookingController extends Controller
                 'nationality' => $validated['nationality'],
                 'notes'       => $validated['notes'],
                 'persons'     => 0,
-                'date'        => $validated['date'],
+                'date'        => $formattedDate,
                 'time'        => $validated['time'],
                 'total'       => 0,
                 'status'      => 'pending',
@@ -88,12 +94,14 @@ class BookingController extends Controller
 
             $booking->load('details.tourPrice');
 
+            // 🔥 Generar PDF
             $pdf = Pdf::loadView('emails.booking-pdf', [
                 'booking' => $booking
             ]);
 
             $pdfContent = $pdf->output();
 
+            // 🔥 Enviar correo
             Mail::to(config('mail.booking_receiver'))
                 ->cc($booking->email)
                 ->send(
@@ -103,12 +111,20 @@ class BookingController extends Controller
                         ])
                 );
 
+            DB::commit();
+
             return redirect()
                 ->route('tours.show', $tour->slug)
-                ->with('booking_success', true);
+                ->with('booking_success', 'Booking sent successfully!');
         } catch (\Throwable $e) {
 
-            dd($e->getMessage());
+            DB::rollBack();
+
+            Log::error('BOOKING ERROR: ' . $e->getMessage());
+
+            return redirect()
+                ->route('tours.show', $tour->slug)
+                ->with('booking_error', 'There was a problem processing your booking. Please try again.');
         }
     }
 }

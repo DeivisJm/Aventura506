@@ -1,9 +1,10 @@
 <?php
 
 return [
-    'naturaleza' => 'Naturaleza',
-    'extremo' => 'Extremo',
-    'agua' => 'Agua',
-    'aventura' => 'Aventura',
-    'vehiculos' => 'Vehículos',
+    'adventure' => 'Aventura',
+    'extreme' => 'Extremo',
+    'nature' => 'Naturaleza',
+    'water' => 'Agua',
+    'vehicle' => 'Vehículos',
 ];
+

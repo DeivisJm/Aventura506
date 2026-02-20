@@ -74,34 +74,44 @@
                 @forelse ($tours as $tour)
 
                 @php
-                // Obtener descripción multilenguaje segura
+                // Descripción segura
                 $description = '';
 
                 if (is_array($tour->short_description ?? null)) {
-                $description = $tour->short_description[app()->getLocale()]
-                ?? $tour->short_description['es']
-                ?? '';
+                    $description = $tour->short_description[app()->getLocale()]
+                        ?? $tour->short_description['es']
+                        ?? '';
                 } elseif (!empty($tour->short_description)) {
-                $description = $tour->short_description;
+                    $description = $tour->short_description;
                 } elseif (is_array($tour->description ?? null)) {
-                $description = $tour->description[app()->getLocale()]
-                ?? $tour->description['es']
-                ?? '';
+                    $description = $tour->description[app()->getLocale()]
+                        ?? $tour->description['es']
+                        ?? '';
                 } else {
-                $description = $tour->description ?? '';
+                    $description = $tour->description ?? '';
                 }
+
+                // 🔥 SOLUCIÓN ERROR NAME ARRAY
+                $tourName = is_array($tour->name ?? null)
+                    ? ($tour->name[app()->getLocale()] ?? $tour->name['es'] ?? '')
+                    : $tour->name;
+
+                // 🔥 Imagen segura
+                $imagePath = !empty($tour->image)
+                    ? asset($tour->image)
+                    : asset('images/default-tour.jpg');
                 @endphp
 
                 <article class="scroll-hero bg-white rounded-2xl shadow hover:shadow-lg transition overflow-hidden">
 
-                    <img src="{{ asset($tour->image) }}"
-                        alt="{{ $tour->name }}"
+                    <img src="{{ $imagePath }}"
+                        alt="{{ $tourName }}"
                         class="h-48 w-full object-cover">
 
                     <div class="p-6">
 
                         <h3 class="text-xl font-semibold mb-2">
-                            {{ $tour->name }}
+                            {{ $tourName }}
                         </h3>
 
                         <p class="text-gray-600 text-sm mb-4">

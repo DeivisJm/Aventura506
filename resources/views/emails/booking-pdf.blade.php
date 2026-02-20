@@ -98,7 +98,11 @@
 
             <tr>
                 <td class="label">{{ __('booking.email_tour') }}</td>
-                <td>{{ $booking->tour->name }}</td>
+                <td>
+                    {{ is_array($booking->tour->name)
+        ? ($booking->tour->name[app()->getLocale()] ?? $booking->tour->name['es'] ?? '')
+        : $booking->tour->name }}
+                </td>
             </tr>
 
             <tr>
@@ -138,11 +142,13 @@
             </tr>
             @endif
 
-            {{-- DESGLOSE CORRECTO --}}
+            {{-- DESGLOSE CORREGIDO --}}
             @foreach($booking->details as $detail)
             <tr>
                 <td class="label">
-                    {{ $detail->tourPrice->type }}
+                    {{ is_array($detail->tourPrice->type)
+                        ? ($detail->tourPrice->type[app()->getLocale()] ?? $detail->tourPrice->type['es'] ?? '')
+                        : $detail->tourPrice->type }}
                 </td>
                 <td>
                     {{ $detail->quantity }} x ${{ number_format($detail->price, 2) }}

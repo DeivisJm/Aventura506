@@ -14,4 +14,6 @@ return [
     'km' => 'km',
     'miles' => 'miles',
     'get_directions' => 'Get directions',
+    'free' => 'Free',
+
 ];

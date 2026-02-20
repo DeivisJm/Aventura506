@@ -22,14 +22,24 @@ class TourDetail extends Model
 
     protected $casts = [
         'full_description' => 'array',
+        'duration' => 'array',
+        'start_hours_text' => 'array',
         'includes' => 'array',
         'ideal_for' => 'array',
     ];
 
+    // Helper traducido
+    public function getTranslated($field)
+    {
+        $value = $this->$field;
 
-    /**
-     * Relation with Tour
-     */
+        if (is_array($value)) {
+            return $value[app()->getLocale()] ?? $value['es'] ?? reset($value);
+        }
+
+        return $value;
+    }
+
     public function tour()
     {
         return $this->belongsTo(Tour::class);

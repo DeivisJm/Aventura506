@@ -1,7 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     /* LOCALE*/
-    const locale = window.appLocale === 'es' ? 'es-CR' : 'en-US';
+    const locale = window.appLocale === 'es'
+        ? 'es-CR'
+        : (window.appLocale === 'en' ? 'en-US' : 'en-US');
 
     /*ELEMENTS*/
     const modal = document.getElementById('bookingModal');
@@ -46,8 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
     let currentMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-    let selectedDate = null;
-
+    window.selectedDate = null;
     /* =====================================================
        MODAL OPEN / CLOSE
     ===================================================== */
@@ -95,18 +96,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
         calendarGrid.innerHTML = "";
 
+        /* ===== Month + Year (Localized & Capitalized) ===== */
         currentMonthEl.textContent =
-            currentMonth.toLocaleString(locale, {
-                month: 'long',
-                year: 'numeric'
-            });
+            currentMonth
+                .toLocaleString(locale, {
+                    month: 'long',
+                    year: 'numeric'
+                })
+                .replace(/^./, c => c.toUpperCase());
 
         const year = currentMonth.getFullYear();
         const month = currentMonth.getMonth();
 
         let firstDay = new Date(year, month, 1).getDay();
-
-
         if (firstDay < 0) firstDay = 0;
 
         const daysInMonth = new Date(year, month + 1, 0).getDate();
@@ -130,9 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             btn.addEventListener('click', () => {
 
-                selectedDate = date;
-                window.selectedDate = selectedDate;
-
+                window.selectedDate = date; // ✅ CORRECTO
 
                 document.querySelectorAll('#calendarGrid button')
                     .forEach(b => b.classList.remove('active'));
@@ -140,20 +140,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 btn.classList.add('active');
 
                 selectedDateDisplay.textContent =
-                    selectedDate.toLocaleDateString(locale, {
-                        weekday: 'long',
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                    });
+                    window.selectedDate
+                        .toLocaleDateString(locale, {
+                            weekday: 'long',
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                        })
+                        .replace(/^./, c => c.toUpperCase());
 
-                /* Show time with animation */
                 timeSection.classList.remove('hidden');
                 setTimeout(() => {
                     timeSection.style.opacity = 1;
                 }, 50);
 
-                validateTimes();
+                window.validateTimes();
             });
 
             calendarGrid.appendChild(btn);
@@ -187,25 +188,26 @@ document.addEventListener('DOMContentLoaded', () => {
     renderCalendar();
 
     /*TIME VALIDATION*/
-    function validateTimes() {
+    window.validateTimes = function () {
 
-        if (!selectedDate) return;
+        if (!window.selectedDate) return;
 
         const now = new Date();
-
         const timeButtons = document.querySelectorAll('.booking-time');
 
         timeButtons.forEach(btn => {
 
+            if (!btn.dataset.time) return;
+
             const [h, m] = btn.dataset.time.split(':').map(Number);
 
-            const selectedDateTime = new Date(selectedDate);
+            const selectedDateTime = new Date(window.selectedDate);
             selectedDateTime.setHours(h, m, 0, 0);
 
             const isToday =
-                selectedDate.getFullYear() === now.getFullYear() &&
-                selectedDate.getMonth() === now.getMonth() &&
-                selectedDate.getDate() === now.getDate();
+                window.selectedDate.getFullYear() === now.getFullYear() &&
+                window.selectedDate.getMonth() === now.getMonth() &&
+                window.selectedDate.getDate() === now.getDate();
 
             if (!isToday) {
                 btn.disabled = false;
@@ -215,21 +217,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (selectedDateTime <= now) {
                 btn.disabled = true;
+                btn.classList.remove('active');
                 btn.classList.add('time-disabled');
             } else {
                 btn.disabled = false;
                 btn.classList.remove('time-disabled');
             }
-
         });
-    }
+    };
+
     document.addEventListener('click', function (e) {
 
         if (!e.target.classList.contains('booking-time')) return;
 
         const btn = e.target;
 
-        if (!selectedDate) return;
+        if (!window.selectedDate) return;
         if (btn.disabled) return;
 
         document.querySelectorAll('.booking-time')
@@ -238,8 +241,11 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.classList.add('active');
 
         document.getElementById('hiddenTime').value = btn.dataset.time;
-        document.getElementById('hiddenDate').value =
-            selectedDate.toISOString().split('T')[0];
+        const year = window.selectedDate.getFullYear();
+        const month = String(window.selectedDate.getMonth() + 1).padStart(2, '0');
+        const day = String(window.selectedDate.getDate()).padStart(2, '0');
+
+        document.getElementById('hiddenDate').value = `${year}-${month}-${day}`;
     });
 
 

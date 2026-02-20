@@ -41,17 +41,25 @@
                                 {{ __('booking.email_details') }}
                             </h2>
 
-
                             <table width="100%" cellpadding="10" cellspacing="0"
                                 style="border-collapse:collapse; font-size:14px;">
+
                                 <tr>
                                     <td><strong>{{ __('booking.email_company') }}</strong></td>
-                                    <td>{{ $booking->tour->company_name ?? 'Aventura506' }}</td>
+                                    <td>
+                                        {{ is_array($booking->tour->company_name ?? null)
+                                            ? ($booking->tour->company_name[app()->getLocale()] ?? $booking->tour->company_name['es'] ?? '')
+                                            : ($booking->tour->company_name ?? 'Aventura506') }}
+                                    </td>
                                 </tr>
 
                                 <tr style="background:#f9fafb;">
                                     <td width="40%"><strong>{{ __('booking.email_tour') }}</strong></td>
-                                    <td>{{ $booking->tour->name }}</td>
+                                    <td>
+                                        {{ is_array($booking->tour->name)
+                                            ? ($booking->tour->name[app()->getLocale()] ?? $booking->tour->name['es'] ?? '')
+                                            : $booking->tour->name }}
+                                    </td>
                                 </tr>
 
                                 <tr style="background:#f9fafb;">
@@ -96,7 +104,9 @@
                                     <td><strong>{{ __('booking.email_persons') }}</strong></td>
                                     <td>
                                         @foreach($booking->details as $detail)
-                                        {{ $detail->tourPrice->type }}
+                                        {{ is_array($detail->tourPrice->type)
+                                                ? ($detail->tourPrice->type[app()->getLocale()] ?? $detail->tourPrice->type['es'] ?? '')
+                                                : $detail->tourPrice->type }}
                                         ({{ $detail->quantity }})<br>
                                         @endforeach
                                     </td>

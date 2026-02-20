@@ -11,8 +11,11 @@ class TourSeeder extends Seeder
     {
         $tours = [
             [
-                'company_name' => 'Natura Costa Rica',
-                'name' => 'Natura Plus',
+                'company_name' => 'Natura Eco Park Costa Rica',
+                'name' => [
+                    'es' => 'Natura Plus',
+                    'en' => 'Natura Plus Admission',
+                ],
                 'slug' => 'natura-plus',
                 'category' => 'nature',
                 'description' => [
@@ -27,8 +30,12 @@ class TourSeeder extends Seeder
                 'image' => 'images/tours/natura-plus.jpg',
             ],
             [
-                'company_name' => 'Natura Costa Rica',
-                'name' => 'Caminata Nocturna',
+                'company_name' => 'Natura Eco Park Costa Rica',
+                'name' => [
+                    'es' => 'Caminata Nocturna - Experiencia ',
+                    'en' => 'Night Walk Experience Tour',
+                ],
+
                 'slug' => 'caminata-nocturna',
                 'category' => 'nature',
                 'description' => [
@@ -40,7 +47,45 @@ class TourSeeder extends Seeder
                 'distance_miles' => 3.1,
                 'location_text' => 'La Fortuna, San Carlos',
                 'image' => 'images/tours/caminata-nocturna.jpg',
-            ]
+            ],
+            [
+                'company_name' => 'Natura Eco Park Costa Rica',
+                'name' => [
+                    'es' => 'Entrada – Admisión Natura (Autoguiado)',
+                    'en' => 'Natura Admission – Self-Guided',
+                ],
+                'slug' => 'entrada-admision-natura',
+                'category' => 'nature',
+                'description' => [
+                    'es' => 'Pase de un día para explorar Natura Eco Park a tu propio ritmo.',
+                    'en' => 'One-day pass to explore Natura Eco Park at your own pace.',
+                ],
+                'price' => 41.99,
+                'distance_km' => 5,
+                'distance_miles' => 3.1,
+                'location_text' => 'La Fortuna, San Carlos',
+                'image' => 'images/tours/admision-natura.JPG',
+            ],
+            [
+                'company_name' => 'Natura Eco Park Costa Rica',
+                'name' => [
+                    'es' => 'Tour de Fotografía',
+                    'en' => 'Photography Tour',
+                ],
+                'slug' => 'photography-tour',
+                'category' => 'nature',
+                'description' => [
+                    'es' => 'Recorrido fotográfico guiado en Natura Eco Park para capturar la belleza de la selva tropical.',
+                    'en' => 'Guided photography experience at Natura Eco Park to capture the beauty of the rainforest.',
+                ],
+                'price' => 129.99,
+                'distance_km' => 5,
+                'distance_miles' => 3.1,
+                'location_text' => 'Natura Eco Park, La Fortuna',
+                'image' => 'images/tours/photography-tour.jpg',
+            ],
+
+
         ];
 
         foreach ($tours as $tour) {

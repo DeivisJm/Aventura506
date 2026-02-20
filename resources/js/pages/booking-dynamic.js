@@ -114,6 +114,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
             btn.addEventListener('click', () => {
 
+                if (btn.disabled) return; // 🔥 evita seleccionar horas inválidas
+
                 document.querySelectorAll('.booking-time')
                     .forEach(b => b.classList.remove('active'));
 
@@ -128,6 +130,11 @@ document.addEventListener('DOMContentLoaded', function () {
         if (schedules.length > 6) {
             toggleSchedules?.classList.remove('hidden');
         }
+
+        /* 🔥 IMPORTANTE: revalidar horarios después de re-render */
+        if (typeof window.validateTimes === "function") {
+            window.validateTimes();
+        }
     }
 
     toggleSchedules?.addEventListener('click', () => {
@@ -135,8 +142,8 @@ document.addEventListener('DOMContentLoaded', function () {
         showAll = !showAll;
 
         toggleSchedules.textContent = showAll
-            ? (window.appLocale === 'es' ? "Ver menos horarios" : "View less times")
-            : (window.appLocale === 'es' ? "Ver más horarios" : "View more times");
+            ? window.translations.viewLess
+            : window.translations.viewMore;
 
         renderSchedules();
     });

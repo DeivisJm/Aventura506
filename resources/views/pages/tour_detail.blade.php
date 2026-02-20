@@ -1,16 +1,16 @@
 @extends('layouts.app')
 
-@section('title', $tour->name ?? 'Tour')
+@section('title', $tour->getTranslated('name') ?? 'Tour')
 
 @section('content')
 
-{{-- ================= HERO PREMIUM ================= --}}
+{{-- ================= HERO ================= --}}
 @if($tour->image)
 <section class="relative h-[75vh] flex items-center justify-center scroll-hero">
 
     <div class="absolute inset-0">
         <img src="{{ asset($tour->image) }}"
-            alt="{{ $tour->name }}"
+            alt="{{ $tour->getTranslated('name') }}"
             class="w-full h-full object-cover">
         <div class="absolute inset-0 bg-black/60"></div>
     </div>
@@ -22,13 +22,11 @@
         </span>
 
         <h1 class="mt-4 text-4xl md:text-6xl font-extrabold">
-            {{ $tour->name }}
+            {{ $tour->getTranslated('name') }}
         </h1>
 
         <p class="mt-6 text-lg text-gray-200">
-            {{ $tour->short_description[app()->getLocale()] 
-                ?? $tour->short_description['es'] 
-                ?? '' }}
+            {{ $tour->getTranslated('short_description') }}
         </p>
 
         <div class="mt-6 flex flex-col items-center gap-2 text-sm text-gray-200">
@@ -36,21 +34,20 @@
             @if($tour->detail?->duration)
             <span>
                 <strong>{{ __('tour_detail.duration') }}:</strong>
-                {{ $tour->detail->duration }}
+                {{ $tour->detail->getTranslated('duration') }}
             </span>
             @endif
 
             @if($tour->detail?->start_hours_text)
             <span>
                 <strong>{{ __('tour_detail.available_hours') }}:</strong>
-                {{ $tour->detail->start_hours_text }}
+                {{ $tour->detail->getTranslated('start_hours_text') }}
             </span>
             @endif
 
         </div>
 
     </div>
-
 </section>
 @endif
 
@@ -64,9 +61,8 @@
         </h2>
 
         <p class="text-muted leading-relaxed">
-            {{ $tour->detail?->full_description[app()->getLocale()] 
-                ?? $tour->detail?->full_description['es'] 
-                ?? $tour->short_description }}
+            {{ $tour->detail?->getTranslated('full_description') 
+                ?? $tour->getTranslated('description') }}
         </p>
 
         {{-- INCLUDES --}}
@@ -77,12 +73,9 @@
             </h3>
 
             <ul class="list-disc list-inside space-y-2 text-muted">
-                @foreach(
-                $tour->detail->includes[app()->getLocale()]
+                @foreach($tour->detail->includes[app()->getLocale()]
                 ?? $tour->detail->includes['es']
-                ?? []
-                as $item
-                )
+                ?? [] as $item)
                 <li>{{ $item }}</li>
                 @endforeach
             </ul>
@@ -97,22 +90,18 @@
             </h3>
 
             <ul class="list-disc list-inside space-y-2 text-muted">
-                @foreach(
-                $tour->detail->ideal_for[app()->getLocale()]
+                @foreach($tour->detail->ideal_for[app()->getLocale()]
                 ?? $tour->detail->ideal_for['es']
-                ?? []
-                as $item
-                )
+                ?? [] as $item)
                 <li>{{ $item }}</li>
                 @endforeach
             </ul>
         </div>
         @endif
-
     </div>
 
 
-    {{-- QUICK INFO CARD --}}
+    {{-- QUICK INFO --}}
     <div class="bg-card rounded-3xl p-10 shadow-lg">
 
         <h3 class="text-lg font-bold mb-6 text-green-600">
@@ -124,26 +113,26 @@
             @if($tour->detail?->duration)
             <div>
                 <strong>{{ __('tour_detail.duration') }}:</strong>
-                {{ $tour->detail->duration }}
+                {{ $tour->detail->getTranslated('duration') }}
             </div>
             @endif
 
             @if($tour->detail?->start_hours_text)
             <div>
                 <strong>{{ __('tour_detail.available_hours') }}:</strong>
-                {{ $tour->detail->start_hours_text }}
+                {{ $tour->detail->getTranslated('start_hours_text') }}
             </div>
             @endif
 
         </div>
 
-        {{-- PRICE TYPES --}}
+        {{-- PRICES --}}
         @if($tour->prices->count())
         <div class="mt-8 space-y-3">
             @foreach($tour->prices as $price)
             <div class="flex justify-between border-b pb-2">
                 <span>
-                    {{ $price->type }}
+                    {{ $price->getTranslatedType() }}
                     @if($price->age_range)
                     ({{ $price->age_range }})
                     @endif
@@ -151,7 +140,7 @@
 
                 <span class="font-semibold">
                     @if($price->is_free)
-                    {{ __('Gratis') }}
+                    {{ __('tour_detail.free') }}
                     @else
                     ${{ number_format($price->price, 2) }}
                     @endif
@@ -170,9 +159,7 @@
     </div>
 
 </section>
-
-
-{{-- ================= LOCATION ================= --}}
+{{-- ================= MAP ================= --}}
 @if($tour->detail?->map_embed_url)
 <section class="max-w-7xl mx-auto px-6 pb-28 scroll-hero">
 
@@ -189,8 +176,7 @@
     </header>
 
     <div class="rounded-3xl overflow-hidden shadow-xl">
-        <iframe
-            src="{{ $tour->detail->map_embed_url }}"
+        <iframe src="{{ $tour->detail->map_embed_url }}"
             class="w-full h-[500px] border-0"
             loading="lazy"
             allowfullscreen>
@@ -198,16 +184,47 @@
     </div>
 
 </section>
+
 @endif
-
-
 {{-- ================= DYNAMIC DATA FOR MODAL ================= --}}
+@php
+$pricesForJs = $tour->prices->map(function($price){
+return [
+"id" => $price->id,
+"type" => $price->getTranslatedType(),
+"price" => $price->price,
+"age_range" => $price->age_range,
+"is_free" => $price->is_free,
+];
+});
+
+$schedulesForJs = $tour->schedules->map(function($schedule){
+return [
+"id" => $schedule->id,
+"start_time" => $schedule->start_time->format('H:i'),
+];
+});
+@endphp
+
 <div id="tourDynamicData"
-    data-prices='@json($tour->prices)'
-    data-schedules='@json($tour->schedules)'
+    data-prices='@json($pricesForJs)'
+    data-schedules='@json($schedulesForJs)'
     class="hidden">
 </div>
 
+{{-- ================= TRANSLATIONS FOR JS ================= --}}
+<script>
+    window.translations = {
+        viewMore: "{{ __('booking.view_more') }}",
+        viewLess: "{{ __('booking.view_less') }}"
+    };
+</script>
+{{-- ================= APP LOCALE FOR JS ================= --}}
+<script>
+    window.appLocale = "{{ app()->getLocale() }}";
+</script>
+
+{{-- ================= BOOKING MODAL ================= --}}
 <x-booking-modal :tour="$tour" />
 
 @endsection
