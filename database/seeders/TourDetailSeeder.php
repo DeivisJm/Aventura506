@@ -244,6 +244,61 @@ An experience designed for nature lovers, photographers, and early risers who wa
                 'distance_km' => 3,
                 'distance_miles' => 1.8,
             ],
+            'poza-el-salto' => [
+                'full_description' => [
+                    'es' => 'Poza El Salto es un punto natural gratuito ubicado en las afueras de La Fortuna. Perfecto para nadar, relajarse y disfrutar del entorno del río.
+
+No cuenta con parqueo oficial; la mayoría de visitantes dejan sus vehículos en las orillas de la carretera o en pequeños espacios disponibles si hay suerte.
+
+En el área normalmente encontrarás ventas locales de pinchos, gallos de carne y otros snacks típicos costarricenses.
+
+Es un lugar ideal para disfrutar con amigos o familia sin costo alguno.',
+                    'en' => 'El Salto River Pool is a free natural swimming spot located just outside La Fortuna. It is perfect for swimming, relaxing, and enjoying the river environment.
+
+There is no official parking area; most visitors park along the roadside or in small available spaces if they find one.
+
+You will often find local vendors selling grilled skewers, traditional Costa Rican snacks, and small street food options nearby.
+
+It is an ideal place to enjoy with friends and family at no cost.',
+                ],
+                'duration' => [
+                    'es' => 'Libre',
+                    'en' => 'Flexible',
+                ],
+                'start_hours_text' => [
+                    'es' => 'Acceso libre',
+                    'en' => 'Open access',
+                ],
+                'includes' => [
+                    'es' => [
+                        'Acceso gratuito',
+                        'Zona natural de río',
+                        'Ambiente local',
+                    ],
+                    'en' => [
+                        'Free access',
+                        'Natural river area',
+                        'Local atmosphere',
+                    ],
+                ],
+                'ideal_for' => [
+                    'es' => [
+                        'Familias',
+                        'Viajeros con presupuesto limitado',
+                        'Grupos de amigos',
+                    ],
+                    'en' => [
+                        'Families',
+                        'Budget travelers',
+                        'Groups of friends',
+                    ],
+                ],
+                'location_text' => 'La Fortuna, San Carlos',
+                'distance_km' => 4,
+                'distance_miles' => 2.5,
+                'map_embed_url' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1961.7663149585128!2d-84.64486245557248!3d10.45861250000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8fa00d64b670b961%3A0x176ede279f5f79cf!2sParqueo%20Hijos%20del%20agua%2C%20Poza%20El%20Salto!5e0!3m2!1ses-419!2scr!4v1771648312967!5m2!1ses-419!2scr',
+                'map_directions_url' => null,
+            ],
 
         ];
 

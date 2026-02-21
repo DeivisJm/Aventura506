@@ -27,6 +27,7 @@ class TourSeeder extends Seeder
                 'distance_km' => 5,
                 'distance_miles' => 3.1,
                 'location_text' => 'La Fortuna, San Carlos',
+                'map_embed_url' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3923.0068449410373!2d-84.69038492631479!3d10.50012598963233!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8fa00be24fb9cb8d%3A0x88ad54fe810999!2sNatura%20Eco%20Park%20-%20Costa%20Rica!5e0!3m2!1ses-419!2scr!4v1771645171910!5m2!1ses-419!2scr',
                 'image' => 'images/tours/natura-plus.jpg',
             ],
             [
@@ -46,6 +47,7 @@ class TourSeeder extends Seeder
                 'distance_km' => 5,
                 'distance_miles' => 3.1,
                 'location_text' => 'La Fortuna, San Carlos',
+                'map_embed_url' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3923.0068449410373!2d-84.69038492631479!3d10.50012598963233!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8fa00be24fb9cb8d%3A0x88ad54fe810999!2sNatura%20Eco%20Park%20-%20Costa%20Rica!5e0!3m2!1ses-419!2scr!4v1771645171910!5m2!1ses-419!2scr',
                 'image' => 'images/tours/caminata-nocturna.jpg',
             ],
             [
@@ -64,6 +66,7 @@ class TourSeeder extends Seeder
                 'distance_km' => 5,
                 'distance_miles' => 3.1,
                 'location_text' => 'La Fortuna, San Carlos',
+                'map_embed_url' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3923.0068449410373!2d-84.69038492631479!3d10.50012598963233!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8fa00be24fb9cb8d%3A0x88ad54fe810999!2sNatura%20Eco%20Park%20-%20Costa%20Rica!5e0!3m2!1ses-419!2scr!4v1771645171910!5m2!1ses-419!2scr',
                 'image' => 'images/tours/admision-natura.JPG',
             ],
             [
@@ -82,6 +85,7 @@ class TourSeeder extends Seeder
                 'distance_km' => 5,
                 'distance_miles' => 3.1,
                 'location_text' => 'Natura Eco Park, La Fortuna',
+                'map_embed_url' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3923.0068449410373!2d-84.69038492631479!3d10.50012598963233!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8fa00be24fb9cb8d%3A0x88ad54fe810999!2sNatura%20Eco%20Park%20-%20Costa%20Rica!5e0!3m2!1ses-419!2scr!4v1771645171910!5m2!1ses-419!2scr',
                 'image' => 'images/tours/photography-tour.jpg',
             ],
             [
@@ -100,19 +104,39 @@ class TourSeeder extends Seeder
                 'distance_km' => 3,
                 'distance_miles' => 1.8,
                 'location_text' => 'Natura Eco Park, La Fortuna',
+                'map_embed_url' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3923.0068449410373!2d-84.69038492631479!3d10.50012598963233!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8fa00be24fb9cb8d%3A0x88ad54fe810999!2sNatura%20Eco%20Park%20-%20Costa%20Rica!5e0!3m2!1ses-419!2scr!4v1771645171910!5m2!1ses-419!2scr',
                 'image' => 'images/tours/bird-watching-tour.jpg',
+            ],
+            [
+                'company_name' => 'Natural Public Spot',
+                'name' => [
+                    'es' => 'Poza El Salto',
+                    'en' => 'El Salto River Pool',
+                ],
+                'slug' => 'poza-el-salto',
+                'category' => 'water',
+                'description' => [
+                    'es' => 'Un espacio natural gratuito ideal para refrescarse y disfrutar del río en La Fortuna.',
+                    'en' => 'A free natural river spot perfect for cooling off and enjoying nature in La Fortuna.',
+                ],
+                'price' => 0,
+                'distance_km' => 4,
+                'distance_miles' => 2.5,
+                'location_text' => 'La Fortuna, San Carlos',
+                'map_embed_url' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1961.7663149585128!2d-84.64486245557248!3d10.45861250000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8fa00d64b670b961%3A0x176ede279f5f79cf!2sParqueo%20Hijos%20del%20agua%2C%20Poza%20El%20Salto!5e0!3m2!1ses-419!2scr!4v1771648312967!5m2!1ses-419!2scr',
+                'image' => 'images/tours/poza-el-salto.jpg',
             ],
 
         ];
 
         foreach ($tours as $tour) {
+
+            $tour['map_directions_url'] = null;
+            $tour['is_active'] = true;
+
             Tour::updateOrCreate(
                 ['slug' => $tour['slug']],
-                array_merge($tour, [
-                    'map_embed_url' => null,
-                    'map_directions_url' => null,
-                    'is_active' => true,
-                ])
+                $tour
             );
         }
     }

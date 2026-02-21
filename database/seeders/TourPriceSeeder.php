@@ -102,6 +102,14 @@ class TourPriceSeeder extends Seeder
                     'is_free' => true
                 ],
             ],
+            'poza-el-salto' => [
+                [
+                    'type' => ['es' => 'Entrada General', 'en' => 'General Access'],
+                    'price' => 0,
+                    'age_range' => 'Todas las edades / All ages',
+                    'is_free' => true
+                ],
+            ],
 
         ];
 
