@@ -319,3 +319,22 @@
     pointer-events: none;
     cursor: not-allowed;
 }
+
+/* ===============================
+   VALIDATION STYLES
+=============================== */
+
+.booking-input.error {
+    border: 1px solid #ef4444 !important;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+}
+
+.error-message {
+    color: #ef4444;
+    font-size: 13px;
+    margin-top: 6px;
+}
+
+.error-message.hidden {
+    display: none;
+}

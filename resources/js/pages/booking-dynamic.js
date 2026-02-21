@@ -12,12 +12,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const totalPriceEl = document.getElementById('totalPrice');
     const hiddenTotal = document.getElementById('hiddenTotal');
 
+    //total price global variable
     let total = 0;
+    totalPriceEl.textContent = "$0.00";
+    hiddenTotal.value = 0;
 
-    /* ===============================
-       PRICE RENDER
-    =============================== */
-
+    /* PRICE RENDER */
     prices.forEach(price => {
 
         const wrapper = document.createElement('div');

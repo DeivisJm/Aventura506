@@ -47,8 +47,10 @@
             <div class="form-side p-12">
 
                 <div id="selectedDateDisplay"
-                    class="text-lg font-semibold mb-6">
+                    class="text-lg font-semibold mb-2">
                 </div>
+
+                <div id="dateError" class="error-message hidden mb-4"></div>
 
                 <div id="timeSection" class="hidden mb-8">
 
@@ -66,61 +68,79 @@
                         {{ __('booking.view_more') }}
                     </button>
 
+                    <div id="timeError" class="error-message hidden mt-3"></div>
+
                 </div>
 
                 {{-- ================= FORM ================= --}}
                 <form method="POST"
                     action="{{ route('booking.store') }}"
-                    class="space-y-6">
+                    class="space-y-6"
+                    id="bookingForm"
+                    novalidate>
 
                     @csrf
 
                     <input type="hidden" name="tour_id" value="{{ $tour->id }}">
 
-                    <div>
+                    {{-- NAME --}}
+                    <div class="form-group">
                         <label class="booking-label">
                             {{ __('booking.name') }}
                         </label>
                         <input type="text"
                             name="name"
-                            required
-                            class="booking-input w-full">
+                            class="booking-input w-full"
+                            data-required="true">
+                        <div class="error-message hidden"></div>
                     </div>
 
-                    <div>
+                    {{-- EMAIL --}}
+                    <div class="form-group">
                         <label class="booking-label">
                             {{ __('booking.email') }}
                         </label>
                         <input type="email"
                             name="email"
-                            required
-                            class="booking-input w-full">
+                            class="booking-input w-full"
+                            data-required="true">
+                        <div class="error-message hidden"></div>
                     </div>
 
-                    <div>
+                    {{-- PHONE --}}
+                    <div class="form-group">
                         <label class="booking-label">
                             {{ __('booking.phone') }}
                         </label>
                         <input type="tel"
                             name="phone"
                             id="phoneInput"
-                            required
-                            class="booking-input w-full">
+                            class="booking-input w-full"
+                            data-required="true">
+                        <div class="error-message hidden"></div>
                     </div>
 
+                    {{-- PERSONS (DINÁMICO) --}}
                     <div id="dynamicPriceOptions" class="space-y-4"></div>
 
-                    <div>
+                    <div id="personsError"
+                        class="error-message hidden mt-2"></div>
+
+                    {{-- NATIONALITY --}}
+                    <div class="form-group">
                         <label class="booking-label">
                             {{ __('booking.nationality') }}
                         </label>
                         <input type="text"
                             name="nationality"
                             id="nationalityInput"
-                            required
-                            class="booking-input w-full">
+                            class="booking-input w-full"
+                            data-required="true">
+                        <div class="error-message hidden"></div>
                     </div>
-                    <div>
+
+                    {{-- NOTES --}}
+                    <div class="form-group">
                         <label class="booking-label">
                             {{ __('booking.additional_notes') }}
                         </label>
@@ -128,21 +148,22 @@
                             name="notes"
                             rows="3"
                             class="booking-input w-full"></textarea>
-
                     </div>
 
-
+                    {{-- TOTAL --}}
                     <div class="booking-total">
-                        <span>Total:</span>
+                        <span>{{ __('booking.total') ?? 'Total' }}:</span>
                         <span id="totalPrice">
                             ${{ number_format($tour->prices->first()->price ?? 0, 2) }}
                         </span>
                     </div>
 
+                    {{-- HIDDEN FIELDS --}}
                     <input type="hidden" name="date" id="hiddenDate">
                     <input type="hidden" name="time" id="hiddenTime">
                     <input type="hidden" name="total" id="hiddenTotal">
 
+                    {{-- SUBMIT --}}
                     <button type="submit"
                         class="booking-confirm w-full">
                         {{ __('booking.confirm') }}

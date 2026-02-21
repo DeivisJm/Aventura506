@@ -17,18 +17,22 @@
 
                     {{-- HEADER --}}
                     <tr>
-                        <td style="background:linear-gradient(135deg,#0f172a,#1e293b); padding:30px; text-align:center; color:#ffffff;">
+                        <td style="background:#0f172a; padding:30px; text-align:center;">
 
-                            <img src="cid:logo" alt="Aventura506 Logo" width="80"
-                                style="display:block; margin:0 auto 15px auto;">
+                            <div style="color:#ffffff !important;">
 
-                            <h1 style="margin:0; font-size:22px; font-weight:bold;">
-                                Aventura506
-                            </h1>
+                                <img src="cid:logo" alt="Aventura506 Logo" width="80"
+                                    style="display:block; margin:0 auto 15px auto;">
 
-                            <p style="margin:8px 0 0 0; font-size:14px; opacity:0.8;">
-                                {{ __('booking.email_new_booking') }}
-                            </p>
+                                <h1 style="margin:0; font-size:22px; font-weight:bold; color:#ffffff !important;">
+                                    Aventura506
+                                </h1>
+
+                                <p style="margin:8px 0 0 0; font-size:14px; opacity:0.9; color:#ffffff !important;">
+                                    {{ __('booking.email_new_booking') }}
+                                </p>
+
+                            </div>
 
                         </td>
                     </tr>

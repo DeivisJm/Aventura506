@@ -1,58 +1,41 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    /* LOCALE*/
-    const locale = window.appLocale === 'es'
-        ? 'es-CR'
-        : (window.appLocale === 'en' ? 'en-US' : 'en-US');
+    /* ================= LOCALE ================= */
+    const locale = window.appLocale === 'es' ? 'es-CR' : 'en-US';
 
-    /*ELEMENTS*/
+    /* ================= ELEMENTS ================= */
     const modal = document.getElementById('bookingModal');
     const openBtn = document.getElementById('openBooking');
     const closeBtn = document.getElementById('closeBooking');
 
     const calendarGrid = document.getElementById('calendarGrid');
     const currentMonthEl = document.getElementById('currentMonth');
-    const prevMonthBtn = document.getElementById('prevMonth');
-    const nextMonthBtn = document.getElementById('nextMonth');
     const daysHeader = document.getElementById('daysHeader');
 
     const personsInput = document.getElementById('personsInput');
     const totalPrice = document.getElementById('totalPrice');
-    const basePrice = parseFloat(
-        document.getElementById('basePrice')?.textContent.replace('$', '')
-    ) || 30;
-    // --------------------------------------------------
-    // Initialize total on page load (IMPORTANT FIX)
-    // --------------------------------------------------
-    if (personsInput) {
-
-        const initialPersons = parseInt(personsInput.value) || 1;
-        const initialTotal = initialPersons * basePrice;
-
-        totalPrice.textContent = "$" + initialTotal;
-
-        const hiddenTotal = document.getElementById('hiddenTotal');
-        if (hiddenTotal) {
-            hiddenTotal.value = initialTotal;
-        }
-    }
+    const hiddenTotal = document.getElementById('hiddenTotal');
 
     const timeSection = document.getElementById('timeSection');
     const selectedDateDisplay = document.getElementById('selectedDateDisplay');
+    const form = document.querySelector('#bookingModal form');
 
-    /* =====================================================
-       DATE SETUP
-    ===================================================== */
+    const hiddenDate = document.getElementById('hiddenDate');
+    const hiddenTime = document.getElementById('hiddenTime');
 
-    const now = new Date();
-    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const basePrice = parseFloat(
+        document.getElementById('basePrice')?.textContent.replace('$', '')
+    ) || 30;
 
-    let currentMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-    window.selectedDate = null;
-    /* =====================================================
-       MODAL OPEN / CLOSE
-    ===================================================== */
+    /* ================= INITIAL TOTAL ================= */
+    if (personsInput && hiddenTotal) {
+        const initialPersons = parseInt(personsInput.value) || 0;
+        const initialTotal = initialPersons * basePrice;
+        totalPrice.textContent = "$" + initialTotal;
+        hiddenTotal.value = initialTotal;
+    }
 
+    /* ================= MODAL ================= */
     openBtn?.addEventListener('click', () => {
         modal.classList.add('active');
         document.body.classList.add('overflow-hidden');
@@ -66,51 +49,49 @@ document.addEventListener('DOMContentLoaded', () => {
     closeBtn?.addEventListener('click', closeModal);
 
     modal?.addEventListener('click', (e) => {
-        if (e.target === modal) closeModal();
+        if (e.target.classList.contains('booking-overlay')) {
+            closeModal();
+        }
     });
 
-    /*DAYS HEADER (Localized) */
+    /* ================= NAME ONLY LETTERS ================= */
+    const nameInput = document.querySelector('input[name="name"]');
+    nameInput?.addEventListener('input', () => {
+        nameInput.value = nameInput.value.replace(/[^a-zA-ZÀ-ÿ\s]/g, '');
+    });
+
+    /* ================= CALENDAR ================= */
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    let currentMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    window.selectedDate = null;
+
     function renderDaysHeader() {
-
         daysHeader.innerHTML = "";
-
         const baseDate = new Date(2023, 0, 1);
 
         for (let i = 0; i < 7; i++) {
-
             const date = new Date(baseDate);
             date.setDate(baseDate.getDate() + i);
-
             const span = document.createElement('span');
-
-            span.textContent =
-                date.toLocaleDateString(locale, { weekday: 'short' });
-
+            span.textContent = date.toLocaleDateString(locale, { weekday: 'short' });
             daysHeader.appendChild(span);
         }
     }
 
-
-    /* CALENDAR*/
     function renderCalendar() {
 
         calendarGrid.innerHTML = "";
 
-        /* ===== Month + Year (Localized & Capitalized) ===== */
         currentMonthEl.textContent =
-            currentMonth
-                .toLocaleString(locale, {
-                    month: 'long',
-                    year: 'numeric'
-                })
-                .replace(/^./, c => c.toUpperCase());
+            currentMonth.toLocaleString(locale, {
+                month: 'long',
+                year: 'numeric'
+            }).replace(/^./, c => c.toUpperCase());
 
         const year = currentMonth.getFullYear();
         const month = currentMonth.getMonth();
-
-        let firstDay = new Date(year, month, 1).getDay();
-        if (firstDay < 0) firstDay = 0;
-
+        const firstDay = new Date(year, month, 1).getDay();
         const daysInMonth = new Date(year, month + 1, 0).getDate();
 
         for (let i = 0; i < firstDay; i++) {
@@ -123,16 +104,17 @@ document.addEventListener('DOMContentLoaded', () => {
             const btn = document.createElement('button');
             btn.textContent = day;
 
-            /* Disable past days */
             if (date < today) {
                 btn.disabled = true;
                 btn.style.opacity = 0.3;
-                btn.style.pointerEvents = "none";
             }
 
             btn.addEventListener('click', () => {
 
-                window.selectedDate = date; // ✅ CORRECTO
+                window.selectedDate = date;
+
+                hiddenDate.value =
+                    `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
 
                 document.querySelectorAll('#calendarGrid button')
                     .forEach(b => b.classList.remove('active'));
@@ -140,55 +122,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 btn.classList.add('active');
 
                 selectedDateDisplay.textContent =
-                    window.selectedDate
-                        .toLocaleDateString(locale, {
-                            weekday: 'long',
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric'
-                        })
-                        .replace(/^./, c => c.toUpperCase());
+                    date.toLocaleDateString(locale, {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    }).replace(/^./, c => c.toUpperCase());
 
                 timeSection.classList.remove('hidden');
-                setTimeout(() => {
-                    timeSection.style.opacity = 1;
-                }, 50);
 
-                window.validateTimes();
+                validateTimes();
+                clearError('dateError');
             });
 
             calendarGrid.appendChild(btn);
         }
     }
 
-    /*BLOCK PREVIOUS MONTHS */
-    prevMonthBtn?.addEventListener('click', () => {
-
-        const previousMonth = new Date(currentMonth);
-        previousMonth.setMonth(previousMonth.getMonth() - 1);
-
-        if (
-            previousMonth.getFullYear() < now.getFullYear() ||
-            (
-                previousMonth.getFullYear() === now.getFullYear() &&
-                previousMonth.getMonth() < now.getMonth()
-            )
-        ) return;
-
-        currentMonth = previousMonth;
-        renderCalendar();
-    });
-
-    nextMonthBtn?.addEventListener('click', () => {
-        currentMonth.setMonth(currentMonth.getMonth() + 1);
-        renderCalendar();
-    });
-
     renderDaysHeader();
     renderCalendar();
 
-    /*TIME VALIDATION*/
-    window.validateTimes = function () {
+    /* ================= TIME VALIDATION ================= */
+    function validateTimes() {
 
         if (!window.selectedDate) return;
 
@@ -197,10 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         timeButtons.forEach(btn => {
 
-            if (!btn.dataset.time) return;
-
             const [h, m] = btn.dataset.time.split(':').map(Number);
-
             const selectedDateTime = new Date(window.selectedDate);
             selectedDateTime.setHours(h, m, 0, 0);
 
@@ -209,13 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.selectedDate.getMonth() === now.getMonth() &&
                 window.selectedDate.getDate() === now.getDate();
 
-            if (!isToday) {
-                btn.disabled = false;
-                btn.classList.remove('time-disabled');
-                return;
-            }
-
-            if (selectedDateTime <= now) {
+            if (isToday && selectedDateTime <= now) {
                 btn.disabled = true;
                 btn.classList.remove('active');
                 btn.classList.add('time-disabled');
@@ -224,93 +170,204 @@ document.addEventListener('DOMContentLoaded', () => {
                 btn.classList.remove('time-disabled');
             }
         });
-    };
+    }
 
+    /* ================= TIME SELECT ================= */
     document.addEventListener('click', function (e) {
 
         if (!e.target.classList.contains('booking-time')) return;
 
         const btn = e.target;
-
-        if (!window.selectedDate) return;
-        if (btn.disabled) return;
+        if (!window.selectedDate || btn.disabled) return;
 
         document.querySelectorAll('.booking-time')
             .forEach(b => b.classList.remove('active'));
 
         btn.classList.add('active');
 
-        document.getElementById('hiddenTime').value = btn.dataset.time;
-        const year = window.selectedDate.getFullYear();
-        const month = String(window.selectedDate.getMonth() + 1).padStart(2, '0');
-        const day = String(window.selectedDate.getDate()).padStart(2, '0');
-
-        document.getElementById('hiddenDate').value = `${year}-${month}-${day}`;
+        hiddenTime.value = btn.dataset.time;
+        clearError('timeError');
     });
 
-
-
-    /* PRICE CALCULATION*/
+    /* ================= PRICE ================= */
     personsInput?.addEventListener('input', () => {
 
-        let persons = Math.max(1, parseInt(personsInput.value) || 1);
+        let persons = Math.max(0, parseInt(personsInput.value) || 0);
         personsInput.value = persons;
 
-        totalPrice.textContent =
-            "$" + (persons * basePrice);
+        const total = persons * basePrice;
+        totalPrice.textContent = "$" + total;
+        hiddenTotal.value = total;
 
-        document.getElementById('hiddenTotal').value =
-            persons * basePrice;
-
+        clearError('personsError');
     });
 
-    /* PHONE INPUT (intl-tel-input) */
+    /* ================= PHONE ================= */
     const phoneInput = document.querySelector("#phoneInput");
+    let iti = null;
 
     if (phoneInput) {
-
-        window.intlTelInput(phoneInput, {
+        iti = window.intlTelInput(phoneInput, {
             initialCountry: window.appLocale === 'es' ? "cr" : "us",
             preferredCountries: ["cr", "us", "ca"],
             separateDialCode: true,
+            nationalMode: false,
+            autoPlaceholder: "aggressive",
             utilsScript:
                 "https://cdn.jsdelivr.net/npm/intl-tel-input@23.0.12/build/js/utils.js"
         });
+
+        phoneInput.addEventListener('input', () => {
+            phoneInput.value = phoneInput.value.replace(/[^0-9]/g, '');
+        });
     }
 
-    /* ================= NATIONALITY ================= */
+    /* ================= NATIONALITY WITH FLAG ================= */
     const nationalityInput = document.querySelector("#nationalityInput");
 
     if (nationalityInput && typeof $.fn.countrySelect !== "undefined") {
-
         $(nationalityInput).countrySelect({
             defaultCountry: window.appLocale === 'es' ? "cr" : "us",
             preferredCountries: ["cr", "us", "ca"],
             responsiveDropdown: true
         });
-
     }
-});
 
-document.addEventListener('DOMContentLoaded', function () {
-
-    const form = document.querySelector('#bookingModal form');
-
-    if (!form) return;
-
-    form.addEventListener('submit', function (e) {
-
-        const hiddenDate = document.getElementById('hiddenDate');
-        const hiddenTime = document.getElementById('hiddenTime');
-
-        if (!hiddenDate.value || !hiddenTime.value) {
-
-            e.preventDefault();
-            alert("Please select date and time.");
-            return;
-        }
-
+    /* ================= AUTO CLEAR ================= */
+    form?.querySelectorAll('.booking-input').forEach(input => {
+        input.addEventListener('input', () => {
+            input.classList.remove('error');
+            const errorDiv = input.nextElementSibling;
+            if (errorDiv) {
+                errorDiv.textContent = "";
+                errorDiv.classList.add('hidden');
+            }
+        });
     });
 
-});
+    function clearError(id) {
+        const el = document.getElementById(id);
+        if (el) {
+            el.textContent = "";
+            el.classList.add('hidden');
+        }
+    }
 
+    form?.addEventListener('submit', function (e) {
+
+        e.preventDefault(); // 🔥 SIEMPRE bloquea primero
+
+        let hasError = false;
+        let firstError = null;
+
+        const dateError = document.getElementById('dateError');
+        const timeError = document.getElementById('timeError');
+        const personsError = document.getElementById('personsError');
+
+        // Limpiar errores previos
+        document.querySelectorAll('.error-message').forEach(el => {
+            el.textContent = "";
+            el.classList.add('hidden');
+        });
+
+        form.querySelectorAll('.booking-input').forEach(input => {
+            input.classList.remove('error');
+        });
+
+        /* ========= VALIDAR FECHA ========= */
+        if (!hiddenDate.value) {
+            hasError = true;
+            if (!firstError) firstError = selectedDateDisplay;
+
+            dateError.textContent = window.appLocale === 'es'
+                ? "Debes seleccionar una fecha."
+                : "You must select a date.";
+
+            dateError.classList.remove('hidden');
+        }
+
+        /* ========= VALIDAR HORA ========= */
+        if (!hiddenTime.value) {
+            hasError = true;
+            if (!firstError) firstError = timeSection;
+
+            timeError.textContent = window.appLocale === 'es'
+                ? "Debes seleccionar un horario."
+                : "You must select a time.";
+
+            timeError.classList.remove('hidden');
+        }
+
+        /* ========= VALIDAR PERSONAS ========= */
+        if (parseFloat(hiddenTotal.value || 0) <= 0) {
+            hasError = true;
+            if (!firstError) firstError = document.getElementById('dynamicPriceOptions');
+
+            personsError.textContent = window.appLocale === 'es'
+                ? "Debes seleccionar al menos una persona."
+                : "You must select at least one person.";
+
+            personsError.classList.remove('hidden');
+        }
+
+        /* ========= VALIDAR CAMPOS ========= */
+        const requiredFields = ['name', 'email', 'phone', 'nationality'];
+
+        requiredFields.forEach(fieldName => {
+
+            const input = form.querySelector(`[name="${fieldName}"]`);
+
+            if (!input || !input.value.trim()) {
+
+                hasError = true;
+                if (!firstError) firstError = input;
+
+                input.classList.add('error');
+
+                const errorDiv = input.nextElementSibling;
+
+                if (errorDiv) {
+                    errorDiv.textContent = window.appLocale === 'es'
+                        ? "Este campo es obligatorio."
+                        : "This field is required.";
+
+                    errorDiv.classList.remove('hidden');
+                }
+            }
+        });
+
+        /* ========= SI HAY ERROR → SCROLL ========= */
+        if (hasError) {
+
+            const scrollContainer =
+                document.querySelector('.form-side') ||
+                document.querySelector('.booking-container');
+
+            if (firstError && scrollContainer) {
+
+                const containerRect = scrollContainer.getBoundingClientRect();
+                const errorRect = firstError.getBoundingClientRect();
+
+                const offset =
+                    errorRect.top
+                    - containerRect.top
+                    + scrollContainer.scrollTop
+                    - 120; // espacio superior visual
+
+                scrollContainer.scrollTo({
+                    top: offset,
+                    behavior: 'smooth'
+                });
+
+                setTimeout(() => {
+                    firstError.focus({ preventScroll: true });
+                }, 400);
+            }
+
+            return; // NO ENVÍA
+        }
+
+        // SOLO AQUÍ SE ENVÍA
+        form.submit();
+    });
+});
