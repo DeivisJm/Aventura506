@@ -199,6 +199,51 @@ Photograph crocodiles, tree frogs, snakes, butterflies, delicate orchids, and tr
                 'distance_km' => 5,
                 'distance_miles' => 3.1,
             ],
+            'bird-watching-tour' => [
+                'full_description' => [
+                    'es' => 'El Parque Ecológico Natura abrirá exclusivamente para ti desde las 6:00 a.m., el momento ideal para la observación de aves. Acompañado por un guía naturalista profesional, recorrerás senderos silenciosos antes de que el parque abra al público, disfrutando de un ambiente privado perfecto para escuchar y fotografiar aves tropicales en su hábitat natural.
+
+Una experiencia diseñada para amantes de la naturaleza, fotógrafos y madrugadores que buscan vivir la selva en su momento más activo.',
+                    'en' => 'Natura Eco Park will open exclusively for you at 6:00 a.m., the ideal time for bird watching. Accompanied by a professional naturalist guide, you will walk quiet trails before the park opens to the public, enjoying a private setting perfect for listening to and photographing tropical birds in their natural habitat.
+
+An experience designed for nature lovers, photographers, and early risers who want to witness the rainforest at its most active moment.',
+                ],
+                'duration' => [
+                    'es' => '3 horas',
+                    'en' => '3 hours',
+                ],
+                'start_hours_text' => [
+                    'es' => '6:00 a.m.',
+                    'en' => '6:00 a.m.',
+                ],
+                'includes' => [
+                    'es' => [
+                        'Guía naturalista certificado',
+                        'Entrada exclusiva temprana al parque',
+                        'Senderos ecológicos',
+                    ],
+                    'en' => [
+                        'Certified naturalist guide',
+                        'Exclusive early park access',
+                        'Ecological walking trails',
+                    ],
+                ],
+                'ideal_for' => [
+                    'es' => [
+                        'Observadores de aves',
+                        'Fotógrafos',
+                        'Amantes de la naturaleza',
+                    ],
+                    'en' => [
+                        'Bird watchers',
+                        'Photographers',
+                        'Nature lovers',
+                    ],
+                ],
+                'location_text' => 'Natura Eco Park, La Fortuna',
+                'distance_km' => 3,
+                'distance_miles' => 1.8,
+            ],
 
         ];
 

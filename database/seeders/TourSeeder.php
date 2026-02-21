@@ -84,7 +84,24 @@ class TourSeeder extends Seeder
                 'location_text' => 'Natura Eco Park, La Fortuna',
                 'image' => 'images/tours/photography-tour.jpg',
             ],
-
+            [
+                'company_name' => 'Natura Eco Park Costa Rica',
+                'name' => [
+                    'es' => 'Observación de Aves',
+                    'en' => 'Bird Watching Tour',
+                ],
+                'slug' => 'bird-watching-tour',
+                'category' => 'nature',
+                'description' => [
+                    'es' => 'Descubre aves exóticas al amanecer en una experiencia privada en la selva tropical.',
+                    'en' => 'Discover exotic birds at sunrise in a private rainforest experience.',
+                ],
+                'price' => 62.99,
+                'distance_km' => 3,
+                'distance_miles' => 1.8,
+                'location_text' => 'Natura Eco Park, La Fortuna',
+                'image' => 'images/tours/bird-watching-tour.jpg',
+            ],
 
         ];
 

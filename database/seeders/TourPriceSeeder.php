@@ -82,6 +82,26 @@ class TourPriceSeeder extends Seeder
                     'is_free' => false
                 ],
             ],
+            'bird-watching-tour' => [
+                [
+                    'type' => ['es' => 'Adultos', 'en' => 'Adults'],
+                    'price' => 62.99,
+                    'age_range' => '12+',
+                    'is_free' => false
+                ],
+                [
+                    'type' => ['es' => 'Niño', 'en' => 'Child'],
+                    'price' => 37.99,
+                    'age_range' => '5-11',
+                    'is_free' => false
+                ],
+                [
+                    'type' => ['es' => 'Niño pequeño', 'en' => 'Young Child'],
+                    'price' => 0,
+                    'age_range' => '0-4',
+                    'is_free' => true
+                ],
+            ],
 
         ];
 

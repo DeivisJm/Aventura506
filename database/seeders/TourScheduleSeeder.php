@@ -38,6 +38,9 @@ class TourScheduleSeeder extends Seeder
                 '09:00',
                 '15:00',
             ],
+            'bird-watching-tour' => [
+                '06:00',
+            ],
 
         ];
 
