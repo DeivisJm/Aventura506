@@ -3,58 +3,93 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Tour extends Model
 {
-    // Campos asignables
     protected $fillable = [
-        'company_name',
+        'company_id',
+        'category_id',
         'name',
         'slug',
-        'category',
         'description',
-        'price',
-        'distance_km',
-        'distance_miles',
-        'location_text',
         'image',
-        'map_embed_url',
-        'map_directions_url',
-        'short_description',
         'is_active'
     ];
 
-    // 🔥 Cast JSON correctamente para permitir insertar arrays desde seeders
     protected $casts = [
         'name' => 'array',
         'description' => 'array',
-        'short_description' => 'array',
+        'is_active' => 'boolean'
     ];
 
-    // 🔥 Helper profesional para obtener campo traducido
+    /*
+    |--------------------------------------------------------------------------
+    | Relaciones
+    |--------------------------------------------------------------------------
+    */
+
+    public function company()
+    {
+        return $this->belongsTo(\App\Models\Company::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(\App\Models\Category::class);
+    }
+
+    public function detail()
+    {
+        return $this->hasOne(\App\Models\TourDetail::class);
+    }
+
+    public function prices(): HasMany
+    {
+        return $this->hasMany(TourPrice::class);
+    }
+
+    public function schedules(): HasMany
+    {
+        return $this->hasMany(TourSchedule::class);
+    }
+
+    public function bookings(): HasMany
+    {
+        return $this->hasMany(Booking::class);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Helper multilenguaje
+    |--------------------------------------------------------------------------
+    */
+
     public function getTranslated($field)
     {
         $value = $this->$field;
 
         if (is_array($value)) {
-            return $value[app()->getLocale()] ?? $value['es'] ?? reset($value);
+            return $value[app()->getLocale()]
+                ?? $value['es']
+                ?? reset($value);
         }
 
         return $value;
     }
-
-    public function detail()
+    // Precio adulto automático (funciona en ES y EN)
+    public function getAdultPriceAttribute()
     {
-        return $this->hasOne(TourDetail::class);
-    }
+        return $this->prices
+            ->first(function ($price) {
 
-    public function prices()
-    {
-        return $this->hasMany(TourPrice::class);
-    }
+                $type = is_array($price->type)
+                    ? strtolower(implode(' ', $price->type)) // junta es + en
+                    : strtolower($price->type);
 
-    public function schedules()
-    {
-        return $this->hasMany(TourSchedule::class);
+                return str_contains($type, 'adult');
+            })?->price ?? null;
     }
 }

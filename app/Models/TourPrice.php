@@ -3,23 +3,31 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class TourPrice extends Model
 {
     protected $fillable = [
         'tour_id',
+        'type_key',
         'type',
+        'min_age',
+        'max_age',
         'price',
-        'age_range',
         'is_free'
     ];
 
     protected $casts = [
-        'type' => 'array', // 🔥 IMPORTANTE
+        'type' => 'array',
         'is_free' => 'boolean',
+        'price' => 'decimal:2'
     ];
 
-    // 🔥 Método explícito para JS y Blade
+    public function tour(): BelongsTo
+    {
+        return $this->belongsTo(Tour::class);
+    }
+
     public function getTranslatedType()
     {
         if (is_array($this->type)) {
@@ -29,10 +37,5 @@ class TourPrice extends Model
         }
 
         return $this->type;
-    }
-
-    public function tour()
-    {
-        return $this->belongsTo(Tour::class);
     }
 }

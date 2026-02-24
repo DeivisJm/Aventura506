@@ -45,9 +45,10 @@ class TourDetailSeeder extends Seeder
                         'Nature lovers',
                     ],
                 ],
-                'location_text' => 'La Fortuna',
-                'distance_km' => 5,
-                'distance_miles' => 3.1,
+
+                // 🔥 NUEVA ESTRUCTURA COMPATIBLE
+                'location_name' => 'La Fortuna',
+                
             ],
 
             'caminata-nocturna' => [
@@ -57,7 +58,6 @@ class TourDetailSeeder extends Seeder
 Acompañado por un guía naturalista experto, recorrerás senderos bajo la oscuridad en busca de perezosos, armadillos, aves nocturnas y múltiples especies de ranas.
 
 Exclusiva, envolvente e inolvidable. Una aventura diseñada para quienes desean vivir la selva en su estado más puro.',
-
                     'en' => 'As night falls, the rainforest reveals its most fascinating and mysterious side. This exclusive nighttime experience invites you to explore a private reserve where over 90% of its species come to life.
 
 Guided by an expert naturalist, you will walk through forest trails in search of sloths, armadillos, nocturnal birds, and multiple frog species.
@@ -97,153 +97,11 @@ Exclusive, immersive, and unforgettable. An adventure designed for those who wan
                         'Travelers seeking unique experiences',
                     ],
                 ],
-                'location_text' => 'Natura Eco Park, La Fortuna',
-                'distance_km' => 5,
-                'distance_miles' => 3.1,
-            ],
-            'entrada-admision-natura' => [
-                'full_description' => [
-                    'es' => 'Descubre Natura Eco Park a tu propio ritmo con un pase de día completo. Diseña tu propio itinerario y explora senderos naturales que conducen a impresionantes hábitats.
 
-Visita el estanque de tortugas, el lago de cocodrilos y el jardín de ranas más grande del país. Observa aves coloridas, mariposas vibrantes y delicadas orquídeas en esta experiencia biológica perfecta para todas las edades.
-
-Libertad total, naturaleza auténtica y una aventura ideal para compartir en familia.',
-
-                    'en' => 'Discover Natura Eco Park at your own pace with a full-day pass. Create your own itinerary and explore scenic trails leading to stunning wildlife habitats.
-
-Visit the turtle pond, crocodile lake, and the largest frog garden in the country. Spot colorful birds, vibrant butterflies, and delicate orchids in this biological adventure perfect for all ages.
-
-Total freedom, authentic nature, and the perfect experience to enjoy with family and friends.',
-                ],
-                'duration' => [
-                    'es' => 'Personalizado',
-                    'en' => 'Flexible Duration',
-                ],
-                'start_hours_text' => '8:30 a.m. – 4:30 p.m.',
-                'includes' => [
-                    'es' => [
-                        'Acceso completo al parque',
-                        'Mapa del parque',
-                        'Acceso a todos los hábitats',
-                    ],
-                    'en' => [
-                        'Full park access',
-                        'Park map',
-                        'Access to all habitats',
-                    ],
-                ],
-                'ideal_for' => [
-                    'es' => [
-                        'Familias',
-                        'Viajeros independientes',
-                        'Amantes de la naturaleza',
-                    ],
-                    'en' => [
-                        'Families',
-                        'Independent travelers',
-                        'Nature lovers',
-                    ],
-                ],
-                'location_text' => 'Natura Eco Park, La Fortuna',
-                'distance_km' => 5,
-                'distance_miles' => 3.1,
+                'location_name' => 'Natura Eco Park, La Fortuna',
+               
             ],
 
-            'photography-tour' => [
-                'full_description' => [
-                    'es' => 'Tome fotos dignas de un cuadro en la magnífica selva tropical de Costa Rica durante un recorrido fotográfico en el Parque Ecológico Natura en La Fortuna.
-
-Traiga su cámara y capture imágenes en el entorno natural virgen de esta reserva privada. Un guía naturalista lo llevará por senderos y diversos hábitats donde podrá observar especies exóticas listas para sus primeros planos.
-
-Fotografíe cocodrilos, ranas arborícolas, serpientes, mariposas y delicadas orquídeas en esta experiencia diseñada para amantes de la fotografía. Convierta sus mejores tomas en recuerdos inolvidables de su viaje.',
-
-                    'en' => 'Take frame-worthy photos of Costa Rica’s magnificent rainforest on a photography tour at Natura Eco Park in La Fortuna.
-
-Bring your camera and capture stunning shots in the untouched environment of this private reserve. A naturalist guide will lead you through jungle trails and diverse habitats where exotic wildlife is ready for close-ups.
-
-Photograph crocodiles, tree frogs, snakes, butterflies, delicate orchids, and tropical flora in this experience designed for photography lovers. Turn your best shots into unforgettable travel memories.',
-                ],
-                'duration' => [
-                    'es' => '3 horas',
-                    'en' => '3 hours',
-                ],
-                'start_hours_text' => [
-                    'es' => '9:00 a.m. y 3:00 p.m.',
-                    'en' => '9:00 a.m. and 3:00 p.m.',
-                ],
-                'includes' => [
-                    'es' => [
-                        'Guía naturalista certificado',
-                        'Acceso completo al parque',
-                        'Recorrido especializado en fotografía',
-                    ],
-                    'en' => [
-                        'Certified naturalist guide',
-                        'Full park access',
-                        'Specialized photography experience',
-                    ],
-                ],
-                'ideal_for' => [
-                    'es' => [
-                        'Fotógrafos',
-                        'Amantes de la naturaleza',
-                        'Viajeros que buscan experiencias únicas',
-                    ],
-                    'en' => [
-                        'Photographers',
-                        'Nature lovers',
-                        'Travelers seeking unique experiences',
-                    ],
-                ],
-                'location_text' => 'Natura Eco Park, La Fortuna',
-                'distance_km' => 5,
-                'distance_miles' => 3.1,
-            ],
-            'bird-watching-tour' => [
-                'full_description' => [
-                    'es' => 'El Parque Ecológico Natura abrirá exclusivamente para ti desde las 6:00 a.m., el momento ideal para la observación de aves. Acompañado por un guía naturalista profesional, recorrerás senderos silenciosos antes de que el parque abra al público, disfrutando de un ambiente privado perfecto para escuchar y fotografiar aves tropicales en su hábitat natural.
-
-Una experiencia diseñada para amantes de la naturaleza, fotógrafos y madrugadores que buscan vivir la selva en su momento más activo.',
-                    'en' => 'Natura Eco Park will open exclusively for you at 6:00 a.m., the ideal time for bird watching. Accompanied by a professional naturalist guide, you will walk quiet trails before the park opens to the public, enjoying a private setting perfect for listening to and photographing tropical birds in their natural habitat.
-
-An experience designed for nature lovers, photographers, and early risers who want to witness the rainforest at its most active moment.',
-                ],
-                'duration' => [
-                    'es' => '3 horas',
-                    'en' => '3 hours',
-                ],
-                'start_hours_text' => [
-                    'es' => '6:00 a.m.',
-                    'en' => '6:00 a.m.',
-                ],
-                'includes' => [
-                    'es' => [
-                        'Guía naturalista certificado',
-                        'Entrada exclusiva temprana al parque',
-                        'Senderos ecológicos',
-                    ],
-                    'en' => [
-                        'Certified naturalist guide',
-                        'Exclusive early park access',
-                        'Ecological walking trails',
-                    ],
-                ],
-                'ideal_for' => [
-                    'es' => [
-                        'Observadores de aves',
-                        'Fotógrafos',
-                        'Amantes de la naturaleza',
-                    ],
-                    'en' => [
-                        'Bird watchers',
-                        'Photographers',
-                        'Nature lovers',
-                    ],
-                ],
-                'location_text' => 'Natura Eco Park, La Fortuna',
-                'distance_km' => 3,
-                'distance_miles' => 1.8,
-            ],
             'poza-el-salto' => [
                 'full_description' => [
                     'es' => 'Poza El Salto es un punto natural gratuito ubicado en las afueras de La Fortuna. Perfecto para nadar, relajarse y disfrutar del entorno del río.
@@ -293,11 +151,9 @@ It is an ideal place to enjoy with friends and family at no cost.',
                         'Groups of friends',
                     ],
                 ],
-                'location_text' => 'La Fortuna, San Carlos',
-                'distance_km' => 4,
-                'distance_miles' => 2.5,
-                'map_embed_url' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1961.7663149585128!2d-84.64486245557248!3d10.45861250000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8fa00d64b670b961%3A0x176ede279f5f79cf!2sParqueo%20Hijos%20del%20agua%2C%20Poza%20El%20Salto!5e0!3m2!1ses-419!2scr!4v1771648312967!5m2!1ses-419!2scr',
-                'map_directions_url' => null,
+
+                'location_name' => 'La Fortuna, San Carlos',
+                
             ],
 
         ];

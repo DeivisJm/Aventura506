@@ -18,10 +18,11 @@
 
     <div class="relative z-10 text-center px-6 text-white max-w-4xl">
 
-        {{-- CATEGORY BADGE --}}
         <div class="inline-flex items-center gap-3 px-5 py-2 bg-white/10 backdrop-blur-md rounded-full text-sm uppercase tracking-widest border border-white/20">
             <span class="text-green-400">
-                {{ strtoupper(__('categories.' . $tour->category)) }}
+                @if($tour->category)
+                {{ strtoupper(__('categories.' . strtolower($tour->category->slug))) }}
+                @endif
             </span>
         </div>
 
@@ -33,7 +34,6 @@
             {{ $tour->getTranslated('description') }}
         </p>
 
-        {{-- QUICK META INFO --}}
         <div class="mt-10 flex flex-wrap justify-center gap-6 text-sm text-gray-200">
 
             @if($tour->detail?->duration)
@@ -49,7 +49,7 @@
             @endif
 
             <div class="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full backdrop-blur-md">
-                📍 {{ $tour->location_text }}
+                📍 {{ $tour->detail->location_name }}
             </div>
 
         </div>
@@ -58,12 +58,10 @@
 </section>
 @endif
 
-{{-- ================= MAIN CONTENT ================= --}}
 <section class="max-w-7xl mx-auto px-6 py-24">
 
     <div class="grid lg:grid-cols-3 gap-16">
 
-        {{-- LEFT CONTENT --}}
         <div class="lg:col-span-2 space-y-12">
 
             <div>
@@ -77,7 +75,6 @@
                 </p>
             </div>
 
-            {{-- INCLUDES --}}
             @if($tour->detail?->includes)
             <div class="bg-card p-8 rounded-2xl shadow-sm">
                 <h3 class="text-xl font-semibold mb-6">
@@ -97,7 +94,6 @@
             </div>
             @endif
 
-            {{-- IDEAL FOR --}}
             @if($tour->detail?->ideal_for)
             <div class="bg-card p-8 rounded-2xl shadow-sm">
                 <h3 class="text-xl font-semibold mb-6">
@@ -118,24 +114,24 @@
 
         </div>
 
-        {{-- RIGHT SIDEBAR --}}
         <div class="sticky top-32 h-fit bg-card p-10 rounded-3xl shadow-xl">
 
-            {{-- Section title --}}
             <h3 class="text-2xl font-bold mb-6 text-green-600">
                 {{ __('tour_detail.quick_info') }}
             </h3>
 
-            {{-- Compact highlight block --}}
             <div class="bg-white/40 dark:bg-white/5 rounded-2xl p-5 mb-8 border border-gray-200 dark:border-gray-700">
 
-                {{-- Main price emphasis --}}
                 <div class="text-sm uppercase tracking-widest text-muted mb-2">
                     {{ __('tour_detail.starting_from') ?? 'Starting from' }}
                 </div>
 
                 <div class="text-3xl font-extrabold text-green-600">
-                    ${{ number_format($tour->price, 2) }}
+                    @if($tour->adult_price)
+                    ${{ number_format($tour->adult_price, 2) }}
+                    @else
+                    {{ __('tour_detail.free') }}
+                    @endif
                 </div>
 
                 <div class="text-xs uppercase tracking-widest text-muted mt-1">
@@ -144,7 +140,6 @@
 
             </div>
 
-            {{-- Price breakdown --}}
             @if($tour->prices->count())
             <div class="mt-4 space-y-4 border-t border-gray-200 dark:border-gray-700 pt-6">
 
@@ -156,9 +151,13 @@
                             {{ $price->getTranslatedType() }}
                         </div>
 
-                        @if($price->age_range)
+                        @if($price->min_age !== null || $price->max_age !== null)
                         <div class="text-xs text-muted">
-                            {{ $price->age_range }}
+                            @if($price->min_age !== null && $price->max_age !== null)
+                            {{ $price->min_age }} - {{ $price->max_age }}
+                            @elseif($price->min_age !== null)
+                            {{ $price->min_age }}+
+                            @endif
                         </div>
                         @endif
                     </div>
@@ -177,8 +176,7 @@
             </div>
             @endif
 
-            {{-- Reservation button --}}
-            @if($tour->price > 0)
+            @if($tour->prices->where('is_free', false)->count())
             <button type="button"
                 id="openBooking"
                 class="btn-primary w-full mt-10 text-lg py-4 shadow-lg">
@@ -192,7 +190,8 @@
         </div>
 
 </section>
-@if($tour->map_embed_url)
+{{-- ================= MAP ================= --}}
+@if($tour->company?->map_embed_url)
 <section class="max-w-7xl mx-auto px-6 pb-32">
 
     <div class="mb-10 text-center">
@@ -200,16 +199,16 @@
             {{ __('tour_detail.how_to_get_title') }}
         </h2>
 
-        @if($tour->location_text)
+        @if($tour->detail?->location_name)
         <p class="text-muted">
-            {{ $tour->location_text }}
+            {{ $tour->detail->location_name }}
         </p>
         @endif
     </div>
 
     <div class="rounded-3xl overflow-hidden shadow-2xl">
         <iframe
-            src="{{ $tour->map_embed_url }}"
+            src="{{ $tour->company->map_embed_url }}"
             class="w-full h-[500px] border-0"
             loading="lazy"
             allowfullscreen>
@@ -219,14 +218,14 @@
 </section>
 @endif
 
-{{-- ================= DYNAMIC DATA FOR MODAL ================= --}}
 @php
 $pricesForJs = $tour->prices->map(function($price){
 return [
 "id" => $price->id,
 "type" => $price->getTranslatedType(),
 "price" => $price->price,
-"age_range" => $price->age_range,
+"min_age" => $price->min_age,
+"max_age" => $price->max_age,
 "is_free" => $price->is_free,
 ];
 });
@@ -234,7 +233,7 @@ return [
 $schedulesForJs = $tour->schedules->map(function($schedule){
 return [
 "id" => $schedule->id,
-"start_time" => $schedule->start_time->format('H:i'),
+"start_time" => \Carbon\Carbon::parse($schedule->start_time)->format('H:i'),
 ];
 });
 @endphp
@@ -245,19 +244,17 @@ return [
     class="hidden">
 </div>
 
-{{-- ================= TRANSLATIONS FOR JS ================= --}}
 <script>
     window.translations = {
         viewMore: "{{ __('booking.view_more') }}",
         viewLess: "{{ __('booking.view_less') }}"
     };
 </script>
-{{-- ================= APP LOCALE FOR JS ================= --}}
+
 <script>
     window.appLocale = "{{ app()->getLocale() }}";
 </script>
 
-{{-- ================= BOOKING MODAL ================= --}}
 <x-booking-modal :tour="$tour" />
 
 @endsection

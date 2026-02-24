@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class TourDetail extends Model
 {
@@ -13,11 +14,7 @@ class TourDetail extends Model
         'start_hours_text',
         'includes',
         'ideal_for',
-        'location_text',
-        'distance_km',
-        'distance_miles',
-        'map_embed_url',
-        'map_directions_url',
+        'location_name',
     ];
 
     protected $casts = [
@@ -28,20 +25,21 @@ class TourDetail extends Model
         'ideal_for' => 'array',
     ];
 
-    // Helper traducido
+    public function tour(): BelongsTo
+    {
+        return $this->belongsTo(Tour::class);
+    }
+
     public function getTranslated($field)
     {
         $value = $this->$field;
 
         if (is_array($value)) {
-            return $value[app()->getLocale()] ?? $value['es'] ?? reset($value);
+            return $value[app()->getLocale()]
+                ?? $value['es']
+                ?? reset($value);
         }
 
         return $value;
-    }
-
-    public function tour()
-    {
-        return $this->belongsTo(Tour::class);
     }
 }

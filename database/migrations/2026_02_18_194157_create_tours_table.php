@@ -12,24 +12,19 @@ return new class extends Migration
 
             $table->id();
 
-            // Basic tour information
-            $table->string('name');
+            $table->foreignId('company_id')
+                ->constrained()
+                ->cascadeOnDelete();
+
+            $table->foreignId('category_id')
+                ->constrained()
+                ->cascadeOnDelete();
+
+            $table->json('name');
             $table->string('slug')->unique();
-            $table->string('category');
+            $table->json('description')->nullable();
 
-            $table->text('description');
-            $table->decimal('price', 10, 2);
-
-            // Location data
-            $table->integer('distance_km')->nullable();
-            $table->integer('distance_miles')->nullable();
-            $table->text('location_text')->nullable();
-            $table->text('map_embed_url')->nullable();
-            $table->text('map_directions_url')->nullable();
-
-            // Image path
             $table->string('image')->nullable();
-
             $table->boolean('is_active')->default(true);
 
             $table->timestamps();

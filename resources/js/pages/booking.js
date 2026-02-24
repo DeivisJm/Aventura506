@@ -142,6 +142,20 @@ document.addEventListener('DOMContentLoaded', () => {
     renderDaysHeader();
     renderCalendar();
 
+    /* ================= MONTH NAVIGATION ================= */
+    const prevMonthBtn = document.getElementById('prevMonth');
+    const nextMonthBtn = document.getElementById('nextMonth');
+
+    prevMonthBtn?.addEventListener('click', () => {
+        currentMonth.setMonth(currentMonth.getMonth() - 1);
+        renderCalendar();
+    });
+
+    nextMonthBtn?.addEventListener('click', () => {
+        currentMonth.setMonth(currentMonth.getMonth() + 1);
+        renderCalendar();
+    });
+
     /* ================= TIME VALIDATION ================= */
     function validateTimes() {
 

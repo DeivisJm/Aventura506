@@ -12,26 +12,29 @@ return new class extends Migration
 
             $table->id();
 
-            // Relation to tour
             $table->foreignId('tour_id')
-                  ->constrained()
-                  ->onDelete('cascade');
+                ->constrained()
+                ->cascadeOnDelete();
 
-            // Booking data (guest booking allowed)
-            $table->string('name');
-            $table->string('email');
-            $table->string('phone');
-            $table->string('nationality');
-            $table->integer('persons');
+            $table->foreignId('user_id')
+                ->nullable()
+                ->constrained()
+                ->nullOnDelete();
+
+            $table->string('guest_name')->nullable();
+            $table->string('guest_email')->nullable();
+            $table->string('guest_phone')->nullable();
+            $table->string('guest_nationality')->nullable();
 
             $table->date('date');
-            $table->string('time');
+            $table->time('time');
 
             $table->decimal('total', 10, 2);
 
-            // Booking workflow status
             $table->enum('status', ['pending', 'confirmed', 'cancelled'])
-                  ->default('pending');
+                ->default('pending');
+
+            $table->text('notes')->nullable();
 
             $table->timestamps();
         });

@@ -10,30 +10,44 @@ class Booking extends Model
 {
     protected $fillable = [
         'tour_id',
-        'name',
-        'email',
-        'phone',
-        'nationality',
-        'notes', 
+        'user_id',
+        'guest_name',
+        'guest_email',
+        'guest_phone',
+        'guest_nationality',
         'date',
         'time',
         'total',
         'status',
+        'notes',
     ];
 
-    /**
-     * Booking belongs to a tour.
-     */
+    protected $casts = [
+        'date'  => 'date:Y-m-d',
+        'time'  => 'string',
+        'total' => 'decimal:2',
+    ];
+    public function getFormattedDateAttribute()
+    {
+        return $this->date
+            ? \Carbon\Carbon::parse($this->date)
+            ->locale(app()->getLocale())
+            ->translatedFormat('F d, Y')
+            : null;
+    }
+
     public function tour(): BelongsTo
     {
         return $this->belongsTo(Tour::class);
     }
 
-    /**
-     * Booking has many detail rows (Adult, Child, etc)
-     */
-    public function details()
+    public function user(): BelongsTo
     {
-        return $this->hasMany(\App\Models\BookingDetail::class);
+        return $this->belongsTo(User::class);
+    }
+
+    public function details(): HasMany
+    {
+        return $this->hasMany(BookingDetail::class);
     }
 }

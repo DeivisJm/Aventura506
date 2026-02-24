@@ -68,27 +68,27 @@
 
                                 <tr style="background:#f9fafb;">
                                     <td><strong>{{ __('booking.email_name') }}</strong></td>
-                                    <td>{{ $booking->name }}</td>
+                                    <td>{{ $booking->guest_name }}</td>
                                 </tr>
 
                                 <tr>
                                     <td><strong>{{ __('booking.email_email') }}</strong></td>
-                                    <td>{{ $booking->email }}</td>
+                                    <td>{{ $booking->guest_email }}</td>
                                 </tr>
 
                                 <tr style="background:#f9fafb;">
                                     <td><strong>{{ __('booking.email_phone') }}</strong></td>
-                                    <td>{{ $booking->phone }}</td>
+                                    <td>{{ $booking->guest_phone }}</td>
                                 </tr>
 
                                 <tr>
                                     <td><strong>{{ __('booking.email_nationality') }}</strong></td>
-                                    <td>{{ $booking->nationality }}</td>
+                                    <td>{{ $booking->guest_nationality }}</td>
                                 </tr>
 
                                 <tr style="background:#f9fafb;">
                                     <td><strong>{{ __('booking.email_date') }}</strong></td>
-                                    <td>{{ $booking->date }}</td>
+                                    <td>{{ $booking->formatted_date }}</td>
                                 </tr>
 
                                 <tr>

@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Tour;
+use App\Models\Category;
+use App\Models\Company;
 
 class TourSeeder extends Seeder
 {
@@ -22,7 +24,6 @@ class TourSeeder extends Seeder
                     'es' => 'Recorrido ecológico por Natura Eco Park en La Fortuna.',
                     'en' => 'Ecological tour through Natura Eco Park in La Fortuna.',
                 ],
-
                 'price' => 54.99,
                 'distance_km' => 5,
                 'distance_miles' => 3.1,
@@ -36,7 +37,6 @@ class TourSeeder extends Seeder
                     'es' => 'Caminata Nocturna - Experiencia ',
                     'en' => 'Night Walk Experience Tour',
                 ],
-
                 'slug' => 'caminata-nocturna',
                 'category' => 'nature',
                 'description' => [
@@ -104,7 +104,7 @@ class TourSeeder extends Seeder
                 'distance_km' => 3,
                 'distance_miles' => 1.8,
                 'location_text' => 'Natura Eco Park, La Fortuna',
-                'map_embed_url' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3923.0068449410373!2d-84.69038492631479!3d10.50012598963233!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8fa00be24fb9cb8d%3A0x88ad54fe810999!2sNatura%20Eco%20Park%20-%20Costa%20Rica!5e0!3m2!1ses-419!2scr!4v1771645171910!5m2!1ses-419!2scr',
+                'map_embed_url' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3923.0068449410373!2d-84.69038492631479!3d10.50012598963233!2m3!1f0!2f0!3f0!3m2!1i1024!2f13.1!3m3!1m2!1s0x8fa00be24fb9cb8d%3A0x88ad54fe810999!2sNatura%20Eco%20Park%20-%20Costa%20Rica!5e0!3m2!1ses-419!2scr!4v1771645171910!5m2!1ses-419!2scr',
                 'image' => 'images/tours/bird-watching-tour.jpg',
             ],
             [
@@ -126,17 +126,31 @@ class TourSeeder extends Seeder
                 'map_embed_url' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1961.7663149585128!2d-84.64486245557248!3d10.45861250000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8fa00d64b670b961%3A0x176ede279f5f79cf!2sParqueo%20Hijos%20del%20agua%2C%20Poza%20El%20Salto!5e0!3m2!1ses-419!2scr!4v1771648312967!5m2!1ses-419!2scr',
                 'image' => 'images/tours/poza-el-salto.jpg',
             ],
-
         ];
 
-        foreach ($tours as $tour) {
+        foreach ($tours as $tourData) {
 
-            $tour['map_directions_url'] = null;
-            $tour['is_active'] = true;
+            $company = Company::firstOrCreate([
+                'name' => $tourData['company_name']
+            ]);
 
-            Tour::updateOrCreate(
-                ['slug' => $tour['slug']],
-                $tour
+            $category = Category::firstOrCreate([
+                'slug' => $tourData['category']
+            ], [
+                'name' => ucfirst($tourData['category'])
+            ]);
+
+            $tour = Tour::updateOrCreate(
+                ['slug' => $tourData['slug']],
+                [
+                    'company_id' => $company->id,
+                    'category_id' => $category->id,
+                    'name' => $tourData['name'],
+                    'slug' => $tourData['slug'],
+                    'description' => $tourData['description'],
+                    'image' => $tourData['image'],
+                    'is_active' => true,
+                ]
             );
         }
     }

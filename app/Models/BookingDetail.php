@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class BookingDetail extends Model
 {
@@ -13,18 +14,17 @@ class BookingDetail extends Model
         'price',
     ];
 
+    protected $casts = [
+        'price' => 'decimal:2'
+    ];
 
-    public function booking()
+    public function booking(): BelongsTo
     {
         return $this->belongsTo(Booking::class);
     }
 
-    public function price()
+    public function tourPrice(): BelongsTo
     {
-        return $this->belongsTo(TourPrice::class, 'tour_price_id');
-    }
-    public function tourPrice()
-    {
-        return $this->belongsTo(\App\Models\TourPrice::class);
+        return $this->belongsTo(TourPrice::class);
     }
 }

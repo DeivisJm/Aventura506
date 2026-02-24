@@ -9,15 +9,29 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tour_prices', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('tour_id')->constrained()->cascadeOnDelete();
 
-            $table->string('type'); // adult, child, toddler
-            $table->decimal('price', 8, 2)->nullable();
-            $table->string('age_range')->nullable();
+            $table->id();
+
+            $table->foreignId('tour_id')
+                ->constrained()
+                ->cascadeOnDelete();
+
+            // 🔥 Clave técnica para poder usar UNIQUE
+            $table->string('type_key');
+
+            // 🔥 Traducciones
+            $table->json('type');
+
+            $table->integer('min_age')->nullable();
+            $table->integer('max_age')->nullable();
+
+            $table->decimal('price', 10, 2)->nullable();
             $table->boolean('is_free')->default(false);
 
             $table->timestamps();
+
+            // ✅ Ahora sí funciona
+            $table->unique(['tour_id', 'type_key']);
         });
     }
 

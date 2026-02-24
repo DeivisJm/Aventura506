@@ -14,10 +14,13 @@ class TourController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Tour::where('is_active', 1);
+        $query = Tour::with('category')
+            ->where('is_active', 1);
 
         if ($request->has('category') && $request->category !== 'all') {
-            $query->where('category', $request->category);
+            $query->whereHas('category', function ($q) use ($request) {
+                $q->where('slug', $request->category);
+            });
         }
 
         $tours = $query->orderBy('created_at', 'desc')->get();
@@ -32,10 +35,9 @@ class TourController extends Controller
      */
     public function show($slug)
     {
-        $tour = Tour::with(['detail', 'prices', 'schedules'])
+        $tour = Tour::with(['detail', 'prices', 'schedules', 'company'])
             ->where('slug', $slug)
             ->firstOrFail();
-
         return view('pages.tour_detail', compact('tour'));
     }
 }

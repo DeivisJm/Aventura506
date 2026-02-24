@@ -52,18 +52,20 @@ class BookingController extends Controller
             // 🔥 Normalizar fecha SIEMPRE
             $formattedDate = Carbon::parse($validated['date'])->format('Y-m-d');
 
+            // 🔥 Normalizar hora SIEMPRE (solo H:i:s)
+            $formattedTime = Carbon::parse($validated['time'])->format('H:i:s');
+
             $booking = Booking::create([
-                'tour_id'     => $tour->id,
-                'name'        => $validated['name'],
-                'email'       => $validated['email'],
-                'phone'       => $validated['phone'],
-                'nationality' => $validated['nationality'],
-                'notes'       => $validated['notes'],
-                'persons'     => 0,
-                'date'        => $formattedDate,
-                'time'        => $validated['time'],
-                'total'       => 0,
-                'status'      => 'pending',
+                'tour_id'           => $tour->id,
+                'guest_name'        => $validated['name'],
+                'guest_email'       => $validated['email'],
+                'guest_phone'       => $validated['phone'],
+                'guest_nationality' => $validated['nationality'],
+                'notes'             => $validated['notes'],
+                'date'              => $formattedDate,
+                'time'              => $formattedTime,
+                'total'             => 0,
+                'status'            => 'pending',
             ]);
 
             foreach ($validated['prices'] as $priceId => $quantity) {
@@ -103,7 +105,7 @@ class BookingController extends Controller
 
             // 🔥 Enviar correo
             Mail::to(config('mail.booking_receiver'))
-                ->cc($booking->email)
+                ->cc($booking->guest_email)
                 ->send(
                     (new BookingMail($booking))
                         ->attachData($pdfContent, 'booking.pdf', [
