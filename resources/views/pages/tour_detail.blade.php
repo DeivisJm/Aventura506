@@ -34,22 +34,104 @@
             {{ $tour->getTranslated('description') }}
         </p>
 
-        <div class="mt-10 flex flex-wrap justify-center gap-6 text-sm text-gray-200">
+        <div class="mt-10 flex flex-wrap justify-center gap-6 text-sm text-white">
 
+            {{-- Duration --}}
             @if($tour->detail?->duration)
-            <div class="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full backdrop-blur-md">
-                ⏱ {{ $tour->detail->getTranslated('duration') }}
+            <div class="flex items-center gap-3 
+                bg-white/10 
+                px-5 py-2.5 
+                rounded-full 
+                backdrop-blur-md 
+                border border-white/20">
+
+                <div class="flex items-center justify-center 
+                    w-8 h-8 
+                    rounded-full 
+                    bg-white/20 
+                    backdrop-blur-sm">
+
+                    <svg class="w-4 h-4 text-white"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.5"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 6v6l4 2m6-2a10 10 0 11-20 0 10 10 0 0120 0z" />
+                    </svg>
+                </div>
+
+                <span class="font-medium tracking-wide">
+                    {{ $tour->detail->getTranslated('duration') }}
+                </span>
+
             </div>
             @endif
 
+
+            {{-- Start Hours --}}
             @if($tour->detail?->start_hours_text)
-            <div class="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full backdrop-blur-md">
-                🕒 {{ $tour->detail->getTranslated('start_hours_text') }}
+            <div class="flex items-center gap-3 
+                bg-white/10 
+                px-5 py-2.5 
+                rounded-full 
+                backdrop-blur-md 
+                border border-white/20">
+
+                <div class="flex items-center justify-center 
+                    w-8 h-8 
+                    rounded-full 
+                    bg-white/20 
+                    backdrop-blur-sm">
+
+                    <svg class="w-4 h-4 text-white"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.5"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M8 7V3m8 4V3m-9 8h10m-11 8h12a2 2 0 002-2V7a2 2 0 00-2-2H6a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                </div>
+
+                <span class="font-medium tracking-wide">
+                    {{ $tour->detail->getTranslated('start_hours_text') }}
+                </span>
+
             </div>
             @endif
 
-            <div class="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full backdrop-blur-md">
-                📍 {{ $tour->detail->location_name }}
+
+            {{-- Company --}}
+            <div class="flex items-center gap-3 
+                bg-white/10 
+                px-5 py-2.5 
+                rounded-full 
+                backdrop-blur-md 
+                border border-white/20">
+
+                <div class="flex items-center justify-center 
+                    w-8 h-8 
+                    rounded-full 
+                    bg-white/20 
+                    backdrop-blur-sm">
+
+                    <svg class="w-4 h-4 text-white"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.5"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M3 21h18M4 21V7a1 1 0 011-1h3V4a1 1 0 011-1h6a1 1 0 011 1v2h3a1 1 0 011 1v14M9 21V9h6v12" />
+                    </svg>
+                </div>
+
+                @if($tour->company?->name)
+                <span class="font-semibold tracking-wide">
+                    {{ $tour->company->name }}
+                </span>
+                @endif
+
             </div>
 
         </div>
@@ -62,54 +144,135 @@
 
     <div class="grid lg:grid-cols-3 gap-16">
 
-        <div class="lg:col-span-2 space-y-12">
+        <div class="lg:col-span-2 space-y-20">
 
-            <div>
-                <h2 class="text-3xl font-bold mb-6 text-main">
-                    {{ __('tour_detail.about_title') }}
-                </h2>
+            {{-- ================= ABOUT ================= --}}
+            <section>
 
-                <p class="text-lg text-muted leading-relaxed">
+                <div class="mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-main">
+                        {{ __('tour_detail.about_title') }}
+                    </h2>
+
+                    <div class="mt-4 w-20 h-[3px] bg-gradient-to-r from-green-600 to-green-400 rounded-full"></div>
+                </div>
+
+                <div class="max-w-3xl text-lg text-muted leading-relaxed space-y-6">
                     {{ $tour->detail?->getTranslated('full_description') 
-                        ?? $tour->getTranslated('description') }}
-                </p>
-            </div>
+                ?? $tour->getTranslated('description') }}
+                </div>
 
+            </section>
+
+
+            {{-- ================= INCLUDES ================= --}}
             @if($tour->detail?->includes)
-            <div class="bg-card p-8 rounded-2xl shadow-sm">
-                <h3 class="text-xl font-semibold mb-6">
-                    {{ __('tour_detail.includes_title') }}
-                </h3>
+            <section>
 
-                <div class="grid md:grid-cols-2 gap-4 text-muted">
+                <div class="mb-12">
+                    <h3 class="text-2xl font-semibold tracking-tight text-main">
+                        {{ __('tour_detail.includes_title') }}
+                    </h3>
+                    <div class="mt-4 w-16 h-[2px] bg-green-600/60 rounded-full"></div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-x-16 gap-y-8">
+
                     @foreach($tour->detail->includes[app()->getLocale()]
                     ?? $tour->detail->includes['es']
                     ?? [] as $item)
-                    <div class="flex items-start gap-3">
-                        <span class="text-green-500 mt-1">✓</span>
-                        <span>{{ $item }}</span>
+
+                    <div class="flex items-start gap-4 group">
+
+                        <div class="mt-1 w-2 h-2 rounded-full bg-green-600 group-hover:scale-125 transition-transform duration-300"></div>
+
+                        <p class="text-muted leading-relaxed group-hover:text-main transition-colors duration-300">
+                            {{ $item }}
+                        </p>
+
                     </div>
+
                     @endforeach
+
                 </div>
-            </div>
+
+            </section>
             @endif
 
-            @if($tour->detail?->ideal_for)
-            <div class="bg-card p-8 rounded-2xl shadow-sm">
-                <h3 class="text-xl font-semibold mb-6">
-                    {{ __('tour_detail.ideal_for_title') }}
-                </h3>
 
-                <div class="flex flex-wrap gap-3">
+            {{-- ================= IDEAL FOR ================= --}}
+            @if($tour->detail?->ideal_for)
+            <section>
+
+                <div class="mb-12">
+                    <h3 class="text-2xl font-semibold tracking-tight text-main">
+                        {{ __('tour_detail.ideal_for_title') }}
+                    </h3>
+
+                    <div class="mt-4 w-16 h-[2px] bg-green-600/60 rounded-full"></div>
+                </div>
+
+                <div class="flex flex-wrap gap-5">
+
                     @foreach($tour->detail->ideal_for[app()->getLocale()]
                     ?? $tour->detail->ideal_for['es']
                     ?? [] as $item)
-                    <span class="px-4 py-2 bg-green-100 text-green-700 rounded-full text-sm font-medium">
+
+                    <span class="px-6 py-3
+                bg-green-50
+                text-green-700
+                rounded-full
+                text-sm
+                font-medium
+                border border-green-200
+                hover:bg-green-100
+                transition-all duration-300
+                whitespace-nowrap">
+
                         {{ $item }}
+
                     </span>
+
                     @endforeach
+
                 </div>
-            </div>
+
+            </section>
+            @endif
+
+
+            {{-- ================= RECOMMENDATIONS ================= --}}
+            @if($tour->detail?->recommendations)
+            <section>
+
+                <div class="mb-12">
+                    <h3 class="text-2xl font-semibold tracking-tight text-main">
+                        {{ __('tour_detail.recommendations_title') ?? 'Recomendaciones para su visita' }}
+                    </h3>
+                    <div class="mt-4 w-16 h-[2px] bg-green-600/60 rounded-full"></div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-x-16 gap-y-8">
+
+                    @foreach($tour->detail->recommendations[app()->getLocale()]
+                    ?? $tour->detail->recommendations['es']
+                    ?? [] as $item)
+
+                    <div class="flex items-start gap-4 group">
+
+                        <div class="mt-1 w-2 h-2 rounded-full bg-green-600 group-hover:scale-125 transition-transform duration-300"></div>
+
+                        <p class="text-muted leading-relaxed group-hover:text-main transition-colors duration-300">
+                            {{ $item }}
+                        </p>
+
+                    </div>
+
+                    @endforeach
+
+                </div>
+
+            </section>
             @endif
 
         </div>
@@ -127,8 +290,32 @@
                 </div>
 
                 <div class="text-3xl font-extrabold text-green-600">
-                    @if($tour->adult_price)
-                    ${{ number_format($tour->adult_price, 2) }}
+                    @php
+                    $exchangeRate = config('currency.crc_to_usd');
+
+                    // Try to find an adult-type price
+                    $priceModel = $tour->prices->where('type_key', 'adult')->first();
+
+                    // Si no existe adult, buscar cualquier precio que no sea gratis
+                    if (!$priceModel) {
+                    $priceModel = $tour->prices->where('is_free', false)->first();
+                    }
+
+                    if ($priceModel && !$priceModel->is_free) {
+
+                    $priceInUsd = $priceModel->price;
+
+                    if ($priceModel->currency === 'CRC') {
+                    $priceInUsd = $priceModel->price * $exchangeRate;
+                    }
+
+                    } else {
+                    $priceInUsd = null;
+                    }
+                    @endphp
+
+                    @if($priceInUsd)
+                    ${{ number_format($priceInUsd, 2) }}
                     @else
                     {{ __('tour_detail.free') }}
                     @endif
@@ -141,36 +328,77 @@
             </div>
 
             @if($tour->prices->count())
-            <div class="mt-4 space-y-4 border-t border-gray-200 dark:border-gray-700 pt-6">
 
-                @foreach($tour->prices as $price)
-                <div class="flex justify-between items-center py-2 hover:bg-black/5 dark:hover:bg-white/5 px-2 rounded-lg transition">
+            @php
+            $groupedPrices = $tour->prices->groupBy('category_type');
+            @endphp
 
-                    <div>
-                        <div class="font-medium">
-                            {{ $price->getTranslatedType() }}
+            <div class="mt-6 border-t pt-6 space-y-8">
+
+                @php
+                $hasNational = $tour->prices->where('category_type', 'national')->count() > 0;
+                $hasInternational = $tour->prices->where('category_type', 'international')->count() > 0;
+                $showMarketTitles = $hasNational && $hasInternational;
+                @endphp
+
+                @foreach($groupedPrices as $market => $marketPrices)
+
+                <div>
+
+                    @if($showMarketTitles)
+                    <h4 class="text-lg font-semibold mb-4">
+                        {{ $market === 'national' 
+                    ? __('tour_detail.national_prices') 
+                    : __('tour_detail.international_prices') }}
+                    </h4>
+                    @endif
+
+                    <div class="space-y-3">
+
+                        @foreach($marketPrices as $price)
+                        <div class="flex justify-between items-center py-2 px-3 rounded-lg hover:bg-black/5">
+
+                            <div>
+                                <div class="font-medium">
+                                    {{ $price->getTranslatedType() }}
+                                </div>
+
+                                @if($price->min_age !== null || $price->max_age !== null)
+                                <div class="text-xs text-muted">
+                                    @if($price->min_age !== null && $price->max_age !== null)
+                                    {{ $price->min_age }} - {{ $price->max_age }}
+                                    @elseif($price->min_age !== null)
+                                    {{ $price->min_age }}+
+                                    @endif
+                                </div>
+                                @endif
+                            </div>
+
+                            <div class="font-semibold text-green-600">
+                                @if($price->is_free)
+                                {{ __('tour_detail.free') }}
+                                @else
+                                @php
+                                $priceInUsd = $price->price;
+
+                                $exchangeRate = config('currency.crc_to_usd');
+
+                                if($price->currency === 'CRC') {
+                                $priceInUsd = $price->price * $exchangeRate;
+                                }
+                                @endphp
+
+                                ${{ number_format($priceInUsd, 2) }}
+                                @endif
+                            </div>
+
                         </div>
+                        @endforeach
 
-                        @if($price->min_age !== null || $price->max_age !== null)
-                        <div class="text-xs text-muted">
-                            @if($price->min_age !== null && $price->max_age !== null)
-                            {{ $price->min_age }} - {{ $price->max_age }}
-                            @elseif($price->min_age !== null)
-                            {{ $price->min_age }}+
-                            @endif
-                        </div>
-                        @endif
-                    </div>
-
-                    <div class="font-semibold text-green-600">
-                        @if($price->is_free)
-                        {{ __('tour_detail.free') }}
-                        @else
-                        ${{ number_format($price->price, 2) }}
-                        @endif
                     </div>
 
                 </div>
+
                 @endforeach
 
             </div>
@@ -199,9 +427,15 @@
             {{ __('tour_detail.how_to_get_title') }}
         </h2>
 
+        @if($tour->company?->name)
+        <p class="text-lg font-semibold text-gray-900 dark:text-white">
+            {{ $tour->company->name }}
+        </p>
+        @endif
+
         @if($tour->detail?->location_name)
-        <p class="text-muted">
-            {{ $tour->detail->location_name }}
+        <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
+            📍 {{ $tour->detail->location_name }}
         </p>
         @endif
     </div>
@@ -218,15 +452,27 @@
 </section>
 @endif
 
+{{-- ================= Prices ================= --}}
 @php
-$pricesForJs = $tour->prices->map(function($price){
+
+$exchangeRate = config('currency.crc_to_usd');
+
+$pricesForJs = $tour->prices->map(function($price) use ($exchangeRate){
+
+$priceInUsd = $price->price;
+
+if($price->currency === 'CRC'){
+    $priceInUsd = $price->price * $exchangeRate;
+}
+
 return [
 "id" => $price->id,
 "type" => $price->getTranslatedType(),
-"price" => $price->price,
+"price" => round($priceInUsd, 2),
 "min_age" => $price->min_age,
 "max_age" => $price->max_age,
 "is_free" => $price->is_free,
+"category_type" => $price->category_type ?? 'international',
 ];
 });
 
@@ -236,6 +482,7 @@ return [
 "start_time" => \Carbon\Carbon::parse($schedule->start_time)->format('H:i'),
 ];
 });
+
 @endphp
 
 <div id="tourDynamicData"
@@ -248,6 +495,17 @@ return [
     window.translations = {
         viewMore: "{{ __('booking.view_more') }}",
         viewLess: "{{ __('booking.view_less') }}"
+    };
+</script>
+
+<script>
+    window.freeText = "{{ __('tour_detail.free') }}";
+</script>
+
+<script>
+    window.marketTranslations = {
+        national: "{{ __('booking.national_option') }}",
+        international: "{{ __('booking.international_option') }}"
     };
 </script>
 

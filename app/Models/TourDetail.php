@@ -23,6 +23,7 @@ class TourDetail extends Model
         'start_hours_text' => 'array',
         'includes' => 'array',
         'ideal_for' => 'array',
+        'recommendations' => 'array',
     ];
 
     public function tour(): BelongsTo

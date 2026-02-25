@@ -17,80 +17,159 @@ document.addEventListener('DOMContentLoaded', function () {
     totalPriceEl.textContent = "$0.00";
     hiddenTotal.value = 0;
 
-    /* PRICE RENDER */
-    prices.forEach(price => {
 
-        const wrapper = document.createElement('div');
-        wrapper.className = "grid grid-cols-3 items-center border-b pb-4 gap-4";
+    /// ===============================
+    // PRICE RENDERING & CALCULATION
+    // ===============================
+    function renderPrices() {
 
-        wrapper.innerHTML = `
-            <div>
-                <div class="font-medium">${price.type}</div>
-                <div class="text-xs text-gray-500">${price.age_range ?? ''}</div>
-            </div>
+        priceContainer.innerHTML = "";
 
-            <div class="flex items-center gap-3">
-                <button type="button" class="qty-btn" data-action="minus">-</button>
-                <span class="qty-value">0</span>
-                <button type="button" class="qty-btn" data-action="plus">+</button>
+        /* ================= ORDER BY TYPE ================= */
+        prices.sort((a, b) => {
 
-                <!-- INPUT REAL QUE SE ENVÍA A LARAVEL -->
-                <input type="hidden"
-                    name="prices[${price.id}]"
-                    value="0"
-                    class="price-input">
-            </div>
+            const order = {
+                'adult': 1,
+                'adult_national': 1,
+                'adult_international': 1,
 
-            <div class="text-right font-semibold">
-                ${price.is_free ? 'Free' : '$' + parseFloat(price.price).toFixed(2)}
-            </div>
-        `;
+                'child': 2,
+                'child_national': 2,
+                'child_international': 2,
 
-        const qtyValue = wrapper.querySelector('.qty-value');
-        const hiddenInput = wrapper.querySelector('.price-input');
+                'young_child': 3,
+                'young_child_national': 3,
+                'young_child_international': 3,
 
-        wrapper.querySelectorAll('.qty-btn').forEach(btn => {
+                'senior_national': 4,
+                'senior_international': 4
+            };
 
-            btn.addEventListener('click', () => {
+            return (order[a.type_key] || 99) - (order[b.type_key] || 99);
+        });
 
-                let currentQty = parseInt(qtyValue.textContent);
+        /* ================= GROUP BY MARKET ================= */
+        const grouped = prices.reduce((acc, price) => {
 
-                if (btn.dataset.action === 'plus') currentQty++;
-                if (btn.dataset.action === 'minus' && currentQty > 0) currentQty--;
+            const market = price.category_type || 'general';
 
-                qtyValue.textContent = currentQty;
+            if (!acc[market]) acc[market] = [];
+            acc[market].push(price);
 
-                // 🔥 ACTUALIZA EL INPUT QUE LARAVEL RECIBE
-                hiddenInput.value = currentQty;
+            return acc;
 
-                recalcTotal();
+        }, {});
+
+        const markets = Object.keys(grouped);
+
+        // 🔥 Solo mostrar títulos si existen realmente dos mercados distintos
+        const showMarketTitles =
+            markets.includes('national') && markets.includes('international');
+
+        markets.forEach(market => {
+
+            /* ================= MARKET TITLE ================= */
+            if (showMarketTitles) {
+
+                const title = document.createElement('h4');
+                title.className = "text-md font-semibold mt-6 mb-3";
+
+                title.textContent =
+                    market === 'national'
+                        ? window.marketTranslations.national
+                        : window.marketTranslations.international;
+
+                priceContainer.appendChild(title);
+            }
+
+            /* ================= PRICE ITEMS ================= */
+            grouped[market].forEach(price => {
+
+                const wrapper = document.createElement('div');
+                wrapper.className = "grid grid-cols-3 items-center border-b pb-4 gap-4";
+
+                const currencySymbol = price.currency === 'CRC' ? '₡' : '$';
+
+                /* ================= AGE RANGE ================= */
+                let ageRange = "";
+
+                if (price.min_age !== null && price.max_age !== null) {
+                    ageRange = `<div class="text-xs text-gray-500">${price.min_age} - ${price.max_age}</div>`;
+                } else if (price.min_age !== null) {
+                    ageRange = `<div class="text-xs text-gray-500">${price.min_age}+</div>`;
+                }
+
+                wrapper.innerHTML = `
+                <div>
+                    <div class="font-medium">${price.type}</div>
+                    ${ageRange}
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <button type="button" class="qty-btn" data-action="minus">-</button>
+                    <span class="qty-value">0</span>
+                    <button type="button" class="qty-btn" data-action="plus">+</button>
+
+                    <input type="hidden"
+                        name="prices[${price.id}]"
+                        value="0"
+                        class="price-input">
+                </div>
+
+                <div class="text-right font-semibold">
+                    ${price.is_free
+                        ? window.freeText
+                        : currencySymbol + parseFloat(price.price).toFixed(2)
+                    }
+                </div>
+            `;
+
+                const qtyValue = wrapper.querySelector('.qty-value');
+                const hiddenInput = wrapper.querySelector('.price-input');
+
+                wrapper.querySelectorAll('.qty-btn').forEach(btn => {
+
+                    btn.addEventListener('click', () => {
+
+                        let currentQty = parseInt(qtyValue.textContent);
+
+                        if (btn.dataset.action === 'plus') currentQty++;
+                        if (btn.dataset.action === 'minus' && currentQty > 0) currentQty--;
+
+                        qtyValue.textContent = currentQty;
+                        hiddenInput.value = currentQty;
+
+                        recalcTotal();
+                    });
+                });
+
+                priceContainer.appendChild(wrapper);
             });
         });
 
-        priceContainer.appendChild(wrapper);
-    });
+        recalcTotal();
+    }
 
 
     function recalcTotal() {
 
         total = 0;
 
-        const rows = priceContainer.children;
+        const inputs = document.querySelectorAll('.price-input');
 
-        Array.from(rows).forEach((row, index) => {
+        inputs.forEach(input => {
 
-            const qty = parseInt(row.querySelector('.qty-value').textContent);
-            const price = prices[index];
+            const qty = parseInt(input.value);
+            const priceObj = prices.find(p => p.id == input.name.match(/\d+/)[0]);
 
-            if (!price.is_free) {
-                total += qty * parseFloat(price.price);
+            if (priceObj && !priceObj.is_free) {
+                total += qty * parseFloat(priceObj.price);
             }
         });
 
         totalPriceEl.textContent = "$" + total.toFixed(2);
         hiddenTotal.value = total.toFixed(2);
     }
-
 
     /* ===============================
        SCHEDULE RENDER
@@ -149,6 +228,29 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     renderSchedules();
+
+    /* ===============================
+       PRECIO SEGUN NACIONALIDAD
+    =============================== */
+    const nationalityInput = document.getElementById('nationalityInput');
+
+    if (nationalityInput) {
+
+        nationalityInput.addEventListener('change', function () {
+
+            const selectedCountry = this.value.toLowerCase();
+
+            if (selectedCountry.includes('costa rica') || selectedCountry.includes('costarric')) {
+                currentMarket = 'national';
+            } else {
+                currentMarket = 'international';
+            }
+
+            renderPrices();
+        });
+    }
+
+    renderPrices();
 });
 
 
@@ -176,3 +278,43 @@ document.addEventListener('click', function (e) {
         }
     }
 });
+
+/* ===============================
+   NATIONALITY PRE-MODAL (MULTILANG)
+=============================== */
+let selectedMarket = 'international';
+
+const nationalityModal = document.getElementById('nationalityModal');
+const openNationalityBtn = document.getElementById('openNationality');
+const bookingModal = document.getElementById('bookingModal');
+const nationalityInputField = document.getElementById('nationalityInput');
+const phoneInputField = document.getElementById('phoneInput');
+
+if (openNationalityBtn && nationalityModal) {
+
+    openNationalityBtn.addEventListener('click', () => {
+        nationalityModal.classList.remove('hidden');
+    });
+
+    document.querySelectorAll('.nationality-option').forEach(btn => {
+
+        btn.addEventListener('click', () => {
+
+            selectedMarket = btn.dataset.market;
+            currentMarket = selectedMarket;
+
+            if (nationalityInputField) {
+                nationalityInputField.value = btn.dataset.country;
+            }
+
+            if (phoneInputField && btn.dataset.code) {
+                phoneInputField.value = btn.dataset.code + " ";
+            }
+
+            nationalityModal.classList.add('hidden');
+            bookingModal.classList.remove('hidden');
+
+            renderPrices();
+        });
+    });
+}

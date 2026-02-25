@@ -31,6 +31,11 @@ return [
     'total' => 'Total',
     'additional_notes' => 'Notas adicionales',
 
+
+    'select_nationality' => 'Seleccione su nacionalidad',
+    'national_option' => 'Nacional',
+    'international_option' => 'Visitante extranjero',
+
     /*
     |--------------------------------------------------------------------------
     | Email

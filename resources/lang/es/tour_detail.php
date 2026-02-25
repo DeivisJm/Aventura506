@@ -19,4 +19,7 @@ return [
     'starting_from' => 'Desde',
     'per_person' => 'por persona',
     'select_option' => 'Selecciona tu opción',
+    'national_prices' => 'Nacional / Residente',
+    'international_prices' => 'Internacional / No Residente',
+    'recommendations_title' => 'Recomendaciones',
 ];

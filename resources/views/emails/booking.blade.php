@@ -50,11 +50,7 @@
 
                                 <tr>
                                     <td><strong>{{ __('booking.email_company') }}</strong></td>
-                                    <td>
-                                        {{ is_array($booking->tour->company_name ?? null)
-                                            ? ($booking->tour->company_name[app()->getLocale()] ?? $booking->tour->company_name['es'] ?? '')
-                                            : ($booking->tour->company_name ?? 'Aventura506') }}
-                                    </td>
+                                    <td>{{ $booking->tour->company->name ?? 'Aventura506' }}</td>
                                 </tr>
 
                                 <tr style="background:#f9fafb;">
@@ -66,55 +62,42 @@
                                     </td>
                                 </tr>
 
-                                <tr style="background:#f9fafb;">
+                                <tr>
                                     <td><strong>{{ __('booking.email_name') }}</strong></td>
                                     <td>{{ $booking->guest_name }}</td>
                                 </tr>
 
-                                <tr>
+                                <tr style="background:#f9fafb;">
                                     <td><strong>{{ __('booking.email_email') }}</strong></td>
                                     <td>{{ $booking->guest_email }}</td>
                                 </tr>
 
-                                <tr style="background:#f9fafb;">
+                                <tr>
                                     <td><strong>{{ __('booking.email_phone') }}</strong></td>
                                     <td>{{ $booking->guest_phone }}</td>
                                 </tr>
 
-                                <tr>
+                                <tr style="background:#f9fafb;">
                                     <td><strong>{{ __('booking.email_nationality') }}</strong></td>
                                     <td>{{ $booking->guest_nationality }}</td>
                                 </tr>
 
-                                <tr style="background:#f9fafb;">
+                                <tr>
                                     <td><strong>{{ __('booking.email_date') }}</strong></td>
                                     <td>{{ $booking->formatted_date }}</td>
                                 </tr>
 
-                                <tr>
+                                <tr style="background:#f9fafb;">
                                     <td><strong>{{ __('booking.email_time') }}</strong></td>
                                     <td>{{ $booking->time }}</td>
                                 </tr>
 
                                 @if($booking->notes)
-                                <tr style="background:#f9fafb;">
+                                <tr>
                                     <td><strong>{{ __('booking.additional_notes') }}</strong></td>
                                     <td>{{ $booking->notes }}</td>
                                 </tr>
                                 @endif
-
-                                {{-- DESGLOSE --}}
-                                <tr>
-                                    <td><strong>{{ __('booking.email_persons') }}</strong></td>
-                                    <td>
-                                        @foreach($booking->details as $detail)
-                                        {{ is_array($detail->tourPrice->type)
-                                                ? ($detail->tourPrice->type[app()->getLocale()] ?? $detail->tourPrice->type['es'] ?? '')
-                                                : $detail->tourPrice->type }}
-                                        ({{ $detail->quantity }})<br>
-                                        @endforeach
-                                    </td>
-                                </tr>
 
                                 <tr>
                                     <td><strong>{{ __('booking.email_total') }}</strong></td>

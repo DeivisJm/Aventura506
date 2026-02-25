@@ -18,6 +18,22 @@ class CategorySeeder extends Seeder
                 'name' => 'Water',
                 'slug' => 'water',
             ],
+            [
+                'name' => 'Horseback Riding',
+                'slug' => 'horseback',
+            ],
+            [
+                'name' => 'Vehicles',
+                'slug' => 'vehicles',
+            ],
+            [
+                'name' => 'Adventure',
+                'slug' => 'adventure',
+            ],
+            [
+                'name' => 'Extreme',
+                'slug' => 'extreme',
+            ],
         ]);
     }
 }

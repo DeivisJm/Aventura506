@@ -12,7 +12,7 @@
         Aventura506
         @endif
     </title>
-
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="/images/logo.png">
 
     {{-- VITE --}}

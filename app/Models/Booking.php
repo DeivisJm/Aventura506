@@ -20,6 +20,7 @@ class Booking extends Model
         'total',
         'status',
         'notes',
+        'currency',
     ];
 
     protected $casts = [

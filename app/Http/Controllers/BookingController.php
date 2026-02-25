@@ -16,6 +16,9 @@ use Carbon\Carbon;
 
 class BookingController extends Controller
 {
+
+
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -30,9 +33,7 @@ class BookingController extends Controller
             'prices'      => 'required|array',
         ]);
 
-        $selectedPrices = array_filter($validated['prices'], function ($qty) {
-            return (int) $qty > 0;
-        });
+        $selectedPrices = array_filter($validated['prices'], fn($qty) => (int) $qty > 0);
 
         if (count($selectedPrices) === 0) {
             return back()->withErrors([
@@ -49,10 +50,7 @@ class BookingController extends Controller
             $total = 0;
             $persons = 0;
 
-            // 🔥 Normalizar fecha SIEMPRE
             $formattedDate = Carbon::parse($validated['date'])->format('Y-m-d');
-
-            // 🔥 Normalizar hora SIEMPRE (solo H:i:s)
             $formattedTime = Carbon::parse($validated['time'])->format('H:i:s');
 
             $booking = Booking::create([
@@ -74,15 +72,24 @@ class BookingController extends Controller
 
                     $tourPrice = TourPrice::findOrFail($priceId);
 
+                    // Convert national prices (previously CRC) to USD
+                    $priceInUsd = $tourPrice->price;
+
+                    $exchangeRate = config('currency.crc_to_usd');
+
+                    if ($tourPrice->category_type === 'national') {
+                        $priceInUsd = $tourPrice->price * $exchangeRate;
+                    }
+
                     BookingDetail::create([
                         'booking_id'    => $booking->id,
                         'tour_price_id' => $tourPrice->id,
                         'quantity'      => $quantity,
-                        'price'         => $tourPrice->price,
+                        'price'         => $priceInUsd,
                     ]);
 
                     if (!$tourPrice->is_free) {
-                        $total += $quantity * $tourPrice->price;
+                        $total += $quantity * $priceInUsd;
                     }
 
                     $persons += $quantity;
@@ -96,14 +103,12 @@ class BookingController extends Controller
 
             $booking->load('details.tourPrice');
 
-            // 🔥 Generar PDF
             $pdf = Pdf::loadView('emails.booking-pdf', [
                 'booking' => $booking
             ]);
 
             $pdfContent = $pdf->output();
 
-            // 🔥 Enviar correo
             Mail::to(config('mail.booking_receiver'))
                 ->cc($booking->guest_email)
                 ->send(

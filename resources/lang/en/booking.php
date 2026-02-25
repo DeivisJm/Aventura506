@@ -27,6 +27,12 @@ return [
     'confirm' => 'Confirm booking',
     'persons' => 'Number of persons',
 
+
+    'select_nationality' => 'Select your nationality',
+    'national_option' => 'National',
+    'international_option' => 'International Visitor',
+
+
     /*
     |--------------------------------------------------------------------------
     | Email

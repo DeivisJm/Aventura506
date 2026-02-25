@@ -157,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     /* ================= TIME VALIDATION ================= */
-    function validateTimes() {
+    window.validateTimes = function () {
 
         if (!window.selectedDate) return;
 
@@ -184,8 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 btn.classList.remove('time-disabled');
             }
         });
-    }
-
+    };
     /* ================= TIME SELECT ================= */
     document.addEventListener('click', function (e) {
 

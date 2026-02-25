@@ -25,6 +25,7 @@ return [
         'nature' => 'Naturaleza',
         'water' => 'Agua',
         'vehicle' => 'Vehículos',
+        'horseback' => 'Cabalgatas',
     ],
 
     // Grid / Cards

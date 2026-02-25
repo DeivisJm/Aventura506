@@ -54,6 +54,7 @@
                 'nature' => __('tours.filters.nature'),
                 'water' => __('tours.filters.water'),
                 'vehicle' => __('tours.filters.vehicle'),
+                'horseback' => __('tours.filters.horseback'),
                 ] as $value => $label)
 
                 <a href="{{ route('tours.index', ['category' => $value]) }}"

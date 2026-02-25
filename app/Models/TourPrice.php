@@ -11,10 +11,11 @@ class TourPrice extends Model
         'tour_id',
         'type_key',
         'type',
+        'category_type',
         'min_age',
         'max_age',
         'price',
-        'is_free'
+        'is_free',
     ];
 
     protected $casts = [

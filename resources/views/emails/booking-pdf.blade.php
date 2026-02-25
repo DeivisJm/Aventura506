@@ -91,17 +91,18 @@
         </div>
 
         <table>
+
             <tr>
                 <td class="label">{{ __('booking.email_company') }}</td>
-                <td>{{ $booking->tour->company_name ?? 'Aventura506' }}</td>
+                <td>{{ $booking->tour->company->name ?? 'Aventura506' }}</td>
             </tr>
 
             <tr>
                 <td class="label">{{ __('booking.email_tour') }}</td>
                 <td>
                     {{ is_array($booking->tour->name)
-        ? ($booking->tour->name[app()->getLocale()] ?? $booking->tour->name['es'] ?? '')
-        : $booking->tour->name }}
+                        ? ($booking->tour->name[app()->getLocale()] ?? $booking->tour->name['es'] ?? '')
+                        : $booking->tour->name }}
                 </td>
             </tr>
 
@@ -142,24 +143,13 @@
             </tr>
             @endif
 
-            {{-- DESGLOSE CORREGIDO --}}
-            @foreach($booking->details as $detail)
-            <tr>
-                <td class="label">
-                    {{ is_array($detail->tourPrice->type)
-                        ? ($detail->tourPrice->type[app()->getLocale()] ?? $detail->tourPrice->type['es'] ?? '')
-                        : $detail->tourPrice->type }}
-                </td>
-                <td>
-                    {{ $detail->quantity }} x ${{ number_format($detail->price, 2) }}
-                </td>
-            </tr>
-            @endforeach
-
             <tr class="total-row">
                 <td class="label">{{ __('booking.email_total') }}</td>
-                <td class="total">${{ number_format($booking->total, 2) }}</td>
+                <td class="total">
+                    ${{ number_format($booking->total, 2) }}
+                </td>
             </tr>
+
         </table>
 
         <div class="footer">

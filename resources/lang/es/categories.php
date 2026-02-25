@@ -6,5 +6,6 @@ return [
     'nature' => 'Naturaleza',
     'water' => 'Agua',
     'vehicle' => 'Vehículos',
+    'horseback' => 'Cabalgatas',
 ];
 
