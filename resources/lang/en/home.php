@@ -2,12 +2,6 @@
 
 return [
 
-    /*
-    |--------------------------------------------------------------------------
-    | Home Page – English
-    |--------------------------------------------------------------------------
-    */
-
     // Hero
     'hero_tag' => 'Tourism & Adventure',
 
@@ -20,8 +14,8 @@ return [
         selected so you can enjoy La Fortuna to the fullest,
         without wasting time or money.',
 
-    'btn_explore_tours' => 'Explore Tours',
-    'btn_view_accommodation' => 'View Accommodation',
+    'btn_explore_tours' => 'Book Tours',
+    'btn_view_accommodation' => 'Book Accommodations',
 
     // Video section
     'video_title_line_1' => 'Explore La Fortuna',

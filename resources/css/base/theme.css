@@ -7,6 +7,7 @@
     --muted: #6b7280;
     --card: #f9fafb;
     --accent: #16a34a;
+
 }
 
 .dark {
@@ -47,7 +48,47 @@ body {
     color: var(--accent);
     transition: color 0.25s ease;
 }
+
 .dark .tours-page h1:hover,
 .dark .tours-page h2:hover {
     color: var(--accent);
+}
+
+/* =========================================
+   FIX INPUT TEXT COLOR (LIGHT / DARK MODE)
+========================================= */
+
+input,
+textarea {
+    color: #000000;
+}
+
+html.dark input,
+html.dark textarea {
+    color: #ffffff;
+}
+
+/* ================================
+   INPUT TEXT FIX (FINAL VERSION)
+================================ */
+
+input,
+textarea {
+    color: #000000 !important;
+}
+
+html.dark input,
+html.dark textarea {
+    color: #ffffff !important;
+}
+
+/* Chrome autofill fix */
+input:-webkit-autofill,
+textarea:-webkit-autofill {
+    -webkit-text-fill-color: #000000 !important;
+}
+
+html.dark input:-webkit-autofill,
+html.dark textarea:-webkit-autofill {
+    -webkit-text-fill-color: #ffffff !important;
 }

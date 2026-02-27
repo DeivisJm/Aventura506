@@ -20,8 +20,8 @@ return [
         seleccionados para que aproveches La Fortuna al máximo,
         sin perder tiempo ni dinero.',
 
-    'btn_explore_tours' => 'Explorar Tours',
-    'btn_view_accommodation' => 'Ver Hospedaje',
+    'btn_explore_tours' => 'Reservar Tours',
+    'btn_view_accommodation' => 'Reservar Hospedajes',
 
     // Video section
     'video_title_line_1' => 'Explorá La Fortuna',

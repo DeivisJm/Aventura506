@@ -56,21 +56,18 @@
                 </button>
 
                 <!-- Language switch -->
-                <div class="flex rounded-full border border-gray-400 dark:border-gray-700 bg-gray-100 dark:bg-transparent overflow-hidden text-xs font-semibold">
+                <div class="lang-switch flex rounded-full border-2 border-green-600 overflow-hidden text-xs font-semibold">
+
                     <a href="{{ route('lang.switch','es') }}"
-                        class="px-3 py-1 transition
-                        {{ app()->getLocale()==='es'
-                            ? 'bg-green-600 text-white'
-                            : 'text-gray-800 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800' }}">
+                        class="lang-btn px-4 py-1.5 {{ app()->getLocale()==='es' ? 'is-active' : '' }}">
                         ES
                     </a>
+
                     <a href="{{ route('lang.switch','en') }}"
-                        class="px-3 py-1 transition
-                        {{ app()->getLocale()==='en'
-                            ? 'bg-green-600 text-white'
-                            : 'text-gray-800 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800' }}">
+                        class="lang-btn px-4 py-1.5 {{ app()->getLocale()==='en' ? 'is-active' : '' }}">
                         EN
                     </a>
+
                 </div>
 
                 <!-- Profile -->

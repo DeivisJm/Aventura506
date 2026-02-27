@@ -40,15 +40,20 @@
 </head>
 
 <body class="bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300">
-
+    {{-- NAVBAR --}}
     <x-navbar />
 
+    {{--BOOKING MESSAGE --}}
     <x-booking-success />
+
+    {{-- SUBSCRIBE MESSAGE --}}
+    <x-subscribe-feedback />
 
     <main class="pt-24 md:pt-28">
         @yield('content')
     </main>
 
+    {{-- FOOTER --}}
     <x-footer />
 
     {{-- ================= WHATSAPP FLOAT BUTTON ================= --}}

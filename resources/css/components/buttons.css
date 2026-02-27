@@ -17,7 +17,7 @@
     border-radius: 9999px;
     font-weight: 600;
     border: 2px solid var(--accent);
-    transition: 
+    transition:
         background-color 0.3s ease,
         color 0.3s ease,
         transform 0.25s ease;
@@ -57,23 +57,71 @@
    Cuando uno se hace hover, el otro vuelve a "secondary"
 ===================================================== */
 
-/* Si paso el mouse sobre el secundario,
-   el primario se vuelve transparente */
 .hero-buttons:hover .btn-primary {
     background-color: transparent;
     color: var(--accent);
 }
 
-/* Pero si el hover está SOBRE el primario,
-   este sigue siendo verde */
 .hero-buttons .btn-primary:hover {
     background-color: var(--accent);
     color: #ffffff;
 }
 
-/* Y el secundario queda transparente */
-.hero-buttons .btn-secondary:hover ~ .btn-primary,
-.hero-buttons .btn-primary:hover ~ .btn-secondary {
+
+.hero-buttons .btn-secondary:hover~.btn-primary,
+.hero-buttons .btn-primary:hover~.btn-secondary {
     background-color: transparent;
     color: var(--accent);
+}
+
+/* =====================================================
+   LANGUAGE SWITCH - INTERACTIVE TOGGLE
+===================================================== */
+
+.lang-switch {
+    background: white;
+}
+
+html.dark .lang-switch {
+    background: transparent;
+}
+
+/* Base button */
+.lang-btn {
+    background: transparent;
+    color: #16a34a;
+    transition: all 0.25s ease;
+}
+
+/* ACTIVE STATE */
+.lang-btn.is-active {
+    background: #16a34a;
+    color: white;
+}
+
+/* DARK ACTIVE */
+html.dark .lang-btn.is-active {
+    background: #22c55e;
+    color: #0f172a;
+}
+
+/* HOVER */
+.lang-btn:hover {
+    background: #16a34a;
+    color: white;
+}
+
+html.dark .lang-btn:hover {
+    background: #22c55e;
+    color: #0f172a;
+}
+
+.lang-switch:hover .lang-btn.is-active {
+    background: transparent;
+    color: #16a34a;
+}
+
+html.dark .lang-switch:hover .lang-btn.is-active {
+    background: transparent;
+    color: #22c55e;
 }

@@ -140,28 +140,33 @@
                           text-gray-800 dark:text-gray-400">
                     {{ __('footer.newsletter_subtitle') }}
                 </p>
+                {{-- SUBSCRIPTION --}}
+                <form method="POST" action="{{ route('subscribe.store') }}"
+                    class="relative max-w-md mx-auto md:mx-0">
 
-                <form class="relative max-w-md mx-auto md:mx-0">
+                    @csrf
 
                     <div class="rounded-full flex items-center
-            bg-white
-            dark:bg-white/5
-            border-2 border-green-600
-            shadow-[0_0_0_3px_rgba(34,197,94,0.15)]
-            transition-all duration-300">
+                            bg-white
+                            dark:bg-white/5
+                            border-2 border-green-600
+                            shadow-[0_0_0_3px_rgba(34,197,94,0.15)]
+                            transition-all duration-300">
 
                         <input type="email"
+                            name="email"
+                            value="{{ old('email') }}"
                             placeholder="{{ __('footer.email_placeholder') }}"
                             class="flex-1 px-5 py-3 bg-transparent text-sm font-light
-                                   text-gray-900 dark:text-gray-200
-                                   placeholder-gray-600 dark:placeholder-gray-500
-                                   focus:outline-none">
+                            text-gray-900 dark:text-gray-200
+                            placeholder-gray-600 dark:placeholder-gray-500
+                            focus:outline-none">
 
                         <button type="submit"
                             class="luxury-btn relative px-6 py-3 rounded-full
-                                   bg-gradient-to-r from-green-600 to-green-700
-                                   text-white text-xs uppercase tracking-widest
-                                   overflow-hidden">
+                            bg-gradient-to-r from-green-600 to-green-700
+                            text-white text-xs uppercase tracking-widest
+                            overflow-hidden">
                             {{ __('footer.subscribe') }}
                         </button>
 

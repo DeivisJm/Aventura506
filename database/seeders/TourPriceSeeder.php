@@ -298,7 +298,7 @@ class TourPriceSeeder extends Seeder
             'horseback-riding-tour' => [
                 [
                     'type_key' => 'general',
-                    'type' => ['es' => 'Precio por Persona', 'en' => 'Price per Person'],
+                    'type' => ['es' => 'Precio por Persona', 'en' => 'Price for Person'],
                     'currency' => 'USD',
                     'price' => 30,
                     'min_age' => null,
