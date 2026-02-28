@@ -26,11 +26,25 @@ return Application::configure(basePath: dirname(__DIR__))
     | We append SetLocale middleware to the "web" group so it runs
     | on every web request.
     */
-    ->withMiddleware(function (\Illuminate\Foundation\Configuration\Middleware $middleware) {
-        $middleware->web(\App\Http\Middleware\SetLocale::class);
+    ->withMiddleware(function (Middleware $middleware) {
+
+        // Define web middleware group
+        $middleware->group('web', [
+            \Illuminate\Cookie\Middleware\EncryptCookies::class,
+            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+            \Illuminate\Session\Middleware\StartSession::class,
+            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+            \Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class,
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \App\Http\Middleware\SetLocale::class,
+        ]);
+
+        // Register middleware aliases
+        $middleware->alias([
+            'auth' => \App\Http\Middleware\AdminAuthenticate::class,
+            'role' => \App\Http\Middleware\RoleMiddleware::class,
+        ]);
     })
-
-
     /*
     |--------------------------------------------------------------------------
     | Exception handling

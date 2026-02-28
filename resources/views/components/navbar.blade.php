@@ -71,17 +71,22 @@
                 </div>
 
                 <!-- Profile -->
-                <button aria-label="Profile"
+                <a href="{{ route('admin.login') }}"
+                    aria-label="Admin Login"
                     class="nav-icon transition text-gray-900 dark:text-gray-100 hover:text-green-600">
+
                     <svg class="w-5 h-5"
-                        fill="none" stroke="currentColor" stroke-width="2"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
                         viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M12 12a5 5 0 100-10 5 5 0 000 10z" />
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M20 21a8 8 0 10-16 0" />
                     </svg>
-                </button>
+
+                </a>
             </div>
 
             <!-- MOBILE MENU BUTTON -->

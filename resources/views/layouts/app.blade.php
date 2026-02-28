@@ -40,8 +40,11 @@
 </head>
 
 <body class="bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300">
+
     {{-- NAVBAR --}}
+    @if(!isset($hideNavbar))
     <x-navbar />
+    @endif
 
     {{--BOOKING MESSAGE --}}
     <x-booking-success />
@@ -52,7 +55,7 @@
     {{-- CONTACT MESSAGE --}}
     <x-contact-feedback />
 
-    <main class="pt-24 md:pt-28">
+    <main class="{{ isset($hideNavbar) ? '' : 'pt-24 md:pt-28' }}">
         @yield('content')
     </main>
 

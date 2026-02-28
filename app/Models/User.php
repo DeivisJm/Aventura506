@@ -19,7 +19,7 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    public function role(): BelongsTo
+    public function role()
     {
         return $this->belongsTo(Role::class);
     }
