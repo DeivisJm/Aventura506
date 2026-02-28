@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\TourController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\SubscriberController;
+use App\Http\Controllers\ContactController;
 
 //PAGE ROUTES
 Route::get('/', fn() => view('pages.home'))->name('home');
@@ -32,6 +33,10 @@ Route::post('/booking', [BookingController::class, 'store'])
 //SUBSCRIBE
 Route::post('/subscribe', [SubscriberController::class, 'store'])
     ->name('subscribe.store');
+
+//CONTACT
+Route::post('/contact/send', [ContactController::class, 'send'])
+    ->name('contact.send');
 
 //CHANGE LANGUAGE ROUTE
 Route::get('/lang/{locale}', function ($locale) {

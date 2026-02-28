@@ -49,6 +49,9 @@
     {{-- SUBSCRIBE MESSAGE --}}
     <x-subscribe-feedback />
 
+    {{-- CONTACT MESSAGE --}}
+    <x-contact-feedback />
+
     <main class="pt-24 md:pt-28">
         @yield('content')
     </main>

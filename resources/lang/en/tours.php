@@ -2,12 +2,6 @@
 
 return [
 
-    /*
-    |--------------------------------------------------------------------------
-    | Tours Page (English)
-    |--------------------------------------------------------------------------
-    */
-
     // Page & Hero
     'page_title' => 'Tours',
     'hero_badge' => 'Tours & Experiences',
@@ -34,4 +28,5 @@ return [
 
     // Empty state
     'no_results' => 'No tours available for this category',
+
 ];

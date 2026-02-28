@@ -2,12 +2,6 @@
 
 return [
 
-    /*
-    |--------------------------------------------------------------------------
-    | Booking Page
-    |--------------------------------------------------------------------------
-    */
-
     // Header
     'title_tour' => 'Reserva del tour',
     'title_accommodation' => 'Reserva de hospedaje',
@@ -19,29 +13,24 @@ return [
     // Step 2
     'select_time' => 'Selecciona un horario',
 
-    // Form
+    // Booking Form
     'name' => 'Nombre completo',
     'email' => 'Correo electrónico',
     'phone' => 'Teléfono',
     'nationality' => 'Nacionalidad',
     'confirm' => 'Confirmar reserva',
     'persons' => 'Número de personas',
+
     'view_more' => 'Ver más horarios',
     'view_less' => 'Ver menos horarios',
     'total' => 'Total',
     'additional_notes' => 'Notas adicionales',
 
-
     'select_nationality' => 'Seleccione su nacionalidad',
     'national_option' => 'Nacional / Residente',
     'international_option' => 'Internacional / No Residente',
 
-    /*
-    |--------------------------------------------------------------------------
-    | Email
-    |--------------------------------------------------------------------------
-    */
-
+    // Email Section
     'email_subject' => 'Nueva Reserva - Aventura506',
     'email_new_booking' => 'Nueva Reserva Recibida',
     'email_details' => 'Detalles de la Reserva',
@@ -55,18 +44,13 @@ return [
     'email_date' => 'Fecha',
     'email_time' => 'Horario',
     'email_total' => 'Total',
-
     'email_footer' => 'Este correo fue generado automáticamente.',
 
-    /*
-    |--------------------------------------------------------------------------
-    | Notifications
-    |--------------------------------------------------------------------------
-    */
-
+    // Notifications
     'success_title' => '¡Reserva enviada!',
     'success_message' => 'Tu solicitud de reserva ha sido enviada correctamente. Nos pondremos en contacto pronto.',
 
     'error_title' => 'Error al enviar',
     'error_message' => 'Hubo un problema enviando la reserva. Inténtalo nuevamente.',
+
 ];

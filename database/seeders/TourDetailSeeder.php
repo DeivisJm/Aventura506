@@ -48,6 +48,26 @@ class TourDetailSeeder extends Seeder
                         'Nature lovers',
                     ],
                 ],
+                'recommendations' => [
+                    'es' => [
+                        'Usar ropa ligera y cómoda para caminatas en senderos naturales.',
+                        'Calzado cerrado antideslizante recomendado.',
+                        'Aplicar bloqueador solar y repelente biodegradable.',
+                        'Llevar botella de agua para mantenerse hidratado.',
+                        'Traer cámara para capturar la biodiversidad del parque.',
+                        'Seguir siempre las indicaciones del guía naturalista.',
+                        'Evitar tocar o alimentar a los animales.',
+                    ],
+                    'en' => [
+                        'Wear light and comfortable clothing suitable for nature trails.',
+                        'Closed-toe, non-slip shoes are recommended.',
+                        'Use biodegradable sunscreen and insect repellent.',
+                        'Bring a water bottle to stay hydrated.',
+                        'Carry a camera to capture the park’s biodiversity.',
+                        'Always follow the naturalist guide’s instructions.',
+                        'Avoid touching or feeding wildlife.',
+                    ],
+                ],
 
                 // 🔥 NUEVA ESTRUCTURA COMPATIBLE
                 'location_name' => 'La Fortuna, San Carlos',
@@ -98,6 +118,24 @@ Exclusive, immersive, and unforgettable. An adventure designed for those who wan
                         'Photographers',
                         'Families',
                         'Travelers seeking unique experiences',
+                    ],
+                ],
+                'recommendations' => [
+                    'es' => [
+                        'Usar ropa oscura y cómoda para caminata nocturna.',
+                        'Zapatos cerrados antideslizantes obligatorios.',
+                        'Aplicar repelente de insectos antes del tour.',
+                        'Evitar el uso de luces fuertes o flash sin autorización del guía.',
+                        'Mantener silencio para facilitar la observación de fauna.',
+                        'No tocar animales ni vegetación.',
+                    ],
+                    'en' => [
+                        'Wear dark and comfortable clothing for the night walk.',
+                        'Closed-toe, non-slip shoes are mandatory.',
+                        'Apply insect repellent before the tour.',
+                        'Avoid using strong lights or flash without guide authorization.',
+                        'Remain quiet to improve wildlife observation.',
+                        'Do not touch animals or vegetation.',
                     ],
                 ],
 
@@ -163,6 +201,22 @@ A flexible, interactive biological experience perfect for all ages.',
                         'All ages',
                     ],
                 ],
+                'recommendations' => [
+                    'es' => [
+                        'Usar ropa fresca y cómoda para explorar el parque.',
+                        'Zapatos adecuados para senderos naturales.',
+                        'Aplicar protector solar y repelente biodegradable.',
+                        'Mantener supervisión constante de niños pequeños.',
+                        'Respetar la señalización y normas del parque.',
+                    ],
+                    'en' => [
+                        'Wear light and comfortable clothing for park exploration.',
+                        'Proper footwear for natural trails is recommended.',
+                        'Apply biodegradable sunscreen and insect repellent.',
+                        'Supervise young children at all times.',
+                        'Respect park signage and regulations.',
+                    ],
+                ],
 
                 'location_name' => 'La Fortuna, San Carlos',
             ],
@@ -171,15 +225,13 @@ A flexible, interactive biological experience perfect for all ages.',
                 'full_description' => [
                     'es' => 'Capture imágenes dignas de portada en un exclusivo recorrido fotográfico por el Parque Ecológico Natura en La Fortuna. Durante 3 horas, explore una reserva privada de selva tropical acompañado por un guía naturalista experto que le llevará a los mejores puntos para fotografiar fauna y flora en su entorno natural.
 
-Acérquese a especies fascinantes como cocodrilos, ranas arborícolas, serpientes, mariposas y aves tropicales, además de delicadas orquídeas y exuberante vegetación. Cada sendero ofrece oportunidades únicas para obtener tomas espectaculares con iluminación natural y escenarios auténticos.
-
-Una experiencia diseñada para fotógrafos apasionados y amantes de la naturaleza que desean convertir momentos inolvidables en verdaderas obras de arte.',
+                    una experiencia diseñada para fotógrafos apasionados y amantes de la naturaleza que desean convertir momentos inolvidables en verdaderas obras de arte.',
 
                     'en' => 'Capture frame-worthy images on an exclusive photography tour at Natura Eco Park in La Fortuna. During this 3-hour experience, explore a private rainforest reserve guided by an expert naturalist who will lead you to the best locations for photographing wildlife and tropical flora in their natural habitat.
 
-Get close to fascinating species such as crocodiles, tree frogs, snakes, butterflies, and tropical birds, along with delicate orchids and lush vegetation. Every trail offers unique opportunities for stunning shots with natural lighting and authentic rainforest scenery.
+                    Get close to fascinating species such as crocodiles, tree frogs, snakes, butterflies, and tropical birds, along with delicate orchids and lush vegetation. Every trail offers unique opportunities for stunning shots with natural lighting and authentic rainforest scenery.
 
-A premium experience designed for passionate photographers and nature lovers who want to turn unforgettable moments into true works of art.',
+                    A premium experience designed for passionate photographers and nature lovers who want to turn unforgettable moments into true works of art.',
                 ],
 
                 'duration' => [
@@ -207,6 +259,7 @@ A premium experience designed for passionate photographers and nature lovers who
                     ],
                 ],
 
+
                 'ideal_for' => [
                     'es' => [
                         'Fotógrafos aficionados y profesionales',
@@ -219,6 +272,24 @@ A premium experience designed for passionate photographers and nature lovers who
                         'Creative travelers',
                     ],
                 ],
+                'recommendations' => [
+                    'es' => [
+                        'Llevar cámara profesional o equipo fotográfico adecuado.',
+                        'Portar baterías y tarjetas de memoria adicionales.',
+                        'Usar ropa cómoda en colores neutros.',
+                        'Zapatos cerrados para senderos naturales.',
+                        'Evitar el uso de flash para no alterar la fauna.',
+                        'Seguir siempre las indicaciones del guía.',
+                    ],
+                    'en' => [
+                        'Bring professional camera equipment if available.',
+                        'Carry extra batteries and memory cards.',
+                        'Wear comfortable clothing in neutral colors.',
+                        'Closed-toe shoes for natural trails are recommended.',
+                        'Avoid using flash to prevent disturbing wildlife.',
+                        'Always follow the guide’s instructions.',
+                    ],
+                ],
 
                 'location_name' => 'La Fortuna, San Carlos',
             ],
@@ -227,15 +298,15 @@ A premium experience designed for passionate photographers and nature lovers who
                 'full_description' => [
                     'es' => 'Viva una experiencia exclusiva de observación de aves al amanecer en el Parque Ecológico Natura. De 6:00 a.m. a 9:00 a.m., el parque abre sus puertas únicamente para usted y otros apasionados observadores, brindándole privacidad total en la mejor hora del día para avistar aves tropicales.
 
-Acompañado por guías naturalistas profesionales, caminará en silencio por senderos rodeados de exuberante selva mientras descubre coloridas especies que habitan y migran por nuestra región. Disfrute de los cantos matutinos, capture fotografías espectaculares y conecte con la biodiversidad en su momento más activo.
+                    Acompañado por guías naturalistas profesionales, caminará en silencio por senderos rodeados de exuberante selva mientras descubre coloridas especies que habitan y migran por nuestra región. Disfrute de los cantos matutinos, capture fotografías espectaculares y conecte con la biodiversidad en su momento más activo.
 
-Un tour diseñado para verdaderos amantes de la naturaleza que entienden que “el pájaro madrugador se queda con el gusano”.',
+                    Un tour diseñado para verdaderos amantes de la naturaleza que entienden que “el pájaro madrugador se queda con el gusano”.',
 
                     'en' => 'Experience an exclusive sunrise bird watching tour at Natura Eco Park. From 6:00 a.m. to 9:00 a.m., the park opens exclusively for you and fellow bird enthusiasts, offering complete privacy during the best time of day for spotting tropical species.
 
-Guided by professional naturalists, you will walk quietly through lush rainforest trails while discovering colorful resident and migratory birds. Enjoy the morning chorus, capture stunning photographs, and connect with biodiversity at its most active moment.
+                    Guided by professional naturalists, you will walk quietly through lush rainforest trails while discovering colorful resident and migratory birds. Enjoy the morning chorus, capture stunning photographs, and connect with biodiversity at its most active moment.
 
-A tour designed for true nature lovers who understand that “the early bird catches the worm.”',
+                    A tour designed for true nature lovers who understand that “the early bird catches the worm.”',
                 ],
 
                 'duration' => [
@@ -277,6 +348,24 @@ A tour designed for true nature lovers who understand that “the early bird cat
                         'Early risers',
                     ],
                 ],
+                'recommendations' => [
+                    'es' => [
+                        'Usar ropa cómoda en colores neutros.',
+                        'Llevar binoculares si dispone de ellos.',
+                        'Aplicar repelente biodegradable.',
+                        'Evitar ruidos fuertes durante el recorrido.',
+                        'Llegar puntual debido al horario exclusivo de apertura.',
+                        'Llevar cámara si desea fotografías.',
+                    ],
+                    'en' => [
+                        'Wear comfortable clothing in neutral colors.',
+                        'Bring binoculars if available.',
+                        'Use biodegradable insect repellent.',
+                        'Avoid loud noises during the tour.',
+                        'Arrive on time due to exclusive early access.',
+                        'Bring camera if planning to take photos.',
+                    ],
+                ],
 
                 'location_name' => 'Natura Eco Park, La Fortuna',
             ],
@@ -285,18 +374,18 @@ A tour designed for true nature lovers who understand that “the early bird cat
                 'full_description' => [
                     'es' => 'Poza El Salto es un punto natural gratuito ubicado en las afueras de La Fortuna. Perfecto para nadar, relajarse y disfrutar del entorno del río.
 
-No cuenta con parqueo oficial; la mayoría de visitantes dejan sus vehículos en las orillas de la carretera o en pequeños espacios disponibles si hay suerte.
+                    No cuenta con parqueo oficial; la mayoría de visitantes dejan sus vehículos en las orillas de la carretera o en pequeños espacios disponibles si hay suerte.
 
-En el área normalmente encontrarás ventas locales de pinchos, gallos de carne y otros snacks típicos costarricenses.
+                    En el área normalmente encontrarás ventas locales de pinchos, gallos de carne y otros snacks típicos costarricenses.
 
-Es un lugar ideal para disfrutar con amigos o familia sin costo alguno.',
+                    Es un lugar ideal para disfrutar con amigos o familia sin costo alguno.',
                     'en' => 'El Salto River Pool is a free natural swimming spot located just outside La Fortuna. It is perfect for swimming, relaxing, and enjoying the river environment.
 
-There is no official parking area; most visitors park along the roadside or in small available spaces if they find one.
+                    There is no official parking area; most visitors park along the roadside or in small available spaces if they find one.
 
-You will often find local vendors selling grilled skewers, traditional Costa Rican snacks, and small street food options nearby.
+                    You will often find local vendors selling grilled skewers, traditional Costa Rican snacks, and small street food options nearby.
 
-It is an ideal place to enjoy with friends and family at no cost.',
+                    It is an ideal place to enjoy with friends and family at no cost.',
                 ],
                 'duration' => [
                     'es' => 'Libre',
@@ -330,6 +419,24 @@ It is an ideal place to enjoy with friends and family at no cost.',
                         'Groups of friends',
                     ],
                 ],
+                'recommendations' => [
+                    'es' => [
+                        'Usar calzado antideslizante para zonas húmedas.',
+                        'Supervisar siempre a los niños.',
+                        'No dejar objetos de valor sin supervisión.',
+                        'Llevar efectivo si desea comprar alimentos locales.',
+                        'Respetar el entorno natural y no dejar basura.',
+                        'Revisar condiciones climáticas antes de visitar.',
+                    ],
+                    'en' => [
+                        'Wear non-slip footwear for wet areas.',
+                        'Always supervise children.',
+                        'Do not leave valuables unattended.',
+                        'Bring cash if you plan to buy local food.',
+                        'Respect the natural environment and do not litter.',
+                        'Check weather conditions before visiting.',
+                    ],
+                ],
 
                 'location_name' => 'La Fortuna, San Carlos',
 
@@ -339,19 +446,19 @@ It is an ideal place to enjoy with friends and family at no cost.',
                 'full_description' => [
                     'es' => 'Descubra la elegancia natural de la majestuosa Catarata Río Fortuna, uno de los destinos más exclusivos de La Fortuna, Costa Rica.
 
-Esta impresionante caída de más de 70 metros, rodeada de exuberante selva tropical, desciende hacia una piscina natural de aguas cristalinas creando un escenario verdaderamente icónico. El recorrido autoguiado le permite explorar a su propio ritmo, disfrutando de vistas panorámicas, aire puro y una conexión auténtica con la naturaleza.
+                    Esta impresionante caída de más de 70 metros, rodeada de exuberante selva tropical, desciende hacia una piscina natural de aguas cristalinas creando un escenario verdaderamente icónico. El recorrido autoguiado le permite explorar a su propio ritmo, disfrutando de vistas panorámicas, aire puro y una conexión auténtica con la naturaleza.
 
-Descienda aproximadamente 530 escalones hasta la base de la catarata y viva una experiencia inolvidable entre paisajes de postal y tranquilidad absoluta. Su visita incluye parqueo gratuito, vestidores, duchas, casilleros, miradores estratégicos, un jardín de orquídeas y el exclusivo restaurante Río Lounge para completar una experiencia de primer nivel.
+                    Descienda aproximadamente 530 escalones hasta la base de la catarata y viva una experiencia inolvidable entre paisajes de postal y tranquilidad absoluta. Su visita incluye parqueo gratuito, vestidores, duchas, casilleros, miradores estratégicos, un jardín de orquídeas y el exclusivo restaurante Río Lounge para completar una experiencia de primer nivel.
 
-Una experiencia natural sofisticada que combina aventura, comodidad y la majestuosidad incomparable de Costa Rica.',
+                    Una experiencia natural sofisticada que combina aventura, comodidad y la majestuosidad incomparable de Costa Rica.',
 
                     'en' => 'Discover the refined natural beauty of the majestic La Fortuna Waterfall, one of the most exclusive destinations in La Fortuna, Costa Rica.
 
-This breathtaking 70-meter cascade, surrounded by lush tropical rainforest, flows into a crystal-clear natural pool, creating a truly iconic setting. The self-guided trail allows you to explore at your own pace while enjoying panoramic views, fresh mountain air, and an authentic connection with nature.
+                        This breathtaking 70-meter cascade, surrounded by lush tropical rainforest, flows into a crystal-clear natural pool, creating a truly iconic setting. The self-guided trail allows you to explore at your own pace while enjoying panoramic views, fresh mountain air, and an authentic connection with nature.
 
-Descend approximately 530 steps to the base of the waterfall and immerse yourself in postcard-worthy scenery and absolute tranquility. Your visit includes complimentary parking, changing rooms, showers, lockers, scenic viewpoints, an orchid garden, and the exclusive Río Lounge restaurant for a premium experience.
+                        Descend approximately 530 steps to the base of the waterfall and immerse yourself in postcard-worthy scenery and absolute tranquility. Your visit includes complimentary parking, changing rooms, showers, lockers, scenic viewpoints, an orchid garden, and the exclusive Río Lounge restaurant for a premium experience.
 
-A sophisticated nature escape blending adventure, comfort, and the incomparable majesty of Costa Rica.'
+                        A sophisticated nature escape blending adventure, comfort, and the incomparable majesty of Costa Rica.'
                 ],
                 'duration' => [
                     'es' => '2 – 3 horas',
@@ -396,8 +503,6 @@ A sophisticated nature escape blending adventure, comfort, and the incomparable 
                         'Photographers',
                     ],
                 ],
-
-                'location_name' => 'La Fortuna, San Carlos',
                 'recommendations' => [
                     'es' => [
                         'Utilizar calzado cerrado y cómodo adecuado para caminatas en senderos naturales.',
@@ -422,21 +527,24 @@ A sophisticated nature escape blending adventure, comfort, and the incomparable 
                         'When visiting with small children, appropriate carriers are recommended for added comfort.',
                     ],
                 ],
+
+                'location_name' => 'La Fortuna, San Carlos',
+
             ],
             'catarata-rio-celeste' => [
 
                 'full_description' => [
                     'es' => 'Descubra una de las maravillas naturales más impresionantes de Costa Rica: la Catarata Río Celeste, ubicada dentro del Parque Nacional Volcán Tenorio. Este impresionante atractivo natural se encuentra a lo largo del sendero Misterios del Tenorio, un recorrido lineal de 3 km (6 km ida y vuelta) que permite explorar los principales puntos del parque en aproximadamente 3 horas.
 
-Durante el recorrido podrá visitar la icónica catarata de 20 metros de altura, famosa por su intensa coloración azul turquesa producto de un fenómeno natural único. También podrá disfrutar del Mirador con vista a tres de los cuatro conos volcánicos del macizo Tenorio (Tenorio I, Tenorio II y Cerro Montezuma), la Laguna Azul, los Borbollones —fumarolas de alta temperatura producto de la actividad volcánica— y el Teñidero, el punto exacto donde ocurre el fenómeno que da origen al característico color celeste del río.
+                    Durante el recorrido podrá visitar la icónica catarata de 20 metros de altura, famosa por su intensa coloración azul turquesa producto de un fenómeno natural único. También podrá disfrutar del Mirador con vista a tres de los cuatro conos volcánicos del macizo Tenorio (Tenorio I, Tenorio II y Cerro Montezuma), la Laguna Azul, los Borbollones —fumarolas de alta temperatura producto de la actividad volcánica— y el Teñidero, el punto exacto donde ocurre el fenómeno que da origen al característico color celeste del río.
 
-Una experiencia ideal para amantes de la naturaleza, fotografía y aventura en un entorno protegido de extraordinaria biodiversidad.',
+                    Una experiencia ideal para amantes de la naturaleza, fotografía y aventura en un entorno protegido de extraordinaria biodiversidad.',
 
                     'en' => 'Discover one of Costa Rica’s most breathtaking natural wonders: the Rio Celeste Waterfall, located inside Tenorio Volcano National Park. This extraordinary attraction is part of the Misterios del Tenorio trail, a 3 km linear trail (6 km round trip) that allows visitors to explore the park’s main highlights in approximately 3 hours.
 
-Along the trail you will visit the iconic 20-meter-high waterfall, famous for its striking turquoise-blue color created by a unique natural phenomenon. You will also enjoy the scenic viewpoint overlooking three of the four volcanic cones of the Tenorio massif (Tenorio I, Tenorio II, and Montezuma Hill), the Blue Lagoon, the Borbollones —high-temperature volcanic gas vents— and El Teñidero, the exact point where the river changes color.
+                    Along the trail you will visit the iconic 20-meter-high waterfall, famous for its striking turquoise-blue color created by a unique natural phenomenon. You will also enjoy the scenic viewpoint overlooking three of the four volcanic cones of the Tenorio massif (Tenorio I, Tenorio II, and Montezuma Hill), the Blue Lagoon, the Borbollones —high-temperature volcanic gas vents— and El Teñidero, the exact point where the river changes color.
 
-An unforgettable experience for nature lovers, photographers, and adventure seekers exploring Costa Rica’s protected wilderness.'
+                    An unforgettable experience for nature lovers, photographers, and adventure seekers exploring Costa Rica’s protected wilderness.'
                 ],
 
                 'duration' => [
@@ -552,6 +660,39 @@ An unforgettable experience for nature lovers, photographers, and adventure seek
                     'es' => '6:00 a.m. a 4:00 p.m.',
                     'en' => '6:00 a.m. to 4:00 p.m.',
                 ],
+                'includes' => [
+                    'es' => [
+                        'Guía local especializado',
+                        'Caballo asignado según experiencia',
+                        'Refrigerio ligero o degustación local',
+                        'Recorrido por senderos naturales y fincas locales',
+                        'Cruces de río (según condiciones climáticas)',
+                    ],
+                    'en' => [
+                        'Specialized local guide',
+                        'Horse assigned based on experience level',
+                        'Light snack or local tasting',
+                        'Ride through natural trails and local farms',
+                        'River crossings (weather permitting)',
+                    ],
+                ],
+
+                'ideal_for' => [
+                    'es' => [
+                        'Familias',
+                        'Parejas',
+                        'Amantes de la naturaleza',
+                        'Viajeros que buscan aventura suave',
+                        'Personas sin experiencia previa en cabalgata',
+                    ],
+                    'en' => [
+                        'Families',
+                        'Couples',
+                        'Nature lovers',
+                        'Travelers seeking soft adventure',
+                        'Beginners with no previous riding experience',
+                    ],
+                ],
 
                 'recommendations' => [
                     'es' => [
@@ -626,6 +767,39 @@ An unforgettable experience for nature lovers, photographers, and adventure seek
                 'start_hours_text' => [
                     'es' => '8:00 a.m. a 3:00 p.m.',
                     'en' => '8:00 a.m. to 3:00 p.m.',
+                ],
+                'includes' => [
+                    'es' => [
+                        'Recorrido completo de canopy con 7 cables',
+                        'Teleférico panorámico',
+                        'Equipo de seguridad certificado',
+                        'Guías profesionales especializados',
+                        'Sistemas de frenado automáticos',
+                    ],
+                    'en' => [
+                        'Full canopy circuit with 7 cables',
+                        'Scenic gondola ride',
+                        'Certified safety equipment',
+                        'Professional specialized guides',
+                        'Automatic braking systems',
+                    ],
+                ],
+
+                'ideal_for' => [
+                    'es' => [
+                        'Amantes de la adrenalina',
+                        'Aventureros',
+                        'Viajeros activos',
+                        'Parejas y grupos de amigos',
+                        'Personas que buscan experiencias extremas',
+                    ],
+                    'en' => [
+                        'Adrenaline seekers',
+                        'Adventure enthusiasts',
+                        'Active travelers',
+                        'Couples and groups of friends',
+                        'Guests seeking extreme experiences',
+                    ],
                 ],
 
                 'recommendations' => [

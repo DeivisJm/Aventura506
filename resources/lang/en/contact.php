@@ -2,9 +2,8 @@
 
 return [
 
-    //Hero Section
+    // Hero Section
     'title' => 'Contact',
-
     'small_title' => 'Aventura506 Contact',
 
     'hero_title_part_1' => 'Let’s talk about your experience in',
@@ -15,7 +14,7 @@ return [
         an authentic, personalized and hassle-free experience. 
         Whether it is a short getaway or a complete adventure, we guide you step by step.',
 
-    //Why Contact Us Section
+    // Why Contact Us Section
     'why_title' => 'Why contact us?',
 
     'why_description' =>
@@ -39,7 +38,7 @@ return [
     'benefit_5' =>
     'Local support before and during your stay in La Fortuna.',
 
-    //Contact Form Section
+    // Contact Form Section
     'form_title' => 'Send us a message',
 
     'form_description' =>
@@ -61,8 +60,15 @@ return [
     'whatsapp_note' =>
     'You can also contact us directly via WhatsApp using the floating button.',
 
-    //Newsletter Section
+    // Contact Form Feedback
+    'success_title' => 'Message Sent',
+    'success_message' => 'Your message has been successfully sent.',
+    'error_title' => 'Sending Error',
+    'error_message' => 'There was a problem sending your message. Please try again.',
+
+    // Newsletter Section
     'newsletter_title' => 'Stay informed',
     'newsletter_description' =>
     'Receive exclusive recommendations, new tours and special promotions directly in your inbox.',
+
 ];

@@ -2,9 +2,8 @@
 
 return [
 
-    //Hero Section
+    // Hero Section
     'title' => 'Contacto',
-
     'small_title' => 'Contacto Aventura506',
 
     'hero_title_part_1' => 'Hablemos sobre tu experiencia en',
@@ -17,7 +16,7 @@ return [
         te guiamos con recomendaciones claras y honestas.',
 
 
-    //Why Contact Us Section
+    // Why Contact Us Section
     'why_title' => '¿Por qué contactarnos?',
 
     'why_description' =>
@@ -41,7 +40,8 @@ return [
     'benefit_5' =>
     'Soporte local antes y durante tu estancia en La Fortuna.',
 
-    //Contact Form Section
+
+    // Contact Form Section
     'form_title' => 'Envíanos un mensaje',
 
     'form_description' =>
@@ -63,9 +63,17 @@ return [
     'whatsapp_note' =>
     'También podés escribirnos directamente por WhatsApp usando el botón flotante.',
 
+    // Contact Form Feedback
+    'success_title' => 'Mensaje enviado',
+    'success_message' => 'Tu mensaje fue enviado correctamente.',
+    'error_title' => 'Error al enviar',
+    'error_message' => 'Hubo un problema al enviar el mensaje. Inténtalo nuevamente.',
 
-    //Newsletter Section
+
+
+    // Newsletter Section
     'newsletter_title' => 'Mantente informado',
     'newsletter_description' =>
     'Recibí recomendaciones exclusivas, nuevos tours y promociones especiales directamente en tu correo.',
+
 ];

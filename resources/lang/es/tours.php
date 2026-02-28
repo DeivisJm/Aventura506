@@ -2,11 +2,7 @@
 
 return [
 
-    /*
-    |--------------------------------------------------------------------------
-    | Tours Page (Spanish)
-    |--------------------------------------------------------------------------
-    */
+    // Tours Page (Spanish)
 
     // Page & Hero
     'page_title' => 'Tours',
@@ -34,4 +30,5 @@ return [
 
     // Empty state
     'no_results' => 'No hay tours disponibles para esta categoría',
+
 ];

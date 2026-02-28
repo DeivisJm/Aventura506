@@ -95,14 +95,15 @@
 
 
         {{-- ================= FORM CARD ================= --}}
-        <div class="scroll-hero">
+        <form method="POST" action="{{ route('contact.send') }}" class="space-y-7">
+            @csrf
 
-            <div class="bg-white dark:bg-white/5 backdrop-blur-md
-        rounded-3xl p-12
-        border border-gray-200 dark:border-white/10
-        shadow-xl transition-all duration-500">
+            <div class="scroll-hero">
 
-                <form class="space-y-7">
+                <div class="bg-white dark:bg-white/5 backdrop-blur-md
+            rounded-3xl p-12
+            border border-gray-200 dark:border-white/10
+            shadow-xl transition-all duration-500">
 
                     {{-- NAME --}}
                     <div>
@@ -112,66 +113,72 @@
                         </label>
 
                         <input type="text"
+                            name="name"
+                            required
                             class="w-full px-4 py-3 rounded-xl
-                            bg-white dark:bg-transparent
-                            border border-gray-300 dark:border-gray-700
-                            text-black dark:text-white
-                            placeholder-gray-400 dark:placeholder-gray-500
-                            focus:text-black dark:focus:text-white
-                            focus:outline-none
-                            focus:border-green-600 dark:focus:border-green-400
-                            transition-colors duration-300"
+                    bg-white dark:bg-transparent
+                    border border-gray-300 dark:border-gray-700
+                    text-black dark:text-white
+                    placeholder-gray-400 dark:placeholder-gray-500
+                    focus:text-black dark:focus:text-white
+                    focus:outline-none
+                    focus:border-green-600 dark:focus:border-green-400
+                    transition-colors duration-300"
                             placeholder="{{ __('contact.form_name_placeholder') }}">
                     </div>
 
                     {{-- EMAIL --}}
-                    <div>
+                    <div class="mt-7">
                         <label class="block text-sm font-medium mb-2
                     text-gray-900 dark:text-white">
                             {{ __('contact.form_email_label') }}
                         </label>
 
                         <input type="email"
+                            name="email"
+                            required
                             class="w-full px-4 py-3 rounded-xl
-                            bg-white dark:bg-transparent
-                            border border-gray-300 dark:border-gray-700
-                            text-black dark:text-white
-                            placeholder-gray-400 dark:placeholder-gray-500
-                            focus:text-black dark:focus:text-white
-                            focus:outline-none
-                            focus:border-green-600 dark:focus:border-green-400
-                            transition-colors duration-300"
+                    bg-white dark:bg-transparent
+                    border border-gray-300 dark:border-gray-700
+                    text-black dark:text-white
+                    placeholder-gray-400 dark:placeholder-gray-500
+                    focus:text-black dark:focus:text-white
+                    focus:outline-none
+                    focus:border-green-600 dark:focus:border-green-400
+                    transition-colors duration-300"
                             placeholder="{{ __('contact.form_email_placeholder') }}">
                     </div>
 
                     {{-- MESSAGE --}}
-                    <div>
+                    <div class="mt-7">
                         <label class="block text-sm font-medium mb-2
                     text-gray-900 dark:text-white">
                             {{ __('contact.form_message_label') }}
                         </label>
 
-                        <textarea rows="4"
+                        <textarea name="message"
+                            rows="4"
+                            required
                             class="w-full px-4 py-3 rounded-xl
-                        bg-white dark:bg-transparent
-                        border border-gray-300 dark:border-gray-700
-                        text-black dark:text-white
-                        placeholder-gray-400 dark:placeholder-gray-500
-                        focus:text-black dark:focus:text-white
-                        focus:outline-none
-                        focus:border-green-600 dark:focus:border-green-400
-                        transition-colors duration-300"
+                    bg-white dark:bg-transparent
+                    border border-gray-300 dark:border-gray-700
+                    text-black dark:text-white
+                    placeholder-gray-400 dark:placeholder-gray-500
+                    focus:text-black dark:focus:text-white
+                    focus:outline-none
+                    focus:border-green-600 dark:focus:border-green-400
+                    transition-colors duration-300"
                             placeholder="{{ __('contact.form_message_placeholder') }}"></textarea>
                     </div>
 
                     {{-- BUTTON --}}
                     <button type="submit"
-                        class="w-full py-3 rounded-full
-                        bg-green-600 dark:bg-green-500
-                        text-white text-sm uppercase tracking-widest
-                        transition-all duration-300
-                        hover:bg-green-700 dark:hover:bg-green-400
-                        hover:shadow-lg">
+                        class="w-full mt-7 py-3 rounded-full
+                bg-green-600 dark:bg-green-500
+                text-white text-sm uppercase tracking-widest
+                transition-all duration-300
+                hover:bg-green-700 dark:hover:bg-green-400
+                hover:shadow-lg">
                         {{ __('contact.form_submit') }}
                     </button>
 
@@ -180,11 +187,10 @@
                         {{ __('contact.whatsapp_note') }}
                     </p>
 
-                </form>
+                </div>
 
             </div>
-
-        </div>
+        </form>
 
     </div>
 </section>
