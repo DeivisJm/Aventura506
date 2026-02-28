@@ -136,6 +136,43 @@
                 <td>{{ $booking->time }}</td>
             </tr>
 
+            <tr>
+                <td class="label">{{ __('booking.email_persons') }}</td>
+                <td>
+
+                    @php
+                    $groupedDetails = $booking->details
+                    ->where('quantity', '>', 0)
+                    ->groupBy(function($detail) {
+                    return $detail->tourPrice->category_type;
+                    });
+                    @endphp
+
+                    @foreach($groupedDetails as $market => $details)
+
+                    {{-- Market Title --}}
+                    <strong>
+                        {{ $market === 'national'
+                        ? __('booking.national_option')
+                        : __('booking.international_option') }}
+                    </strong>
+                    <br>
+
+                    @foreach($details as $detail)
+
+                    - {{ $detail->tourPrice->getTranslatedType() }}
+                    ({{ $detail->quantity }})
+                    <br>
+
+                    @endforeach
+
+                    <br>
+
+                    @endforeach
+
+                </td>
+            </tr>
+
             @if($booking->notes)
             <tr>
                 <td class="label">{{ __('booking.additional_notes') }}</td>
@@ -146,7 +183,7 @@
             <tr class="total-row">
                 <td class="label">{{ __('booking.email_total') }}</td>
                 <td class="total">
-                    ${{ number_format($booking->total, 2) }}
+                    ₡{{ number_format($booking->total, 2) }}
                 </td>
             </tr>
 

@@ -47,8 +47,8 @@ class Booking extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function details(): HasMany
+    public function details()
     {
-        return $this->hasMany(BookingDetail::class);
+        return $this->hasMany(\App\Models\BookingDetail::class);
     }
 }

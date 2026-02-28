@@ -160,7 +160,7 @@ class TourPriceSeeder extends Seeder
                     'type_key' => 'adult_national',
                     'type' => ['es' => 'Adultos Nacionales', 'en' => 'National Adults'],
                     'price' => 10,
-                    'currency' => 'CRC',
+                    'currency' => 'USD',
                     'min_age' => 9,
                     'max_age' => null,
                     'is_free' => false,
@@ -170,11 +170,11 @@ class TourPriceSeeder extends Seeder
                 [
                     'type_key' => 'child_national',
                     'type' => ['es' => 'Niños Nacionales', 'en' => 'National Children'],
-                    'currency' => 'CRC',
-                    'price' => 5,
+                    'currency' => 'USD',
+                    'price' => 0,
                     'min_age' => 0,
                     'max_age' => 8,
-                    'is_free' => false,
+                    'is_free' => true,
                     'category_type' => 'national',
                 ],
 
@@ -182,7 +182,7 @@ class TourPriceSeeder extends Seeder
                 [
                     'type_key' => 'senior_national',
                     'type' => ['es' => 'Adultos Mayores Nacionales', 'en' => 'National Seniors'],
-                    'currency' => 'CRC',
+                    'currency' => 'USD',
                     'price' => 5,
                     'min_age' => 65,
                     'max_age' => null,
@@ -220,8 +220,8 @@ class TourPriceSeeder extends Seeder
                 [
                     'type_key' => 'adult_national',
                     'type' => ['es' => 'Adultos', 'en' => 'Adults'],
-                    'currency' => 'CRC',
-                    'price' => 800,
+                    'currency' => 'USD',
+                    'price' =>2,
                     'min_age' => 13,
                     'max_age' => 64,
                     'is_free' => false,
@@ -231,8 +231,8 @@ class TourPriceSeeder extends Seeder
                 [
                     'type_key' => 'child_national',
                     'type' => ['es' => 'Niños', 'en' => 'Children'],
-                    'currency' => 'CRC',
-                    'price' => 500,
+                    'currency' => 'USD',
+                    'price' => 1,
                     'min_age' => 2,
                     'max_age' => 12,
                     'is_free' => false,
@@ -242,7 +242,7 @@ class TourPriceSeeder extends Seeder
                 [
                     'type_key' => 'young_child_national',
                     'type' => ['es' => 'Niños pequeños', 'en' => 'Young Children'],
-                    'currency' => 'CRC',
+                    'currency' => 'USD',
                     'price' => 0,
                     'min_age' => 0,
                     'max_age' => 1,
@@ -253,7 +253,7 @@ class TourPriceSeeder extends Seeder
                 [
                     'type_key' => 'senior_national',
                     'type' => ['es' => 'Adultos mayores', 'en' => 'Senior Adults'],
-                    'currency' => 'CRC',
+                    'currency' => 'USD',
                     'price' => 0,
                     'min_age' => 65,
                     'max_age' => null,

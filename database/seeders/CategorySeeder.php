@@ -9,31 +9,21 @@ class CategorySeeder extends Seeder
 {
     public function run(): void
     {
-        Category::insert([
-            [
-                'name' => 'Nature',
-                'slug' => 'nature',
-            ],
-            [
-                'name' => 'Water',
-                'slug' => 'water',
-            ],
-            [
-                'name' => 'Horseback Riding',
-                'slug' => 'horseback',
-            ],
-            [
-                'name' => 'Vehicles',
-                'slug' => 'vehicles',
-            ],
-            [
-                'name' => 'Adventure',
-                'slug' => 'adventure',
-            ],
-            [
-                'name' => 'Extreme',
-                'slug' => 'extreme',
-            ],
-        ]);
+        $categories = [
+            ['name' => 'Nature', 'slug' => 'nature'],
+            ['name' => 'Water', 'slug' => 'water'],
+            ['name' => 'Horseback Riding', 'slug' => 'horseback'],
+            ['name' => 'Vehicles', 'slug' => 'vehicles'],
+            ['name' => 'Adventure', 'slug' => 'adventure'],
+            ['name' => 'Extreme', 'slug' => 'extreme'],
+        ];
+
+        foreach ($categories as $category) {
+
+            Category::updateOrCreate(
+                ['slug' => $category['slug']], // unique field
+                $category
+            );
+        }
     }
 }

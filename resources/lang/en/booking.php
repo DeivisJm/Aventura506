@@ -29,8 +29,8 @@ return [
 
 
     'select_nationality' => 'Select your nationality',
-    'national_option' => 'National',
-    'international_option' => 'International Visitor',
+    'national_option' => 'Nacional / Residente',
+    'international_option' => 'Internacional / No Residente',
 
 
     /*

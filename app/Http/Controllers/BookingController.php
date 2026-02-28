@@ -72,24 +72,30 @@ class BookingController extends Controller
 
                     $tourPrice = TourPrice::findOrFail($priceId);
 
-                    // Convert national prices (previously CRC) to USD
+                    // All prices are stored in USD in database
                     $priceInUsd = $tourPrice->price;
 
-                    $exchangeRate = config('currency.crc_to_usd');
+                    // Get exchange rate from settings (default 500)
+                    $exchangeRate = (float) \App\Models\Setting::getValue('usd_to_crc', 500);
 
-                    if ($tourPrice->category_type === 'national') {
-                        $priceInUsd = $tourPrice->price * $exchangeRate;
-                    }
+                    // Convert to CRC for storage
+                    $priceInCrc = $priceInUsd * $exchangeRate;
 
                     BookingDetail::create([
                         'booking_id'    => $booking->id,
                         'tour_price_id' => $tourPrice->id,
                         'quantity'      => $quantity,
+
+                        // Legacy column (kept for compatibility)
                         'price'         => $priceInUsd,
+
+                        // New professional structure
+                        'price_usd'     => $priceInUsd,
+                        'price_crc'     => $priceInCrc,
                     ]);
 
                     if (!$tourPrice->is_free) {
-                        $total += $quantity * $priceInUsd;
+                        $total += $quantity * $priceInCrc;
                     }
 
                     $persons += $quantity;

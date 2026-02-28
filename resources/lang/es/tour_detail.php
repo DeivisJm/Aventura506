@@ -16,6 +16,7 @@ return [
     'get_directions' => 'Obtener direcciones',
     'free' => 'Gratis',
     'pricing_title' => 'Precios',
+    'currency' => 'Moneda',
     'starting_from' => 'Desde',
     'per_person' => 'por persona',
     'select_option' => 'Selecciona tu opción',

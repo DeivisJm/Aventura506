@@ -279,84 +279,83 @@
 
         <div class="sticky top-32 h-fit bg-card p-10 rounded-3xl shadow-xl">
 
-            <h3 class="text-2xl font-bold mb-6 text-green-600">
+            {{-- ================= TITLE ================= --}}
+            <h3 class="text-2xl font-bold mb-8 text-green-600">
                 {{ __('tour_detail.quick_info') }}
             </h3>
 
-            <div class="bg-white/40 dark:bg-white/5 rounded-2xl p-5 mb-8 border border-gray-200 dark:border-gray-700">
+            {{-- ================= STARTING FROM CARD ================= --}}
+            <div class="bg-white/40 dark:bg-white/5 rounded-2xl p-6 border border-gray-200 dark:border-gray-700">
 
-                <div class="text-sm uppercase tracking-widest text-muted mb-2">
-                    {{ __('tour_detail.starting_from') ?? 'Starting from' }}
+                {{-- Starting From --}}
+                <div class="text-sm uppercase tracking-widest text-muted mb-3">
+                    {{ __('tour_detail.starting_from') }}
                 </div>
 
-                <div class="text-3xl font-extrabold text-green-600">
-                    @php
-                    $exchangeRate = config('currency.crc_to_usd');
-
-                    // Try to find an adult-type price
-                    $priceModel = $tour->prices->where('type_key', 'adult')->first();
-
-                    // Si no existe adult, buscar cualquier precio que no sea gratis
-                    if (!$priceModel) {
-                    $priceModel = $tour->prices->where('is_free', false)->first();
-                    }
-
-                    if ($priceModel && !$priceModel->is_free) {
-
-                    $priceInUsd = $priceModel->price;
-
-                    if ($priceModel->currency === 'CRC') {
-                    $priceInUsd = $priceModel->price * $exchangeRate;
-                    }
-
-                    } else {
-                    $priceInUsd = null;
-                    }
-                    @endphp
-
-                    @if($priceInUsd)
-                    ${{ number_format($priceInUsd, 2) }}
-                    @else
-                    {{ __('tour_detail.free') }}
-                    @endif
+                {{-- Price --}}
+                <div id="startingFromPrice"
+                    class="text-4xl font-extrabold text-green-600 leading-tight">
                 </div>
 
-                <div class="text-xs uppercase tracking-widest text-muted mt-1">
+                <div class="text-xs uppercase tracking-widest text-muted mt-2">
                     {{ __('tour_detail.per_person') }}
+                </div>
+
+                {{-- Currency Selector --}}
+                <div class="flex items-center justify-between mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+
+                    <span class="text-sm font-medium text-muted">
+                        {{ __('tour_detail.currency') }}
+                    </span>
+
+                    <div class="flex gap-2">
+                        <button type="button"
+                            data-currency="USD"
+                            class="currency-btn px-3 py-1 rounded-md text-xs border transition">
+                            USD $
+                        </button>
+
+                        <button type="button"
+                            data-currency="CRC"
+                            class="currency-btn px-3 py-1 rounded-md text-xs border transition">
+                            CRC ₡
+                        </button>
+                    </div>
+
                 </div>
 
             </div>
 
+            {{-- ================= PRICE LIST ================= --}}
             @if($tour->prices->count())
 
             @php
             $groupedPrices = $tour->prices->groupBy('category_type');
+
+            $hasNational = $tour->prices->where('category_type', 'national')->count() > 0;
+            $hasInternational = $tour->prices->where('category_type', 'international')->count() > 0;
+            $showMarketTitles = $hasNational && $hasInternational;
             @endphp
 
-            <div class="mt-6 border-t pt-6 space-y-8">
-
-                @php
-                $hasNational = $tour->prices->where('category_type', 'national')->count() > 0;
-                $hasInternational = $tour->prices->where('category_type', 'international')->count() > 0;
-                $showMarketTitles = $hasNational && $hasInternational;
-                @endphp
+            <div class="mt-10 space-y-8">
 
                 @foreach($groupedPrices as $market => $marketPrices)
 
                 <div>
 
                     @if($showMarketTitles)
-                    <h4 class="text-lg font-semibold mb-4">
-                        {{ $market === 'national' 
-                    ? __('tour_detail.national_prices') 
-                    : __('tour_detail.international_prices') }}
+                    <h4 class="text-base font-semibold mb-4">
+                        {{ $market === 'national'
+                            ? __('tour_detail.national_prices')
+                            : __('tour_detail.international_prices') }}
                     </h4>
                     @endif
 
-                    <div class="space-y-3">
+                    <div class="space-y-4">
 
                         @foreach($marketPrices as $price)
-                        <div class="flex justify-between items-center py-2 px-3 rounded-lg hover:bg-black/5">
+
+                        <div class="flex justify-between items-center">
 
                             <div>
                                 <div class="font-medium">
@@ -374,25 +373,12 @@
                                 @endif
                             </div>
 
-                            <div class="font-semibold text-green-600">
-                                @if($price->is_free)
-                                {{ __('tour_detail.free') }}
-                                @else
-                                @php
-                                $priceInUsd = $price->price;
-
-                                $exchangeRate = config('currency.crc_to_usd');
-
-                                if($price->currency === 'CRC') {
-                                $priceInUsd = $price->price * $exchangeRate;
-                                }
-                                @endphp
-
-                                ${{ number_format($priceInUsd, 2) }}
-                                @endif
+                            <div class="font-semibold text-green-600"
+                                data-price-id="{{ $price->id }}">
                             </div>
 
                         </div>
+
                         @endforeach
 
                     </div>
@@ -402,19 +388,26 @@
                 @endforeach
 
             </div>
+
             @endif
 
+            {{-- ================= RESERVE BUTTON ================= --}}
             @if($tour->prices->where('is_free', false)->count())
+
             <button type="button"
                 id="openBooking"
                 class="btn-primary w-full mt-10 text-lg py-4 shadow-lg">
                 {{ __('tour_detail.reserve') }}
             </button>
+
             @else
+
             <div class="mt-10 text-center text-green-600 font-semibold text-lg">
                 {{ __('tour_detail.free') }}
             </div>
+
             @endif
+
         </div>
 
 </section>
@@ -454,21 +447,18 @@
 
 {{-- ================= Prices ================= --}}
 @php
-
-$exchangeRate = config('currency.crc_to_usd');
-
+use App\Models\Setting;
+$exchangeRate = (float) Setting::getValue('usd_to_crc', 500);
 $pricesForJs = $tour->prices->map(function($price) use ($exchangeRate){
 
-$priceInUsd = $price->price;
-
-if($price->currency === 'CRC'){
-    $priceInUsd = $price->price * $exchangeRate;
-}
+$priceInUsd = round($price->price, 2);
+$priceInCrc = round($price->price * $exchangeRate, 2);
 
 return [
 "id" => $price->id,
 "type" => $price->getTranslatedType(),
-"price" => round($priceInUsd, 2),
+"price_usd" => $priceInUsd,
+"price_crc" => $priceInCrc,
 "min_age" => $price->min_age,
 "max_age" => $price->max_age,
 "is_free" => $price->is_free,
@@ -514,5 +504,116 @@ return [
 </script>
 
 <x-booking-modal :tour="$tour" />
+
+<script>
+    /**
+     * Currency Engine
+     * Handles UI updates, persistence, and price recalculation
+     */
+
+    document.addEventListener('DOMContentLoaded', function() {
+
+        const currencyButtons = document.querySelectorAll('.currency-btn');
+        const pricesData = JSON.parse(
+            document.getElementById('tourDynamicData').dataset.prices
+        );
+
+        let activeCurrency = localStorage.getItem('selectedCurrency') || 'USD';
+
+        /**
+         * Formats price according to selected currency
+         */
+        function formatPrice(value) {
+            if (activeCurrency === 'CRC') {
+                return '₡' + Number(value).toLocaleString();
+            }
+            return '$' + Number(value).toFixed(2);
+        }
+
+        /**
+         * Updates all visible prices in sidebar
+         */
+        function updateSidebarPrices() {
+
+            document.querySelectorAll('[data-price-id]').forEach(el => {
+                const id = el.dataset.priceId;
+                const priceObj = pricesData.find(p => p.id == id);
+
+                if (!priceObj || priceObj.is_free) {
+                    el.textContent = window.freeText;
+                    return;
+                }
+
+                const value = activeCurrency === 'CRC' ?
+                    priceObj.price_crc :
+                    priceObj.price_usd;
+
+                el.textContent = formatPrice(value);
+            });
+
+            updateStartingFrom();
+        }
+
+        /**
+         * Updates "Starting from" block
+         */
+        function updateStartingFrom() {
+            const startEl = document.getElementById('startingFromPrice');
+            if (!startEl) return;
+
+            const firstPaid = pricesData.find(p => !p.is_free);
+
+            if (!firstPaid) {
+                startEl.textContent = window.freeText;
+                return;
+            }
+
+            const value = activeCurrency === 'CRC' ?
+                firstPaid.price_crc :
+                firstPaid.price_usd;
+
+            startEl.textContent = formatPrice(value);
+        }
+
+        /**
+         * Updates active button style
+         */
+        function updateActiveButton() {
+            currencyButtons.forEach(btn => {
+                btn.classList.remove('bg-green-600', 'text-white');
+                if (btn.dataset.currency === activeCurrency) {
+                    btn.classList.add('bg-green-600', 'text-white');
+                }
+            });
+        }
+
+        /**
+         * Change currency
+         */
+        function setCurrency(currency) {
+
+            activeCurrency = currency;
+            localStorage.setItem('selectedCurrency', currency);
+
+            updateSidebarPrices();
+            updateActiveButton();
+
+            // Make currency globally accessible
+            window.currentCurrency = currency;
+
+            // Dispatch global event so booking modal updates automatically
+            document.dispatchEvent(new Event('currencyChanged'));
+        }
+
+        currencyButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                setCurrency(btn.dataset.currency);
+            });
+        });
+
+        setCurrency(activeCurrency);
+
+    });
+</script>
 
 @endsection

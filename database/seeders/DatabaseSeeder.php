@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use App\Models\Setting;
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,5 +17,10 @@ class DatabaseSeeder extends Seeder
             TourPriceSeeder::class,
             TourScheduleSeeder::class,
         ]);
+
+        Setting::updateOrCreate(
+            ['key' => 'usd_to_crc'],
+            ['value' => 500]
+        );
     }
 }

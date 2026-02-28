@@ -88,7 +88,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 const wrapper = document.createElement('div');
                 wrapper.className = "grid grid-cols-3 items-center border-b pb-4 gap-4";
 
-                const currencySymbol = price.currency === 'CRC' ? '₡' : '$';
 
                 /* ================= AGE RANGE ================= */
                 let ageRange = "";
@@ -119,7 +118,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 <div class="text-right font-semibold">
                     ${price.is_free
                         ? window.freeText
-                        : currencySymbol + parseFloat(price.price).toFixed(2)
+                        : (
+                            (window.currentCurrency === 'CRC'
+                                ? '₡' + Number(price.price_crc).toLocaleString()
+                                : '$' + Number(price.price_usd).toFixed(2)
+                            )
+                        )
                     }
                 </div>
             `;
@@ -149,7 +153,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
         recalcTotal();
     }
-
+    
+    /* ===============================
+       Listen for global currency change
+    ================================ */
+    document.addEventListener('currencyChanged', function () {
+        renderPrices();
+    });
 
     function recalcTotal() {
 
@@ -163,11 +173,20 @@ document.addEventListener('DOMContentLoaded', function () {
             const priceObj = prices.find(p => p.id == input.name.match(/\d+/)[0]);
 
             if (priceObj && !priceObj.is_free) {
-                total += qty * parseFloat(priceObj.price);
+
+                const unitPrice = window.currentCurrency === 'CRC'
+                    ? priceObj.price_crc
+                    : priceObj.price_usd;
+
+                total += qty * parseFloat(unitPrice);
             }
         });
 
-        totalPriceEl.textContent = "$" + total.toFixed(2);
+        if (window.currentCurrency === 'CRC') {
+            totalPriceEl.textContent = '₡' + Number(total).toLocaleString();
+        } else {
+            totalPriceEl.textContent = '$' + total.toFixed(2);
+        }
         hiddenTotal.value = total.toFixed(2);
     }
 

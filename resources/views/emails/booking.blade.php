@@ -92,6 +92,43 @@
                                     <td>{{ $booking->time }}</td>
                                 </tr>
 
+                                <tr style="background:#f9fafb;">
+                                    <td><strong>{{ __('booking.email_persons') }}</strong></td>
+                                    <td>
+
+                                        @php
+                                        $groupedDetails = $booking->details
+                                        ->where('quantity', '>', 0)
+                                        ->groupBy(function($detail) {
+                                        return $detail->tourPrice->category_type;
+                                        });
+                                        @endphp
+
+                                        @foreach($groupedDetails as $market => $details)
+
+                                        {{-- Market Title --}}
+                                        <strong>
+                                            {{ $market === 'national'
+                                            ? __('booking.national_option')
+                                            : __('booking.international_option') }}
+                                        </strong>
+                                        <br>
+
+                                        @foreach($details as $detail)
+
+                                        - {{ $detail->tourPrice->getTranslatedType() }}
+                                        ({{ $detail->quantity }})
+                                        <br>
+
+                                        @endforeach
+
+                                        <br>
+
+                                        @endforeach
+
+                                    </td>
+                                </tr>
+
                                 @if($booking->notes)
                                 <tr>
                                     <td><strong>{{ __('booking.additional_notes') }}</strong></td>
@@ -102,7 +139,7 @@
                                 <tr>
                                     <td><strong>{{ __('booking.email_total') }}</strong></td>
                                     <td style="font-size:16px; font-weight:bold; color:#16a34a;">
-                                        ${{ number_format($booking->total, 2) }}
+                                        ₡{{ number_format($booking->total, 2) }}
                                     </td>
                                 </tr>
 

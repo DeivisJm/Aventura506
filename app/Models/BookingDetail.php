@@ -12,6 +12,8 @@ class BookingDetail extends Model
         'tour_price_id',
         'quantity',
         'price',
+        'price_usd',
+        'price_crc',
     ];
 
     protected $casts = [
@@ -23,8 +25,8 @@ class BookingDetail extends Model
         return $this->belongsTo(Booking::class);
     }
 
-    public function tourPrice(): BelongsTo
+    public function tourPrice()
     {
-        return $this->belongsTo(TourPrice::class);
+        return $this->belongsTo(\App\Models\TourPrice::class);
     }
 }

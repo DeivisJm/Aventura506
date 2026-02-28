@@ -16,6 +16,7 @@ return [
     'get_directions' => 'Get directions',
     'free' => 'Free',
     'pricing_title' => 'Pricing',
+    'currency' => 'Currency',
     'starting_from' => 'Starting from',
     'per_person' => 'per person',
     'select_option' => 'Choose your option',
