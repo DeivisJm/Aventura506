@@ -139,37 +139,40 @@
             <tr>
                 <td class="label">{{ __('booking.email_persons') }}</td>
                 <td>
-
                     @php
-                    $groupedDetails = $booking->details
-                    ->where('quantity', '>', 0)
-                    ->groupBy(function($detail) {
+                    $validDetails = $booking->details->where('quantity', '>', 0);
+
+                    $groupedDetails = $validDetails->groupBy(function($detail) {
                     return $detail->tourPrice->category_type;
                     });
+
+                    $hasNational = $groupedDetails->has('national');
+                    $hasInternational = $groupedDetails->has('international');
+                    $showMarketTitles = $hasNational && $hasInternational;
                     @endphp
 
                     @foreach($groupedDetails as $market => $details)
 
-                    {{-- Market Title --}}
+                    @if($showMarketTitles)
                     <strong>
                         {{ $market === 'national'
-                        ? __('booking.national_option')
-                        : __('booking.international_option') }}
+                ? __('booking.national_option')
+                : __('booking.international_option') }}
                     </strong>
                     <br>
+                    @endif
 
                     @foreach($details as $detail)
-
                     - {{ $detail->tourPrice->getTranslatedType() }}
                     ({{ $detail->quantity }})
                     <br>
-
                     @endforeach
 
+                    @if($showMarketTitles)
                     <br>
+                    @endif
 
                     @endforeach
-
                 </td>
             </tr>
 
@@ -183,7 +186,7 @@
             <tr class="total-row">
                 <td class="label">{{ __('booking.email_total') }}</td>
                 <td class="total">
-                    ₡{{ number_format($booking->total, 2) }}
+                    {{ $booking->formatted_total }}
                 </td>
             </tr>
 

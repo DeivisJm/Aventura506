@@ -1,3 +1,13 @@
+// money global initialization
+window.currentCurrency = window.currentCurrency || 'USD';
+
+document.addEventListener('DOMContentLoaded', function () {
+    const currencyInput = document.getElementById('bookingCurrency');
+    if (currencyInput) {
+        currencyInput.value = window.currentCurrency;
+    }
+});
+
 document.addEventListener('DOMContentLoaded', function () {
 
     const dataContainer = document.getElementById('tourDynamicData');
@@ -153,11 +163,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
         recalcTotal();
     }
-    
+
     /* ===============================
        Listen for global currency change
     ================================ */
     document.addEventListener('currencyChanged', function () {
+
+        // update hidden input
+        const currencyInput = document.getElementById('bookingCurrency');
+        if (currencyInput) {
+            currencyInput.value = window.currentCurrency;
+        }
+
         renderPrices();
     });
 
@@ -337,3 +354,5 @@ if (openNationalityBtn && nationalityModal) {
         });
     });
 }
+
+

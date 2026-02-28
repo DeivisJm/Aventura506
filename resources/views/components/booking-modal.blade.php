@@ -162,7 +162,7 @@
                     </div>
 
                     {{-- PERSONS (DYNAMIC) --}}
-                    <input type="hidden" name="currency" id="bookingCurrency">
+                    <input type="hidden" name="currency" id="bookingCurrency" value="USD">
                     <div id="dynamicPriceOptions"
                         class="space-y-4"></div>
 

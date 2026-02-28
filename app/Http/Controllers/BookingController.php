@@ -16,9 +16,6 @@ use Carbon\Carbon;
 
 class BookingController extends Controller
 {
-
-
-
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -31,6 +28,7 @@ class BookingController extends Controller
             'date'        => 'required',
             'time'        => 'required|string|max:20',
             'prices'      => 'required|array',
+            'currency'    => 'required|in:USD,CRC',
         ]);
 
         $selectedPrices = array_filter($validated['prices'], fn($qty) => (int) $qty > 0);
@@ -47,8 +45,13 @@ class BookingController extends Controller
 
             $tour = Tour::findOrFail($validated['tour_id']);
 
-            $total = 0;
+            $totalUsd = 0;
             $persons = 0;
+
+            $selectedCurrency = $validated['currency'];
+
+            //change tip form settings (default 500) 
+            $exchangeRate = (float) \App\Models\Setting::getValue('usd_to_crc', 500);
 
             $formattedDate = Carbon::parse($validated['date'])->format('Y-m-d');
             $formattedTime = Carbon::parse($validated['time'])->format('H:i:s');
@@ -72,39 +75,43 @@ class BookingController extends Controller
 
                     $tourPrice = TourPrice::findOrFail($priceId);
 
-                    // All prices are stored in USD in database
+                    //price in USD always 
                     $priceInUsd = $tourPrice->price;
 
-                    // Get exchange rate from settings (default 500)
-                    $exchangeRate = (float) \App\Models\Setting::getValue('usd_to_crc', 500);
-
-                    // Convert to CRC for storage
+                    //convert to CRC 
                     $priceInCrc = $priceInUsd * $exchangeRate;
 
                     BookingDetail::create([
                         'booking_id'    => $booking->id,
                         'tour_price_id' => $tourPrice->id,
                         'quantity'      => $quantity,
-
-                        // Legacy column (kept for compatibility)
                         'price'         => $priceInUsd,
-
-                        // New professional structure
                         'price_usd'     => $priceInUsd,
                         'price_crc'     => $priceInCrc,
                     ]);
 
                     if (!$tourPrice->is_free) {
-                        $total += $quantity * $priceInCrc;
+                        $totalUsd += $quantity * $priceInUsd;
                     }
 
                     $persons += $quantity;
                 }
             }
 
+            $totalCrc = $totalUsd * $exchangeRate;
+
+            $totalDisplay = $selectedCurrency === 'CRC'
+                ? $totalCrc
+                : $totalUsd;
+
             $booking->update([
-                'persons' => $persons,
-                'total'   => $total,
+                'persons'       => $persons,
+                'total'         => $totalDisplay,
+                'currency'      => $selectedCurrency,
+                'exchange_rate' => $exchangeRate,
+                'total_usd'     => $totalUsd,
+                'total_crc'     => $totalCrc,
+                'total_display' => $totalDisplay,
             ]);
 
             $booking->load('details.tourPrice');

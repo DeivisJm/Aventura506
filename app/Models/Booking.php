@@ -17,10 +17,15 @@ class Booking extends Model
         'guest_nationality',
         'date',
         'time',
+        'persons',
         'total',
+        'currency',
         'status',
         'notes',
-        'currency',
+        'exchange_rate',
+        'total_usd',
+        'total_crc',
+        'total_display',
     ];
 
     protected $casts = [
@@ -35,6 +40,16 @@ class Booking extends Model
             ->locale(app()->getLocale())
             ->translatedFormat('F d, Y')
             : null;
+    }
+    public function getFormattedTotalAttribute()
+    {
+        $symbol = $this->currency === 'CRC' ? '₡' : '$';
+
+        $amount = $this->currency === 'CRC'
+            ? $this->total_crc
+            : $this->total_usd;
+
+        return $symbol . number_format($amount, 2);
     }
 
     public function tour(): BelongsTo
