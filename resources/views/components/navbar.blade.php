@@ -107,25 +107,82 @@
     <div id="mobile-menu"
         class="mobile-menu bg-white dark:bg-gray-900 border-t dark:border-gray-800 shadow-lg">
 
-        <ul class="flex flex-col p-6 space-y-4 font-medium">
+        <ul class="flex flex-col p-6 space-y-4 font-medium text-base">
 
-            <li><a href="/" class="mobile-nav-link">{{ __('navigation.home') }}</a></li>
-            <li><a href="/tours" class="mobile-nav-link">{{ __('navigation.tours') }}</a></li>
-            <li><a href="/accommodations" class="mobile-nav-link">{{ __('navigation.accommodations') }}</a></li>
-            <li><a href="/about_us" class="mobile-nav-link">{{ __('navigation.about') }}</a></li>
-            <li><a href="/contact" class="mobile-nav-link">{{ __('navigation.contact') }}</a></li>
-
-            <li class="border-t pt-4"></li>
-
-            <!-- Theme toggle -->
+            <!-- ================= MAIN NAVIGATION ================= -->
             <li>
-                <button
-                    type="button"
+                <a href="/"
+                    class="mobile-nav-link flex items-center gap-3 transition
+                {{ request()->is('/') ? 'text-green-600 font-semibold' : '' }}">
+                    {{ __('navigation.home') }}
+                </a>
+            </li>
+
+            <li>
+                <a href="/tours"
+                    class="mobile-nav-link flex items-center gap-3 transition
+                {{ request()->is('tours*') ? 'text-green-600 font-semibold' : '' }}">
+                    {{ __('navigation.tours') }}
+                </a>
+            </li>
+
+            <li>
+                <a href="/accommodations"
+                    class="mobile-nav-link flex items-center gap-3 transition
+                {{ request()->is('accommodations') ? 'text-green-600 font-semibold' : '' }}">
+                    {{ __('navigation.accommodations') }}
+                </a>
+            </li>
+
+            <li>
+                <a href="/about_us"
+                    class="mobile-nav-link flex items-center gap-3 transition
+                {{ request()->is('about_us') ? 'text-green-600 font-semibold' : '' }}">
+                    {{ __('navigation.about') }}
+                </a>
+            </li>
+
+            <li>
+                <a href="/contact"
+                    class="mobile-nav-link flex items-center gap-3 transition
+                {{ request()->is('contact') ? 'text-green-600 font-semibold' : '' }}">
+                    {{ __('navigation.contact') }}
+                </a>
+            </li>
+
+            <!-- Divider -->
+            <li class="border-t border-gray-200 dark:border-gray-800 my-3"></li>
+
+            <!-- ================= LOGIN ================= -->
+            <li>
+                <a href="{{ route('admin.login') }}"
+                    class="mobile-nav-link flex items-center gap-3 transition
+                {{ request()->is('admin*') ? 'text-green-600 font-semibold' : '' }}">
+
+                    <svg class="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 12a5 5 0 100-10 5 5 0 000 10z" />
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M20 21a8 8 0 10-16 0" />
+                    </svg>
+
+                    {{ __('admin.login_title') }}
+                </a>
+            </li>
+
+            <!-- Divider -->
+            <li class="border-t border-gray-200 dark:border-gray-800 my-3"></li>
+
+            <!-- ================= PREFERENCES ================= -->
+            <li>
+                <button type="button"
                     id="theme-toggle-mobile"
-                    class="nav-icon flex items-center gap-3 text-gray-900 dark:text-gray-100 hover:text-green-600 transition">
+                    class="mobile-nav-link flex items-center gap-3 w-full text-left transition">
 
-
-                    <!-- SUN -->
                     <svg id="icon-sun-mobile"
                         class="w-5 h-5"
                         fill="none"
@@ -135,13 +192,12 @@
                         <circle cx="12" cy="12" r="4" />
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M12 3v2m0 14v2m9-9h-2M5 12H3
-               m15.364-6.364l-1.414 1.414
-               M7.05 16.95l-1.414 1.414
-               m0-11.314L7.05 7.05
-               m9.9 9.9l1.414 1.414" />
+                        m15.364-6.364l-1.414 1.414
+                        M7.05 16.95l-1.414 1.414
+                        m0-11.314L7.05 7.05
+                        m9.9 9.9l1.414 1.414" />
                     </svg>
 
-                    <!-- MOON -->
                     <svg id="icon-moon-mobile"
                         class="w-5 h-5 hidden"
                         fill="none"
@@ -152,24 +208,37 @@
                             d="M21.752 15.002A9 9 0 1112.998 2.248a7 7 0 108.754 12.754z" />
                     </svg>
 
-                    <span>{{ __('navigation.change_theme') }}</span>
+                    {{ __('navigation.change_theme') }}
                 </button>
-
             </li>
 
-            <!-- Language -->
-            <li class="flex items-center gap-3">
-                <span class="text-sm text-gray-500">{{ __('navigation.language') }}:</span>
-                <a href="{{ route('lang.switch','es') }}"
-                    class="px-3 py-1 rounded-full border text-xs
-                    {{ app()->getLocale()==='es' ? 'bg-green-600 text-white' : '' }}">
-                    ES
-                </a>
-                <a href="{{ route('lang.switch','en') }}"
-                    class="px-3 py-1 rounded-full border text-xs
-                    {{ app()->getLocale()==='en' ? 'bg-green-600 text-white' : '' }}">
-                    EN
-                </a>
+            <!-- ================= LANGUAGE SWITCHER ================= -->
+            <li class="pt-2">
+                <div class="flex items-center gap-3">
+
+                    <span class="text-sm text-gray-500 dark:text-gray-400">
+                        {{ __('navigation.language') }}:
+                    </span>
+
+                    <a href="{{ route('lang.switch','es') }}"
+                        class="px-3 py-1 rounded-full border text-xs transition
+                    border-gray-300 dark:border-gray-600
+                    {{ app()->getLocale()==='es'
+                        ? 'bg-green-600 text-white border-green-600'
+                        : 'hover:bg-green-600 hover:text-white' }}">
+                        ES
+                    </a>
+
+                    <a href="{{ route('lang.switch','en') }}"
+                        class="px-3 py-1 rounded-full border text-xs transition
+                    border-gray-300 dark:border-gray-600
+                    {{ app()->getLocale()==='en'
+                        ? 'bg-green-600 text-white border-green-600'
+                        : 'hover:bg-green-600 hover:text-white' }}">
+                        EN
+                    </a>
+
+                </div>
             </li>
 
         </ul>
