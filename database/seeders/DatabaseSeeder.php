@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             TourDetailSeeder::class,
             TourPriceSeeder::class,
             TourScheduleSeeder::class,
+            SuperAdminSeeder::class,
         ]);
 
         Setting::updateOrCreate(

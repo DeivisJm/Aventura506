@@ -14,9 +14,15 @@
 @import './components/filters.css';
 @import './components/booking.css';
 
+/* Admin */
+@import './admin/admin.css';
+@import './admin/edit_tour.css';
+
 /* Pages */
 @import './pages/tours.css';
 @import './pages/tour-detail.css';
+
+
 
 /* =====================================================
    TAILWIND

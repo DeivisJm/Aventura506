@@ -16,13 +16,13 @@ class Tour extends Model
         'slug',
         'description',
         'image',
-        'is_active'
+        'active'
     ];
 
     protected $casts = [
         'name' => 'array',
         'description' => 'array',
-        'is_active' => 'boolean'
+        'active' => 'boolean'
     ];
 
     /*
@@ -33,7 +33,7 @@ class Tour extends Model
 
     public function company()
     {
-        return $this->belongsTo(\App\Models\Company::class);
+        return $this->belongsTo(Company::class);
     }
 
     public function category()

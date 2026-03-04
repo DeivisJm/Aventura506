@@ -1,0 +1,384 @@
+/* ==========================================
+   ADMIN PANEL BASE
+========================================== */
+
+.admin-layout {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.admin-sidebar {
+    width: 280px;
+    min-height: 100vh;
+    background: #fff;
+    border-right: 1px solid #e5e7eb;
+    padding: 30px 24px;
+    display: flex;
+    flex-direction: column;
+    transition: transform .3s ease, background .3s ease, border-color .3s ease;
+}
+
+.dark .admin-sidebar {
+    background: #0f172a;
+    border-right: 1px solid #1f2937;
+}
+
+/* ==========================================
+   BRANDING
+========================================== */
+
+.admin-brand-container {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 40px;
+    text-decoration: none;
+}
+
+.admin-logo {
+    height: 48px;
+    width: auto;
+}
+
+.admin-brand-text {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    font-size: 1.2rem;
+    letter-spacing: 1.5px;
+    display: inline-flex;
+    position: relative;
+    white-space: nowrap;
+}
+
+.brand-aventura {
+    color: #0f2a44;
+}
+
+.brand-506 {
+    color: #16a34a;
+    margin-left: 3px;
+}
+
+.dark .brand-aventura {
+    color: #f3f4f6;
+}
+
+.dark .brand-506 {
+    color: #22c55e;
+}
+
+.admin-brand-text::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: radial-gradient(ellipse at center,
+            #22c55e 0%,
+            #16a34a 35%,
+            #22c55e 60%,
+            rgba(34, 197, 94, .15) 85%,
+            rgba(34, 197, 94, 0) 100%);
+    border-radius: 50%;
+    transform: scaleY(.45);
+}
+
+/* ==========================================
+   ACTION ICONS
+========================================== */
+
+.admin-actions {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 40px;
+}
+
+.admin-logout {
+    margin-left: auto;
+}
+
+.admin-icon-link {
+    position: relative;
+    color: #374151;
+    transition: color .3s ease;
+}
+
+.dark .admin-icon-link {
+    color: #d1d5db;
+}
+
+.admin-icon-link::after {
+    content: "";
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background: #16a34a;
+    transition: width .3s ease;
+}
+
+.admin-icon-link:hover {
+    color: #16a34a;
+}
+
+.admin-icon-link:hover::after {
+    width: 100%;
+}
+
+/* ==========================================
+   NAVIGATION
+========================================== */
+
+.admin-nav {
+    margin-top: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.admin-sidebar-link {
+    padding: 14px 18px;
+    border-radius: 10px;
+    color: #374151;
+    font-weight: 500;
+    transition: all .25s ease;
+}
+
+.dark .admin-sidebar-link {
+    color: #d1d5db;
+}
+
+.admin-sidebar-link:hover {
+    background: #f3f4f6;
+    color: #16a34a;
+}
+
+.dark .admin-sidebar-link:hover {
+    background: #1f2937;
+    color: #22c55e;
+}
+
+.admin-sidebar-link.active {
+    background: #dcfce7;
+    color: #16a34a;
+    font-weight: 600;
+}
+
+.dark .admin-sidebar-link.active {
+    background: rgba(34, 197, 94, .15);
+}
+
+/* ==========================================
+   PAGE TITLES
+========================================== */
+
+.admin-page-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #111827;
+}
+
+.dark .admin-page-title {
+    color: #fff;
+}
+
+.admin-page-subtitle {
+    color: #6b7280;
+}
+
+.dark .admin-page-subtitle {
+    color: #9ca3af;
+}
+
+/* ==========================================
+   MAIN
+========================================== */
+
+.admin-content {
+    flex: 1;
+    width: 100%;
+}
+
+.admin-main {
+    padding: 40px 60px;
+    width: 100%;
+}
+
+/* ==========================================
+   MOBILE TOP BAR
+========================================== */
+
+.admin-mobile-top {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    border-bottom: 1px solid #e5e7eb;
+    background: #fff;
+}
+
+.dark .admin-mobile-top {
+    background: #0f172a;
+    border-bottom: 1px solid #1f2937;
+}
+
+.admin-mobile-logo {
+    height: 38px;
+}
+
+.admin-hamburger {
+    font-size: 22px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #111827;
+}
+
+.dark .admin-hamburger {
+    color: #f3f4f6;
+}
+
+/* ==========================================
+   DIVIDER
+========================================== */
+
+.admin-divider {
+    height: 1px;
+    background: #e5e7eb;
+    margin: 20px 0;
+}
+
+.dark .admin-divider {
+    background: #1f2937;
+}
+
+/* ==========================================
+   OVERLAY
+========================================== */
+
+.admin-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, .45);
+    opacity: 0;
+    pointer-events: none;
+    transition: all .3s ease;
+    z-index: 90;
+}
+
+.admin-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width:1024px) {
+    .admin-sidebar {
+        width: 220px;
+        padding: 20px;
+    }
+
+    .admin-brand-text {
+        font-size: 1.05rem;
+    }
+
+    .admin-main {
+        padding: 30px 40px;
+    }
+}
+
+/* ==========================================
+   MOBILE
+========================================== */
+@media (max-width:768px) {
+
+    .admin-layout {
+        display: block !important;
+    }
+
+    .admin-sidebar {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 280px;
+        height: 100vh;
+        background: #fff;
+        transform: translateX(100%);
+        transition: transform .3s ease;
+        z-index: 200;
+        padding: 30px 24px;
+        overflow-y: auto;
+    }
+
+    .dark .admin-sidebar {
+        background: #0f172a;
+    }
+
+    .admin-sidebar.open {
+        transform: translateX(0);
+    }
+
+    .admin-content {
+        width: 100% !important;
+        margin-top: 70px;
+    }
+
+}
+
+@media (max-width: 768px) {
+
+    .admin-layout {
+        display: block !important;
+    }
+
+    /* Topbar visible */
+    .admin-mobile-top {
+        display: flex !important;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 300 !important;
+    }
+
+    /* El sidebar YA NO ocupa espacio a la izquierda, ahora es drawer */
+    #sidebar-content.admin-sidebar {
+        position: fixed !important;
+        top: 0;
+        right: 0;
+        width: 280px !important;
+        height: 100vh !important;
+        transform: translateX(100%) !important;
+        transition: transform .3s ease !important;
+        z-index: 250 !important;
+        padding: 30px 24px !important;
+        overflow-y: auto !important;
+        border-right: none !important;
+    }
+
+    .dark #sidebar-content.admin-sidebar {
+        background: #0f172a !important;
+    }
+
+    #sidebar-content.admin-sidebar.open {
+        transform: translateX(0) !important;
+    }
+
+    /* contenido baja por topbar */
+    .admin-content {
+        width: 100% !important;
+        margin-top: 70px !important;
+    }
+
+    /* overlay por debajo del sidebar */
+    .admin-overlay {
+        z-index: 200 !important;
+    }
+}

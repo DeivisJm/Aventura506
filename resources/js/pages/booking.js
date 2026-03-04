@@ -185,6 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     };
+    
     /* ================= TIME SELECT ================= */
     document.addEventListener('click', function (e) {
 

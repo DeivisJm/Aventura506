@@ -8,3 +8,8 @@ import './core/themeToggle';
 /* ================= PAGES ================= */
 import './pages/booking';
 import './pages/booking-dynamic';
+
+/* ================= ADMIN ================= */
+import './admin/admin-dashboard';
+import './admin/tours';
+import './admin/tour-edit.js';

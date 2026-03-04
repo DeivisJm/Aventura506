@@ -15,7 +15,7 @@ class TourController extends Controller
     public function index(Request $request)
     {
         $query = Tour::with('category')
-            ->where('is_active', 1);
+            ->where('active', true);
 
         if ($request->has('category') && $request->category !== 'all') {
             $query->whereHas('category', function ($q) use ($request) {
@@ -23,7 +23,7 @@ class TourController extends Controller
             });
         }
 
-        $tours = $query->orderBy('created_at', 'desc')->get();
+       $tours = $query->orderBy('created_at', 'desc')->paginate(9);
 
         return view('pages.tours', compact('tours'));
     }

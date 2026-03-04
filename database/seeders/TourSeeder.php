@@ -185,7 +185,7 @@ class TourSeeder extends Seeder
                     'slug' => $tourData['slug'],
                     'description' => $tourData['description'],
                     'image' => $tourData['image'],
-                    'is_active' => true,
+                    'active' => true,
                 ]
             );
         }

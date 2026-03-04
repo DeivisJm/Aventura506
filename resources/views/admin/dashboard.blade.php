@@ -1,41 +1,86 @@
-@extends('layouts.app')
+@extends('admin.layouts.admin')
 
-@php
-$hideNavbar = true;
-@endphp
+@section('admin-content')
 
-@section('title', 'Admin Dashboard')
+<div class="flex justify-between items-center mb-10">
 
-@section('content')
+    {{-- Logo + Title --}}
+    <div class="flex items-center gap-4">
 
-<section class="min-h-screen flex items-center justify-center bg-white dark:bg-gray-900">
+        <div>
+            <h1 class="admin-page-title">
+                Panel Administrativo
+            </h1>
 
-    <div class="bg-white dark:bg-white/5 backdrop-blur-md
-        rounded-3xl p-12
-        border border-gray-200 dark:border-white/10
-        shadow-xl text-center">
-
-        <h1 class="text-3xl font-serif mb-4 text-gray-900 dark:text-white">
-            Welcome Super Admin
-        </h1>
-
-        <p class="text-gray-600 dark:text-gray-400 mb-8">
-            You are authenticated with full administrative privileges.
-        </p>
-
-        <form method="POST" action="{{ route('admin.logout') }}">
-            @csrf
-            <button type="submit"
-                class="px-8 py-3 rounded-full
-                bg-red-600 hover:bg-red-700
-                text-white uppercase tracking-widest
-                transition-all duration-300">
-                Logout
-            </button>
-        </form>
-
+            <p class="admin-page-subtitle">
+                Resumen general del sistema
+            </p>
+        </div>
     </div>
 
-</section>
+
+</div>
+
+{{-- KPI Cards --}}
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+
+    {{-- Total Reservations --}}
+    <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg 
+                hover:shadow-xl transition">
+
+        <p class="text-sm text-gray-500 dark:text-gray-400">
+            Total de Reservas
+        </p>
+
+        <h2 class="text-4xl font-bold mt-3 text-gray-900 dark:text-white">
+            {{ $totalBookings ?? 0 }}
+        </h2>
+    </div>
+
+    {{-- USD Revenue --}}
+    <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg 
+                hover:shadow-xl transition">
+
+        <p class="text-sm text-gray-500 dark:text-gray-400">
+            Ingresos en USD
+        </p>
+
+        <h2 class="text-4xl font-bold mt-3 text-green-600">
+            ${{ number_format($totalRevenueUsd ?? 0, 2) }}
+        </h2>
+    </div>
+
+    {{-- CRC Revenue --}}
+    <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg 
+                hover:shadow-xl transition">
+
+        <p class="text-sm text-gray-500 dark:text-gray-400">
+            Ingresos en CRC
+        </p>
+
+        <h2 class="text-4xl font-bold mt-3 text-green-600">
+            ₡{{ number_format($totalRevenueCrc ?? 0, 0) }}
+        </h2>
+    </div>
+
+</div>
+
+{{-- Chart Section --}}
+<div class="bg-white dark:bg-gray-800 p-6 md:p-8 rounded-2xl shadow-lg">
+    <div class="flex justify-between items-center mb-6">
+        <h3 class="text-xl font-semibold text-gray-800 dark:text-white">
+            Reservas por Mes
+        </h3>
+    </div>
+
+    <div class="h-80">
+        <canvas
+            id="bookingChart"
+            data-labels='@json(($monthlyBookings ?? collect())->pluck("month"))'
+            data-values='@json(($monthlyBookings ?? collect())->pluck("total"))'>
+        </canvas>
+    </div>
+
+</div>
 
 @endsection
