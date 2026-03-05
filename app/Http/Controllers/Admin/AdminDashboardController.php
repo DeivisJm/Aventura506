@@ -12,6 +12,12 @@ class AdminDashboardController extends Controller
 {
     public function index()
     {
+        $totalTours = Tour::count();
+
+        $activeTours = Tour::where('active', 1)->count();
+
+        $inactiveTours = Tour::where('active', 0)->count();
+
         // Total bookings
         $totalBookings = Booking::count();
 
@@ -30,11 +36,18 @@ class AdminDashboardController extends Controller
             ->orderBy(DB::raw('MONTH(date)'))
             ->get();
 
-        return view('admin.dashboard', compact(
-            'totalBookings',
-            'totalRevenueUsd',
-            'totalRevenueCrc',
-            'monthlyBookings'
-        ));
+        return view('admin.dashboard', [
+
+            'totalTours' => $totalTours,
+            'activeTours' => $activeTours,
+            'inactiveTours' => $inactiveTours,
+
+            // lo que ya tenías
+            'totalBookings' => $totalBookings ?? 0,
+            'totalRevenueUsd' => $totalRevenueUsd ?? 0,
+            'totalRevenueCrc' => $totalRevenueCrc ?? 0,
+            'monthlyBookings' => $monthlyBookings ?? collect(),
+
+        ]);
     }
 }

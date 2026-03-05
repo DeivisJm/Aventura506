@@ -51,7 +51,7 @@ class BookingController extends Controller
             $selectedCurrency = $validated['currency'];
 
             //change tip form settings (default 500) 
-            $exchangeRate = (float) \App\Models\Setting::getValue('usd_to_crc', 500);
+            $exchangeRate = (float) \App\Models\ExchangeRate::getValue('usd_to_crc', 500);
 
             $formattedDate = Carbon::parse($validated['date'])->format('Y-m-d');
             $formattedTime = Carbon::parse($validated['time'])->format('H:i:s');

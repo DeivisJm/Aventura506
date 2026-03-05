@@ -22,8 +22,7 @@
 </div>
 
 {{-- KPI Cards --}}
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
-
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 mb-12">
     {{-- Total Reservations --}}
     <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg 
                 hover:shadow-xl transition">
@@ -63,7 +62,33 @@
         </h2>
     </div>
 
+    {{-- Tours Overview --}}
+    <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg hover:shadow-xl transition">
+
+        <p class="text-sm text-gray-500 dark:text-gray-400">
+            Total de Tours
+        </p>
+
+        <h2 class="text-4xl font-bold mt-2 text-gray-900 dark:text-white">
+            {{ $totalTours ?? 0 }}
+        </h2>
+
+        <div class="flex items-center gap-6 mt-4 text-sm font-medium">
+
+            <span class="text-green-600">
+                Activos: {{ $activeTours ?? 0 }}
+            </span>
+
+            <span class="text-red-500">
+                Inactivos: {{ $inactiveTours ?? 0 }}
+            </span>
+
+        </div>
+
+    </div>
+
 </div>
+
 
 {{-- Chart Section --}}
 <div class="bg-white dark:bg-gray-800 p-6 md:p-8 rounded-2xl shadow-lg">

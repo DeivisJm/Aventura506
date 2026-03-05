@@ -1,0 +1,362 @@
+/* ========================================
+ADMIN FORM CARDS
+Used in: Edit Tour / Create Tour
+======================================== */
+
+.admin-card{
+background:#ffffff;
+border-radius:16px;
+padding:36px;
+border:1px solid #e5e7eb;
+box-shadow:0 10px 30px rgba(0,0,0,0.05);
+display:flex;
+flex-direction:column;
+gap:28px;
+margin-bottom:28px;
+transition:all .25s ease;
+}
+
+.dark .admin-card{
+background:#020617;
+border:1px solid #1f2937;
+box-shadow:none;
+}
+
+/* ========================================
+CARD HEADER
+======================================== */
+
+.admin-card-header{
+display:flex;
+justify-content:space-between;
+align-items:flex-start;
+gap:20px;
+padding-bottom:18px;
+border-bottom:1px solid #e5e7eb;
+}
+
+.dark .admin-card-header{
+border-bottom:1px solid #1f2937;
+}
+
+/* ========================================
+CARD TITLE
+======================================== */
+
+.admin-section-title{
+font-size:20px;
+font-weight:700;
+color:#16a34a;
+position:relative;
+padding-bottom:8px;
+}
+
+.admin-section-title::after{
+content:"";
+position:absolute;
+bottom:0;
+left:0;
+width:60px;
+height:3px;
+background:#16a34a;
+border-radius:4px;
+}
+
+/* ========================================
+CARD DESCRIPTION
+======================================== */
+
+.admin-section-description{
+font-size:14px;
+color:#6b7280;
+max-width:420px;
+line-height:1.5;
+}
+
+.dark .admin-section-description{
+color:#9ca3af;
+}
+
+/* ========================================
+CARD BODY
+======================================== */
+
+.admin-card-body{
+display:flex;
+flex-direction:column;
+gap:32px;
+}
+
+/* ========================================
+SUBSECTION
+======================================== */
+
+.admin-subsection{
+display:flex;
+flex-direction:column;
+gap:16px;
+}
+
+/* ========================================
+SUBTITLE
+======================================== */
+
+.admin-subtitle{
+font-size:14px;
+font-weight:700;
+letter-spacing:.04em;
+text-transform:uppercase;
+color:#16a34a;
+}
+
+/* ========================================
+LABEL
+======================================== */
+
+.admin-label{
+font-size:13px;
+font-weight:600;
+color:#374151;
+}
+
+.dark .admin-label{
+color:#cbd5e1;
+}
+
+/* ========================================
+HELP TEXT
+======================================== */
+
+.admin-help{
+font-size:12px;
+color:#9ca3af;
+margin-top:4px;
+}
+
+/* ========================================
+TEXTAREA
+======================================== */
+
+.admin-textarea{
+width:100%;
+min-height:100px;
+padding:12px 14px;
+border-radius:10px;
+border:1px solid #d1d5db;
+background:white;
+resize:vertical;
+font-size:14px;
+transition:all .2s ease;
+}
+
+.admin-textarea-lg{
+min-height:160px;
+}
+
+.dark .admin-textarea{
+background:#020617;
+border:1px solid #334155;
+color:white;
+}
+
+/* ========================================
+IMAGE SECTION
+======================================== */
+
+.admin-image-section{
+display:flex;
+flex-direction:column;
+gap:16px;
+}
+
+.admin-input-file{
+padding:12px;
+border:1px dashed #d1d5db;
+border-radius:10px;
+background:#f9fafb;
+}
+
+.dark .admin-input-file{
+background:#020617;
+border:1px dashed #334155;
+}
+
+/* ========================================
+IMAGE PREVIEW
+======================================== */
+
+.admin-image-preview{
+display:flex;
+justify-content:center;
+}
+
+.admin-image-preview img{
+max-width:260px;
+border-radius:12px;
+box-shadow:0 6px 18px rgba(0,0,0,0.15);
+}
+
+/* ========================================
+MAP PREVIEW
+======================================== */
+
+.admin-map-preview{
+margin-top:10px;
+border-radius:12px;
+overflow:hidden;
+border:1px solid #e5e7eb;
+}
+
+.admin-map-preview iframe{
+width:100%;
+height:320px;
+border:0;
+}
+
+/* ========================================
+PRICE CARDS
+======================================== */
+
+.price-card{
+border:1px solid #e5e7eb;
+border-radius:12px;
+padding:22px;
+display:flex;
+flex-direction:column;
+gap:16px;
+background:#fafafa;
+}
+
+.dark .price-card{
+background:#020617;
+border:1px solid #1f2937;
+}
+
+/* ========================================
+PRICE GRID
+======================================== */
+
+.price-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:14px;
+}
+
+.price-field{
+display:flex;
+flex-direction:column;
+gap:6px;
+}
+
+/* ========================================
+PRICE MONEY
+======================================== */
+
+.price-money{
+display:flex;
+align-items:center;
+gap:8px;
+}
+
+/* ========================================
+PRICE DELETE
+======================================== */
+
+.price-delete{
+background:#ef4444;
+color:white;
+border:none;
+padding:8px 14px;
+border-radius:8px;
+cursor:pointer;
+font-size:13px;
+width:max-content;
+}
+
+/* ========================================
+SCHEDULE BLOCK
+======================================== */
+
+.schedule-block{
+display:flex;
+align-items:center;
+gap:10px;
+background:#f9fafb;
+border:1px solid #e5e7eb;
+padding:12px;
+border-radius:10px;
+}
+
+.dark .schedule-block{
+background:#020617;
+border:1px solid #1f2937;
+}
+
+/* =========================================
+ADMIN TABS
+========================================= */
+
+.admin-tabs{
+display:flex;
+gap:10px;
+margin-bottom:30px;
+border-bottom:1px solid #e5e7eb;
+padding-bottom:6px;
+}
+
+.dark .admin-tabs{
+border-bottom:1px solid #1f2937;
+}
+
+.admin-tab{
+padding:10px 18px;
+font-weight:600;
+border-radius:8px 8px 0 0;
+cursor:pointer;
+background:#f3f4f6;
+color:#374151;
+transition:all .2s ease;
+border:none;
+}
+
+.dark .admin-tab{
+background:#1f2937;
+color:#e2e8f0;
+}
+
+.admin-tab:hover{
+background:#e5e7eb;
+}
+
+.dark .admin-tab:hover{
+background:#374151;
+}
+
+.admin-tab.active{
+background:#16a34a;
+color:white;
+}
+
+/* =========================================
+TAB CONTENT
+========================================= */
+
+.admin-tab-content{
+display:none;
+animation:fadeTab .25s ease;
+}
+
+.admin-tab-content.active{
+display:block;
+}
+
+@keyframes fadeTab{
+from{
+opacity:0;
+transform:translateY(6px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}

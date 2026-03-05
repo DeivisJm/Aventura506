@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Setting;
+use App\Models\ExchangeRate;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
             SuperAdminSeeder::class,
         ]);
 
-        Setting::updateOrCreate(
+        ExchangeRate::updateOrCreate(
             ['key' => 'usd_to_crc'],
             ['value' => 500]
         );

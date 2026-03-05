@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-
 class AdminAuthController extends Controller
 {
     public function showLogin()
@@ -39,11 +38,16 @@ class AdminAuthController extends Controller
 
     public function logout(Request $request)
     {
+        // Log the user out
         Auth::logout();
 
+        // Invalidate the session
         $request->session()->invalidate();
+
+        // Regenerate CSRF token
         $request->session()->regenerateToken();
 
-        return redirect()->route('admin.login');
+        // Redirect to homepage
+        return redirect('/');
     }
 }

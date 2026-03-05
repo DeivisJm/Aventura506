@@ -16,7 +16,9 @@
 
 /* Admin */
 @import './admin/admin.css';
-@import './admin/edit_tour.css';
+@import './admin/tour-form.css';
+@import './admin/tours/prices.css';
+@import './admin/admin-cards.css';  
 
 /* Pages */
 @import './pages/tours.css';

@@ -447,8 +447,8 @@
 
 {{-- ================= Prices ================= --}}
 @php
-use App\Models\Setting;
-$exchangeRate = (float) Setting::getValue('usd_to_crc', 500);
+use App\Models\ExchangeRate;
+$exchangeRate = (float) ExchangeRate::where('key', 'usd_to_crc')->value('value');
 $pricesForJs = $tour->prices->map(function($price) use ($exchangeRate){
 
 $priceInUsd = round($price->price, 2);

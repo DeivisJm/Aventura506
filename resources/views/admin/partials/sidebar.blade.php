@@ -1,71 +1,122 @@
 <div id="sidebar-content" class="admin-sidebar">
 
-    {{-- HEADER --}}
+    <!-- HEADER -->
     <div class="admin-header">
 
+        <!-- BRAND -->
         <a href="{{ url('/') }}" class="admin-brand-container">
+
             <img src="{{ asset('images/logo.png') }}" class="admin-logo" alt="Logo">
 
             <div class="admin-brand-text">
                 <span class="brand-aventura">AVENTURA</span>
                 <span class="brand-506">506</span>
             </div>
+
         </a>
 
+        <!-- ACTION BAR -->
         <div class="admin-actions">
 
-            {{-- THEME TOGGLE --}}
-            <button id="theme-toggle" class="admin-icon-link" type="button">
-                <svg id="icon-sun" class="w-5 h-5"
-                    fill="none" stroke="currentColor" stroke-width="2"
+            <!-- THEME TOGGLE -->
+            <button id="theme-toggle" class="admin-icon-link admin-action-icon" type="button">
+
+                <svg id="icon-sun" class="admin-icon"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
                     viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="4" />
-                    <path stroke-linecap="round" stroke-linejoin="round"
+
+                    <circle cx="12" cy="12" r="4"></circle>
+
+                    <path stroke-linecap="round"
+                        stroke-linejoin="round"
                         d="M12 3v2m0 14v2m9-9h-2M5 12H3
-                   m15.364-6.364l-1.414 1.414
-                   M7.05 16.95l-1.414 1.414
-                   m0-11.314L7.05 7.05
-                   m9.9 9.9l1.414 1.414" />
+                        m15.364-6.364l-1.414 1.414
+                        M7.05 16.95l-1.414 1.414
+                        m0-11.314L7.05 7.05
+                        m9.9 9.9l1.414 1.414" />
+
                 </svg>
 
-                <svg id="icon-moon" class="w-5 h-5 hidden"
-                    fill="none" stroke="currentColor" stroke-width="2"
+                <svg id="icon-moon" class="admin-icon hidden"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
                     viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round"
+
+                    <path stroke-linecap="round"
+                        stroke-linejoin="round"
                         d="M21.752 15.002A9 9 0 1112.998 2.248a7 7 0 108.754 12.754z" />
+
                 </svg>
+
             </button>
 
-            {{-- LOGOUT --}}
-            <form method="POST" action="{{ route('admin.logout') }}" class="admin-logout">
+            <!-- LOGOUT -->
+            <form method="POST"
+                action="{{ route('admin.logout') }}"
+                class="admin-logout-form">
+
                 @csrf
-                <button type="submit" class="admin-icon-link">
-                    <svg class="w-5 h-5"
-                        fill="none" stroke="currentColor" stroke-width="2"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M16 17l5-5m0 0l-5-5m5 5H9" />
+
+                <button type="submit" class="admin-logout-btn admin-action-icon">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        class="admin-icon logout-icon"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor">
+
+                        <path stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6A2.25 2.25 0 005.25 5.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15" />
+
+                        <path stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M18 12H9m6-3l3 3-3 3" />
+
                     </svg>
+
                 </button>
+
             </form>
 
         </div>
 
     </div>
 
-    {{-- NAV --}}
+
+    <!-- NAVIGATION -->
     <nav class="admin-nav">
+
         <a href="{{ route('admin.dashboard') }}"
             class="admin-sidebar-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
             Dashboard
         </a>
 
-        <a href="#" class="admin-sidebar-link">Reservas</a>
+        <a href="#" class="admin-sidebar-link">
+            Reservas
+        </a>
+
         <a href="{{ route('admin.tours.index') }}"
             class="admin-sidebar-link {{ request()->routeIs('admin.tours.*') ? 'active' : '' }}">
             Tours
         </a>
-        <a href="#" class="admin-sidebar-link">Usuarios</a>
+
+        <a href="#" class="admin-sidebar-link">
+            Usuarios
+        </a>
+
+        <a href="{{ route('admin.exchange_rates.index') }}"
+            class="admin-sidebar-link {{ request()->routeIs('admin.exchange_rates.*') ? 'active' : '' }}">
+
+            Tipos de Cambio
+
+        </a>
+
+
     </nav>
 
 </div>

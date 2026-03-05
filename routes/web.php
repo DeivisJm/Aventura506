@@ -17,6 +17,7 @@ use App\Http\Controllers\AdminAuthController;
 
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminTourController;
+use App\Http\Controllers\Admin\AdminExchangeRateController;
 
 /*
 |--------------------------------------------------------------------------
@@ -125,7 +126,16 @@ Route::prefix('admin')
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])
             ->name('admin.dashboard');
 
+        /*
+            |------------------------------------------------------------------
+            | Exchange Rates
+            |--------------------------------------------------------------------------
+            */
 
+        Route::resource(
+    'exchange-rates',
+    AdminExchangeRateController::class
+)->names('admin.exchange_rates');
         /*
         |------------------------------------------------------------------
         | Tour Management
