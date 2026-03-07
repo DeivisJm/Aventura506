@@ -11,6 +11,7 @@ import './pages/booking-dynamic';
 
 /* ================= ADMIN ================= */
 import './admin/admin-dashboard';
-import './admin/tours';
-import './admin/tour-edit.js';
 import './admin/admin-tabs.js';
+import './admin/tour-edit.js';
+import './admin/tours';
+

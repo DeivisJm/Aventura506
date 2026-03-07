@@ -14,7 +14,7 @@
     <a href="{{ route('admin.tours.create') }}"
         class="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 
                text-white px-6 py-3 rounded-xl shadow-lg transition font-medium">
-        + Nuevo Tour
+        Nuevo Tour
     </a>
 
 </div>
@@ -86,16 +86,16 @@
 
                 {{-- ESTADO PREMIUM --}}
                 <span class="
-        inline-flex items-center gap-2
-        px-4 py-2
-        rounded-full
-        text-sm font-semibold
-        transition-all duration-300
-        shadow-sm
-        {{ $tour->active
-            ? 'bg-green-50 text-green-700 ring-1 ring-green-200 hover:bg-green-100'
-            : 'bg-red-50 text-red-700 ring-1 ring-red-200 hover:bg-red-100' }}
-    ">
+                    inline-flex items-center gap-2
+                    px-4 py-2
+                    rounded-full
+                    text-sm font-semibold
+                    transition-all duration-300
+                    shadow-sm
+                    {{ $tour->active
+                        ? 'bg-green-50 text-green-700 ring-1 ring-green-200 hover:bg-green-100'
+                        : 'bg-red-50 text-red-700 ring-1 ring-red-200 hover:bg-red-100' }}
+                    ">
 
                     {{-- ICONO --}}
                     @if($tour->active)

@@ -83,7 +83,7 @@
     <div class="container">
 
         <div class="header">
-            <img src="{{ public_path('images/logo.png') }}" class="logo">
+            <img src="{{ public_path('images/logos/logo.png') }}" class="logo">
             <div class="title">Aventura506</div>
             <div class="subtitle">
                 {{ __('booking.email_new_booking') }}

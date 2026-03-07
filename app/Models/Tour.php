@@ -51,11 +51,18 @@ class Tour extends Model
         return $this->hasMany(TourPrice::class);
     }
 
-    public function schedules(): HasMany
+    public function schedules()
     {
-        return $this->hasMany(TourSchedule::class);
+        return $this->hasMany(TourSchedule::class)
+            ->where('active', 1)
+            ->orderBy('start_time');
     }
 
+    public function schedulesAdmin()
+    {
+        return $this->hasMany(\App\Models\TourSchedule::class)
+            ->orderBy('start_time');
+    }
     public function bookings(): HasMany
     {
         return $this->hasMany(Booking::class);

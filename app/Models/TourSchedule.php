@@ -8,11 +8,13 @@ class TourSchedule extends Model
 {
     protected $fillable = [
         'tour_id',
-        'start_time'
+        'start_time',
+        'active'
     ];
 
     protected $casts = [
-        'start_time' => 'datetime:H:i'
+        'start_time' => 'datetime:H:i',
+        'active' => 'boolean'
     ];
 
     public function tour()

@@ -6,12 +6,21 @@
         <!-- BRAND -->
         <a href="{{ url('/') }}" class="admin-brand-container">
 
-            <img src="{{ asset('images/logo.png') }}" class="admin-logo" alt="Logo">
+            <!-- LOGO -->
+            <img
+                id="admin-logo"
+                src="{{ asset('images/logos/logo.png') }}"
+                class="admin-logo"
+                alt="Logo">
 
-            <div class="admin-brand-text">
-                <span class="brand-aventura">AVENTURA</span>
-                <span class="brand-506">506</span>
-            </div>
+            <!-- BRAND TEXT -->
+            <img
+                id="admin-letter"
+                src="{{ asset('images/logos/letterlight.png') }}"
+                data-light="{{ asset('images/logos/letterlight.png') }}"
+                data-dark="{{ asset('images/logos/letterdark.png') }}"
+                class="admin-letter"
+                alt="Brand">
 
         </a>
 

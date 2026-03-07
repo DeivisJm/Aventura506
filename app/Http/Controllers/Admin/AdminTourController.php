@@ -38,23 +38,138 @@ class AdminTourController extends Controller
 
     public function create()
     {
-        return view('admin.tours.create');
+        $categories = Category::all();
+        $companies = Company::all();
+
+        $tour = new Tour();
+
+        return view('admin.tours.create', compact(
+            'tour',
+            'categories',
+            'companies'
+        ));
     }
 
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'slug' => 'required|unique:tours,slug',
+        $validated = $request->validate([
+
+            // TOUR
+            'name.es' => 'required|string|max:255',
+            'name.en' => 'required|string|max:255',
+            'slug' => 'required|string|unique:tours,slug',
+            'category_id' => 'required|exists:categories,id',
+            'company_id' => 'required|exists:companies,id',
+
+            // DETAIL
+            'detail.duration.es' => 'required|string',
+            'detail.duration.en' => 'required|string',
+            'detail.full_description.es' => 'required|string',
+            'detail.full_description.en' => 'required|string',
+
+            // PRICES
+            'prices.*.type.es' => 'required|string',
+            'prices.*.type.en' => 'required|string',
+            'prices.*.price' => 'required|numeric|min:0',
+
+            // SCHEDULES
+            'schedules.*.start_time' => 'required',
+
+            // IMAGE
+            'image' => 'nullable|image|max:2048',
         ]);
 
-        Tour::create([
-            'name' => $request->name,
-            'slug' => Str::slug($request->slug),
-            'active' => true,
-        ]);
+        DB::transaction(function () use ($request) {
 
-        return redirect()->route('admin.tours.index');
+            /* CREATE TOUR */
+            $tour = Tour::create([
+
+                'name' => $request->name,
+
+                'slug' => Str::slug($request->slug),
+
+                'category_id' => $request->category_id,
+
+                'company_id' => $request->company_id,
+
+                'active' => true
+
+            ]);
+
+            /* HANDLE IMAGE  */
+            if ($request->hasFile('image')) {
+
+                $path = $request->file('image')->store('tours', 'public');
+
+                $tour->update([
+                    'image' => 'storage/' . $path
+                ]);
+            }
+
+            /* ===================================================== */
+            /* CREATE DETAIL                                         */
+            /* ===================================================== */
+
+            $tour->detail()->create([
+
+                'duration' => $request->detail['duration'],
+
+                'full_description' => $request->detail['full_description'],
+
+                'includes' => $request->detail['includes'] ?? [],
+
+                'ideal_for' => $request->detail['ideal_for'] ?? [],
+
+                'recommendations' => $request->detail['recommendations'] ?? [],
+
+            ]);
+
+            /* ===================================================== */
+            /* CREATE PRICES                                         */
+            /* ===================================================== */
+
+            if ($request->prices) {
+
+                foreach ($request->prices as $price) {
+
+                    $tour->prices()->create([
+
+                        'type' => $price['type'],
+
+                        'category_type' => $price['category_type'] ?? null,
+
+                        'price' => $price['price'],
+
+                        'min_age' => $price['min_age'] ?? null,
+
+                        'max_age' => $price['max_age'] ?? null
+
+                    ]);
+                }
+            }
+
+            /* ===================================================== */
+            /* CREATE SCHEDULES                                      */
+            /* ===================================================== */
+
+            if ($request->schedules) {
+
+                foreach ($request->schedules as $schedule) {
+
+                    $tour->schedules()->create([
+
+                        'start_time' => $schedule['start_time'],
+
+                        'active' => isset($schedule['active']) ? 1 : 0
+
+                    ]);
+                }
+            }
+        });
+
+        return redirect()
+            ->route('admin.tours.index')
+            ->with('success', 'El tour fue creado correctamente.');
     }
 
     public function edit(Tour $tour)
@@ -62,7 +177,7 @@ class AdminTourController extends Controller
         $categories = Category::all();
         $companies = Company::all();
 
-        $tour->load(['detail', 'prices', 'schedules']);
+        $tour->load(['detail', 'prices', 'schedulesAdmin']);
 
         return view('admin.tours.edit', compact(
             'tour',
@@ -142,51 +257,36 @@ class AdminTourController extends Controller
             );
 
             /* ===================================================== */
-            /* SYNC PRICES                                           */
-            /* ===================================================== */
-
-            $existingPriceIds = $tour->prices()->pluck('id')->toArray();
-            $incomingPriceIds = collect($request->prices)
-                ->pluck('id')
-                ->filter()
-                ->toArray();
-
-            // Delete removed prices
-            $pricesToDelete = array_diff($existingPriceIds, $incomingPriceIds);
-            TourPrice::whereIn('id', $pricesToDelete)->delete();
-
-            // Update or create prices
-            foreach ($request->prices as $priceData) {
-
-                $tour->prices()->updateOrCreate(
-                    ['id' => $priceData['id'] ?? null],
-                    [
-                        'type' => $priceData['type'],
-                        'price' => $priceData['price'],
-                    ]
-                );
-            }
-
-            /* ===================================================== */
             /* SYNC SCHEDULES                                        */
             /* ===================================================== */
 
             $existingScheduleIds = $tour->schedules()->pluck('id')->toArray();
+
             $incomingScheduleIds = collect($request->schedules)
                 ->pluck('id')
                 ->filter()
                 ->toArray();
 
+            /* delete removed schedules */
+
             $schedulesToDelete = array_diff($existingScheduleIds, $incomingScheduleIds);
+
             TourSchedule::whereIn('id', $schedulesToDelete)->delete();
+
+            /* update or create schedules */
 
             foreach ($request->schedules as $scheduleData) {
 
                 $tour->schedules()->updateOrCreate(
+
                     ['id' => $scheduleData['id'] ?? null],
+
                     [
                         'start_time' => $scheduleData['start_time'],
+
+                        'active' => isset($scheduleData['active']) ? 1 : 0
                     ]
+
                 );
             }
         });
@@ -203,5 +303,17 @@ class AdminTourController extends Controller
         ]);
 
         return back();
+    }
+
+    public function toggleSchedule(\App\Models\TourSchedule $schedule)
+    {
+        $schedule->update([
+            'active' => !$schedule->active
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'active' => $schedule->active
+        ]);
     }
 }

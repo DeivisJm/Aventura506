@@ -1,9 +1,11 @@
-/* ========================================
+/* ======================================================
 ADMIN FORM CARDS
-Used in: Edit Tour / Create Tour
-======================================== */
+Used in: Create Tour / Edit Tour
+====================================================== */
 
 .admin-card{
+width:100%;
+max-width:none;
 background:#ffffff;
 border-radius:16px;
 padding:36px;
@@ -22,9 +24,11 @@ border:1px solid #1f2937;
 box-shadow:none;
 }
 
-/* ========================================
+
+/* ======================================================
 CARD HEADER
-======================================== */
+Handles title and actions inside cards
+====================================================== */
 
 .admin-card-header{
 display:flex;
@@ -39,32 +43,38 @@ border-bottom:1px solid #e5e7eb;
 border-bottom:1px solid #1f2937;
 }
 
-/* ========================================
-CARD TITLE
-======================================== */
+
+/* ======================================================
+SECTION TITLE
+Displays card section headings with underline
+====================================================== */
 
 .admin-section-title{
 font-size:20px;
 font-weight:700;
 color:#16a34a;
 position:relative;
-padding-bottom:8px;
+display:inline-block;
+padding-bottom:6px;
 }
 
+/* underline adapts automatically to text width */
 .admin-section-title::after{
 content:"";
 position:absolute;
-bottom:0;
 left:0;
-width:60px;
+bottom:0;
+width:100%;
 height:3px;
 background:#16a34a;
 border-radius:4px;
 }
 
-/* ========================================
-CARD DESCRIPTION
-======================================== */
+
+/* ======================================================
+SECTION DESCRIPTION
+Short description under section titles
+====================================================== */
 
 .admin-section-description{
 font-size:14px;
@@ -77,9 +87,11 @@ line-height:1.5;
 color:#9ca3af;
 }
 
-/* ========================================
+
+/* ======================================================
 CARD BODY
-======================================== */
+Defines vertical spacing for card content
+====================================================== */
 
 .admin-card-body{
 display:flex;
@@ -87,9 +99,11 @@ flex-direction:column;
 gap:32px;
 }
 
-/* ========================================
-SUBSECTION
-======================================== */
+
+/* ======================================================
+SUBSECTIONS
+Used to group form elements logically
+====================================================== */
 
 .admin-subsection{
 display:flex;
@@ -97,9 +111,11 @@ flex-direction:column;
 gap:16px;
 }
 
-/* ========================================
+
+/* ======================================================
 SUBTITLE
-======================================== */
+Uppercase subsection titles
+====================================================== */
 
 .admin-subtitle{
 font-size:14px;
@@ -109,9 +125,11 @@ text-transform:uppercase;
 color:#16a34a;
 }
 
-/* ========================================
-LABEL
-======================================== */
+
+/* ======================================================
+FORM LABEL
+Standard label style for admin forms
+====================================================== */
 
 .admin-label{
 font-size:13px;
@@ -123,9 +141,11 @@ color:#374151;
 color:#cbd5e1;
 }
 
-/* ========================================
+
+/* ======================================================
 HELP TEXT
-======================================== */
+Additional explanation for inputs
+====================================================== */
 
 .admin-help{
 font-size:12px;
@@ -133,9 +153,11 @@ color:#9ca3af;
 margin-top:4px;
 }
 
-/* ========================================
-TEXTAREA
-======================================== */
+
+/* ======================================================
+TEXTAREA INPUT
+Used for long text content fields
+====================================================== */
 
 .admin-textarea{
 width:100%;
@@ -159,9 +181,11 @@ border:1px solid #334155;
 color:white;
 }
 
-/* ========================================
-IMAGE SECTION
-======================================== */
+
+/* ======================================================
+IMAGE UPLOAD SECTION
+Handles file input and preview layout
+====================================================== */
 
 .admin-image-section{
 display:flex;
@@ -181,9 +205,11 @@ background:#020617;
 border:1px dashed #334155;
 }
 
-/* ========================================
+
+/* ======================================================
 IMAGE PREVIEW
-======================================== */
+Displays uploaded tour image
+====================================================== */
 
 .admin-image-preview{
 display:flex;
@@ -196,9 +222,11 @@ border-radius:12px;
 box-shadow:0 6px 18px rgba(0,0,0,0.15);
 }
 
-/* ========================================
+
+/* ======================================================
 MAP PREVIEW
-======================================== */
+Shows Google Maps embed preview
+====================================================== */
 
 .admin-map-preview{
 margin-top:10px;
@@ -213,9 +241,11 @@ height:320px;
 border:0;
 }
 
-/* ========================================
+
+/* ======================================================
 PRICE CARDS
-======================================== */
+Containers for individual price configurations
+====================================================== */
 
 .price-card{
 border:1px solid #e5e7eb;
@@ -232,9 +262,11 @@ background:#020617;
 border:1px solid #1f2937;
 }
 
-/* ========================================
+
+/* ======================================================
 PRICE GRID
-======================================== */
+Layout for price form fields
+====================================================== */
 
 .price-grid{
 display:grid;
@@ -248,9 +280,11 @@ flex-direction:column;
 gap:6px;
 }
 
-/* ========================================
-PRICE MONEY
-======================================== */
+
+/* ======================================================
+PRICE MONEY INPUT
+Displays currency symbol with input
+====================================================== */
 
 .price-money{
 display:flex;
@@ -258,9 +292,11 @@ align-items:center;
 gap:8px;
 }
 
-/* ========================================
-PRICE DELETE
-======================================== */
+
+/* ======================================================
+PRICE DELETE BUTTON
+Removes a price configuration
+====================================================== */
 
 .price-delete{
 background:#ef4444;
@@ -273,28 +309,11 @@ font-size:13px;
 width:max-content;
 }
 
-/* ========================================
-SCHEDULE BLOCK
-======================================== */
 
-.schedule-block{
-display:flex;
-align-items:center;
-gap:10px;
-background:#f9fafb;
-border:1px solid #e5e7eb;
-padding:12px;
-border-radius:10px;
-}
-
-.dark .schedule-block{
-background:#020617;
-border:1px solid #1f2937;
-}
-
-/* =========================================
+/* ======================================================
 ADMIN TABS
-========================================= */
+Top navigation tabs for form sections
+====================================================== */
 
 .admin-tabs{
 display:flex;
@@ -337,9 +356,11 @@ background:#16a34a;
 color:white;
 }
 
-/* =========================================
+
+/* ======================================================
 TAB CONTENT
-========================================= */
+Controls visibility and animation of tab panels
+====================================================== */
 
 .admin-tab-content{
 display:none;
@@ -359,4 +380,139 @@ to{
 opacity:1;
 transform:translateY(0);
 }
+}
+
+/* ======================================================
+TOGGLE SWITCH
+Custom switch used for active/inactive state
+====================================================== */
+
+.schedule-toggle{
+position:relative;
+display:inline-block;
+width:46px;
+height:24px;
+}
+
+.schedule-toggle input{
+opacity:0;
+width:0;
+height:0;
+}
+
+.schedule-slider{
+position:absolute;
+cursor:pointer;
+top:0;
+left:0;
+right:0;
+bottom:0;
+background:#d1d5db;
+border-radius:30px;
+transition:.3s;
+}
+
+.schedule-slider:before{
+position:absolute;
+content:"";
+height:18px;
+width:18px;
+left:3px;
+bottom:3px;
+background:white;
+transition:.3s;
+border-radius:50%;
+}
+
+.schedule-toggle input:checked + .schedule-slider{
+background:#16a34a;
+}
+
+.schedule-toggle input:checked + .schedule-slider:before{
+transform:translateX(22px);
+}
+
+
+/* ======================================================
+SCHEDULE STATUS
+Displays toggle and status label
+====================================================== */
+
+.schedule-status{
+display:flex;
+align-items:center;
+gap:12px;
+font-weight:500;
+}
+
+
+/* ======================================================
+SCHEDULE STATUS LABELS
+Visual indicator for active or inactive state
+====================================================== */
+
+.schedule-status-text.active{
+color:#16a34a;
+background:#dcfce7;
+padding:4px 10px;
+border-radius:6px;
+font-size:13px;
+}
+
+.schedule-status-text.inactive{
+color:#dc2626;
+background:#fee2e2;
+padding:4px 10px;
+border-radius:6px;
+font-size:13px;
+}
+
+/* ======================================================
+INACTIVE TOGGLE STATE
+Red background when toggle is off
+====================================================== */
+
+.schedule-toggle input:not(:checked) + .schedule-slider{
+background:#ef4444;
+opacity:.4;
+}
+
+/* ========================================
+DETAILS CARD STYLE (same as price cards)
+======================================== */
+#details .admin-card{
+background:#f9fafb;
+border:1px solid #e5e7eb;
+border-radius:16px;
+padding:28px;
+margin-bottom:22px;
+transition:all .25s ease;
+}
+
+/* subtle hover like price cards */
+#details .admin-card:hover{
+border-color:#16a34a;
+box-shadow:0 6px 18px rgba(0,0,0,0.05);
+}
+
+/* dark mode */
+.dark #details .admin-card{
+background:#020617;
+border:1px solid #1f2937;
+}
+
+/* header spacing */
+#details .admin-card-header{
+margin-bottom:18px;
+padding-bottom:14px;
+border-bottom:1px solid #e5e7eb;
+}
+
+.dark #details .admin-card-header{
+border-bottom:1px solid #1f2937;
+}
+
+/* title spacing fix */
+#details .admin-section-title{
+margin-bottom:2px;
 }

@@ -4,11 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
 
-/*
-|--------------------------------------------------------------------------
-| CONTROLLERS
-|--------------------------------------------------------------------------
-*/
+/*CONTROLLERS*/
 use App\Http\Controllers\TourController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\SubscriberController;
@@ -19,25 +15,14 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminTourController;
 use App\Http\Controllers\Admin\AdminExchangeRateController;
 
-/*
-|--------------------------------------------------------------------------
-| PUBLIC WEBSITE ROUTES
-|--------------------------------------------------------------------------
-| Front-facing pages available to all users
-*/
+/*PUBLIC WEBSITE ROUTES*/
 
 Route::get('/', fn() => view('pages.home'))->name('home');
 Route::get('/accommodations', fn() => view('pages.accommodations'))->name('accommodations');
 Route::get('/about_us', fn() => view('pages.about_us'))->name('about');
 Route::get('/contact', fn() => view('pages.contact'))->name('contact');
 
-
-/*
-|--------------------------------------------------------------------------
-| TOURS (Public)
-|--------------------------------------------------------------------------
-| Public tour listing and tour detail pages
-*/
+/*TOURS (Public)*/
 Route::get('/tours', [TourController::class, 'index'])
     ->name('tours.index');
 
@@ -45,40 +30,20 @@ Route::get('/tours/{slug}', [TourController::class, 'show'])
     ->name('tours.show');
 
 
-/*
-|--------------------------------------------------------------------------
-| BOOKINGS
-|--------------------------------------------------------------------------
-| Booking form submission
-*/
+/*BOOKINGS*/
 Route::post('/booking', [BookingController::class, 'store'])
     ->name('booking.store');
 
-/*
-|--------------------------------------------------------------------------
-| SUBSCRIBE
-|--------------------------------------------------------------------------
-| Newsletter subscription
-*/
+/*SUBSCRIBE*/
 Route::post('/subscribe', [SubscriberController::class, 'store'])
     ->name('subscribe.store');
 
-/*
-|--------------------------------------------------------------------------
-| CONTACT FORM
-|--------------------------------------------------------------------------
-| Contact form submission
-*/
+/*CONTACT FORM*/
 Route::post('/contact/send', [ContactController::class, 'send'])
     ->name('contact.send');
 
 
-/*
-|--------------------------------------------------------------------------
-| LANGUAGE SWITCH
-|--------------------------------------------------------------------------
-| Switch between supported locales
-*/
+/*LANGUAGE SWITCH*/
 Route::get('/lang/{locale}', function ($locale) {
 
     if (!in_array($locale, ['es', 'en'])) {
@@ -92,12 +57,7 @@ Route::get('/lang/{locale}', function ($locale) {
 })->name('lang.switch');
 
 
-/*
-|--------------------------------------------------------------------------
-| ADMIN AUTH ROUTES
-|--------------------------------------------------------------------------
-| Admin login (public access)
-*/
+/*ADMIN AUTH ROUTES*/
 Route::prefix('admin')->group(function () {
 
     Route::get('/login', [AdminAuthController::class, 'showLogin'])
@@ -108,40 +68,24 @@ Route::prefix('admin')->group(function () {
 });
 
 
-/*
-|--------------------------------------------------------------------------
-| ADMIN PROTECTED ROUTES
-|--------------------------------------------------------------------------
-| Only authenticated superadmins can access these routes
-*/
+/*ADMIN PROTECTED ROUTES*/
 Route::prefix('admin')
     ->middleware(['auth', 'role:superadmin'])
     ->group(function () {
 
-        /*
-        |------------------------------------------------------------------
-        | Dashboard
-        |------------------------------------------------------------------
-        */
+        /*Dashboard*/
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])
             ->name('admin.dashboard');
 
-        /*
-            |------------------------------------------------------------------
-            | Exchange Rates
-            |--------------------------------------------------------------------------
-            */
+        /*Exchange Rates*/
+        Route::resource('exchange-rates', AdminExchangeRateController::class)
+            ->names('admin.exchange_rates');
 
-        Route::resource(
-    'exchange-rates',
-    AdminExchangeRateController::class
-)->names('admin.exchange_rates');
-        /*
-        |------------------------------------------------------------------
-        | Tour Management
-        |------------------------------------------------------------------
-        | Full CRUD for tours
-        */
+        /* Change schedule status */
+        Route::post('/schedules/{schedule}/toggle', [AdminTourController::class, 'toggleSchedule'])
+            ->name('admin.schedules.toggle');
+
+        /*Tour Management Full CRUD for tours*/
         Route::get('/tours', [AdminTourController::class, 'index'])
             ->name('admin.tours.index');
 
@@ -161,11 +105,7 @@ Route::prefix('admin')
             ->name('admin.tours.toggle');
 
 
-        /*
-        |------------------------------------------------------------------
-        | Logout
-        |------------------------------------------------------------------
-        */
+        /*Logout*/
         Route::post('/logout', [AdminAuthController::class, 'logout'])
             ->name('admin.logout');
     });

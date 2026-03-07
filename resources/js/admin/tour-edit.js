@@ -1,174 +1,387 @@
-/* ===================================================== */
-/* ADMIN TOUR EDIT SCRIPT */
-/* Dynamic prices + schedules */
-/* Clean architecture for admin panel */
-/* ===================================================== */
+/* =====================================================
+ADMIN TOUR EDIT SCRIPT
+Handles dynamic creation of prices and schedules
+Compatible with tour-form.css component system
+===================================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    /* ============================================= */
-    /* INITIAL INDEX CALCULATION */
-    /* Detect existing blocks loaded from database */
-    /* ============================================= */
+    /* =============================================
+    INITIAL INDEX CALCULATION
+    Detect cards loaded from database
+    ============================================= */
 
-    let priceIndex = document.querySelectorAll(".price-block").length;
-    let scheduleIndex = document.querySelectorAll(".schedule-block").length;
+    let priceIndex = document.querySelectorAll("#prices-container .form-card").length;
+    let scheduleIndex = document.querySelectorAll("#schedules-container .form-card").length;
 
 
-    /* ============================================= */
-    /* ADD PRICE BLOCK */
-    /* ============================================= */
+
+    /* =============================================
+    ADD PRICE CARD
+    Creates a new price configuration block
+    ============================================= */
 
     window.addPrice = function () {
 
         const container = document.getElementById("prices-container");
-
         if (!container) return;
 
+        const number = priceIndex + 1;
+
         const html = `
-        <div class="price-card price-block">
+        <div class="form-card price-block new-price">
 
-            <div class="admin-grid">
+            <div class="form-card-header">
 
-                <div class="admin-field">
-                    <label class="admin-label">Tipo (Español)</label>
+                <h3 class="form-card-title">
+                    Tipo de precio #${number}
+                </h3>
 
-                    <input type="text"
+                <button type="button" class="form-delete remove-price">
+                    Eliminar
+                </button>
+
+            </div>
+
+
+            <div class="form-grid">
+
+                <div class="form-field">
+
+                    <label class="form-label">
+                        Nombre del tipo (Español)
+                    </label>
+
+                    <input
+                        type="text"
                         name="prices[${priceIndex}][type][es]"
-                        required
-                        class="admin-input">
+                        class="form-input"
+                        placeholder="Ej: Adultos nacionales">
+
+                    <p class="form-help">
+                        Nombre que se mostrará en la página del tour.
+                    </p>
+
                 </div>
 
-                <div class="admin-field">
-                    <label class="admin-label">Tipo (Inglés)</label>
 
-                    <input type="text"
+                <div class="form-field">
+
+                    <label class="form-label">
+                        Name (English)
+                    </label>
+
+                    <input
+                        type="text"
                         name="prices[${priceIndex}][type][en]"
-                        required
-                        class="admin-input">
+                        class="form-input"
+                        placeholder="Example: Adults">
+
                 </div>
 
             </div>
 
 
-            <div class="admin-field">
+            <div class="form-grid">
 
-                <label class="admin-label">Precio (USD)</label>
+                <div class="form-field">
 
-                <input type="number"
-                    step="0.01"
-                    min="0"
-                    name="prices[${priceIndex}][price]"
-                    required
-                    class="admin-input">
+                    <label class="form-label">
+                        Tipo de visitante
+                    </label>
+
+                    <select
+                        name="prices[${priceIndex}][category_type]"
+                        class="form-input">
+
+                        <option value="international">
+                            Internacional
+                        </option>
+
+                        <option value="national">
+                            Nacional (Costa Rica)
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-field">
+
+                    <label class="form-label">
+                        Precio por persona
+                    </label>
+
+                    <div class="form-money">
+
+                        <span>$</span>
+
+                        <input
+                            type="number"
+                            step="0.01"
+                            name="prices[${priceIndex}][price]"
+                            class="form-input"
+                            placeholder="Ej: 55.00">
+
+                    </div>
+
+                </div>
 
             </div>
 
 
-            <button type="button"
-                class="admin-remove remove-price">
+            <div class="form-grid">
 
-                Eliminar precio
+                <div class="form-field">
 
-            </button>
+                    <label class="form-label">
+                        Edad mínima
+                    </label>
+
+                    <input
+                        type="number"
+                        name="prices[${priceIndex}][min_age]"
+                        class="form-input">
+
+                </div>
+
+
+                <div class="form-field">
+
+                    <label class="form-label">
+                        Edad máxima
+                    </label>
+
+                    <input
+                        type="number"
+                        name="prices[${priceIndex}][max_age]"
+                        class="form-input">
+
+                    <p class="form-help">
+                        Déjalo vacío si no hay límite.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-save-area">
+
+                <button type="submit" class="admin-btn-primary">
+                    Guardar nuevo precio
+                </button>
+
+            </div>
 
         </div>
         `;
 
         container.insertAdjacentHTML("beforeend", html);
+
+
+        /* smooth scroll to new card */
+
+        setTimeout(() => {
+
+            const card = container.lastElementChild;
+
+            if (card) {
+                card.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
+            }
+
+        }, 120);
 
         priceIndex++;
     };
 
 
-    /* ============================================= */
-    /* ADD SCHEDULE BLOCK */
-    /* ============================================= */
+
+    /* =============================================
+    ADD SCHEDULE CARD
+    Creates new schedule configuration block
+    ============================================= */
 
     window.addSchedule = function () {
 
         const container = document.getElementById("schedules-container");
-
         if (!container) return;
 
+        const number = scheduleIndex + 1;
+
         const html = `
-        <div class="schedule-row schedule-block">
+        <div class="form-card schedule-block new-schedule">
 
-            <input type="time"
-                name="schedules[${scheduleIndex}][start_time]"
-                required
-                class="admin-input w-40">
+            <div class="form-card-header">
 
-            <button type="button"
-                class="admin-remove remove-schedule">
+                <h3 class="form-card-title">
+                    Horario #${number}
+                </h3>
 
-                Eliminar
+                <button type="button" class="form-delete remove-schedule">
+                    Eliminar
+                </button>
 
-            </button>
+            </div>
+
+
+            <div class="form-grid">
+
+                <div class="form-field">
+
+                    <label class="form-label">
+                        Hora de inicio
+                    </label>
+
+                    <input
+                        type="time"
+                        name="schedules[${scheduleIndex}][start_time]"
+                        class="form-input"
+                        required>
+
+                    <p class="form-help">
+                        Hora en la que inicia el tour.
+                    </p>
+
+                </div>
+
+
+                <div class="form-field">
+
+                    <label class="form-label">
+                        Estado
+                    </label>
+
+                    <div class="schedule-status">
+
+                        <label class="schedule-toggle">
+
+                            <input
+                                type="checkbox"
+                                name="schedules[${scheduleIndex}][active]"
+                                value="1"
+                                checked>
+
+                            <span class="schedule-slider"></span>
+
+                        </label>
+
+                        <span class="schedule-status-text active">
+                            Activo
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-save-area">
+
+                <button
+                    type="submit"
+                    class="admin-btn-primary">
+
+                    Guardar horario
+
+                </button>
+
+            </div>
 
         </div>
         `;
 
         container.insertAdjacentHTML("beforeend", html);
 
+
+        /* smooth scroll to new schedule */
+
+        setTimeout(() => {
+
+            const card = container.lastElementChild;
+
+            if (card) {
+                card.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
+            }
+
+        }, 120);
+
         scheduleIndex++;
     };
 
 
-    /* ============================================= */
-    /* REMOVE ITEMS (EVENT DELEGATION) */
-    /* Handles dynamically created elements */
-    /* ============================================= */
+
+    /* =============================================
+    REMOVE ITEMS
+    Uses event delegation for dynamic elements
+    ============================================= */
 
     document.addEventListener("click", (e) => {
-
-        /* Remove price block */
 
         if (e.target.classList.contains("remove-price")) {
 
             const block = e.target.closest(".price-block");
-
             if (block) block.remove();
+
         }
-
-
-        /* Remove schedule block */
 
         if (e.target.classList.contains("remove-schedule")) {
 
             const block = e.target.closest(".schedule-block");
-
             if (block) block.remove();
+
         }
 
     });
 
-
-    /* ============================================= */
     /* TOAST NOTIFICATION SYSTEM */
-    /* Slide animation for admin alerts */
-    /* ============================================= */
-
     const panels = document.querySelectorAll(".toast-panel");
 
     panels.forEach(panel => {
 
-        /* show animation */
-
         setTimeout(() => {
-
             panel.classList.remove("translate-x-full");
-
         }, 120);
 
-
-        /* hide after 5 seconds */
-
         setTimeout(() => {
-
             panel.classList.add("translate-x-full");
-
         }, 5000);
+
+    });
+
+});
+ 
+/* IMAGE PREVIEW */
+document.addEventListener("DOMContentLoaded", () => {
+
+    const input = document.getElementById("tour-image-input");
+    const preview = document.getElementById("tour-image-preview");
+
+    if (!input || !preview) return;
+
+    input.addEventListener("change", function () {
+
+        const file = this.files[0];
+
+        if (!file) return;
+
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+
+            preview.src = e.target.result;
+
+        };
+
+        reader.readAsDataURL(file);
 
     });
 

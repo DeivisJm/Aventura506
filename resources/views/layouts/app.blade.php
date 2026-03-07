@@ -14,7 +14,7 @@
     </title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/png" href="/images/logo.png">
+    <link rel="icon" type="image/png" href="/images/logos/logo.png">
 
     {{-- VITE --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])

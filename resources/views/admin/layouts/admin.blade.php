@@ -4,7 +4,7 @@
 <head>
 
     <meta charset="UTF-8">
-    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('images/logos/logo.png') }}">
 
     <title>Panel Administrativo | Aventura506</title>
 
@@ -12,7 +12,7 @@
 
 </head>
 
-
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <body class="bg-gray-50 dark:bg-[#0b1220] transition-colors duration-300">
 
     <div class="admin-layout">

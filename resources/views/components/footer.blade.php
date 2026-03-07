@@ -17,7 +17,7 @@
 
                 <div class="flex flex-col md:flex-row items-center md:items-start gap-4">
 
-                    <img src="{{ asset('images/logo.png') }}"
+                    <img src="{{ asset('images/logos/logo.png') }}"
                         class="h-14 w-auto object-contain hidden dark:block">
 
                     <div>
@@ -140,6 +140,8 @@
                           text-gray-800 dark:text-gray-400">
                     {{ __('footer.newsletter_subtitle') }}
                 </p>
+
+                
                 {{-- SUBSCRIPTION --}}
                 <form method="POST" action="{{ route('subscribe.store') }}"
                     class="relative max-w-md mx-auto md:mx-0">

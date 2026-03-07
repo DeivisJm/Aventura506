@@ -6,9 +6,9 @@
             <a href="{{ url('/') }}" class="flex items-center gap-3 z-50">
                 <img
                     id="navbar-logo"
-                    src="{{ asset('images/logolight.png') }}"
-                    data-light="{{ asset('images/logolight.png') }}"
-                    data-dark="{{ asset('images/logodark.png') }}"
+                    src="{{ asset('images/logos/logolight.png') }}"
+                    data-light="{{ asset('images/logos/logolight.png') }}"
+                    data-dark="{{ asset('images/logos/logodark.png') }}"
                     alt="Aventura506 Logo"
                     class="h-10 sm:h-12 md:h-14 lg:h-20 w-auto object-contain transition-all duration-300">
             </a>

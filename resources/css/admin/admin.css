@@ -1,19 +1,55 @@
-/* =========================================
-ADMIN PANEL LAYOUT
-========================================= */
+/* =====================================================
+ADMIN PANEL BASE LAYOUT
+Defines the main flex layout for the admin interface
+===================================================== */
+
 .admin-layout{
 display:flex;
 min-height:100vh;
 width:100%;
 background:#f9fafb;
 }
+
 .dark .admin-layout{
 background:#020617;
 }
 
-/* =========================================
-SIDEBAR
-========================================= */
+/* ========================================
+ADMIN BRAND
+======================================== */
+
+.admin-brand-container{
+display:flex;
+align-items:center;
+justify-content:left;
+gap:14px;
+margin-bottom:40px;
+padding:10px 0;
+width:100%;
+}
+
+/* LOGO */
+.admin-logo{
+height:80px;
+width:auto;
+object-fit:contain;
+}
+
+/* BRAND TEXT */
+.admin-letter{
+height:30px;
+width:auto;
+object-fit:contain;
+display:flex;
+align-items:center;
+margin-top:8px; /* mueve hacia abajo */
+}
+
+/* =====================================================
+SIDEBAR CONTAINER
+Handles fixed sidebar positioning and layout
+===================================================== */
+
 .admin-sidebar{
 width:320px;
 min-width:320px;
@@ -31,14 +67,18 @@ box-sizing:border-box;
 overflow:hidden;
 transition:all .25s ease;
 }
+
 .dark .admin-sidebar{
 background:#020617;
 border-right:1px solid #1f2937;
 }
 
-/* =========================================
-BRAND SECTION
-========================================= */
+
+/* =====================================================
+BRAND AREA
+Displays the logo and brand identity
+===================================================== */
+
 .admin-brand-container{
 display:flex;
 align-items:center;
@@ -47,10 +87,12 @@ margin-bottom:40px;
 padding-left:24px;
 text-decoration:none;
 }
+
 .admin-logo{
 height:48px;
 width:auto;
 }
+
 .admin-brand-text{
 font-family:'Montserrat',sans-serif;
 font-weight:900;
@@ -59,6 +101,9 @@ letter-spacing:1.5px;
 display:flex;
 position:relative;
 }
+
+/* decorative underline under brand */
+
 .admin-brand-text::after{
 content:"";
 position:absolute;
@@ -66,27 +111,41 @@ bottom:-10px;
 left:0;
 width:100%;
 height:6px;
-background:radial-gradient(ellipse at center,#22c55e 0%,#16a34a 35%,#22c55e 60%,rgba(34,197,94,.15) 85%,rgba(34,197,94,0) 100%);
+background:radial-gradient(
+ellipse at center,
+#22c55e 0%,
+#16a34a 35%,
+#22c55e 60%,
+rgba(34,197,94,.15) 85%,
+rgba(34,197,94,0) 100%
+);
 border-radius:50%;
 transform:scaleY(.45);
 }
+
 .brand-aventura{
 color:#0f2a44;
 }
+
 .brand-506{
 color:#16a34a;
 margin-left:3px;
 }
+
 .dark .brand-aventura{
 color:#f3f4f6;
 }
+
 .dark .brand-506{
 color:#22c55e;
 }
 
-/* =========================================
+
+/* =====================================================
 ACTION BAR
-========================================= */
+Contains theme toggle and logout actions
+===================================================== */
+
 .admin-actions{
 display:flex;
 align-items:center;
@@ -95,17 +154,23 @@ margin-bottom:40px;
 padding-left:24px;
 }
 
-/* =========================================
-ICON BASE
-========================================= */
+
+/* =====================================================
+ICON BASE STYLE
+Provides consistent sizing for admin icons
+===================================================== */
+
 .admin-icon{
 width:20px;
 height:20px;
 }
 
-/* =========================================
+
+/* =====================================================
 ACTION ICON HOVER EFFECT
-========================================= */
+Adds green hover effect with animated underline
+===================================================== */
+
 .admin-action-icon{
 position:relative;
 display:flex;
@@ -116,12 +181,17 @@ height:36px;
 color:#374151;
 transition:color .25s ease;
 }
+
 .dark .admin-action-icon{
 color:#d1d5db;
 }
+
 .admin-action-icon:hover{
 color:#16a34a;
 }
+
+/* animated underline indicator */
+
 .admin-action-icon::after{
 content:"";
 position:absolute;
@@ -132,16 +202,21 @@ height:2px;
 background:#16a34a;
 transition:width .3s ease;
 }
+
 .admin-action-icon:hover::after{
 width:100%;
 }
 
-/* =========================================
+
+/* =====================================================
 LOGOUT BUTTON
-========================================= */
+Controls logout button positioning
+===================================================== */
+
 .admin-logout-form{
 margin-left:auto;
 }
+
 .admin-logout-btn{
 display:flex;
 align-items:center;
@@ -154,15 +229,19 @@ border:none;
 cursor:pointer;
 }
 
-/* =========================================
+
+/* =====================================================
 SIDEBAR NAVIGATION
-========================================= */
+Defines navigation links inside sidebar
+===================================================== */
+
 .admin-nav{
 display:flex;
 flex-direction:column;
 gap:8px;
 padding-right:10px;
 }
+
 .admin-sidebar-link{
 width:100%;
 padding:14px 18px 14px 28px;
@@ -173,76 +252,100 @@ display:flex;
 align-items:center;
 transition:all .25s ease;
 }
+
 .dark .admin-sidebar-link{
 color:#cbd5e1;
 }
+
 .admin-sidebar-link:hover{
 background:#f3f4f6;
 color:#16a34a;
 }
+
 .dark .admin-sidebar-link:hover{
 background:#1f2937;
 color:#22c55e;
 }
+
 .admin-sidebar-link.active{
 background:#dcfce7;
 color:#16a34a;
 font-weight:600;
 }
+
 .dark .admin-sidebar-link.active{
 background:rgba(34,197,94,.15);
 }
 
-/* =========================================
+
+/* =====================================================
 CONTENT AREA
-========================================= */
+Handles main admin content layout
+===================================================== */
+
 .admin-content{
 flex:1;
 display:flex;
 flex-direction:column;
 width:100%;
 }
+
 .admin-main{
 flex:1;
 padding:40px 60px;
 }
 
-/* =========================================
+
+/* =====================================================
 PAGE TITLES
-========================================= */
+Defines typography for admin page headings
+===================================================== */
+
 .admin-page-title{
 font-size:2rem;
 font-weight:700;
 color:#111827;
 margin-bottom:6px;
 }
+
 .dark .admin-page-title{
 color:#f9fafb;
 }
+
 .admin-page-subtitle{
 color:#6b7280;
 }
+
 .dark .admin-page-subtitle{
 color:#9ca3af;
 }
 
-/* =========================================
+
+/* =====================================================
 FORM GRID
-========================================= */
+Responsive grid for form layout
+===================================================== */
+
 .admin-grid{
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:22px;
 }
+
 @media(max-width:900px){
+
 .admin-grid{
 grid-template-columns:1fr;
 }
+
 }
 
-/* =========================================
-FORM INPUTS
-========================================= */
+
+/* =====================================================
+FORM INPUT STYLES
+Provides consistent styling for inputs
+===================================================== */
+
 .admin-input{
 width:100%;
 padding:12px 14px;
@@ -252,20 +355,25 @@ background:white;
 font-size:14px;
 transition:all .2s ease;
 }
+
 .admin-input:focus{
 outline:none;
 border-color:#16a34a;
 box-shadow:0 0 0 2px rgba(22,163,74,.2);
 }
+
 .dark .admin-input{
 background:#020617;
 border:1px solid #334155;
 color:white;
 }
 
-/* =========================================
+
+/* =====================================================
 ADMIN CARD
-========================================= */
+Primary container for admin sections
+===================================================== */
+
 .admin-card{
 background:white;
 border-radius:16px;
@@ -275,35 +383,45 @@ box-shadow:0 6px 18px rgba(0,0,0,0.04);
 display:flex;
 flex-direction:column;
 gap:24px;
-max-width:900px;
+
+width:100%;
+max-width:none;
 }
 .dark .admin-card{
 background:#020617;
 border:1px solid #1f2937;
 }
 
-/* =========================================
-FORM CARD STRUCTURE
-========================================= */
+
+/* =====================================================
+CARD STRUCTURE
+Defines header and body layout inside cards
+===================================================== */
+
 .admin-form-card{
 max-width:900px;
 margin-top:20px;
 }
+
 .admin-card-header{
 display:flex;
 justify-content:space-between;
 align-items:center;
 margin-bottom:20px;
 }
+
 .admin-card-body{
 display:flex;
 flex-direction:column;
 gap:20px;
 }
 
-/* =========================================
+
+/* =====================================================
 PRIMARY BUTTON
-========================================= */
+Main action button style
+===================================================== */
+
 .admin-btn-primary{
 background:#16a34a;
 color:white;
@@ -312,40 +430,51 @@ border-radius:10px;
 font-weight:600;
 transition:all .25s ease;
 }
+
 .admin-btn-primary:hover{
 background:#15803d;
 transform:translateY(-1px);
 }
 
-/* =========================================
-TABLE STYLE
-========================================= */
+
+/* =====================================================
+TABLE STYLES
+Defines layout and spacing for admin tables
+===================================================== */
+
 .admin-table{
 width:100%;
 border-collapse:collapse;
 }
+
 .admin-table th{
 text-align:left;
 padding:14px;
 border-bottom:1px solid #e5e7eb;
 font-weight:600;
 }
+
 .admin-table td{
 padding:14px;
 border-bottom:1px solid #f1f5f9;
 }
+
 .rate-value{
 color:#16a34a;
 font-weight:700;
 }
+
 .table-actions{
 display:flex;
 gap:10px;
 }
 
-/* =========================================
+
+/* =====================================================
 EDIT BUTTON
-========================================= */
+Neutral edit action button
+===================================================== */
+
 .admin-btn-edit{
 background:#e2e8f0;
 color:#111827;
@@ -355,39 +484,68 @@ font-size:14px;
 font-weight:500;
 transition:all .2s ease;
 }
+
 .admin-btn-edit:hover{
 background:#cbd5e1;
 }
+
 .dark .admin-btn-edit{
 background:#1f2937;
 color:#e5e7eb;
 }
+
 .dark .admin-btn-edit:hover{
 background:#374151;
 }
 
-/* =========================================
+
+/* =====================================================
 DELETE BUTTON
-========================================= */
+Danger action button
+===================================================== */
+
 .admin-btn-delete{
 background:#ef4444;
 color:white;
 padding:6px 12px;
 border-radius:6px;
 }
+
 .admin-btn-delete:hover{
 background:#dc2626;
 }
 
-/* =========================================
-RESPONSIVE
-========================================= */
+
+/* =====================================================
+RESPONSIVE SIDEBAR
+Adjust sidebar width for smaller screens
+===================================================== */
+
 @media (max-width:1024px){
+
 .admin-sidebar{
 width:240px;
 min-width:240px;
 }
+
 .admin-main{
 padding:30px 40px;
 }
+
+}
+
+
+/* =====================================================
+TIME INPUT ICON DARK MODE
+Improves visibility of time picker icon in dark mode
+===================================================== */
+
+.dark input[type="time"]::-webkit-calendar-picker-indicator{
+filter:invert(1);
+opacity:0.9;
+cursor:pointer;
+}
+
+.dark input[type="time"]{
+color:#f9fafb;
 }
