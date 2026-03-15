@@ -493,8 +493,6 @@
                                     class="form-textarea"
                                     placeholder="Write the full tour description..."
                                     required>{{ old('detail.full_description.en', $tour->detail->full_description['en'] ?? '') }}</textarea>
-
-
                             </div>
 
                         </div>

@@ -10,10 +10,6 @@ $hideFooter = true;
 
 @section('content')
 
-{{-- =====================================================
-   ADMIN AUTHENTICATION PAGE
-   Minimal layout without public navigation
-===================================================== --}}
 <section class="min-h-screen flex items-center justify-center
     bg-white dark:bg-gray-900
     transition-colors duration-500">
@@ -28,14 +24,12 @@ $hideFooter = true;
 
             {{-- Brand Identity --}}
             <div class="flex justify-center mb-8">
-
                 <img
                     src="{{ asset('images/logos/logolight.png') }}"
                     data-light="{{ asset('images/logos/logolight.png') }}"
                     data-dark="{{ asset('images/logos/logodark.png') }}"
                     alt="Aventura506 Logo"
                     class="h-28 md:h-32 w-auto object-contain transition-all duration-300">
-
             </div>
 
             {{-- Heading --}}
@@ -56,8 +50,22 @@ $hideFooter = true;
             </div>
             @endif
 
+            {{-- Success Feedback --}}
+            @if(session('success'))
+            <div class="mb-6 text-sm text-green-600 dark:text-green-400 text-center">
+                {{ session('success') }}
+            </div>
+            @endif
+            <div class="text-center mb-8">
+                <a href="{{ route('home') }}"
+                    class="inline-flex items-center gap-2 text-sm font-medium text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 transition-colors duration-300">
+                    ← Volver al inicio
+                </a>
+            </div>
+
+
             {{-- Login Form --}}
-            <form method="POST" action="{{ route('admin.login.post') }}" class="space-y-6">
+            <form method="POST" action="{{ route('login.post') }}" class="space-y-6">
                 @csrf
 
                 {{-- Email Field --}}
@@ -67,8 +75,10 @@ $hideFooter = true;
                         {{ __('admin.email') }}
                     </label>
 
-                    <input type="email"
+                    <input
+                        type="email"
                         name="email"
+                        value="{{ old('email') }}"
                         required
                         class="w-full px-4 py-3 rounded-xl
                         bg-white dark:bg-transparent
@@ -88,7 +98,8 @@ $hideFooter = true;
                         {{ __('admin.password') }}
                     </label>
 
-                    <input type="password"
+                    <input
+                        type="password"
                         name="password"
                         required
                         class="w-full px-4 py-3 rounded-xl
@@ -102,8 +113,20 @@ $hideFooter = true;
                         placeholder="{{ __('admin.password_placeholder') }}">
                 </div>
 
+                {{-- Register Redirect --}}
+                <div class="text-center">
+                    <p class="text-sm text-gray-600 dark:text-gray-400">
+                        {{ __('admin.no_account') }}
+                        <a href="{{ route('register') }}"
+                            class="font-semibold text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 transition-colors duration-300">
+                            {{ __('admin.register_here') }}
+                        </a>
+                    </p>
+                </div>
+
                 {{-- Submit Button --}}
-                <button type="submit"
+                <button
+                    type="submit"
                     class="w-full py-3 rounded-full
                     bg-green-600 dark:bg-green-500
                     text-white text-sm uppercase tracking-widest

@@ -9,10 +9,12 @@ class RoleSeeder extends Seeder
 {
     public function run(): void
     {
-        Role::insert([
-            ['name' => 'superadmin'],
-            ['name' => 'admin'],
-            ['name' => 'client'],
-        ]);
+        /**
+         * Create default system roles.
+         * Using firstOrCreate avoids duplicate records.
+         */
+        Role::firstOrCreate(['name' => 'superadmin']);
+        Role::firstOrCreate(['name' => 'admin']);
+        Role::firstOrCreate(['name' => 'client']);
     }
 }

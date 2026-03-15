@@ -66,10 +66,16 @@ class AdminExchangeRateController extends Controller
 
     public function destroy(ExchangeRate $exchangeRate)
     {
+        if (\App\Models\ExchangeRate::count() === 1) {
+            return redirect()
+                ->route('admin.exchange_rates.index')
+                ->with('error', 'No se puede eliminar el tipo de cambio porque debe existir al menos uno en el sistema.');
+        }
 
         $exchangeRate->delete();
 
-        return back()
-            ->with('success', 'Tipo eliminado');
+        return redirect()
+            ->route('admin.exchange_rates.index')
+            ->with('success', 'Tipo de cambio eliminado correctamente.');
     }
 }

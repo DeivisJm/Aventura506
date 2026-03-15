@@ -69,11 +69,11 @@
                     </a>
 
                 </div>
-
                 <!-- Profile -->
-                <a href="{{ route('admin.login') }}"
-                    aria-label="Admin Login"
-                    class="nav-icon transition text-gray-900 dark:text-gray-100 hover:text-green-600">
+                @auth
+                <a href="{{ route('login') }}"
+                    aria-label="User Profile"
+                    class="flex items-center gap-2 nav-icon transition text-gray-900 dark:text-gray-100 hover:text-green-600">
 
                     <svg class="w-5 h-5"
                         fill="none"
@@ -86,7 +86,28 @@
                             d="M20 21a8 8 0 10-16 0" />
                     </svg>
 
+                    <span class="hidden md:inline text-sm font-medium">
+                        {{ auth()->user()->name }}
+                    </span>
                 </a>
+                @else
+                <a href="{{ route('login') }}"
+                    aria-label="Login"
+                    class="nav-icon transition text-gray-900 dark:text-gray-100 hover:text-green-600">
+
+                    <svg class="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 12a5 5 0 100-10 5 5 0 000 10z" />
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M20 21a8 8 0 10-16 0" />
+                    </svg>
+                </a>
+                @endauth
+
             </div>
 
             <!-- MOBILE MENU BUTTON -->
@@ -155,9 +176,9 @@
 
             <!-- ================= LOGIN ================= -->
             <li>
-                <a href="{{ route('admin.login') }}"
+                <a href="{{ route('login') }}"
                     class="mobile-nav-link flex items-center gap-3 transition
-                {{ request()->is('admin*') ? 'text-green-600 font-semibold' : '' }}">
+                    {{ request()->routeIs('login') || request()->routeIs('register') ? 'text-green-600 font-semibold' : '' }}">
 
                     <svg class="w-5 h-5"
                         fill="none"
@@ -173,6 +194,7 @@
                     {{ __('admin.login_title') }}
                 </a>
             </li>
+
 
             <!-- Divider -->
             <li class="border-t border-gray-200 dark:border-gray-800 my-3"></li>

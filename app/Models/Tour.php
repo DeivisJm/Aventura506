@@ -63,6 +63,7 @@ class Tour extends Model
         return $this->hasMany(\App\Models\TourSchedule::class)
             ->orderBy('start_time');
     }
+    
     public function bookings(): HasMany
     {
         return $this->hasMany(Booking::class);

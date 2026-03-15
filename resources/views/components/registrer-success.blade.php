@@ -1,16 +1,16 @@
 {{-- =====================================================
-   SUBSCRIBE SUCCESS PANEL
+   REGISTER SUCCESS PANEL
 ===================================================== --}}
-@if(session('subscribe_success'))
-<div id="subscribeSuccessPanel"
+@if(session('register_success'))
+<div id="registerSuccessPanel"
     class="fixed top-24 right-6 z-50 bg-green-600 text-white px-6 py-5 rounded-lg shadow-2xl transform translate-x-full transition-all duration-500">
 
     <h3 class="text-lg font-semibold mb-1">
-        {{ __('subscribe.success_title') }}
+        {{ __('admin.register_success_title') }}
     </h3>
 
     <p class="text-sm">
-        {{ __('subscribe.success_message') }}
+        {{ __('admin.register_success_message') }}
     </p>
 
 </div>
@@ -18,7 +18,8 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
 
-        const panel = document.getElementById('subscribeSuccessPanel');
+        const panel = document.getElementById('registerSuccessPanel');
+        if (!panel) return;
 
         setTimeout(() => {
             panel.classList.remove('translate-x-full');
@@ -34,18 +35,18 @@
 
 
 {{-- =====================================================
-   SUBSCRIBE ERROR PANEL
+   REGISTER ERROR PANEL
 ===================================================== --}}
-@if(session('subscribe_error'))
-<div id="subscribeErrorPanel"
+@if($errors->any())
+<div id="registerErrorPanel"
     class="fixed top-24 right-6 z-50 bg-red-600 text-white px-6 py-5 rounded-lg shadow-2xl transform translate-x-full transition-all duration-500">
 
     <h3 class="text-lg font-semibold mb-1">
-        {{ __('subscribe.error_title') }}
+        {{ __('admin.register_error_title') }}
     </h3>
 
     <p class="text-sm">
-        {{ is_string(session('subscribe_error')) ? session('subscribe_error') : __('subscribe.error_message') }}
+        {{ $errors->first() ?: __('admin.register_error_message') }}
     </p>
 
 </div>
@@ -53,7 +54,7 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
 
-        const panel = document.getElementById('subscribeErrorPanel');
+        const panel = document.getElementById('registerErrorPanel');
         if (!panel) return;
 
         setTimeout(() => {

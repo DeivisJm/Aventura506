@@ -18,10 +18,10 @@ class SuperAdminSeeder extends Seeder
 
         // Crear usuario superadmin si no existe
         User::firstOrCreate(
-            ['email' => 'admin@aventura506.com'],
+            ['email' => 'info.aventura506@gmail.com'],
             [
-                'name'     => 'Super Admin',
-                'password' => Hash::make('password123'),
+                'name'     => 'Super Administador Aventura506',
+                'password' => Hash::make('aventura506.2026dys'),
                 'role_id'  => $role->id,
             ]
         );

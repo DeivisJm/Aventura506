@@ -36,7 +36,7 @@ class AdminDashboardController extends Controller
             ->orderBy(DB::raw('MONTH(date)'))
             ->get();
 
-        return view('admin.dashboard', [
+        return view('admin.dashboard.dashboard', [
 
             'totalTours' => $totalTours,
             'activeTours' => $activeTours,

@@ -1,0 +1,264 @@
+/* =====================================================
+   USERS MODULE
+   Dedicated styles for the admin users index screen
+===================================================== */
+
+/* =====================================================
+   USER / SUBSCRIBER CELL
+   Shared layout for identity blocks inside tables
+===================================================== */
+.users-person-cell{
+display:flex;
+align-items:center;
+gap:14px;
+min-width:240px;
+}
+
+/* =====================================================
+   USER AVATAR
+   Circular visual identifier for users/subscribers
+===================================================== */
+.users-avatar{
+width:44px;
+height:44px;
+border-radius:999px;
+display:flex;
+align-items:center;
+justify-content:center;
+flex-shrink:0;
+font-size:15px;
+font-weight:800;
+border:1px solid transparent;
+}
+
+.users-avatar-user{
+background:#dcfce7;
+color:#15803d;
+border-color:#bbf7d0;
+}
+
+.dark .users-avatar-user{
+background:rgba(34,197,94,.12);
+color:#4ade80;
+border-color:rgba(34,197,94,.18);
+}
+
+.users-avatar-subscriber{
+background:#e0f2fe;
+color:#0284c7;
+border-color:#bae6fd;
+}
+
+.dark .users-avatar-subscriber{
+background:rgba(14,165,233,.12);
+color:#38bdf8;
+border-color:rgba(14,165,233,.18);
+}
+
+/* =====================================================
+   MAIN / SECONDARY TEXT
+   Stronger visual hierarchy for table content
+===================================================== */
+.users-main-text{
+font-size:15px;
+font-weight:700;
+line-height:1.35;
+color:#111827;
+}
+
+.dark .users-main-text{
+color:#f8fafc;
+}
+
+.users-secondary-text{
+font-size:14px;
+font-weight:500;
+color:#475569;
+}
+
+.dark .users-secondary-text{
+color:#cbd5e1;
+}
+
+/* =====================================================
+   ROLE BADGES
+   Status labels for user roles
+===================================================== */
+.users-role-badge{
+display:inline-flex;
+align-items:center;
+padding:7px 12px;
+border-radius:999px;
+font-size:12px;
+font-weight:700;
+text-transform:capitalize;
+}
+
+.users-role-badge-admin{
+background:#dcfce7;
+color:#15803d;
+}
+
+.dark .users-role-badge-admin{
+background:rgba(34,197,94,.14);
+color:#4ade80;
+}
+
+.users-role-badge-client{
+background:#e2e8f0;
+color:#334155;
+}
+
+.dark .users-role-badge-client{
+background:#1e293b;
+color:#cbd5e1;
+}
+
+/* =====================================================
+   ACTION BUTTONS
+   Reusable action styles for edit and delete
+===================================================== */
+.users-btn{
+display:inline-flex;
+align-items:center;
+justify-content:center;
+padding:6px 14px;
+border:none;
+border-radius:8px;
+font-size:14px;
+font-weight:500;
+text-decoration:none;
+cursor:pointer;
+transition:all .22s ease;
+box-shadow:0 6px 16px rgba(15,23,42,.06);
+}
+
+
+.users-btn:hover{
+transform:translateY(-1px);
+}
+
+.users-btn-edit{
+background:#dbeafe;
+color:#0369a1;
+}
+
+.users-btn-edit:hover{
+background:#bfdbfe;
+color:#075985;
+}
+
+.dark .users-btn-edit{
+background:rgba(14,165,233,.16);
+color:#7dd3fc;
+box-shadow:none;
+}
+
+.dark .users-btn-edit:hover{
+background:rgba(14,165,233,.24);
+color:#bae6fd;
+}
+
+.users-btn-delete{
+background:#ef4444;
+color:#ffffff;
+}
+
+.users-btn-delete:hover{
+background:#dc2626;
+color:#ffffff;
+}
+
+.dark .users-btn-delete{
+background:#ef4444;
+color:#ffffff;
+box-shadow:none;
+}
+
+.dark .users-btn-delete:hover{
+background:#dc2626;
+}
+
+/* =====================================================
+   USERS TABLE REFINEMENT
+   Visual polish for table rows in users module
+===================================================== */
+.users-table th{
+vertical-align:middle;
+white-space:nowrap;
+}
+
+.users-table td{
+vertical-align:middle;
+}
+
+.users-table tbody tr{
+transition:background-color .2s ease;
+}
+
+.users-table tbody tr:hover{
+background:#f8fafc;
+}
+
+.dark .users-table tbody tr:hover{
+background:rgba(15,23,42,.55);
+}
+
+/* =====================================================
+   RESPONSIVE ADJUSTMENTS
+   Prevents action overflow on narrower screens
+===================================================== */
+@media (max-width: 1024px){
+
+.users-btn{
+padding:6px 14px;
+}
+
+
+.users-person-cell{
+min-width:unset;
+}
+}
+/* =====================================================
+   DISABLED DELETE BUTTON
+   Protects the last superadmin from destructive actions
+===================================================== */
+.users-btn-delete-disabled{
+background:#fca5a5;
+color:#ffffff;
+opacity:.55;
+cursor:not-allowed;
+box-shadow:none;
+pointer-events:auto;
+}
+
+.users-btn-delete-disabled:hover{
+transform:none;
+background:#fca5a5;
+}
+
+.dark .users-btn-delete-disabled{
+background:#7f1d1d;
+color:#fecaca;
+opacity:.7;
+}
+/* =====================================================
+   ACTIONS COLUMN ALIGNMENT
+   Keeps action buttons side by side and aligned right
+===================================================== */
+.users-actions-cell{
+text-align:right;
+width:1%;
+white-space:nowrap;
+}
+
+.users-actions{
+display:flex;
+justify-content:flex-end;
+align-items:center;
+gap:12px;
+width:100%;
+}
+
+
+

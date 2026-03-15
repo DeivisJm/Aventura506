@@ -43,9 +43,10 @@
 <body class="bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300">
 
     {{-- NAVBAR --}}
-    @if (!request()->is('admin/*'))
+    @if (!isset($hideNavbar) || !$hideNavbar)
     @include('components.navbar')
     @endif
+
 
     {{--BOOKING MESSAGE --}}
     <x-booking-success />
@@ -61,9 +62,10 @@
     </main>
 
     {{-- FOOTER --}}
-    @if (!request()->is('admin/*'))
+    @if (!isset($hideFooter) || !$hideFooter)
     @include('components.footer')
     @endif
+
 
     {{-- ================= WHATSAPP FLOAT BUTTON ================= --}}
     @if(!auth()->check() || auth()->user()->role->name !== 'superadmin')

@@ -69,7 +69,11 @@
 
                 @csrf
 
-                <button type="submit" class="admin-logout-btn admin-action-icon">
+                <button
+                    type="submit"
+                    class="admin-logout-btn admin-action-icon"
+                    title="Cerrar sesión"
+                    aria-label="Cerrar sesión">
 
                     <svg xmlns="http://www.w3.org/2000/svg"
                         class="admin-icon logout-icon"
@@ -92,6 +96,7 @@
 
             </form>
 
+
         </div>
 
     </div>
@@ -102,7 +107,7 @@
 
         <a href="{{ route('admin.dashboard') }}"
             class="admin-sidebar-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
-            Dashboard
+            Panel Administrativo
         </a>
 
         <a href="#" class="admin-sidebar-link">
@@ -114,7 +119,9 @@
             Tours
         </a>
 
-        <a href="#" class="admin-sidebar-link">
+
+        <a href="{{ route('admin.users.index') }}"
+            class="admin-sidebar-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
             Usuarios
         </a>
 
@@ -124,7 +131,6 @@
             Tipos de Cambio
 
         </a>
-
 
     </nav>
 
