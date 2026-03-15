@@ -7,6 +7,8 @@ return [
     'available_hours' => 'Available Hours',
     'about_title' => 'About this tour',
     'quick_info' => 'Quick info',
+    'reserve_cta_text' => 'Secure your spot and complete your booking request in just a few steps.',
+    'free_booking_text' => 'This tour does not require payment to reserve.',
 
     // Pricing Section
     'pricing_title' => 'Pricing',

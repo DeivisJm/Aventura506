@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /* ================= ELEMENTS ================= */
     const modal = document.getElementById('bookingModal');
-    const openBtn = document.getElementById('openBooking');
+    const openButtons = document.querySelectorAll('#openBooking, .open-booking-trigger');
     const closeBtn = document.getElementById('closeBooking');
 
     const calendarGrid = document.getElementById('calendarGrid');
@@ -36,10 +36,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /* ================= MODAL ================= */
-    openBtn?.addEventListener('click', () => {
-        modal.classList.add('active');
-        document.body.classList.add('overflow-hidden');
+    openButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            modal.classList.add('active');
+            document.body.classList.add('overflow-hidden');
+        });
     });
+
 
     function closeModal() {
         modal.classList.remove('active');
@@ -185,7 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     };
-    
+
     /* ================= TIME SELECT ================= */
     document.addEventListener('click', function (e) {
 

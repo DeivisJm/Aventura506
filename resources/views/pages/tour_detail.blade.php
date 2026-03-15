@@ -444,6 +444,53 @@
 
 </section>
 @endif
+{{-- ================= BOTTOM RESERVE CTA ================= --}}
+@if($tour->prices->where('is_free', false)->count())
+
+<section class="max-w-7xl mx-auto px-6 pb-24">
+    <div class="flex justify-center">
+        <div class="w-full max-w-3xl text-center">
+
+            <div class="mb-6">
+                <h3 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
+                    {{ __('tour_detail.reserve') }}
+                </h3>
+
+                <p class="mt-2 text-sm md:text-base text-gray-600 dark:text-gray-400">
+                    {{ __('tour_detail.reserve_cta_text') }}
+                </p>
+            </div>
+
+            <button
+                type="button"
+                class="open-booking-trigger btn-primary
+                       w-full sm:w-auto
+                       min-w-[260px]
+                       justify-center
+                       text-lg py-4 px-10 shadow-lg">
+                {{ __('tour_detail.reserve') }}
+            </button>
+
+        </div>
+    </div>
+</section>
+
+@else
+
+<section class="max-w-7xl mx-auto px-6 pb-24">
+    <div class="flex justify-center">
+        <div class="w-full max-w-3xl text-center rounded-3xl border border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-900/20 px-8 py-8 shadow-lg">
+            <div class="text-green-600 dark:text-green-400 font-semibold text-lg">
+                {{ __('tour_detail.free') }}
+            </div>
+            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                {{ __('tour_detail.free_booking_text') }}
+            </p>
+        </div>
+    </div>
+</section>
+
+@endif
 
 {{-- ================= Prices ================= --}}
 @php

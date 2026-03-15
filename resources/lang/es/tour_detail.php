@@ -7,6 +7,8 @@ return [
     'available_hours' => 'Horarios disponibles',
     'about_title' => 'Acerca del tour',
     'quick_info' => 'Información rápida',
+    'reserve_cta_text' => 'Asegura tu espacio y completa tu solicitud de reserva en pocos pasos.',
+    'free_booking_text' => 'Este tour no requiere pago para reservar.',
 
     // Pricing Section
     'pricing_title' => 'Precios',

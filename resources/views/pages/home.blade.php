@@ -38,7 +38,7 @@
                 </a>
 
                 <a href="/accommodations" class="btn-secondary">
-                    {{ __('home.btn_view_accommodations') }}
+                    {{ __('home.btn_view_accommodation') }}
                 </a>
 
             </div>
