@@ -93,7 +93,8 @@
                                     type="text"
                                     name="name[es]"
                                     value="{{ old('name.es', $tour->name['es'] ?? '') }}"
-                                    class="form-input">
+                                    class="form-input"
+                                    required>
 
                             </div>
 
@@ -107,7 +108,8 @@
                                     type="text"
                                     name="name[en]"
                                     value="{{ old('name.en', $tour->name['en'] ?? '') }}"
-                                    class="form-input">
+                                    class="form-input"
+                                    required>
 
                             </div>
 
@@ -125,7 +127,8 @@
                                     type="text"
                                     name="slug"
                                     value="{{ old('slug', $tour->slug ?? '') }}"
-                                    class="form-input">
+                                    class="form-input"
+                                    required>
 
                                 <p class="form-help">
                                     Este texto se usa en la URL del tour.
@@ -146,7 +149,8 @@
 
                                     <option
                                         value="{{ $category->id }}"
-                                        {{ old('category_id', $tour->category_id ?? '') == $category->id ? 'selected' : '' }}>
+                                        {{ old('category_id', $tour->category_id ?? '') == $category->id ? 'selected' : '' }}
+                                        required>
 
                                         {{ $category->name }}
 
@@ -179,9 +183,11 @@
 
                                 <input
                                     type="text"
-                                    name="location_name"
-                                    value="{{ old('location_name', $tour->company->location_name ?? '') }}"
-                                    class="form-input">
+                                    name="detail[location_name]"
+                                    value="{{ old('detail.location_name', $tour->detail?->location_name ?? '') }}"
+                                    class="form-input"
+                                    required>
+
 
                                 <p class="form-help">
                                     Ubicación principal donde se realiza el tour.
@@ -196,7 +202,7 @@
                                     Compañía Operadora
                                 </label>
 
-                                <select name="company_id" class="form-input">
+                                <select name="company_id" id="company_select" class="form-input" required>
 
                                     <option value="">
                                         Selecciona una compañía
@@ -206,11 +212,14 @@
 
                                     <option
                                         value="{{ $company->id }}"
+                                        data-email="{{ $company->email ?? '' }}"
+                                        data-phone="{{ $company->phone ?? '' }}"
+                                        data-map="{{ $company->map_embed_url ?? '' }}"
                                         {{ old('company_id', $tour->company_id ?? '') == $company->id ? 'selected' : '' }}>
-
                                         {{ $company->name }}
-
                                     </option>
+
+
 
                                     @endforeach
 
@@ -219,6 +228,32 @@
                                 <p class="form-help">
                                     Selecciona la empresa responsable de operar este tour.
                                 </p>
+
+                            </div>
+
+                            <div>
+                                <label class="form-label">
+                                    Email de la Compañía
+
+                                </label>
+                                <input type="text"
+                                    id="company_email"
+                                    name="company[email]"
+                                    value="{{ old('company.email', $tour->company?->email ?? '') }}"
+                                    class="form-input">
+
+                            </div>
+
+                            <div>
+                                <label class="form-label">
+                                    Teléfono de la Compañía
+                                </label>
+                                <input
+                                    type="text"
+                                    id="company_phone"
+                                    name="company[phone]"
+                                    value="{{ old('company.phone', $tour->company?->phone ?? '') }}"
+                                    class="form-input">
 
                             </div>
 
@@ -243,9 +278,10 @@
 
                                 <input
                                     type="text"
-                                    name="start_hours_text[es]"
-                                    value="{{ old('start_hours_text.es', $tour->detail->start_hours_text['es'] ?? '') }}"
-                                    class="form-input">
+                                    name="detail[start_hours_text][es]"
+                                    value="{{ old('detail.start_hours_text.es', $tour->detail?->start_hours_text['es'] ?? '') }}"
+                                    class="form-input"
+                                    required>
 
                             </div>
 
@@ -257,10 +293,10 @@
 
                                 <input
                                     type="text"
-                                    name="start_hours_text[en]"
-                                    value="{{ old('start_hours_text.en', $tour->detail->start_hours_text['en'] ?? '') }}"
-                                    class="form-input">
-
+                                    name="detail[start_hours_text][en]"
+                                    value="{{ old('detail.start_hours_text.en', $tour->detail?->start_hours_text['en'] ?? '') }}"
+                                    class="form-input"
+                                    required>
                             </div>
 
                         </div>
@@ -283,7 +319,6 @@
                                 id="tour-image-input"
                                 class="form-input-file"
                                 accept="image/*">
-
                         </div>
 
                         <div class="admin-image-preview">
@@ -353,9 +388,10 @@
                                 <input
                                     type="text"
                                     name="detail[duration][es]"
-                                    value="{{ old('detail.duration.es', $tour->detail->duration['es'] ?? '') }}"
+                                    value="{{ old('detail.duration.es', $tour->detail?->duration['es'] ?? '') }}"
                                     class="form-input"
-                                    placeholder="Ej: 2 horas">
+                                    placeholder="Ej: 2 horas"
+                                    required>
 
                             </div>
 
@@ -370,7 +406,8 @@
                                     name="detail[duration][en]"
                                     value="{{ old('detail.duration.en', $tour->detail->duration['en'] ?? '') }}"
                                     class="form-input"
-                                    placeholder="Example: 2 hours">
+                                    placeholder="Example: 2 hours"
+                                    required>
 
                             </div>
 
@@ -399,7 +436,9 @@
                                 <textarea
                                     name="description[es]"
                                     class="form-textarea"
-                                    placeholder="Describe brevemente el tour...">{{ old('description.es', $tour->description['es'] ?? '') }}</textarea>
+                                    placeholder="Describe brevemente el tour..."
+                                    required>{{ old('description.es', $tour->description['es'] ?? '') }}</textarea>
+
 
                             </div>
 
@@ -410,7 +449,9 @@
                                 <textarea
                                     name="description[en]"
                                     class="form-textarea"
-                                    placeholder="Write a short description...">{{ old('description.en', $tour->description['en'] ?? '') }}</textarea>
+                                    placeholder="Write a short description..."
+                                    required>{{ old('description.en', $tour->description['en'] ?? '') }}</textarea>
+
 
                             </div>
 
@@ -439,8 +480,8 @@
                                 <textarea
                                     name="detail[full_description][es]"
                                     class="form-textarea"
-                                    placeholder="Describe el tour con más detalle...">{{ old('detail.full_description.es', $tour->detail->full_description['es'] ?? '') }}</textarea>
-
+                                    placeholder="Describe el tour con más detalle..."
+                                    required>{{ old('detail.full_description.es', $tour->detail->full_description['es'] ?? '') }}</textarea>
                             </div>
 
                             <div class="form-field">
@@ -450,7 +491,9 @@
                                 <textarea
                                     name="detail[full_description][en]"
                                     class="form-textarea"
-                                    placeholder="Write the full tour description...">{{ old('detail.full_description.en', $tour->detail->full_description['en'] ?? '') }}</textarea>
+                                    placeholder="Write the full tour description..."
+                                    required>{{ old('detail.full_description.en', $tour->detail->full_description['en'] ?? '') }}</textarea>
+
 
                             </div>
 
@@ -481,7 +524,8 @@
                                     name="detail[includes][es]"
                                     value="{{ old('detail.includes.es', isset($tour->detail->includes['es']) ? implode(', ', $tour->detail->includes['es']) : '') }}"
                                     class="form-input"
-                                    placeholder="Transporte, Guía, Entrada">
+                                    placeholder="Transporte, Guía, Entrada"
+                                    required>
 
                             </div>
 
@@ -494,7 +538,8 @@
                                     name="detail[includes][en]"
                                     value="{{ old('detail.includes.en', isset($tour->detail->includes['en']) ? implode(', ', $tour->detail->includes['en']) : '') }}"
                                     class="form-input"
-                                    placeholder="Transportation, Guide, Entrance">
+                                    placeholder="Transportation, Guide, Entrance"
+                                    required>
 
                             </div>
 
@@ -525,8 +570,8 @@
                                     name="detail[ideal_for][es]"
                                     value="{{ old('detail.ideal_for.es', isset($tour->detail->ideal_for['es']) ? implode(', ', $tour->detail->ideal_for['es']) : '') }}"
                                     class="form-input"
-                                    placeholder="Familias, Fotógrafos">
-
+                                    placeholder="Familias, Fotógrafos"
+                                    required>
                             </div>
 
                             <div class="form-field">
@@ -538,8 +583,8 @@
                                     name="detail[ideal_for][en]"
                                     value="{{ old('detail.ideal_for.en', isset($tour->detail->ideal_for['en']) ? implode(', ', $tour->detail->ideal_for['en']) : '') }}"
                                     class="form-input"
-                                    placeholder="Families, Photographers">
-
+                                    placeholder="Families, Photographers"
+                                    required>
                             </div>
 
                         </div>
@@ -569,8 +614,8 @@
                                     name="detail[recommendations][es]"
                                     value="{{ old('detail.recommendations.es', isset($tour->detail->recommendations['es']) ? implode(', ', $tour->detail->recommendations['es']) : '') }}"
                                     class="form-input"
-                                    placeholder="Protector solar, Agua">
-
+                                    placeholder="Protector solar, Agua"
+                                    required>
                             </div>
 
                             <div class="form-field">
@@ -582,8 +627,8 @@
                                     name="detail[recommendations][en]"
                                     value="{{ old('detail.recommendations.en', isset($tour->detail->recommendations['en']) ? implode(', ', $tour->detail->recommendations['en']) : '') }}"
                                     class="form-input"
-                                    placeholder="Sunscreen, Water">
-
+                                    placeholder="Sunscreen, Water"
+                                    required>
                             </div>
 
                         </div>
@@ -609,9 +654,11 @@
                             <input
                                 type="text"
                                 name="company[map_embed_url]"
-                                value="{{ old('company.map_embed_url', $tour->company->map_embed_url ?? '') }}"
+                                value="{{ old('company.map_embed_url', $tour->company?->map_embed_url ?? '') }}"
                                 class="form-input"
-                                placeholder="Google Maps embed URL">
+                                placeholder="Google Maps embed URL"
+                                required>
+
 
                         </div>
 
@@ -678,6 +725,10 @@
 
                     <div class="form-card price-block">
 
+                        <input type="hidden"
+                            name="prices[{{$index}}][id]"
+                            value="{{ $price->id ?? '' }}">
+
                         <div class="form-card-header">
 
                             <h3 class="form-card-title">
@@ -709,7 +760,8 @@
                                     name="prices[{{$index}}][type][es]"
                                     value="{{ old("prices.$index.type.es", $price->type['es'] ?? '') }}"
                                     class="form-input"
-                                    placeholder="Ej: Adultos nacionales">
+                                    placeholder="Ej: Adultos nacionales"
+                                    required>
 
                                 <p class="form-help">
                                     Nombre que se mostrará en la página del tour.
@@ -729,7 +781,8 @@
                                     name="prices[{{$index}}][type][en]"
                                     value="{{ old("prices.$index.type.en", $price->type['en'] ?? '') }}"
                                     class="form-input"
-                                    placeholder="Example: Adults">
+                                    placeholder="Example: Adults"
+                                    required>
 
                             </div>
 
@@ -747,7 +800,8 @@
 
                                 <select
                                     name="prices[{{$index}}][category_type]"
-                                    class="form-input">
+                                    class="form-input"
+                                    required>
 
                                     <option value="international"
                                         {{ old("prices.$index.category_type", $price->category_type ?? '') == 'international' ? 'selected' : '' }}>
@@ -784,7 +838,8 @@
                                         name="prices[{{$index}}][price]"
                                         value="{{ old("prices.$index.price", $price->price ?? '') }}"
                                         class="form-input"
-                                        placeholder="Ej: 55.00">
+                                        placeholder="Ej: 55.00"
+                                        required>
 
                                 </div>
 
@@ -807,6 +862,7 @@
                                     name="prices[{{$index}}][min_age]"
                                     value="{{ old("prices.$index.min_age", $price->min_age ?? '') }}"
                                     class="form-input">
+
 
                             </div>
 
@@ -884,6 +940,11 @@
 
                     <div class="form-card schedule-block">
 
+                        <input type="hidden"
+                            name="schedules[{{$index}}][id]"
+                            value="{{ $schedule->id ?? '' }}">
+
+
                         <div class="form-card-header">
 
                             <h3 class="form-card-title">
@@ -914,7 +975,8 @@
                                     type="time"
                                     name="schedules[{{$index}}][start_time]"
                                     value="{{ old("schedules.$index.start_time", isset($schedule->start_time) ? \Carbon\Carbon::parse($schedule->start_time)->format('H:i') : '') }}"
-                                    class="form-input">
+                                    class="form-input"
+                                    required>
 
                                 <p class="form-help">
                                     Hora en la que inicia el tour.
@@ -941,6 +1003,7 @@
                                             data-id="{{ $schedule->id ?? '' }}"
                                             {{ old("schedules.$index.active", $schedule->active ?? false) ? 'checked' : '' }}
                                             class="schedule-active-toggle">
+
 
                                         <span class="schedule-slider"></span>
 

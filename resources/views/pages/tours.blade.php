@@ -79,28 +79,28 @@
                 $description = '';
 
                 if (is_array($tour->short_description ?? null)) {
-                    $description = $tour->short_description[app()->getLocale()]
-                        ?? $tour->short_description['es']
-                        ?? '';
+                $description = $tour->short_description[app()->getLocale()]
+                ?? $tour->short_description['es']
+                ?? '';
                 } elseif (!empty($tour->short_description)) {
-                    $description = $tour->short_description;
+                $description = $tour->short_description;
                 } elseif (is_array($tour->description ?? null)) {
-                    $description = $tour->description[app()->getLocale()]
-                        ?? $tour->description['es']
-                        ?? '';
+                $description = $tour->description[app()->getLocale()]
+                ?? $tour->description['es']
+                ?? '';
                 } else {
-                    $description = $tour->description ?? '';
+                $description = $tour->description ?? '';
                 }
 
                 // 🔥 SOLUCIÓN ERROR NAME ARRAY
                 $tourName = is_array($tour->name ?? null)
-                    ? ($tour->name[app()->getLocale()] ?? $tour->name['es'] ?? '')
-                    : $tour->name;
+                ? ($tour->name[app()->getLocale()] ?? $tour->name['es'] ?? '')
+                : $tour->name;
 
                 // 🔥 Imagen segura
                 $imagePath = !empty($tour->image)
-                    ? asset($tour->image)
-                    : asset('images/default-tour.jpg');
+                ? asset($tour->image)
+                : asset('images/default-tour.jpg');
                 @endphp
 
                 <article class="scroll-hero bg-white rounded-2xl shadow hover:shadow-lg transition overflow-hidden">
@@ -128,6 +128,8 @@
 
                 </article>
 
+
+
                 @empty
 
                 <p class="col-span-3 text-center text-gray-500">
@@ -138,9 +140,40 @@
 
             </div>
 
+
         </section>
+        @if ($tours->hasPages())
+
+        <div class="mt-16 border-t pt-8">
+
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+
+                {{-- LEFT COUNTER --}}
+                <p class="text-sm text-gray-600">
+                    {{ __('tours.showing') }}
+                    <span class="font-semibold text-green-600">
+                        {{ $tours->firstItem() }} - {{ $tours->lastItem() }}
+                    </span>
+                    {{ __('tours.of') }}
+                    <span class="font-semibold">
+                        {{ $tours->total() }}
+                    </span>
+                    {{ __('tours.results') }}
+                </p>
+
+                {{-- PAGINATION --}}
+                <div class="custom-pagination">
+                    {{ $tours->onEachSide(1)->links('vendor.pagination.custom-green') }}
+                </div>
+
+            </div>
+
+        </div>
+
+        @endif
 
     </div>
+
 </section>
 
 @endsection

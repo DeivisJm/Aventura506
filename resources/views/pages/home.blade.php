@@ -37,8 +37,8 @@
                     {{ __('home.btn_explore_tours') }}
                 </a>
 
-                <a href="#hospedaje" class="btn-secondary">
-                    {{ __('home.btn_view_accommodation') }}
+                <a href="/accommodations" class="btn-secondary">
+                    {{ __('home.btn_view_accommodations') }}
                 </a>
 
             </div>

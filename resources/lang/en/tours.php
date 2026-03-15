@@ -29,4 +29,12 @@ return [
     // Empty state
     'no_results' => 'No tours available for this category',
 
+
+    // Pagination
+    'showing' => 'Showing',
+    'of' => 'of',
+    'results' => 'tours',
+
+
+
 ];

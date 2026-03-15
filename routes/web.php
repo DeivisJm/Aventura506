@@ -16,7 +16,6 @@ use App\Http\Controllers\Admin\AdminTourController;
 use App\Http\Controllers\Admin\AdminExchangeRateController;
 
 /*PUBLIC WEBSITE ROUTES*/
-
 Route::get('/', fn() => view('pages.home'))->name('home');
 Route::get('/accommodations', fn() => view('pages.accommodations'))->name('accommodations');
 Route::get('/about_us', fn() => view('pages.about_us'))->name('about');
@@ -29,7 +28,6 @@ Route::get('/tours', [TourController::class, 'index'])
 Route::get('/tours/{slug}', [TourController::class, 'show'])
     ->name('tours.show');
 
-
 /*BOOKINGS*/
 Route::post('/booking', [BookingController::class, 'store'])
     ->name('booking.store');
@@ -41,7 +39,6 @@ Route::post('/subscribe', [SubscriberController::class, 'store'])
 /*CONTACT FORM*/
 Route::post('/contact/send', [ContactController::class, 'send'])
     ->name('contact.send');
-
 
 /*LANGUAGE SWITCH*/
 Route::get('/lang/{locale}', function ($locale) {

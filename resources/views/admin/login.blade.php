@@ -30,9 +30,9 @@ $hideFooter = true;
             <div class="flex justify-center mb-8">
 
                 <img
-                    src="{{ asset('images/logolight.png') }}"
-                    data-light="{{ asset('images/logolight.png') }}"
-                    data-dark="{{ asset('images/logodark.png') }}"
+                    src="{{ asset('images/logos/logolight.png') }}"
+                    data-light="{{ asset('images/logos/logolight.png') }}"
+                    data-dark="{{ asset('images/logos/logodark.png') }}"
                     alt="Aventura506 Logo"
                     class="h-28 md:h-32 w-auto object-contain transition-all duration-300">
 

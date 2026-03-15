@@ -31,4 +31,12 @@ return [
     // Empty state
     'no_results' => 'No hay tours disponibles para esta categoría',
 
+
+    // Pagination
+    'showing' => 'Mostrando',
+    'of' => 'de',
+    'results' => 'tours',
+
+
+
 ];

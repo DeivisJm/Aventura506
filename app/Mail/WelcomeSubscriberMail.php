@@ -25,7 +25,7 @@ class WelcomeSubscriberMail extends Mailable
             ->view('emails.subscribe-welcome')
             ->withSymfonyMessage(function (Email $message) {
                 $message->embedFromPath(
-                    public_path('images/logo.png'),
+                    public_path('images/logos/logo.png'),
                     'logo',
                     'image/png'
                 );

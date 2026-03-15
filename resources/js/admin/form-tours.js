@@ -20,7 +20,6 @@ document.addEventListener("DOMContentLoaded", () => {
     ADD PRICE CARD
     Creates a new price configuration block
     ============================================= */
-
     window.addPrice = function () {
 
         const container = document.getElementById("prices-container");
@@ -56,7 +55,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         type="text"
                         name="prices[${priceIndex}][type][es]"
                         class="form-input"
-                        placeholder="Ej: Adultos nacionales">
+                        placeholder="Ej: Adultos nacionales"
+                        required>
 
                     <p class="form-help">
                         Nombre que se mostrará en la página del tour.
@@ -75,7 +75,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         type="text"
                         name="prices[${priceIndex}][type][en]"
                         class="form-input"
-                        placeholder="Example: Adults">
+                        placeholder="Example: Adults"
+                        required>
 
                 </div>
 
@@ -92,7 +93,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     <select
                         name="prices[${priceIndex}][category_type]"
-                        class="form-input">
+                        class="form-input"
+                        required>
 
                         <option value="international">
                             Internacional
@@ -122,7 +124,8 @@ document.addEventListener("DOMContentLoaded", () => {
                             step="0.01"
                             name="prices[${priceIndex}][price]"
                             class="form-input"
-                            placeholder="Ej: 55.00">
+                            placeholder="Ej: 55.00"
+                            required>
 
                     </div>
 
@@ -142,7 +145,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     <input
                         type="number"
                         name="prices[${priceIndex}][min_age]"
-                        class="form-input">
+                        class="form-input"
+                        required>
 
                 </div>
 
@@ -156,22 +160,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     <input
                         type="number"
                         name="prices[${priceIndex}][max_age]"
-                        class="form-input">
+                        class="form-input"
+                        required>
 
                     <p class="form-help">
                         Déjalo vacío si no hay límite.
                     </p>
 
                 </div>
-
-            </div>
-
-
-            <div class="form-save-area">
-
-                <button type="submit" class="admin-btn-primary">
-                    Guardar nuevo precio
-                </button>
 
             </div>
 
@@ -200,12 +196,10 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
 
-
     /* =============================================
     ADD SCHEDULE CARD
     Creates new schedule configuration block
     ============================================= */
-
     window.addSchedule = function () {
 
         const container = document.getElementById("schedules-container");
@@ -264,7 +258,8 @@ document.addEventListener("DOMContentLoaded", () => {
                                 type="checkbox"
                                 name="schedules[${scheduleIndex}][active]"
                                 value="1"
-                                checked>
+                                checked
+                                required>
 
                             <span class="schedule-slider"></span>
 
@@ -277,19 +272,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
 
                 </div>
-
-            </div>
-
-
-            <div class="form-save-area">
-
-                <button
-                    type="submit"
-                    class="admin-btn-primary">
-
-                    Guardar horario
-
-                </button>
 
             </div>
 
@@ -358,7 +340,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 });
- 
+
 /* IMAGE PREVIEW */
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -386,3 +368,26 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 });
+// COMPANY INFO UPDATE ON SELECT
+document.addEventListener('DOMContentLoaded', function () {
+
+    const select = document.getElementById('company_select');
+    const emailField = document.getElementById('company_email');
+    const phoneField = document.getElementById('company_phone');
+
+    if (!select || !emailField || !phoneField) return;
+
+    function updateCompanyInfo() {
+        const selectedOption = select.options[select.selectedIndex];
+
+        const email = selectedOption.getAttribute('data-email') || 'No registrado';
+        const phone = selectedOption.getAttribute('data-phone') || 'No registrado';
+
+        emailField.value = email !== '' ? email : 'No registrado';
+        phoneField.value = phone !== '' ? phone : 'No registrado';
+    }
+
+    select.addEventListener('change', updateCompanyInfo);
+
+});
+
