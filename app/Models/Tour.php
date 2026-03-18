@@ -16,7 +16,8 @@ class Tour extends Model
         'slug',
         'description',
         'image',
-        'active'
+        'active',
+        'sort_order',
     ];
 
     protected $casts = [
@@ -63,7 +64,7 @@ class Tour extends Model
         return $this->hasMany(\App\Models\TourSchedule::class)
             ->orderBy('start_time');
     }
-    
+
     public function bookings(): HasMany
     {
         return $this->hasMany(Booking::class);

@@ -27,7 +27,8 @@ class TourController extends Controller
         }
 
         $tours = $query
-            ->orderBy('created_at', 'desc')
+            ->orderBy('sort_order')
+            ->orderBy('id')
             ->paginate(9);
 
         return view('pages.tours', compact('tours'));

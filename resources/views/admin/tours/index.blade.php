@@ -141,11 +141,43 @@
             </div>
 
             {{-- EDITAR --}}
-            <div class="mt-4">
+            <div class="mt-4 flex items-center justify-between gap-4">
+
                 <a href="{{ route('admin.tours.edit', $tour) }}"
                     class="text-sm font-semibold text-cyan-500 hover:text-cyan-700 transition">
                     Editar
                 </a>
+
+                <div class="flex items-center gap-2">
+
+                    <form method="POST" action="{{ route('admin.tours.move', $tour) }}">
+                        @csrf
+                        @method('PATCH')
+                        <input type="hidden" name="direction" value="up">
+
+                        <button type="submit"
+                            class="px-3 py-1.5 rounded-lg text-xs font-semibold
+                       bg-gray-100 text-gray-700 hover:bg-gray-200
+                       dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 transition">
+                            ↑ Subir
+                        </button>
+                    </form>
+
+                    <form method="POST" action="{{ route('admin.tours.move', $tour) }}">
+                        @csrf
+                        @method('PATCH')
+                        <input type="hidden" name="direction" value="down">
+
+                        <button type="submit"
+                            class="px-3 py-1.5 rounded-lg text-xs font-semibold
+                       bg-gray-100 text-gray-700 hover:bg-gray-200
+                       dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 transition">
+                            ↓ Bajar
+                        </button>
+                    </form>
+
+                </div>
+
             </div>
 
         </div>

@@ -31,7 +31,10 @@ class AdminTourController extends Controller
             });
         }
 
-        $tours = $query->latest()->paginate(9);
+        $tours = $query
+            ->orderBy('sort_order')
+            ->orderBy('id')
+            ->paginate(9);
 
         return view('admin.tours.index', compact('tours'));
     }
@@ -107,6 +110,7 @@ class AdminTourController extends Controller
                 'category_id' => $request->category_id,
                 'company_id' => $request->company_id,
                 'active' => true,
+                'sort_order' => (Tour::max('sort_order') ?? 0) + 1,
             ]);
 
             if ($request->hasFile('image')) {
@@ -361,6 +365,38 @@ class AdminTourController extends Controller
         ]);
 
         return back();
+    }
+
+    public function move(Request $request, Tour $tour)
+    {
+        $direction = $request->validate([
+            'direction' => ['required', 'in:up,down'],
+        ])['direction'];
+
+        $currentOrder = $tour->sort_order;
+
+        if ($direction === 'up') {
+            $swapTour = Tour::where('sort_order', '<', $currentOrder)
+                ->orderBy('sort_order', 'desc')
+                ->first();
+        } else {
+            $swapTour = Tour::where('sort_order', '>', $currentOrder)
+                ->orderBy('sort_order', 'asc')
+                ->first();
+        }
+
+        if (!$swapTour) {
+            return back();
+        }
+
+        $tempOrder = $tour->sort_order;
+        $tour->sort_order = $swapTour->sort_order;
+        $swapTour->sort_order = $tempOrder;
+
+        $tour->save();
+        $swapTour->save();
+
+        return back()->with('success', 'El orden del tour fue actualizado correctamente.');
     }
 
     public function toggleSchedule(\App\Models\TourSchedule $schedule)
