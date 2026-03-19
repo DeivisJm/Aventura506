@@ -141,40 +141,31 @@
             </div>
 
             {{-- EDITAR --}}
-            <div class="mt-4 flex items-center justify-between gap-4">
+            <div class="mt-4 flex items-end justify-between gap-4 min-h-[64px]">
 
                 <a href="{{ route('admin.tours.edit', $tour) }}"
                     class="text-sm font-semibold text-cyan-500 hover:text-cyan-700 transition">
                     Editar
                 </a>
 
-                <div class="flex items-center gap-2">
+                <div class="tour-position-box"
+                    data-tour-id="{{ $tour->id }}"
+                    data-update-url="{{ route('admin.tours.update-position', $tour) }}">
 
-                    <form method="POST" action="{{ route('admin.tours.move', $tour) }}">
-                        @csrf
-                        @method('PATCH')
-                        <input type="hidden" name="direction" value="up">
+                    <span class="tour-position-label">
+                        Orden
+                    </span>
 
-                        <button type="submit"
-                            class="px-3 py-1.5 rounded-lg text-xs font-semibold
-                       bg-gray-100 text-gray-700 hover:bg-gray-200
-                       dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 transition">
-                            ↑ Subir
-                        </button>
-                    </form>
-
-                    <form method="POST" action="{{ route('admin.tours.move', $tour) }}">
-                        @csrf
-                        @method('PATCH')
-                        <input type="hidden" name="direction" value="down">
-
-                        <button type="submit"
-                            class="px-3 py-1.5 rounded-lg text-xs font-semibold
-                       bg-gray-100 text-gray-700 hover:bg-gray-200
-                       dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 transition">
-                            ↓ Bajar
-                        </button>
-                    </form>
+                    {{-- Position selector --}}
+                    <select class="tour-position-select"
+                        aria-label="Seleccionar posición del tour">
+                        @for($position = 1; $position <= $totalTours; $position++)
+                            <option value="{{ $position }}"
+                            {{ (int) $tour->sort_order === $position ? 'selected' : '' }}>
+                            {{ $position }}
+                            </option>
+                            @endfor
+                    </select>
 
                 </div>
 
@@ -217,7 +208,7 @@
 
         {{-- PAGINACIÓN DERECHA --}}
         <div class="custom-pagination">
-            {{ $tours->onEachSide(1)->links('vendor.pagination.custom-green') }}
+            {{ $tours->appends(request()->query())->onEachSide(1)->links('vendor.pagination.custom-green') }}
         </div>
 
     </div>

@@ -34,9 +34,13 @@ class AdminTourController extends Controller
         $tours = $query
             ->orderBy('sort_order')
             ->orderBy('id')
-            ->paginate(9);
+            ->paginate(9)
+            ->appends($request->query());
 
-        return view('admin.tours.index', compact('tours'));
+        /* Total number of tours used to build the position selector */
+        $totalTours = Tour::count();
+
+        return view('admin.tours.index', compact('tours', 'totalTours'));
     }
 
     public function create()
@@ -366,38 +370,60 @@ class AdminTourController extends Controller
 
         return back();
     }
-
-    public function move(Request $request, Tour $tour)
+    public function updatePosition(Request $request, Tour $tour)
     {
-        $direction = $request->validate([
-            'direction' => ['required', 'in:up,down'],
-        ])['direction'];
+        $validated = $request->validate([
+            'sort_order' => ['required', 'integer', 'min:1'],
+        ]);
 
-        $currentOrder = $tour->sort_order;
+        $newPosition = (int) $validated['sort_order'];
+        $currentPosition = (int) $tour->sort_order;
+        $maxPosition = (int) Tour::count();
 
-        if ($direction === 'up') {
-            $swapTour = Tour::where('sort_order', '<', $currentOrder)
-                ->orderBy('sort_order', 'desc')
-                ->first();
-        } else {
-            $swapTour = Tour::where('sort_order', '>', $currentOrder)
-                ->orderBy('sort_order', 'asc')
-                ->first();
+        /* Prevent invalid positions outside the current range */
+        if ($newPosition > $maxPosition) {
+            $newPosition = $maxPosition;
         }
 
-        if (!$swapTour) {
-            return back();
+        /* If position did not change, there is nothing to reorder */
+        if ($newPosition === $currentPosition) {
+            return response()->json([
+                'success' => true,
+                'message' => 'The position is already up to date.',
+            ]);
         }
 
-        $tempOrder = $tour->sort_order;
-        $tour->sort_order = $swapTour->sort_order;
-        $swapTour->sort_order = $tempOrder;
+        DB::transaction(function () use ($tour, $currentPosition, $newPosition) {
 
-        $tour->save();
-        $swapTour->save();
+            /* Moving up:
+           shift down the tours between target position and current position - 1 */
+            if ($newPosition < $currentPosition) {
+                Tour::where('id', '!=', $tour->id)
+                    ->whereBetween('sort_order', [$newPosition, $currentPosition - 1])
+                    ->increment('sort_order');
+            }
 
-        return back()->with('success', 'El orden del tour fue actualizado correctamente.');
+            /* Moving down:
+           shift up the tours between current position + 1 and target position */
+            if ($newPosition > $currentPosition) {
+                Tour::where('id', '!=', $tour->id)
+                    ->whereBetween('sort_order', [$currentPosition + 1, $newPosition])
+                    ->decrement('sort_order');
+            }
+
+            /* Save the selected position for the current tour */
+            $tour->update([
+                'sort_order' => $newPosition,
+            ]);
+        });
+
+        return response()->json([
+            'success' => true,
+            'message' => 'The tour order was updated successfully.',
+            'sort_order' => $newPosition,
+        ]);
     }
+
 
     public function toggleSchedule(\App\Models\TourSchedule $schedule)
     {

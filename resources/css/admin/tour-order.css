@@ -1,0 +1,107 @@
+/* =====================================================
+   TOUR POSITION SELECTOR
+   Compact ordering control styled to match the admin UI
+   without conflicting with status and action colors.
+===================================================== */
+
+.tour-position-box{
+display:flex;
+flex-direction:column;
+align-items:flex-end;
+justify-content:flex-end;
+gap:4px;
+min-width:126px;
+}
+
+/* Small helper label shown above the select */
+.tour-position-label{
+font-size:10px;
+font-weight:700;
+letter-spacing:.08em;
+text-transform:uppercase;
+line-height:1;
+color:#6b7280;
+}
+
+.dark .tour-position-label{
+color:#94a3b8;
+}
+
+/* Premium position selector
+   Indigo is used to keep ordering visually distinct from:
+   green = active
+   red = deactivate
+   blue = edit
+*/
+.tour-position-select{
+min-width:10px;
+height:28px;
+padding:0 34px 0 14px;
+border-radius:12px;
+border:1px solid #c7d2fe;
+background:
+    linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+color:#4338ca;
+font-size:14px;
+font-weight:700;
+line-height:1;
+text-align:left;
+appearance:none;
+-webkit-appearance:none;
+-moz-appearance:none;
+cursor:pointer;
+transition:
+border-color .2s ease,
+box-shadow .2s ease,
+transform .2s ease,
+background-color .2s ease;
+box-shadow:0 6px 16px rgba(79,70,229,.10);
+background-image:
+url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%234338ca' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='m6 9 6 6 6-6'/%3E%3C/svg%3E"),
+linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+background-repeat:no-repeat, no-repeat;
+background-position:right 10px center, center;
+background-size:14px, cover;
+}
+
+.tour-position-select:hover{
+border-color:#a5b4fc;
+box-shadow:0 10px 22px rgba(79,70,229,.14);
+transform:translateY(-1px);
+}
+
+.tour-position-select:focus{
+outline:none;
+border-color:#6366f1;
+box-shadow:0 0 0 4px rgba(99,102,241,.18);
+}
+
+/* Dark mode version keeps strong contrast and polished look */
+.dark .tour-position-select{
+border:1px solid #3730a3;
+background:
+url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23c7d2fe' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='m6 9 6 6 6-6'/%3E%3C/svg%3E"),
+linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+background-repeat:no-repeat, no-repeat;
+background-position:right 10px center, center;
+background-size:14px, cover;
+color:#e0e7ff;
+box-shadow:none;
+}
+
+.dark .tour-position-select:hover{
+border-color:#6366f1;
+box-shadow:0 10px 22px rgba(99,102,241,.16);
+}
+
+.dark .tour-position-select:focus{
+border-color:#818cf8;
+box-shadow:0 0 0 4px rgba(129,140,248,.18);
+}
+
+/* Disabled visual feedback while saving position changes */
+.tour-position-box.is-saving .tour-position-select{
+opacity:.72;
+pointer-events:none;
+transform:none;
+}

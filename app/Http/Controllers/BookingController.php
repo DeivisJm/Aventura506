@@ -43,7 +43,7 @@ class BookingController extends Controller
 
         try {
 
-            $tour = Tour::findOrFail($validated['tour_id']);
+            $tour = Tour::with('company')->findOrFail($validated['tour_id']);
 
             $totalUsd = 0;
             $persons = 0;
@@ -122,8 +122,23 @@ class BookingController extends Controller
 
             $pdfContent = $pdf->output();
 
-            Mail::to(config('mail.booking_receiver'))
-                ->cc($booking->guest_email)
+            /* Main internal receiver */
+            $to = [config('mail.booking_receiver')];
+
+            /* CC recipients: guest + company email if available */
+            $cc = [$booking->guest_email];
+
+            if (!empty($tour->company?->email)) {
+                $cc[] = $tour->company->email;
+            }
+
+            /* Remove empty or duplicated emails */
+            $to = array_values(array_unique(array_filter($to)));
+            $cc = array_values(array_unique(array_filter($cc)));
+
+            /* Send booking email with PDF attachment */
+            Mail::to($to)
+                ->cc($cc)
                 ->send(
                     (new BookingMail($booking))
                         ->attachData($pdfContent, 'booking.pdf', [

@@ -144,8 +144,9 @@ Route::prefix('admin')
         Route::patch('/tours/{tour}/toggle', [AdminTourController::class, 'toggle'])
             ->name('admin.tours.toggle');
 
-        Route::patch('/tours/{tour}/move', [AdminTourController::class, 'move'])
-            ->name('admin.tours.move');
+        /* Update manual tour position */
+        Route::patch('/tours/{tour}/position', [AdminTourController::class, 'updatePosition'])
+            ->name('admin.tours.update-position');
 
         /* Logout */
         Route::post('/logout', [AdminAuthController::class, 'logout'])
