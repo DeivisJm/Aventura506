@@ -10,6 +10,7 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\SubscriberController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\HomeController;
 
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminTourController;
@@ -20,7 +21,7 @@ use App\Http\Controllers\Admin\AdminUserController;
 | PUBLIC WEBSITE ROUTES
 ===================================================== */
 
-Route::get('/', fn() => view('pages.home'))->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/accommodations', fn() => view('pages.accommodations'))->name('accommodations');
 Route::get('/about_us', fn() => view('pages.about_us'))->name('about');
 Route::get('/contact', fn() => view('pages.contact'))->name('contact');

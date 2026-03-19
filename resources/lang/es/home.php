@@ -10,7 +10,7 @@ return [
     'hero_title_line_2' => 'en un solo lugar',
 
     'hero_description' =>
-        'Descubrí tours, experiencias naturales y hospedaje cuidadosamente
+    'Descubrí tours, experiencias naturales y hospedaje cuidadosamente
         seleccionados para que aproveches La Fortuna al máximo,
         sin perder tiempo ni dinero.',
 
@@ -22,19 +22,24 @@ return [
     'video_title_line_2' => 'desde una nueva perspectiva',
 
     'video_description' =>
-        'Viví experiencias reales a través de contenido auténtico,
+    'Viví experiencias reales a través de contenido auténtico,
         creado por viajeros y guías locales que conocen La Fortuna
         como nadie más.',
 
     'video_by' => 'Videos por',
 
-    // Info cards
-    'card_volcano_title' => 'Volcán Arenal',
-    'card_volcano_desc' => 'Naturaleza, caminatas y vistas únicas.',
+    // featured tours
 
-    'card_adventure_title' => 'Aventura',
-    'card_adventure_desc' => 'Canopy, rafting y adrenalina.',
+    'featured_tour_badge' => 'Experiencia recomendada',
+    'featured_tour_intro' => 'Tu próxima aventura en La Fortuna',
+    'featured_tour_helper_text' => 'Consultá horarios, precio y disponibilidad antes de reservar esta experiencia.',
+    'featured_tour_reserve_button' => 'Reservar Ahora',
+    'featured_tour_view_details' => 'Más información',
+    'featured_tour_price_badge' => 'Reservá desde',
 
-    'card_accommodation_title' => 'Hospedaje',
-    'card_accommodation_desc' => 'Hoteles, lodges y cabañas.',
+    'featured_tour_from' => 'Desde',
+    'featured_tour_base_price' => 'Por persona',
+    'featured_tour_check_price' => 'Consultar',
+    'featured_tour_price_detail' => 'Precio disponible en el detalle del tour',
+
 ];

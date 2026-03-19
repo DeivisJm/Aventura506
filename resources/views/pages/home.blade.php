@@ -125,40 +125,132 @@
     </div>
 </section>
 
+{{-- ================= FEATURED TOUR BANNER ================= --}}
+@if($featuredTour)
+@php
+$locale = app()->getLocale();
 
-{{-- ================= INFO CARDS ================= --}}
-<section class="max-w-7xl mx-auto px-4 py-16 grid gap-8 md:grid-cols-3">
+$tourName = is_array($featuredTour->name)
+? ($featuredTour->name[$locale] ?? reset($featuredTour->name))
+: $featuredTour->name;
 
-    <div class="bg-white p-6 rounded-xl shadow text-center hover:shadow-lg transition">
-        🌋
-        <h3 class="font-semibold text-xl mt-4">
-            {{ __('home.card_volcano_title') }}
-        </h3>
-        <p class="text-sm text-gray-600 mt-2">
-            {{ __('home.card_volcano_desc') }}
-        </p>
+$tourDescription = is_array($featuredTour->description)
+? ($featuredTour->description[$locale] ?? reset($featuredTour->description))
+: $featuredTour->description;
+
+$startingPrice = $featuredTour->prices
+->where('is_free', false)
+->max('price');
+
+@endphp
+<section class="bg-white py-20 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="scroll-hero relative rounded-[2rem] overflow-hidden shadow-2xl">
+
+            {{-- Background image --}}
+            <div class="absolute inset-0">
+                <img
+                    src="{{ $featuredTour->image ? asset($featuredTour->image) : asset('images/default-tour.jpg') }}"
+                    alt="{{ $tourName }}"
+                    class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-black/30"></div>
+            </div>
+
+            {{-- Decorative glow --}}
+            <div class="absolute -top-10 -right-10 w-72 h-72 bg-green-400/20 rounded-full blur-3xl"></div>
+
+            {{-- Content --}}
+            <div class="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-10 items-end px-8 py-12 md:px-12 md:py-16 min-h-[460px]">
+
+                {{-- Left content --}}
+                <div class="max-w-2xl">
+                    <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full
+                                 bg-white/10 backdrop-blur-md border border-white/20
+                                 text-white text-xs md:text-sm font-semibold uppercase tracking-[0.18em]">
+                        {{ __('home.featured_tour_badge') }}
+                    </span>
+
+                    <p class="mt-5 text-sm md:text-base font-semibold uppercase tracking-[0.18em] text-green-300">
+                        {{ __('home.featured_tour_intro') }}
+                    </p>
+
+                    <h2 class="mt-4 text-3xl md:text-5xl font-extrabold text-white leading-tight">
+                        {{ $tourName }}
+                    </h2>
+
+                    <p class="mt-5 text-base md:text-lg text-white/85 leading-relaxed max-w-xl">
+                        {{ \Illuminate\Support\Str::limit(strip_tags($tourDescription), 180) }}
+                    </p>
+
+                    <p class="mt-4 text-sm md:text-base text-white/70 max-w-lg leading-relaxed">
+                        {{ __('home.featured_tour_helper_text') }}
+                    </p>
+
+                    <div class="mt-8 flex flex-wrap items-center gap-4">
+                        <a href="{{ route('tours.show', $featuredTour->slug) }}"
+                            class="inline-flex items-center justify-center
+                                   bg-green-600 hover:bg-green-700
+                                   text-white font-semibold
+                                   px-7 py-3 rounded-full
+                                   shadow-lg transition-all duration-300 hover:scale-[1.02]">
+                            {{ __('home.featured_tour_reserve_button') }}
+                        </a>
+
+                        <a href="{{ route('tours.show', $featuredTour->slug) }}"
+                            class="inline-flex items-center gap-2 text-sm md:text-base font-semibold text-white/90 hover:text-white transition-colors">
+                            {{ __('home.featured_tour_view_details') }}
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                {{-- Right price card --}}
+                <div class="lg:justify-self-end">
+                    <div class="w-full max-w-sm rounded-[1.75rem] bg-white/12 backdrop-blur-xl border border-white/20 p-6 md:p-7 shadow-2xl">
+
+                        <p class="text-white/70 text-sm uppercase tracking-[0.18em] font-semibold">
+                            {{ __('home.featured_tour_price_badge') }}
+                        </p>
+
+                        <div class="mt-3">
+                            @if(!is_null($startingPrice))
+                            <h3 class="text-4xl md:text-5xl font-extrabold text-white leading-none">
+                                ${{ number_format($startingPrice, 2) }}
+                            </h3>
+
+                            <p class="mt-3 text-white/75 text-sm">
+                                {{ __('home.featured_tour_base_price') }}
+                            </p>
+                            @else
+                            <h3 class="text-3xl md:text-4xl font-extrabold text-white leading-none">
+                                {{ __('home.featured_tour_check_price') }}
+                            </h3>
+
+                            <p class="mt-3 text-white/75 text-sm">
+                                {{ __('home.featured_tour_price_detail') }}
+                            </p>
+                            @endif
+                        </div>
+
+                        <div class="mt-6 pt-5 border-t border-white/15">
+                            <a href="{{ route('tours.show', $featuredTour->slug) }}"
+                                class="inline-flex items-center gap-2 text-sm font-semibold text-green-300 hover:text-white transition-colors">
+                                {{ __('home.featured_tour_view_details') }}
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                </svg>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
-
-    <div class="bg-white p-6 rounded-xl shadow text-center hover:shadow-lg transition">
-        🌿
-        <h3 class="font-semibold text-xl mt-4">
-            {{ __('home.card_adventure_title') }}
-        </h3>
-        <p class="text-sm text-gray-600 mt-2">
-            {{ __('home.card_adventure_desc') }}
-        </p>
-    </div>
-
-    <div class="bg-white p-6 rounded-xl shadow text-center hover:shadow-lg transition">
-        🏨
-        <h3 class="font-semibold text-xl mt-4">
-            {{ __('home.card_accommodation_title') }}
-        </h3>
-        <p class="text-sm text-gray-600 mt-2">
-            {{ __('home.card_accommodation_desc') }}
-        </p>
-    </div>
-
 </section>
+@endif
 
 @endsection

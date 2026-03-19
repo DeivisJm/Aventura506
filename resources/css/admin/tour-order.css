@@ -94,6 +94,23 @@ border-color:#6366f1;
 box-shadow:0 10px 22px rgba(99,102,241,.16);
 }
 
+/* Dark dropdown panel for native select options */
+.dark .tour-position-select{
+color-scheme: dark;
+}
+
+/* Option list styling */
+.dark .tour-position-select option{
+background:#0f172a;
+color:#e2e8f0;
+}
+
+/* Selected option */
+.dark .tour-position-select option:checked{
+background:#312e81;
+color:#ffffff;
+}
+
 .dark .tour-position-select:focus{
 border-color:#818cf8;
 box-shadow:0 0 0 4px rgba(129,140,248,.18);

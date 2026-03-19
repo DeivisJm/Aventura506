@@ -10,7 +10,7 @@ return [
     'hero_title_line_2' => 'in one place',
 
     'hero_description' =>
-        'Discover tours, nature experiences and accommodations carefully
+    'Discover tours, nature experiences and accommodations carefully
         selected so you can enjoy La Fortuna to the fullest,
         without wasting time or money.',
 
@@ -22,19 +22,23 @@ return [
     'video_title_line_2' => 'from a new perspective',
 
     'video_description' =>
-        'Live real experiences through authentic content,
+    'Live real experiences through authentic content,
         created by travelers and local guides who know La Fortuna
         like no one else.',
 
     'video_by' => 'Videos by',
 
-    // Info cards
-    'card_volcano_title' => 'Arenal Volcano',
-    'card_volcano_desc' => 'Nature, hiking and unique views.',
+    //featured tours
 
-    'card_adventure_title' => 'Adventure',
-    'card_adventure_desc' => 'Zipline, rafting and adrenaline.',
+    'featured_tour_badge' => 'Recommended experience',
+    'featured_tour_intro' => 'Your next adventure in La Fortuna',
+    'featured_tour_helper_text' => 'Check schedules, pricing and availability before booking this experience.',
+    'featured_tour_reserve_button' => 'Book Now',
+    'featured_tour_view_details' => 'More information',
+    'featured_tour_price_badge' => 'Book from',
 
-    'card_accommodation_title' => 'Accommodation',
-    'card_accommodation_desc' => 'Hotels, lodges and cabins.',
+    'featured_tour_from' => 'From',
+    'featured_tour_base_price' => 'Per person',
+    'featured_tour_check_price' => 'Check price',
+    'featured_tour_price_detail' => 'Price available on the tour detail page',
 ];
