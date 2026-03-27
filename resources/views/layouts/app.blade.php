@@ -12,9 +12,43 @@
         Aventura506
         @endif
     </title>
+
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+
+            if (
+                savedTheme === 'dark' ||
+                (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)
+            ) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        })();
+    </script>
+
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="/images/logos/logo.png">
+
+    <style>
+        html {
+            background-color: #ffffff;
+        }
+
+        html.dark {
+            background-color: #111827;
+        }
+
+        body {
+            background-color: #ffffff;
+        }
+
+        html.dark body {
+            background-color: #111827;
+        }
+    </style>
 
     {{-- VITE --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])

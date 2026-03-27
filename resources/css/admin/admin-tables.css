@@ -1,0 +1,166 @@
+/* Shared admin table styles for categories, companies, and similar modules */
+
+.entity-table th,
+.entity-table td {
+    /* Keep table content vertically centered */
+    vertical-align: middle;
+}
+
+.entity-table tbody tr {
+    /* Smooth row hover transition */
+    transition: background-color 0.2s ease;
+}
+
+.entity-table tbody tr:hover {
+    /* Light mode row hover */
+    background: #f8fafc;
+}
+
+.dark .entity-table tbody tr:hover {
+    /* Dark mode row hover */
+    background: #0f172a;
+}
+
+.entity-table td {
+    /* Add comfortable row spacing */
+    padding-top: 16px;
+    padding-bottom: 16px;
+}
+
+.entity-name-cell {
+    /* Stack main and secondary text */
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-height: 44px;
+}
+
+.entity-name {
+    /* Primary entity name */
+    font-size: 16px;
+    font-weight: 600;
+    color: #111827;
+    line-height: 1.45;
+}
+
+.dark .entity-name {
+    /* Dark mode primary text */
+    color: #f8fafc;
+}
+
+.entity-subtext {
+    /* Secondary entity text */
+    font-size: 13px;
+    color: #6b7280;
+    line-height: 1.4;
+}
+
+.dark .entity-subtext {
+    /* Dark mode secondary text */
+    color: #94a3b8;
+}
+
+.entity-count-badge {
+    /* Reusable badge for counts */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 38px;
+    height: 38px;
+    padding: 0 12px;
+    border-radius: 999px;
+    background: #dcfce7;
+    color: #15803d;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.dark .entity-count-badge {
+    /* Dark mode badge colors */
+    background: rgba(34, 197, 94, 0.14);
+    color: #4ade80;
+}
+
+.entity-actions-cell {
+    /* Align actions column to the right */
+    text-align: right;
+}
+
+.entity-actions-wrap {
+    /* Stack optional label and buttons */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+.entity-actions {
+    /* Keep action buttons aligned right */
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.entity-actions-label {
+    /* Optional label above action buttons */
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #6b7280;
+    line-height: 1;
+}
+
+.dark .entity-actions-label {
+    /* Dark mode label color */
+    color: #94a3b8;
+}
+
+.entity-table .users-btn {
+    /* Normalize action button width */
+    min-width: 86px;
+    justify-content: center;
+}
+
+.entity-table th:nth-child(1),
+.entity-table td:nth-child(1) {
+    /* First column aligned left */
+    text-align: left;
+}
+
+.entity-table th:nth-child(2),
+.entity-table td:nth-child(2) {
+    /* Second column aligned left */
+    text-align: left;
+}
+
+.entity-table th:nth-child(3),
+.entity-table td:nth-child(3) {
+    /* Third column aligned center */
+    text-align: center;
+}
+
+.entity-table th:nth-child(4),
+.entity-table td:nth-child(4) {
+    /* Fourth column aligned right */
+    text-align: right;
+}
+
+.entity-table-3-cols th:nth-child(1),
+.entity-table-3-cols td:nth-child(1) {
+    /* Three-column layout first column */
+    text-align: left;
+}
+
+.entity-table-3-cols th:nth-child(2),
+.entity-table-3-cols td:nth-child(2) {
+    /* Three-column layout second column */
+    text-align: center;
+}
+
+.entity-table-3-cols th:nth-child(3),
+.entity-table-3-cols td:nth-child(3) {
+    /* Three-column layout third column */
+    text-align: right;
+}

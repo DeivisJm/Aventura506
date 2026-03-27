@@ -94,39 +94,39 @@
             </div>
 
             {{-- NAVIGATION --}}
-            <div class="space-y-6 text-center md:text-left">
+            <nav class="flex flex-col gap-4 text-sm font-light text-gray-900 dark:text-gray-400">
 
-                <h4 class="text-xs uppercase tracking-[0.3em]
-                           text-gray-800 dark:text-gray-400">
+                <a href="{{ route('home') }}"
+                    class="transition hover:text-green-600 dark:hover:text-green-400
+        {{ request()->routeIs('home') ? 'text-green-600 dark:text-green-400 font-medium' : '' }}">
+                    {{ __('navigation.home') }}
+                </a>
+
+                <a href="{{ route('tours.index') }}"
+                    class="transition hover:text-green-600 dark:hover:text-green-400
+        {{ request()->routeIs('tours.*') ? 'text-green-600 dark:text-green-400 font-medium' : '' }}">
                     {{ __('navigation.tours') }}
-                </h4>
+                </a>
 
-                <nav class="flex flex-col gap-4 text-sm font-light
-                           text-gray-900 dark:text-gray-400">
+                <a href="{{ route('accommodations') }}"
+                    class="transition hover:text-green-600 dark:hover:text-green-400
+        {{ request()->routeIs('accommodations') ? 'text-green-600 dark:text-green-400 font-medium' : '' }}">
+                    {{ __('navigation.accommodations') }}
+                </a>
 
-                    <a href="/" class="transition hover:text-green-600 dark:hover:text-green-400">
-                        {{ __('navigation.home') }}
-                    </a>
+                <a href="{{ route('about') }}"
+                    class="transition hover:text-green-600 dark:hover:text-green-400
+        {{ request()->routeIs('about') ? 'text-green-600 dark:text-green-400 font-medium' : '' }}">
+                    {{ __('navigation.about') }}
+                </a>
 
-                    <a href="/tours" class="transition hover:text-green-600 dark:hover:text-green-400">
-                        {{ __('navigation.tours') }}
-                    </a>
+                <a href="{{ route('contact') }}"
+                    class="transition hover:text-green-600 dark:hover:text-green-400
+        {{ request()->routeIs('contact') ? 'text-green-600 dark:text-green-400 font-medium' : '' }}">
+                    {{ __('navigation.contact') }}
+                </a>
 
-                    <a href="/accommodations" class="transition hover:text-green-600 dark:hover:text-green-400">
-                        {{ __('navigation.accommodations') }}
-                    </a>
-
-                    <a href="/about_us" class="transition hover:text-green-600 dark:hover:text-green-400">
-                        {{ __('navigation.about') }}
-                    </a>
-
-                    <a href="/contact" class="transition hover:text-green-600 dark:hover:text-green-400">
-                        {{ __('navigation.contact') }}
-                    </a>
-
-                </nav>
-
-            </div>
+            </nav>
 
             {{-- NEWSLETTER --}}
             <div class="space-y-6 text-center md:text-left">
@@ -141,7 +141,7 @@
                     {{ __('footer.newsletter_subtitle') }}
                 </p>
 
-                
+
                 {{-- SUBSCRIPTION --}}
                 <form method="POST" action="{{ route('subscribe.store') }}"
                     class="relative max-w-md mx-auto md:mx-0">

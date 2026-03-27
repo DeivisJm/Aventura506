@@ -11,12 +11,8 @@ class Company extends Model
         'name',
         'email',
         'phone',
-        'website',
         'location_name',
-        'latitude',
-        'longitude',
         'map_embed_url',
-        'map_directions_url'
     ];
 
     public function tours(): HasMany

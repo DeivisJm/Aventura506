@@ -37,7 +37,7 @@
         {{-- ================= FILTER CARDS ================= --}}
         <section class="mb-16">
 
-            <h2 class="text-xl font-semibold text-gray-800 mb-6">
+            <h2 class="text-xl font-semibold mb-6 tours-filter-title">
                 {{ __('tours.filter_title') }}
             </h2>
 
@@ -47,21 +47,18 @@
 
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
 
-                @foreach([
-                'all' => __('tours.filters.all'),
-                'adventure' => __('tours.filters.adventure'),
-                'extreme' => __('tours.filters.extreme'),
-                'nature' => __('tours.filters.nature'),
-                'water' => __('tours.filters.water'),
-                'vehicle' => __('tours.filters.vehicle'),
-                'horseback' => __('tours.filters.horseback'),
-                ] as $value => $label)
-
-                <a href="{{ route('tours.index', ['category' => $value]) }}"
-                    class="filter-card {{ $currentCategory === $value ? 'active' : '' }}">
-                    {{ $label }}
+                {{-- All categories --}}
+                <a href="{{ route('tours.index', ['category' => 'all']) }}"
+                    class="filter-card {{ $currentCategory === 'all' ? 'active' : '' }}">
+                    {{ __('tours.filters.all') }}
                 </a>
 
+                {{-- Dynamic categories from database --}}
+                @foreach($categories as $category)
+                <a href="{{ route('tours.index', ['category' => $category->slug]) }}"
+                    class="filter-card {{ $currentCategory === $category->slug ? 'active' : '' }}">
+                    {{ $category->translated_name }}
+                </a>
                 @endforeach
 
             </div>
@@ -75,7 +72,7 @@
                 @forelse ($tours as $tour)
 
                 @php
-                // Descripción segura
+                // secure description
                 $description = '';
 
                 if (is_array($tour->short_description ?? null)) {
@@ -92,15 +89,13 @@
                 $description = $tour->description ?? '';
                 }
 
-                // 🔥 SOLUCIÓN ERROR NAME ARRAY
+                // Safe translated name
                 $tourName = is_array($tour->name ?? null)
                 ? ($tour->name[app()->getLocale()] ?? $tour->name['es'] ?? '')
                 : $tour->name;
 
-                // 🔥 Imagen segura
-                $imagePath = !empty($tour->image)
-                ? asset($tour->image)
-                : asset('images/default-tour.jpg');
+                // Safe image URL from model accessor
+                $imagePath = $tour->image_url;
                 @endphp
 
                 <article class="scroll-hero bg-white rounded-2xl shadow hover:shadow-lg transition overflow-hidden">

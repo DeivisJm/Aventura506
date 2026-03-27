@@ -1,0 +1,151 @@
+/* =====================================================
+   PROFILE PAGE
+   Public-facing profile styles for Aventura506
+===================================================== */
+
+.profile-summary-card,
+.profile-form-card {
+    background-color: var(--bg);
+    transition: background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.profile-summary-top {
+    height: 9rem;
+    background: linear-gradient(135deg, #166534 0%, #16a34a 55%, #4ade80 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.profile-summary-glow {
+    position: absolute;
+    top: -2.5rem;
+    right: -2rem;
+    width: 9rem;
+    height: 9rem;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.16);
+    filter: blur(40px);
+}
+
+.profile-avatar {
+    width: 6rem;
+    height: 6rem;
+    border-radius: 1.5rem;
+    background-color: #ffffff;
+    color: #16a34a;
+    border: 4px solid #ffffff;
+    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.18);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: 800;
+}
+
+.dark .profile-avatar {
+    background-color: #0f172a;
+    border-color: #0f172a;
+    color: #4ade80;
+}
+
+.profile-info-box {
+    border: 1px solid rgb(229 231 235);
+    background-color: var(--card);
+    border-radius: 1.25rem;
+    padding: 1rem 1.05rem;
+    transition: border-color 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
+}
+
+.profile-info-box:hover {
+    transform: translateY(-2px);
+    border-color: rgba(22, 163, 74, 0.35);
+}
+
+.dark .profile-info-box {
+    border-color: rgb(55 65 81);
+}
+
+.profile-info-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    font-weight: 700;
+}
+
+.profile-info-value {
+    margin-top: 0.45rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.profile-input {
+    border-radius: 1rem;
+    border: 1px solid rgb(209 213 219);
+    background-color: #ffffff;
+    padding: 0.9rem 1rem;
+    color: #111827 !important;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.profile-input:focus {
+    outline: none;
+    border-color: #16a34a;
+    box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.12);
+}
+
+.dark .profile-input {
+    border-color: rgb(55 65 81);
+    background-color: transparent;
+    color: #ffffff !important;
+}
+
+.dark .profile-input:focus {
+    border-color: #4ade80;
+    box-shadow: 0 0 0 4px rgba(74, 222, 128, 0.12);
+}
+
+/* =====================================================
+   PASSWORD FIELD
+===================================================== */
+
+.password-field {
+    position: relative;
+}
+
+.password-input {
+    padding-right: 3.4rem;
+}
+
+.password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 0.95rem;
+    transform: translateY(-50%);
+    width: 1.9rem;
+    height: 1.9rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #6b7280;
+    transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.password-toggle:hover {
+    color: #16a34a;
+    transform: translateY(-50%) scale(1.05);
+}
+
+.dark .password-toggle {
+    color: #9ca3af;
+}
+
+.dark .password-toggle:hover {
+    color: #4ade80;
+}
+
+.password-icon {
+    width: 1.2rem;
+    height: 1.2rem;
+}

@@ -1,0 +1,705 @@
+/* =====================================================
+   BOOKINGS PAGE
+   Premium public-facing styles aligned with Aventura506
+===================================================== */
+
+/* =====================================================
+   HERO SECTION
+===================================================== */
+.bookings-hero {
+    position: relative;
+    overflow: hidden;
+}
+
+.bookings-hero::before,
+.bookings-hero::after {
+    content: "";
+    position: absolute;
+    border-radius: 9999px;
+    pointer-events: none;
+}
+
+.bookings-hero::before {
+    top: -140px;
+    right: -90px;
+    width: 320px;
+    height: 320px;
+    background: rgba(34, 197, 94, 0.06);
+    filter: blur(85px);
+}
+
+.bookings-hero::after {
+    bottom: -140px;
+    left: -100px;
+    width: 280px;
+    height: 280px;
+    background: rgba(22, 163, 74, 0.04);
+    filter: blur(80px);
+}
+
+.dark .bookings-hero::before,
+.dark .bookings-hero::after {
+    display: none;
+}
+
+/* =====================================================
+   EMPTY STATE
+===================================================== */
+.bookings-empty-card {
+    background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.98) 0%, rgba(241, 245, 244, 0.98) 100%);
+    border: 1px solid rgba(148, 163, 184, 0.16);
+    border-radius: 2rem;
+    box-shadow:
+        0 24px 55px rgba(15, 23, 42, 0.08),
+        0 8px 20px rgba(15, 23, 42, 0.04);
+    transition: background-color 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+.dark .bookings-empty-card {
+    background:
+        linear-gradient(145deg, rgba(15, 23, 42, 0.98) 0%, rgba(2, 6, 23, 0.98) 100%);
+    border-color: rgba(71, 85, 105, 0.24);
+    box-shadow:
+        0 24px 58px rgba(0, 0, 0, 0.30),
+        0 8px 20px rgba(0, 0, 0, 0.20);
+}
+
+.bookings-empty-icon {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 9999px;
+    background: rgba(34, 197, 94, 0.10);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    box-shadow: 0 10px 24px rgba(34, 197, 94, 0.10);
+}
+
+.dark .bookings-empty-icon {
+    background: rgba(34, 197, 94, 0.12);
+}
+
+/* =====================================================
+   BOOKING CARD
+===================================================== */
+.booking-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 2rem;
+    background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.98) 0%, rgba(241, 245, 244, 0.98) 100%);
+    border: 1px solid rgba(148, 163, 184, 0.16);
+    box-shadow:
+        0 24px 60px rgba(15, 23, 42, 0.08),
+        0 10px 24px rgba(15, 23, 42, 0.04);
+    transition:
+        transform 0.35s ease,
+        box-shadow 0.35s ease,
+        border-color 0.35s ease;
+}
+
+.booking-card:hover {
+    transform: translateY(-6px);
+    box-shadow:
+        0 30px 75px rgba(15, 23, 42, 0.12),
+        0 14px 30px rgba(15, 23, 42, 0.06);
+}
+
+.dark .booking-card {
+    background:
+        linear-gradient(145deg, rgba(15, 23, 42, 0.98) 0%, rgba(2, 6, 23, 0.98) 100%);
+    border-color: rgba(71, 85, 105, 0.24);
+    box-shadow:
+        0 24px 56px rgba(0, 0, 0, 0.30),
+        0 10px 26px rgba(0, 0, 0, 0.20);
+}
+
+.dark .booking-card:hover {
+    box-shadow:
+        0 30px 72px rgba(0, 0, 0, 0.38),
+        0 14px 32px rgba(0, 0, 0, 0.22);
+}
+
+/* =====================================================
+   LUMINOUS SIDE BAR
+===================================================== */
+.booking-card-accent {
+    position: absolute;
+    top: 1.35rem;
+    bottom: 1.35rem;
+    left: 0.9rem;
+    width: 5px;
+    border-radius: 9999px;
+    z-index: 2;
+}
+
+.booking-card--tour .booking-card-accent {
+    background: linear-gradient(180deg, #22c55e 0%, #16a34a 100%);
+    box-shadow:
+        0 0 0 1px rgba(34, 197, 94, 0.12),
+        0 0 12px rgba(34, 197, 94, 0.18);
+}
+
+.booking-card--accommodation .booking-card-accent {
+    background: linear-gradient(180deg, #60a5fa 0%, #2563eb 100%);
+    box-shadow:
+        0 0 0 1px rgba(59, 130, 246, 0.12),
+        0 0 12px rgba(59, 130, 246, 0.18);
+}
+
+/* =====================================================
+   TYPE VARIANTS
+===================================================== */
+.booking-card--tour {
+    border-color: rgba(34, 197, 94, 0.16);
+}
+
+.booking-card--tour .booking-card-header {
+    background:
+        linear-gradient(180deg, rgba(34, 197, 94, 0.04) 0%, rgba(34, 197, 94, 0.01) 100%);
+}
+
+.booking-card--accommodation {
+    border-color: rgba(59, 130, 246, 0.18);
+    background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.98) 0%, rgba(241, 246, 252, 0.98) 100%);
+}
+
+.booking-card--accommodation .booking-card-header {
+    background:
+        linear-gradient(180deg, rgba(59, 130, 246, 0.05) 0%, rgba(59, 130, 246, 0.01) 100%);
+}
+
+.dark .booking-card--tour {
+    border-color: rgba(34, 197, 94, 0.20);
+}
+
+.dark .booking-card--tour .booking-card-header,
+.dark .booking-card--accommodation .booking-card-header {
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.00) 100%);
+}
+
+.dark .booking-card--accommodation {
+    border-color: rgba(59, 130, 246, 0.22);
+    background:
+        linear-gradient(145deg, rgba(15, 23, 42, 0.98) 0%, rgba(3, 7, 18, 0.98) 100%);
+}
+
+/* =====================================================
+   CARD HEADER
+===================================================== */
+.booking-card-header {
+    position: relative;
+    padding: 1.6rem 1.8rem 1.25rem 2.6rem;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.14);
+}
+
+.dark .booking-card-header {
+    border-bottom-color: rgba(71, 85, 105, 0.24);
+}
+
+.booking-card-header-overlay {
+    display: none;
+}
+
+.booking-card-badge {
+    display: inline-block;
+    font-size: 0.72rem;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-weight: 800;
+    color: #16a34a;
+}
+
+.booking-card-title {
+    margin-top: 1rem;
+    font-size: clamp(2rem, 2.3vw, 3rem);
+    line-height: 1.08;
+    font-weight: 900;
+    color: var(--text);
+    text-wrap: balance;
+}
+
+.booking-card-subtext {
+    margin-top: 0.65rem;
+    font-size: 0.98rem;
+    color: var(--muted);
+    line-height: 1.6;
+    max-width: 58ch;
+}
+
+.booking-card-detail-row {
+    margin-top: 0.9rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    align-items: center;
+    font-size: 0.92rem;
+}
+
+.booking-card-detail-label {
+    color: var(--muted);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.booking-card-detail-value {
+    color: var(--text);
+    opacity: 0.72;
+    font-weight: 500;
+}
+
+.booking-card-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.95rem;
+    align-items: flex-start;
+}
+
+@media (min-width: 1280px) {
+    .booking-card-meta {
+        align-items: flex-start;
+    }
+}
+
+/* =====================================================
+   COVER CARD MEDIA
+===================================================== */
+.booking-card-media {
+    width: 100%;
+}
+
+.booking-card-cover {
+    position: relative;
+    width: 100%;
+    max-width: 220px;
+    margin-left: auto;
+    aspect-ratio: 4 / 4.6;
+    border-radius: 1.35rem;
+    overflow: hidden;
+    border: 1px solid rgba(148, 163, 184, 0.14);
+    box-shadow:
+        0 14px 28px rgba(15, 23, 42, 0.12),
+        0 4px 10px rgba(15, 23, 42, 0.06);
+    background: #e5e7eb;
+    isolation: isolate;
+}
+
+.dark .booking-card-cover {
+    border-color: rgba(71, 85, 105, 0.24);
+    background: #0f172a;
+    box-shadow:
+        0 22px 38px rgba(0, 0, 0, 0.30),
+        0 8px 18px rgba(0, 0, 0, 0.20);
+}
+
+.booking-card-cover-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.45s ease;
+}
+
+.booking-card:hover .booking-card-cover-image {
+    transform: scale(1.05);
+}
+
+.booking-card-cover-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(180deg, rgba(0, 0, 0, 0.04) 0%, rgba(0, 0, 0, 0.26) 60%, rgba(0, 0, 0, 0.58) 100%);
+    z-index: 1;
+}
+
+.booking-card-cover-badge {
+    position: absolute;
+    top: 0.8rem;
+    left: 0.8rem;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    min-height: 30px;
+    padding: 0.38rem 0.72rem;
+    border-radius: 9999px;
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    backdrop-filter: blur(10px);
+    border: 1px solid transparent;
+    color: #ffffff;
+}
+
+.booking-card-cover-badge--tour {
+    background: rgba(22, 163, 74, 0.72);
+    border-color: rgba(255, 255, 255, 0.16);
+}
+
+.booking-card-cover-badge--accommodation {
+    background: rgba(37, 99, 235, 0.72);
+    border-color: rgba(255, 255, 255, 0.16);
+}
+
+.booking-card-cover-content {
+    position: absolute;
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 2;
+}
+
+.booking-card-cover-type {
+    font-size: 0.72rem;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.82);
+}
+
+.booking-card-cover-title {
+    margin-top: 0.55rem;
+    font-size: 1.1rem;
+    line-height: 1.12;
+    font-weight: 900;
+    color: #ffffff;
+    text-shadow: 0 10px 26px rgba(0, 0, 0, 0.28);
+}
+
+/* =====================================================
+   TYPE PILL
+===================================================== */
+.booking-type-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    min-height: 40px;
+    padding: 0.6rem 0.95rem;
+    border-radius: 9999px;
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    border: 1px solid transparent;
+    width: fit-content;
+    backdrop-filter: blur(8px);
+}
+
+.booking-type-pill-icon {
+    width: 1rem;
+    height: 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.booking-type-pill-icon svg {
+    width: 1rem;
+    height: 1rem;
+}
+
+.booking-type-pill--tour {
+    background: rgba(34, 197, 94, 0.10);
+    color: #15803d;
+    border-color: rgba(34, 197, 94, 0.18);
+}
+
+.booking-type-pill--accommodation {
+    background: rgba(59, 130, 246, 0.10);
+    color: #1d4ed8;
+    border-color: rgba(59, 130, 246, 0.18);
+}
+
+.dark .booking-type-pill--tour {
+    background: rgba(34, 197, 94, 0.12);
+    color: #4ade80;
+    border-color: rgba(34, 197, 94, 0.16);
+}
+
+.dark .booking-type-pill--accommodation {
+    background: rgba(59, 130, 246, 0.14);
+    color: #93c5fd;
+    border-color: rgba(59, 130, 246, 0.18);
+}
+
+/* =====================================================
+   STATUS PILL
+===================================================== */
+.booking-status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0.75rem 1.1rem;
+    border-radius: 9999px;
+    font-size: 0.76rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.20em;
+    border: 1px solid transparent;
+    width: fit-content;
+    backdrop-filter: blur(8px);
+}
+
+.booking-status--pending {
+    background: rgba(250, 204, 21, 0.10);
+    color: #ca8a04;
+    border-color: rgba(250, 204, 21, 0.24);
+}
+
+.booking-status--confirmed {
+    background: rgba(34, 197, 94, 0.10);
+    color: #15803d;
+    border-color: rgba(34, 197, 94, 0.22);
+}
+
+.booking-status--cancelled {
+    background: rgba(239, 68, 68, 0.10);
+    color: #dc2626;
+    border-color: rgba(239, 68, 68, 0.20);
+}
+
+.dark .booking-status--pending {
+    background: rgba(250, 204, 21, 0.16);
+    color: #fde047;
+    border-color: rgba(250, 204, 21, 0.18);
+}
+
+.dark .booking-status--confirmed {
+    background: rgba(34, 197, 94, 0.12);
+    color: #4ade80;
+    border-color: rgba(34, 197, 94, 0.16);
+}
+
+.dark .booking-status--cancelled {
+    background: rgba(239, 68, 68, 0.16);
+    color: #f87171;
+    border-color: rgba(239, 68, 68, 0.18);
+}
+
+.booking-created-at {
+    font-size: 0.95rem;
+    color: var(--muted);
+}
+
+/* =====================================================
+   CARD BODY
+===================================================== */
+.booking-card-body {
+    padding: 1.4rem 1.8rem 1.8rem 2.6rem;
+}
+
+/* =====================================================
+   INFO BOXES
+===================================================== */
+.booking-info-box {
+    border: 1px solid rgba(148, 163, 184, 0.14);
+    background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.92) 0%, rgba(244, 247, 246, 0.98) 100%);
+    border-radius: 1.35rem;
+    padding: 0.95rem 1.05rem;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.34),
+        0 4px 14px rgba(15, 23, 42, 0.035);
+    transition:
+        border-color 0.3s ease,
+        transform 0.3s ease,
+        background-color 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.booking-info-box:hover {
+    transform: translateY(-3px);
+    border-color: rgba(148, 163, 184, 0.28);
+    box-shadow:
+        0 14px 24px rgba(15, 23, 42, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.40);
+}
+
+.dark .booking-info-box {
+    border-color: rgba(71, 85, 105, 0.24);
+    background:
+        linear-gradient(145deg, rgba(17, 24, 39, 0.74) 0%, rgba(2, 6, 23, 0.84) 100%);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.02),
+        0 8px 20px rgba(0, 0, 0, 0.18);
+}
+
+.dark .booking-info-box:hover {
+    border-color: rgba(71, 85, 105, 0.34);
+    box-shadow:
+        0 16px 28px rgba(0, 0, 0, 0.22),
+        inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.booking-info-box--price {
+    background:
+        linear-gradient(145deg, rgba(22, 163, 74, 0.14) 0%, rgba(34, 197, 94, 0.06) 100%);
+    border-color: rgba(34, 197, 94, 0.20);
+}
+
+.booking-info-box--secondary {
+    background:
+        linear-gradient(145deg, rgba(250, 251, 251, 0.96) 0%, rgba(245, 247, 248, 0.98) 100%);
+    border-color: rgba(148, 163, 184, 0.12);
+}
+
+.dark .booking-info-box--secondary {
+    background:
+        linear-gradient(145deg, rgba(15, 23, 42, 0.70) 0%, rgba(2, 6, 23, 0.82) 100%);
+    border-color: rgba(71, 85, 105, 0.20);
+}
+
+.dark .booking-info-box--price {
+    background:
+        linear-gradient(145deg, rgba(17, 24, 39, 0.84) 0%, rgba(2, 6, 23, 0.92) 100%);
+    border-color: rgba(34, 197, 94, 0.20);
+}
+
+.booking-info-label {
+    font-size: 0.72rem;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-weight: 800;
+    color: var(--muted);
+}
+
+.booking-info-value {
+    margin-top: 0.78rem;
+    font-size: 1.05rem;
+    line-height: 1.45;
+    font-weight: 800;
+    color: var(--text);
+}
+
+.booking-info-value--soft {
+    font-weight: 600;
+    color: var(--muted);
+}
+
+.booking-info-value--price {
+    font-size: 1.32rem;
+    color: #166534;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+}
+
+.dark .booking-info-value--price {
+    color: #4ade80;
+}
+
+/* =====================================================
+   NOTES / CONTEXT BOX
+===================================================== */
+.booking-notes-box {
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.88) 0%, rgba(244, 247, 245, 0.96) 100%);
+    border-radius: 1.45rem;
+    padding: 1.05rem 1.15rem;
+}
+
+.dark .booking-notes-box {
+    border-color: rgba(71, 85, 105, 0.24);
+    background:
+        linear-gradient(145deg, rgba(17, 24, 39, 0.72) 0%, rgba(2, 6, 23, 0.82) 100%);
+}
+
+.booking-notes-text {
+    margin-top: 0.78rem;
+    font-size: 0.98rem;
+    line-height: 1.75;
+    color: var(--text);
+}
+
+.booking-context-box {
+    position: relative;
+    overflow: hidden;
+}
+
+.booking-context-box::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(59, 130, 246, 0.06), rgba(34, 197, 94, 0.04));
+    pointer-events: none;
+}
+
+.dark .booking-context-box::before {
+    background: linear-gradient(90deg, rgba(59, 130, 246, 0.04), rgba(34, 197, 94, 0.02));
+}
+
+/* =====================================================
+   RESPONSIVE IMPROVEMENTS
+===================================================== */
+@media (max-width: 1279px) {
+    .booking-card-media {
+        max-width: 240px;
+    }
+
+    .booking-card-cover {
+        max-width: 240px;
+        aspect-ratio: 4 / 4.5;
+    }
+}
+
+@media (max-width: 1024px) {
+    .booking-card-header,
+    .booking-card-body {
+        padding-left: 1.9rem;
+        padding-right: 1.4rem;
+    }
+
+    .booking-card-accent {
+        left: 0.65rem;
+    }
+}
+
+
+@media (max-width: 767px) {
+    .booking-card-header,
+    .booking-card-body {
+        padding-left: 1.45rem;
+        padding-right: 1rem;
+    }
+
+    .booking-card-accent {
+        left: 0.5rem;
+        top: 1rem;
+        bottom: 1rem;
+    }
+
+    .booking-card-media {
+        max-width: 100%;
+    }
+
+    .booking-card-cover {
+        max-width: 100%;
+        aspect-ratio: 16 / 9;
+    }
+}
+
+@media (max-width: 640px) {
+    .booking-card-title {
+        font-size: 1.9rem;
+    }
+
+    .booking-info-value {
+        font-size: 1rem;
+    }
+
+    .booking-info-value--price {
+        font-size: 1.08rem;
+    }
+
+    .booking-card-cover-title {
+        font-size: 1.15rem;
+    }
+}

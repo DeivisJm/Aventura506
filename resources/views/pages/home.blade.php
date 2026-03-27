@@ -45,16 +45,18 @@
 
         </div>
 
-        {{-- IMÁGENES --}}
-        <div class="relative grid grid-cols-2 gap-6">
+        {{-- IMAGES --}}
+        <div class="relative grid grid-cols-2 gap-6 scroll-hero">
+            
             {{-- Volcán Arenal --}}
             <img src="https://image-tc.galaxy.tf/wijpeg-27ubwpu4ecat1y90z03clnvcx/la-fortuna-san-carlos_standard.jpg?crop=316%2C0%2C1067%2C800" alt="Volcán Arenal - La Fortuna" class="rounded-2xl shadow-xl object-cover h-56 w-full transition-all duration-500 ease-out hover:scale-110 hover:-translate-y-1 cursor-pointer">
+
             {{-- Catarata La Fortuna --}}
             <img src="https://www.civitatis.com/f/costa-rica/arenal/galeria/fortuna-catarata-costa-rica.jpg" alt="Catarata La Fortuna" class="rounded-2xl shadow-xl object-cover h-72 w-full row-span-2 transition-all duration-500 ease-out hover:scale-110 hover:-translate-y-1 cursor-pointer">
+
             {{-- Aventura / Naturaleza --}}
             <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/16/0a/f5/08/lovely-warm-water.jpg?w=1200&h=-1&s=1" alt="Aventura en La Fortuna" class="rounded-2xl shadow-xl object-cover h-48 w-full transition-all duration-500 ease-out hover:scale-110 hover:-translate-y-1 cursor-pointer">
-            {{-- Overlay decorativo --}}
-            <div class="absolute -z-10 -top-10 -right-10 w-72 h-72 bg-green-100 rounded-full blur-3xl"></div>
+
         </div>
 </section>
 

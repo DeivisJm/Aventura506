@@ -115,10 +115,23 @@
         </a>
 
         <a href="{{ route('admin.tours.index') }}"
-            class="admin-sidebar-link {{ request()->routeIs('admin.tours.*') ? 'active' : '' }}">
+            class="admin-sidebar-link {{ request()->routeIs('admin.tours.*', 'admin.categories.*', 'admin.companies.*') ? 'active' : '' }}">
             Tours
         </a>
 
+        <div class="admin-subnav {{ request()->routeIs('admin.tours.*', 'admin.categories.*', 'admin.companies.*') ? 'open' : '' }}">
+
+            <a href="{{ route('admin.categories.index') }}"
+                class="admin-sidebar-sublink {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">
+                Categorías
+            </a>
+
+            <a href="{{ route('admin.companies.index') }}"
+                class="admin-sidebar-sublink {{ request()->routeIs('admin.companies.*') ? 'active' : '' }}">
+                Compañías
+            </a>
+
+        </div>
 
         <a href="{{ route('admin.users.index') }}"
             class="admin-sidebar-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">

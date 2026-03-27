@@ -9,11 +9,25 @@ class Category extends Model
 {
     protected $fillable = [
         'name',
-        'slug'
+        'slug',
+    ];
+
+    protected $casts = [
+        'name' => 'array',
     ];
 
     public function tours(): HasMany
     {
         return $this->hasMany(Tour::class);
+    }
+
+    public function getTranslatedNameAttribute(): string
+    {
+        $locale = app()->getLocale();
+
+        return $this->name[$locale]
+            ?? $this->name['es']
+            ?? $this->name['en']
+            ?? '';
     }
 }

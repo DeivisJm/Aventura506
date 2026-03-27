@@ -42,7 +42,6 @@ class BookingController extends Controller
         DB::beginTransaction();
 
         try {
-
             $tour = Tour::with('company')->findOrFail($validated['tour_id']);
 
             $totalUsd = 0;
@@ -50,7 +49,7 @@ class BookingController extends Controller
 
             $selectedCurrency = $validated['currency'];
 
-            //change tip form settings (default 500) 
+            //change tip form settings (default 500)
             $exchangeRate = (float) \App\Models\ExchangeRate::getValue('usd_to_crc', 500);
 
             $formattedDate = Carbon::parse($validated['date'])->format('Y-m-d');
@@ -70,15 +69,13 @@ class BookingController extends Controller
             ]);
 
             foreach ($validated['prices'] as $priceId => $quantity) {
-
                 if ($quantity > 0) {
-
                     $tourPrice = TourPrice::findOrFail($priceId);
 
-                    //price in USD always 
+                    //price in USD always
                     $priceInUsd = $tourPrice->price;
 
-                    //convert to CRC 
+                    //convert to CRC
                     $priceInCrc = $priceInUsd * $exchangeRate;
 
                     BookingDetail::create([
@@ -152,7 +149,6 @@ class BookingController extends Controller
                 ->route('tours.show', $tour->slug)
                 ->with('booking_success', 'Booking sent successfully!');
         } catch (\Throwable $e) {
-
             DB::rollBack();
 
             Log::error('BOOKING ERROR: ' . $e->getMessage());

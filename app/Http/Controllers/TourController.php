@@ -16,10 +16,12 @@ class TourController extends Controller
     {
         $category = $request->get('category');
 
+        $categories = \App\Models\Category::orderByRaw("JSON_UNQUOTE(JSON_EXTRACT(name, '$.es')) ASC")->get();
+
         $query = Tour::with('category')
             ->where('active', true);
 
-        // SOLO filtrar si la categoría existe y no es ALL
+        // Filter by selected category slug
         if ($category && $category !== 'all') {
             $query->whereHas('category', function ($q) use ($category) {
                 $q->where('slug', $category);
@@ -29,9 +31,10 @@ class TourController extends Controller
         $tours = $query
             ->orderBy('sort_order')
             ->orderBy('id')
-            ->paginate(9);
+            ->paginate(9)
+            ->appends($request->query());
 
-        return view('pages.tours', compact('tours'));
+        return view('pages.tours', compact('tours', 'categories'));
     }
 
     /**

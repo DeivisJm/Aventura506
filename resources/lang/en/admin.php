@@ -22,11 +22,18 @@ return [
     'email' => 'Email Address',
     'email_placeholder' => 'Enter your email',
 
+    'back_home' => 'Back to home',
+
     'password' => 'Password',
     'password_placeholder' => 'Enter your password',
 
     'login_button' => 'Sign In',
-
+'username' => 'Username',
+'username_placeholder' => 'Enter your Username',
+'validation_username_required' => 'The username field is required.',
+'validation_username_format' => 'The username may only contain letters, numbers, and the symbols . _ - @',
+'validation_username_unique' => 'That username already exists. Please use another username.',
+'register_success' => 'Your account was created successfully. You can now sign in.',
 
     /*
     |--------------------------------------------------------------------------

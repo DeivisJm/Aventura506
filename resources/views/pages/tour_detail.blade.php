@@ -5,11 +5,10 @@
 @section('content')
 
 {{-- ================= HERO PRO ================= --}}
-@if($tour->image)
 <section class="relative min-h-[85vh] flex items-center justify-center overflow-hidden">
 
     <div class="absolute inset-0">
-        <img src="{{ asset($tour->image) }}"
+        <img src="{{ $tour->image_url }}"
             alt="{{ $tour->getTranslated('name') }}"
             class="w-full h-full object-cover scale-105 transition-transform duration-[6000ms] ease-out hover:scale-110">
 
@@ -138,7 +137,7 @@
 
     </div>
 </section>
-@endif
+
 
 <section class="max-w-7xl mx-auto px-6 py-24">
 

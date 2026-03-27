@@ -25,14 +25,16 @@ class AdminUserController extends Controller
     public function create()
     {
         $roles = Role::all();
+        $user = new User();
 
-        return view('admin.users.create', compact('roles'));
+        return view('admin.users.create', compact('roles', 'user'));
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
+            'username' => ['nullable', 'string', 'max:255', 'unique:users,username'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'role_id' => ['required', 'exists:roles,id'],
@@ -40,6 +42,7 @@ class AdminUserController extends Controller
 
         User::create([
             'name' => $validated['name'],
+            'username' => !empty($validated['username']) ? $validated['username'] : null,
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
             'role_id' => $validated['role_id'],
@@ -61,6 +64,7 @@ class AdminUserController extends Controller
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
+            'username' => ['nullable', 'string', 'max:255', 'unique:users,username,' . $user->id],
             'email' => ['required', 'email', 'max:255', 'unique:users,email,' . $user->id],
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],
             'role_id' => ['required', 'exists:roles,id'],
@@ -79,6 +83,7 @@ class AdminUserController extends Controller
         }
 
         $user->name = $validated['name'];
+        $user->username = !empty($validated['username']) ? $validated['username'] : null;
         $user->email = $validated['email'];
         $user->role_id = $validated['role_id'];
 
@@ -92,7 +97,6 @@ class AdminUserController extends Controller
             ->route('admin.users.index')
             ->with('success', 'Usuario actualizado correctamente.');
     }
-
 
     public function destroy(User $user)
     {
@@ -113,7 +117,6 @@ class AdminUserController extends Controller
             ->route('admin.users.index')
             ->with('success', 'Usuario eliminado correctamente.');
     }
-
 
     public function editSubscriber(Subscriber $subscriber)
     {

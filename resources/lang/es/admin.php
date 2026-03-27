@@ -22,6 +22,8 @@ return [
     'email' => 'Correo Electrónico',
     'email_placeholder' => 'Ingresa tu correo',
 
+    'back_home' => 'Volver al inicio',
+
     'password' => 'Contraseña',
     'password_placeholder' => 'Ingresa tu contraseña',
 
@@ -42,6 +44,14 @@ return [
 
     'password_confirmation' => 'Confirmar contraseña',
     'password_confirmation_placeholder' => 'Confirma tu contraseña',
+
+    'username' => 'Nombre de usuario',
+    'username_placeholder' => 'Ingresa tu nombre de usuario',
+    
+    'validation_username_required' => 'El nombre de usuario es obligatorio.',
+    'validation_username_format' => 'El nombre de usuario solo puede contener letras, números y los símbolos . _ - @',
+    'validation_username_unique' => 'Ese nombre de usuario ya existe. Usa otro nombre de usuario.',
+    'register_success' => 'Tu cuenta fue creada correctamente. Ahora puedes iniciar sesión.',
 
 
     /*

@@ -8,7 +8,6 @@ use App\Models\Tour;
 use Illuminate\Support\Str;
 use App\Models\Category;
 use App\Models\Company;
-use App\Models\TourDetail;
 use App\Models\TourPrice;
 use App\Models\TourSchedule;
 use Illuminate\Support\Facades\DB;
@@ -20,9 +19,8 @@ class AdminTourController extends Controller
     {
         $query = Tour::query();
 
-        // Search by name
+        // Search by localized tour name
         if ($request->filled('search')) {
-
             $search = strtolower($request->search);
 
             $query->where(function ($q) use ($search) {
@@ -37,7 +35,6 @@ class AdminTourController extends Controller
             ->paginate(9)
             ->appends($request->query());
 
-        /* Total number of tours used to build the position selector */
         $totalTours = Tour::count();
 
         return view('admin.tours.index', compact('tours', 'totalTours'));
@@ -45,9 +42,8 @@ class AdminTourController extends Controller
 
     public function create()
     {
-        $categories = Category::all();
-        $companies = Company::all();
-
+        $categories = Category::orderBy('name')->get();
+        $companies = Company::orderBy('name')->get();
         $tour = new Tour();
 
         return view('admin.tours.create', compact(
@@ -59,16 +55,161 @@ class AdminTourController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $this->validateTourRequest($request);
 
+        DB::transaction(function () use ($request) {
+            $categoryId = $this->resolveCategoryId($request);
+            $companyId = $this->resolveCompanyId($request);
+
+            $tour = Tour::create([
+                'name' => $request->name,
+                'slug' => Str::slug($request->slug),
+                'description' => $request->description,
+                'category_id' => $categoryId,
+                'company_id' => $companyId,
+                'active' => true,
+                'sort_order' => (Tour::max('sort_order') ?? 0) + 1,
+            ]);
+
+            $this->handleTourImage($request, $tour);
+            $this->saveTourDetail($request, $tour);
+            $this->updateCompanyInfo($request, $companyId);
+            $this->syncTourPrices($request, $tour, false);
+            $this->syncTourSchedules($request, $tour, false);
+        });
+
+        return redirect()
+            ->route('admin.tours.index')
+            ->with('success', 'El tour fue creado correctamente.');
+    }
+
+    public function edit(Tour $tour)
+    {
+        $categories = Category::orderBy('name')->get();
+        $companies = Company::orderBy('name')->get();
+
+        $tour->load(['detail', 'prices', 'schedulesAdmin']);
+
+        return view('admin.tours.edit', compact(
+            'tour',
+            'categories',
+            'companies'
+        ));
+    }
+
+    public function update(Request $request, Tour $tour)
+    {
+        $this->validateTourRequest($request, $tour->id);
+
+        DB::transaction(function () use ($request, $tour) {
+            $categoryId = $this->resolveCategoryId($request);
+            $companyId = $this->resolveCompanyId($request);
+
+            $tour->update([
+                'name' => $request->name,
+                'slug' => Str::slug($request->slug),
+                'description' => $request->description,
+                'category_id' => $categoryId,
+                'company_id' => $companyId,
+            ]);
+
+            $this->handleTourImage($request, $tour);
+            $this->saveTourDetail($request, $tour);
+            $this->updateCompanyInfo($request, $companyId);
+            $this->syncTourPrices($request, $tour, true);
+            $this->syncTourSchedules($request, $tour, true);
+        });
+
+        return redirect()
+            ->route('admin.tours.edit', $tour)
+            ->with('success', 'El tour se actualizó correctamente.');
+    }
+
+    public function toggle(Tour $tour)
+    {
+        $tour->update([
+            'active' => !$tour->active
+        ]);
+
+        return back();
+    }
+
+    public function updatePosition(Request $request, Tour $tour)
+    {
+        $validated = $request->validate([
+            'sort_order' => ['required', 'integer', 'min:1'],
+        ]);
+
+        $newPosition = (int) $validated['sort_order'];
+        $currentPosition = (int) $tour->sort_order;
+        $maxPosition = (int) Tour::count();
+
+        if ($newPosition > $maxPosition) {
+            $newPosition = $maxPosition;
+        }
+
+        if ($newPosition === $currentPosition) {
+            return response()->json([
+                'success' => true,
+                'message' => 'The position is already up to date.',
+            ]);
+        }
+
+        DB::transaction(function () use ($tour, $currentPosition, $newPosition) {
+            if ($newPosition < $currentPosition) {
+                Tour::where('id', '!=', $tour->id)
+                    ->whereBetween('sort_order', [$newPosition, $currentPosition - 1])
+                    ->increment('sort_order');
+            }
+
+            if ($newPosition > $currentPosition) {
+                Tour::where('id', '!=', $tour->id)
+                    ->whereBetween('sort_order', [$currentPosition + 1, $newPosition])
+                    ->decrement('sort_order');
+            }
+
+            $tour->update([
+                'sort_order' => $newPosition,
+            ]);
+        });
+
+        return response()->json([
+            'success' => true,
+            'message' => 'The tour order was updated successfully.',
+            'sort_order' => $newPosition,
+        ]);
+    }
+
+    public function toggleSchedule(TourSchedule $schedule)
+    {
+        $schedule->update([
+            'active' => !$schedule->active
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'active' => $schedule->active
+        ]);
+    }
+
+    /**
+     * Validate the tour form request.
+     */
+    private function validateTourRequest(Request $request, ?int $tourId = null): void
+    {
+        $request->validate([
             // Tour
             'name.es' => 'required|string|max:255',
             'name.en' => 'required|string|max:255',
-            'slug' => 'required|string|unique:tours,slug',
+            'slug' => 'required|string|unique:tours,slug,' . $tourId,
             'description.es' => 'required|string',
             'description.en' => 'required|string',
-            'category_id' => 'required|exists:categories,id',
-            'company_id' => 'required|exists:companies,id',
+            'category_id' => 'required',
+            'new_category.es' => 'nullable|string|max:255',
+            'new_category.en' => 'nullable|string|max:255',
+
+            'company_id' => 'required',
+            'new_company' => 'nullable|string|max:255',
 
             // Detail
             'detail.duration.es' => 'required|string',
@@ -105,27 +246,116 @@ class AdminTourController extends Controller
             'image' => 'nullable|image|max:2048',
         ]);
 
-        DB::transaction(function () use ($request) {
-
-            $tour = Tour::create([
-                'name' => $request->name,
-                'slug' => Str::slug($request->slug),
-                'description' => $request->description,
-                'category_id' => $request->category_id,
-                'company_id' => $request->company_id,
-                'active' => true,
-                'sort_order' => (Tour::max('sort_order') ?? 0) + 1,
+        // Validate category
+        if ($request->category_id === 'new') {
+            $request->validate([
+                'new_category.es' => ['required', 'string', 'max:255'],
+                'new_category.en' => ['required', 'string', 'max:255'],
             ]);
+        } else {
+            $request->validate([
+                'category_id' => ['exists:categories,id'],
+            ]);
+        }
 
-            if ($request->hasFile('image')) {
-                $path = $request->file('image')->store('tours', 'public');
+        // Validate company
+        if ($request->company_id === 'new') {
+            $request->validate([
+                'new_company' => ['required', 'string', 'max:255'],
+            ]);
+        } else {
+            $request->validate([
+                'company_id' => ['exists:companies,id'],
+            ]);
+        }
+    }
 
-                $tour->update([
-                    'image' => 'storage/' . $path
-                ]);
+    /**
+     * Resolve the selected category id or create a new category.
+     */
+    /**
+     * Resolve the selected category id or create a new multilingual category.
+     */
+    private function resolveCategoryId(Request $request): int
+    {
+        if ($request->category_id !== 'new') {
+            return (int) $request->category_id;
+        }
+
+        $nameEs = trim($request->input('new_category.es'));
+        $nameEn = trim($request->input('new_category.en'));
+
+        $slug = \Illuminate\Support\Str::slug($nameEn ?: $nameEs);
+
+        $category = \App\Models\Category::firstOrCreate(
+            ['slug' => $slug],
+            [
+                'name' => [
+                    'es' => $nameEs,
+                    'en' => $nameEn,
+                ],
+            ]
+        );
+
+        return (int) $category->id;
+    }
+    private function resolveCompanyId(Request $request): int
+    {
+        if ($request->company_id !== 'new') {
+            return (int) $request->company_id;
+        }
+
+        $name = trim($request->input('new_company'));
+
+        $company = Company::firstOrCreate(
+            ['name' => $name],
+            [
+                'email' => $request->input('company.email'),
+                'phone' => $request->input('company.phone'),
+                'location_name' => $request->input('detail.location_name'),
+                'map_embed_url' => $request->input('company.map_embed_url'),
+            ]
+        );
+
+        return (int) $company->id;
+    }
+
+    /**
+     * Save or replace the tour image.
+     */
+    private function handleTourImage(Request $request, Tour $tour): void
+    {
+        // Stop if no new image was uploaded
+        if (!$request->hasFile('image')) {
+            return;
+        }
+
+        // Delete old file only if it belongs to the public storage disk
+        if (!empty($tour->image) && str_starts_with($tour->image, 'storage/')) {
+            $oldPath = str_replace('storage/', '', $tour->image);
+
+            if (Storage::disk('public')->exists($oldPath)) {
+                Storage::disk('public')->delete($oldPath);
             }
+        }
 
-            $tour->detail()->create([
+        // Store new file inside storage/app/public/tours
+        $path = $request->file('image')->store('tours', 'public');
+
+        // Save public URL path in database
+        $tour->update([
+            'image' => 'storage/' . $path,
+        ]);
+    }
+
+    /**
+     * Save or update the tour detail record.
+     */
+    private function saveTourDetail(Request $request, Tour $tour): void
+    {
+        $tour->detail()->updateOrCreate(
+            ['tour_id' => $tour->id],
+            [
                 'duration' => $request->detail['duration'],
                 'full_description' => $request->detail['full_description'],
                 'includes' => [
@@ -142,163 +372,29 @@ class AdminTourController extends Controller
                 ],
                 'location_name' => $request->detail['location_name'],
                 'start_hours_text' => $request->detail['start_hours_text'],
-            ]);
-
-            Company::where('id', $request->company_id)->update([
-                'email' => $request->input('company.email'),
-                'phone' => $request->input('company.phone'),
-                'map_embed_url' => $request->input('company.map_embed_url'),
-            ]);
-
-            if ($request->prices) {
-                foreach ($request->prices as $price) {
-                    $typeEs = $price['type']['es'] ?? 'tipo';
-
-                    $tour->prices()->create([
-                        'type_key' => Str::slug($typeEs, '_'),
-                        'type' => $price['type'],
-                        'category_type' => $price['category_type'] ?? 'international',
-                        'price' => $price['price'],
-                        'min_age' => $price['min_age'] ?? null,
-                        'max_age' => $price['max_age'] ?? null,
-                        'currency' => 'USD',
-                        'is_free' => (float) $price['price'] <= 0,
-                    ]);
-                }
-            }
-
-            if ($request->schedules) {
-                foreach ($request->schedules as $schedule) {
-                    $tour->schedulesAdmin()->create([
-                        'start_time' => $schedule['start_time'],
-                        'active' => isset($schedule['active']) ? 1 : 0,
-                    ]);
-                }
-            }
-        });
-
-        return redirect()
-            ->route('admin.tours.index')
-            ->with('success', 'El tour fue creado correctamente.');
+            ]
+        );
     }
 
-
-    public function edit(Tour $tour)
+    /**
+     * Update the selected company extra information.
+     */
+    private function updateCompanyInfo(Request $request, int $companyId): void
     {
-        $categories = Category::all();
-        $companies = Company::all();
-
-        $tour->load(['detail', 'prices', 'schedulesAdmin']);
-
-        return view('admin.tours.edit', compact(
-            'tour',
-            'categories',
-            'companies'
-        ));
-    }
-
-    public function update(Request $request, Tour $tour)
-    {
-        $validated = $request->validate([
-
-            // Tour
-            'name.es' => 'required|string|max:255',
-            'name.en' => 'required|string|max:255',
-            'slug' => 'required|string|unique:tours,slug,' . $tour->id,
-            'description.es' => 'required|string',
-            'description.en' => 'required|string',
-            'category_id' => 'required|exists:categories,id',
-            'company_id' => 'required|exists:companies,id',
-
-            // Detail
-            'detail.duration.es' => 'required|string',
-            'detail.duration.en' => 'required|string',
-            'detail.full_description.es' => 'required|string',
-            'detail.full_description.en' => 'required|string',
-            'detail.includes.es' => 'required|string',
-            'detail.includes.en' => 'required|string',
-            'detail.ideal_for.es' => 'required|string',
-            'detail.ideal_for.en' => 'required|string',
-            'detail.recommendations.es' => 'required|string',
-            'detail.recommendations.en' => 'required|string',
-            'detail.location_name' => 'required|string',
-            'detail.start_hours_text.es' => 'required|string',
-            'detail.start_hours_text.en' => 'required|string',
-
-            // Company extra
-            'company.email' => 'nullable|string|max:255',
-            'company.phone' => 'nullable|string|max:255',
-            'company.map_embed_url' => 'required|string',
-
-            // Prices
-            'prices.*.type.es' => 'required|string',
-            'prices.*.type.en' => 'required|string',
-            'prices.*.category_type' => 'nullable|string',
-            'prices.*.price' => 'required|numeric|min:0',
-            'prices.*.min_age' => 'nullable|integer|min:0',
-            'prices.*.max_age' => 'nullable|integer|min:0',
-
-            // Schedules
-            'schedules.*.start_time' => 'required',
-
-            // Image
-            'image' => 'nullable|image|max:2048',
+        Company::where('id', $companyId)->update([
+            'email' => $request->input('company.email'),
+            'phone' => $request->input('company.phone'),
+            'location_name' => $request->input('detail.location_name'),
+            'map_embed_url' => $request->input('company.map_embed_url'),
         ]);
+    }
 
-        DB::transaction(function () use ($request, $tour) {
-
-            $tour->update([
-                'name' => $request->name,
-                'slug' => Str::slug($request->slug),
-                'description' => $request->description,
-                'category_id' => $request->category_id,
-                'company_id' => $request->company_id,
-            ]);
-
-            if ($request->hasFile('image')) {
-                if ($tour->image) {
-                    $oldPath = str_replace('storage/', '', $tour->image);
-
-                    if (Storage::disk('public')->exists($oldPath)) {
-                        Storage::disk('public')->delete($oldPath);
-                    }
-                }
-
-                $path = $request->file('image')->store('tours', 'public');
-
-                $tour->update([
-                    'image' => 'storage/' . $path
-                ]);
-            }
-
-            $tour->detail()->updateOrCreate(
-                ['tour_id' => $tour->id],
-                [
-                    'duration' => $request->detail['duration'],
-                    'full_description' => $request->detail['full_description'],
-                    'includes' => [
-                        'es' => array_map('trim', explode(',', $request->detail['includes']['es'])),
-                        'en' => array_map('trim', explode(',', $request->detail['includes']['en'])),
-                    ],
-                    'ideal_for' => [
-                        'es' => array_map('trim', explode(',', $request->detail['ideal_for']['es'])),
-                        'en' => array_map('trim', explode(',', $request->detail['ideal_for']['en'])),
-                    ],
-                    'recommendations' => [
-                        'es' => array_map('trim', explode(',', $request->detail['recommendations']['es'])),
-                        'en' => array_map('trim', explode(',', $request->detail['recommendations']['en'])),
-                    ],
-                    'location_name' => $request->detail['location_name'],
-                    'start_hours_text' => $request->detail['start_hours_text'],
-                ]
-            );
-
-            Company::where('id', $request->company_id)->update([
-                'email' => $request->input('company.email'),
-                'phone' => $request->input('company.phone'),
-                'map_embed_url' => $request->input('company.map_embed_url'),
-            ]);
-
+    /**
+     * Create or sync tour prices.
+     */
+    private function syncTourPrices(Request $request, Tour $tour, bool $isUpdate): void
+    {
+        if ($isUpdate) {
             $existingPriceIds = $tour->prices()->pluck('id')->toArray();
 
             $incomingPriceIds = collect($request->prices ?? [])
@@ -311,27 +407,46 @@ class AdminTourController extends Controller
             if (!empty($pricesToDelete)) {
                 TourPrice::whereIn('id', $pricesToDelete)->delete();
             }
+        }
 
-            if ($request->prices) {
-                foreach ($request->prices as $priceData) {
-                    $typeEs = $priceData['type']['es'] ?? 'tipo';
+        foreach ($request->prices ?? [] as $priceData) {
+            $typeEs = $priceData['type']['es'] ?? 'tipo';
 
-                    $tour->prices()->updateOrCreate(
-                        ['id' => $priceData['id'] ?? null],
-                        [
-                            'type_key' => Str::slug($typeEs, '_'),
-                            'type' => $priceData['type'],
-                            'category_type' => $priceData['category_type'] ?? 'international',
-                            'price' => $priceData['price'],
-                            'min_age' => $priceData['min_age'] ?? null,
-                            'max_age' => $priceData['max_age'] ?? null,
-                            'currency' => 'USD',
-                            'is_free' => (float) $priceData['price'] <= 0,
-                        ]
-                    );
-                }
+            if ($isUpdate) {
+                $tour->prices()->updateOrCreate(
+                    ['id' => $priceData['id'] ?? null],
+                    [
+                        'type_key' => Str::slug($typeEs, '_'),
+                        'type' => $priceData['type'],
+                        'category_type' => $priceData['category_type'] ?? 'international',
+                        'price' => $priceData['price'],
+                        'min_age' => $priceData['min_age'] ?? null,
+                        'max_age' => $priceData['max_age'] ?? null,
+                        'currency' => 'USD',
+                        'is_free' => (float) $priceData['price'] <= 0,
+                    ]
+                );
+            } else {
+                $tour->prices()->create([
+                    'type_key' => Str::slug($typeEs, '_'),
+                    'type' => $priceData['type'],
+                    'category_type' => $priceData['category_type'] ?? 'international',
+                    'price' => $priceData['price'],
+                    'min_age' => $priceData['min_age'] ?? null,
+                    'max_age' => $priceData['max_age'] ?? null,
+                    'currency' => 'USD',
+                    'is_free' => (float) $priceData['price'] <= 0,
+                ]);
             }
+        }
+    }
 
+    /**
+     * Create or sync tour schedules.
+     */
+    private function syncTourSchedules(Request $request, Tour $tour, bool $isUpdate): void
+    {
+        if ($isUpdate) {
             $existingScheduleIds = $tour->schedulesAdmin()->pluck('id')->toArray();
 
             $incomingScheduleIds = collect($request->schedules ?? [])
@@ -344,8 +459,10 @@ class AdminTourController extends Controller
             if (!empty($schedulesToDelete)) {
                 TourSchedule::whereIn('id', $schedulesToDelete)->delete();
             }
+        }
 
-            foreach ($request->schedules ?? [] as $scheduleData) {
+        foreach ($request->schedules ?? [] as $scheduleData) {
+            if ($isUpdate) {
                 $tour->schedulesAdmin()->updateOrCreate(
                     ['id' => $scheduleData['id'] ?? null],
                     [
@@ -353,87 +470,12 @@ class AdminTourController extends Controller
                         'active' => isset($scheduleData['active']) ? 1 : 0,
                     ]
                 );
+            } else {
+                $tour->schedulesAdmin()->create([
+                    'start_time' => $scheduleData['start_time'],
+                    'active' => isset($scheduleData['active']) ? 1 : 0,
+                ]);
             }
-        });
-
-        return redirect()
-            ->route('admin.tours.edit', $tour)
-            ->with('success', 'El tour se actualizó correctamente.');
-    }
-
-
-    public function toggle(Tour $tour)
-    {
-        $tour->update([
-            'active' => !$tour->active
-        ]);
-
-        return back();
-    }
-    public function updatePosition(Request $request, Tour $tour)
-    {
-        $validated = $request->validate([
-            'sort_order' => ['required', 'integer', 'min:1'],
-        ]);
-
-        $newPosition = (int) $validated['sort_order'];
-        $currentPosition = (int) $tour->sort_order;
-        $maxPosition = (int) Tour::count();
-
-        /* Prevent invalid positions outside the current range */
-        if ($newPosition > $maxPosition) {
-            $newPosition = $maxPosition;
         }
-
-        /* If position did not change, there is nothing to reorder */
-        if ($newPosition === $currentPosition) {
-            return response()->json([
-                'success' => true,
-                'message' => 'The position is already up to date.',
-            ]);
-        }
-
-        DB::transaction(function () use ($tour, $currentPosition, $newPosition) {
-
-            /* Moving up:
-           shift down the tours between target position and current position - 1 */
-            if ($newPosition < $currentPosition) {
-                Tour::where('id', '!=', $tour->id)
-                    ->whereBetween('sort_order', [$newPosition, $currentPosition - 1])
-                    ->increment('sort_order');
-            }
-
-            /* Moving down:
-           shift up the tours between current position + 1 and target position */
-            if ($newPosition > $currentPosition) {
-                Tour::where('id', '!=', $tour->id)
-                    ->whereBetween('sort_order', [$currentPosition + 1, $newPosition])
-                    ->decrement('sort_order');
-            }
-
-            /* Save the selected position for the current tour */
-            $tour->update([
-                'sort_order' => $newPosition,
-            ]);
-        });
-
-        return response()->json([
-            'success' => true,
-            'message' => 'The tour order was updated successfully.',
-            'sort_order' => $newPosition,
-        ]);
-    }
-
-
-    public function toggleSchedule(\App\Models\TourSchedule $schedule)
-    {
-        $schedule->update([
-            'active' => !$schedule->active
-        ]);
-
-        return response()->json([
-            'success' => true,
-            'active' => $schedule->active
-        ]);
     }
 }

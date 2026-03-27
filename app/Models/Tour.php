@@ -101,4 +101,14 @@ class Tour extends Model
                 return str_contains($type, 'adult');
             })?->price ?? null;
     }
+    public function getImageUrlAttribute(): string
+    {
+        // Return a fallback image if no image exists
+        if (empty($this->image)) {
+            return asset('images/default-tour.jpg');
+        }
+
+        // Return public URL for stored image
+        return asset($this->image);
+    }
 }

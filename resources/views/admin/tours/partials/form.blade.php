@@ -143,196 +143,265 @@
                                     Categoría
                                 </label>
 
-                                <select name="category_id" class="form-input">
+                                <select name="category_id" id="category_id" class="form-input" required>
+                                    <option value="">
+                                        Selecciona una categoría
+                                    </option>
 
                                     @foreach($categories as $category)
-
                                     <option
                                         value="{{ $category->id }}"
-                                        {{ old('category_id', $tour->category_id ?? '') == $category->id ? 'selected' : '' }}
+                                        {{ old('category_id', $tour->category_id ?? '') == $category->id ? 'selected' : '' }}>
+                                        {{ $category->translated_name }}
+                                    </option>
+                                    @endforeach
+
+                                    <option disabled>──────────────</option>
+
+                                    <option value="new" {{ old('category_id') == 'new' ? 'selected' : '' }}>
+                                        + Agregar nueva categoría
+                                    </option>
+                                </select>
+
+                                <p class="form-help">
+                                    Selecciona una categoría existente o crea una nueva.
+                                </p>
+
+                            </div>
+
+                            <div
+                                id="new-category-wrapper"
+                                class="form-field {{ old('category_id') == 'new' ? '' : 'hidden' }} md:col-span-2">
+
+                                <div class="form-grid">
+
+                                    <div class="form-field">
+                                        <label class="form-label">
+                                            Nombre de la nueva Categoria (Español)
+                                        </label>
+
+                                        <input
+                                            type="text"
+                                            name="new_category[es]"
+                                            id="new_category_es"
+                                            value="{{ old('new_category.es') }}"
+                                            class="form-input"
+                                            placeholder="Ej: Aventura extrema">
+                                    </div>
+
+                                    <div class="form-field">
+                                        <label class="form-label">
+                                            Nombre de la nueva Categoria (Ingles)
+                                        </label>
+
+                                        <input
+                                            type="text"
+                                            name="new_category[en]"
+                                            id="new_category_en"
+                                            value="{{ old('new_category.en') }}"
+                                            class="form-input"
+                                            placeholder="Example: Extreme Adventure">
+                                    </div>
+
+                                </div>
+
+                                <p class="form-help">
+                                    Escribe el nombre de la nueva categoría en ambos idiomas.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        {{-- LOCATION / COMPANY --}}
+                        <div class="form-card">
+
+                            <div class="form-card-header">
+                                <h3 class="form-card-title">Ubicación del Tour</h3>
+                            </div>
+
+                            <div class="form-grid">
+
+                                <div class="form-field">
+
+                                    <label class="form-label">
+                                        Ubicación del Tour
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        name="detail[location_name]"
+                                        value="{{ old('detail.location_name', $tour->detail?->location_name ?? '') }}"
+                                        class="form-input"
                                         required>
 
-                                        {{ $category->name }}
 
-                                    </option>
+                                    <p class="form-help">
+                                        Ubicación principal donde se realiza el tour.
+                                    </p>
 
-                                    @endforeach
+                                </div>
 
-                                </select>
+
+                                <div class="form-field">
+
+                                    <label class="form-label">
+                                        Compañía Operadora
+                                    </label>
+
+                                    <select name="company_id" id="company_select" class="form-input" required>
+                                        <option value="">
+                                            Selecciona una compañía
+                                        </option>
+
+                                        @foreach($companies as $company)
+                                        <option
+                                            value="{{ $company->id }}"
+                                            data-email="{{ $company->email ?? '' }}"
+                                            data-phone="{{ $company->phone ?? '' }}"
+                                            data-map="{{ $company->map_embed_url ?? '' }}"
+                                            {{ old('company_id', $tour->company_id ?? '') == $company->id ? 'selected' : '' }}>
+                                            {{ $company->name }}
+                                        </option>
+                                        @endforeach
+
+                                        <option disabled>──────────────</option>
+
+                                        <option value="new" {{ old('company_id') == 'new' ? 'selected' : '' }}>
+                                            + Agregar nueva compañía
+                                        </option>
+                                    </select>
+
+                                    <p class="form-help">
+                                        Selecciona una compañía existente o crea una nueva.
+                                    </p>
+
+                                </div>
+
+                                <div
+                                    id="new-company-wrapper"
+                                    class="form-field {{ old('company_id') == 'new' ? '' : 'hidden' }} md:col-span-2">
+
+                                    <label class="form-label">
+                                        Nueva compañía operadora
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        name="new_company"
+                                        id="new_company"
+                                        value="{{ old('new_company') }}"
+                                        class="form-input"
+                                        placeholder="Ej: Relax Termalitas Hot Springs">
+
+                                    <p class="form-help">
+                                        Escribe el nombre de la nueva compañía operadora.
+                                    </p>
+
+                                </div>
+
+                                <div>
+                                    <label class="form-label">
+                                        Email de la Compañía
+
+                                    </label>
+                                    <input type="text"
+                                        id="company_email"
+                                        name="company[email]"
+                                        value="{{ old('company.email', $tour->company?->email ?? '') }}"
+                                        class="form-input">
+
+                                </div>
+
+                                <div>
+                                    <label class="form-label">
+                                        Teléfono de la Compañía
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="company_phone"
+                                        name="company[phone]"
+                                        value="{{ old('company.phone', $tour->company?->phone ?? '') }}"
+                                        class="form-input">
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        {{--GENERAL SCHEDULE--}}
+                        <div class="form-card">
+
+                            <div class="form-card-header">
+                                <h3 class="form-card-title">Horario General del Tour</h3>
+                            </div>
+
+                            <div class="form-grid">
+
+                                <div class="form-field">
+
+                                    <label class="form-label">
+                                        Horario (Español)
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        name="detail[start_hours_text][es]"
+                                        value="{{ old('detail.start_hours_text.es', $tour->detail?->start_hours_text['es'] ?? '') }}"
+                                        class="form-input"
+                                        required>
+
+                                </div>
+
+                                <div class="form-field">
+
+                                    <label class="form-label">
+                                        Horario (Inglés)
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        name="detail[start_hours_text][en]"
+                                        value="{{ old('detail.start_hours_text.en', $tour->detail?->start_hours_text['en'] ?? '') }}"
+                                        class="form-input"
+                                        required>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        {{--IMAGE--}}
+                        <div class="form-card">
+
+                            <div class="form-card-header">
+                                <h3 class="form-card-title">Imagen del Tour</h3>
+                            </div>
+
+                            <div class="form-field">
+
+                                <input
+                                    type="file"
+                                    name="image"
+                                    id="tour-image-input"
+                                    class="form-input-file"
+                                    accept="image/*">
+                            </div>
+
+                            <div class="admin-image-preview">
+
+                                <img
+                                    id="tour-image-preview"
+                                    src="{{ isset($tour) && $tour->image ? asset($tour->image) : '' }}"
+                                    alt="Tour Preview">
 
                             </div>
 
                         </div>
 
                     </div>
-
-                    {{-- LOCATION / COMPANY --}}
-                    <div class="form-card">
-
-                        <div class="form-card-header">
-                            <h3 class="form-card-title">Ubicación del Tour</h3>
-                        </div>
-
-                        <div class="form-grid">
-
-                            <div class="form-field">
-
-                                <label class="form-label">
-                                    Ubicación del Tour
-                                </label>
-
-                                <input
-                                    type="text"
-                                    name="detail[location_name]"
-                                    value="{{ old('detail.location_name', $tour->detail?->location_name ?? '') }}"
-                                    class="form-input"
-                                    required>
-
-
-                                <p class="form-help">
-                                    Ubicación principal donde se realiza el tour.
-                                </p>
-
-                            </div>
-
-
-                            <div class="form-field">
-
-                                <label class="form-label">
-                                    Compañía Operadora
-                                </label>
-
-                                <select name="company_id" id="company_select" class="form-input" required>
-
-                                    <option value="">
-                                        Selecciona una compañía
-                                    </option>
-
-                                    @foreach($companies as $company)
-
-                                    <option
-                                        value="{{ $company->id }}"
-                                        data-email="{{ $company->email ?? '' }}"
-                                        data-phone="{{ $company->phone ?? '' }}"
-                                        data-map="{{ $company->map_embed_url ?? '' }}"
-                                        {{ old('company_id', $tour->company_id ?? '') == $company->id ? 'selected' : '' }}>
-                                        {{ $company->name }}
-                                    </option>
-
-
-
-                                    @endforeach
-
-                                </select>
-
-                                <p class="form-help">
-                                    Selecciona la empresa responsable de operar este tour.
-                                </p>
-
-                            </div>
-
-                            <div>
-                                <label class="form-label">
-                                    Email de la Compañía
-
-                                </label>
-                                <input type="text"
-                                    id="company_email"
-                                    name="company[email]"
-                                    value="{{ old('company.email', $tour->company?->email ?? '') }}"
-                                    class="form-input">
-
-                            </div>
-
-                            <div>
-                                <label class="form-label">
-                                    Teléfono de la Compañía
-                                </label>
-                                <input
-                                    type="text"
-                                    id="company_phone"
-                                    name="company[phone]"
-                                    value="{{ old('company.phone', $tour->company?->phone ?? '') }}"
-                                    class="form-input">
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    {{--GENERAL SCHEDULE--}}
-                    <div class="form-card">
-
-                        <div class="form-card-header">
-                            <h3 class="form-card-title">Horario General del Tour</h3>
-                        </div>
-
-                        <div class="form-grid">
-
-                            <div class="form-field">
-
-                                <label class="form-label">
-                                    Horario (Español)
-                                </label>
-
-                                <input
-                                    type="text"
-                                    name="detail[start_hours_text][es]"
-                                    value="{{ old('detail.start_hours_text.es', $tour->detail?->start_hours_text['es'] ?? '') }}"
-                                    class="form-input"
-                                    required>
-
-                            </div>
-
-                            <div class="form-field">
-
-                                <label class="form-label">
-                                    Horario (Inglés)
-                                </label>
-
-                                <input
-                                    type="text"
-                                    name="detail[start_hours_text][en]"
-                                    value="{{ old('detail.start_hours_text.en', $tour->detail?->start_hours_text['en'] ?? '') }}"
-                                    class="form-input"
-                                    required>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    {{--IMAGE--}}
-                    <div class="form-card">
-
-                        <div class="form-card-header">
-                            <h3 class="form-card-title">Imagen del Tour</h3>
-                        </div>
-
-                        <div class="form-field">
-
-                            <input
-                                type="file"
-                                name="image"
-                                id="tour-image-input"
-                                class="form-input-file"
-                                accept="image/*">
-                        </div>
-
-                        <div class="admin-image-preview">
-
-                            <img
-                                id="tour-image-preview"
-                                src="{{ isset($tour) && $tour->image ? asset($tour->image) : '' }}"
-                                alt="Tour Preview">
-
-                        </div>
-
-                    </div>
-
-                </div>
 
             </section>
 
@@ -634,7 +703,8 @@
                     </div>
 
 
-                    {{--MAP--}}
+                    {{-- MAP --}}
+                    {{-- MAP --}}
                     <div class="form-card">
 
                         <div class="form-card-header">
@@ -642,7 +712,7 @@
                         </div>
 
                         <p class="form-help">
-                            Mapa que se mostrará en la página del tour.
+                            Este mapa se mostrará en la página pública del tour.
                         </p>
 
                         <div class="form-field">
@@ -654,24 +724,72 @@
                                 name="company[map_embed_url]"
                                 value="{{ old('company.map_embed_url', $tour->company?->map_embed_url ?? '') }}"
                                 class="form-input"
-                                placeholder="Google Maps embed URL"
+                                placeholder="https://www.google.com/maps/embed?pb=..."
                                 required>
 
+                            <p class="form-help">
+                                Pega únicamente la URL del mapa embebido de Google Maps.
+                            </p>
+
+                        </div>
+
+                        {{-- Instructions dropdown --}}
+                        <div class="map-help-box">
+
+                            <details class="map-help-details">
+                                <summary class="map-help-summary">
+                                    <div class="map-help-summary-left">
+                                        <span class="map-help-icon">📍</span>
+                                        <div>
+                                            <div class="map-help-title">Ver instrucciones para obtener la URL del mapa</div>
+                                            <div class="map-help-subtitle">Guía rápida para copiar correctamente el enlace desde Google Maps</div>
+                                        </div>
+                                    </div>
+
+                                    <span class="map-help-toggle">Ver pasos</span>
+                                </summary>
+
+                                <div class="map-help-content">
+
+                                    <div class="map-help-note">
+                                        <strong>Importante:</strong> No copies el enlace normal del navegador. Debes copiar la URL del mapa embebido que aparece dentro de <strong>src="..."</strong>.
+                                    </div>
+
+                                    <ol class="map-help-steps">
+                                        <li>Abre <strong>Google Maps</strong>.</li>
+                                        <li>Busca la ubicación exacta donde se realiza el tour.</li>
+                                        <li>Haz clic sobre el lugar para abrir su ficha de información.</li>
+                                        <li>Presiona el botón <strong>Compartir</strong>.</li>
+                                        <li>Selecciona la pestaña <strong>Incorporar un mapa</strong>.</li>
+                                        <li>Se mostrará un código HTML que incluye una etiqueta <strong>iframe</strong>.</li>
+                                        <li>Dentro de ese código, ubica el texto que aparece después de <strong>src="</strong>.</li>
+                                        <li>Copia únicamente esa URL, comenzando en <strong>https</strong> y terminando antes de la comilla de cierre.</li>
+                                        <li>Pega esa URL en el campo <strong>URL del mapa</strong>.</li>
+                                    </ol>
+
+                                    <div class="map-help-example-box">
+                                        <div class="map-help-example-title">Ejemplo de lo que sí debes copiar</div>
+                                        <code class="map-help-code">https://www.google.com/maps/embed?pb=...</code>
+                                    </div>
+
+                                    <div class="map-help-example-box map-help-example-box-wrong">
+                                        <div class="map-help-example-title">Ejemplo de lo que no debes pegar</div>
+                                        <code class="map-help-code">src="https://www.google.com/maps/embed?pb=..."</code>
+                                    </div>
+
+                                </div>
+                            </details>
 
                         </div>
 
                         @if(!empty($tour->company->map_embed_url ?? null))
-
                         <div class="admin-map-preview">
-
                             <iframe
                                 src="{{ $tour->company->map_embed_url }}"
                                 loading="lazy"
                                 allowfullscreen>
                             </iframe>
-
                         </div>
-
                         @endif
 
                     </div>
@@ -840,6 +958,10 @@
                                         required>
 
                                 </div>
+
+                                <p class="form-help">
+                                    Ingresa siempre el precio en dólares ($) usando el formato 00.00
+                                </p>
 
                             </div>
 

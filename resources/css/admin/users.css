@@ -1,264 +1,328 @@
 /* =====================================================
    USERS MODULE
-   Dedicated styles for the admin users index screen
+   Dedicated styles for the admin users index and form views
 ===================================================== */
 
-/* =====================================================
-   USER / SUBSCRIBER CELL
-   Shared layout for identity blocks inside tables
-===================================================== */
+/* Identity block layout inside users and subscribers tables */
 .users-person-cell{
-display:flex;
-align-items:center;
-gap:14px;
-min-width:240px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    min-width:240px;
 }
 
-/* =====================================================
-   USER AVATAR
-   Circular visual identifier for users/subscribers
-===================================================== */
+/* Base avatar container for users and subscribers */
 .users-avatar{
-width:44px;
-height:44px;
-border-radius:999px;
-display:flex;
-align-items:center;
-justify-content:center;
-flex-shrink:0;
-font-size:15px;
-font-weight:800;
-border:1px solid transparent;
+    width:44px;
+    height:44px;
+    border-radius:999px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+    font-size:15px;
+    font-weight:800;
+    border:1px solid transparent;
 }
 
+/* User avatar colors in light mode */
 .users-avatar-user{
-background:#dcfce7;
-color:#15803d;
-border-color:#bbf7d0;
+    background:#dcfce7;
+    color:#15803d;
+    border-color:#bbf7d0;
 }
 
+/* User avatar colors in dark mode */
 .dark .users-avatar-user{
-background:rgba(34,197,94,.12);
-color:#4ade80;
-border-color:rgba(34,197,94,.18);
+    background:rgba(34,197,94,.12);
+    color:#4ade80;
+    border-color:rgba(34,197,94,.18);
 }
 
+/* Subscriber avatar colors in light mode */
 .users-avatar-subscriber{
-background:#e0f2fe;
-color:#0284c7;
-border-color:#bae6fd;
+    background:#e0f2fe;
+    color:#0284c7;
+    border-color:#bae6fd;
 }
 
+/* Subscriber avatar colors in dark mode */
 .dark .users-avatar-subscriber{
-background:rgba(14,165,233,.12);
-color:#38bdf8;
-border-color:rgba(14,165,233,.18);
+    background:rgba(14,165,233,.12);
+    color:#38bdf8;
+    border-color:rgba(14,165,233,.18);
 }
 
-/* =====================================================
-   MAIN / SECONDARY TEXT
-   Stronger visual hierarchy for table content
-===================================================== */
+/* Primary text used for names and main labels */
 .users-main-text{
-font-size:15px;
-font-weight:700;
-line-height:1.35;
-color:#111827;
+    font-size:15px;
+    font-weight:700;
+    line-height:1.35;
+    color:#111827;
 }
 
+/* Primary text colors in dark mode */
 .dark .users-main-text{
-color:#f8fafc;
+    color:#f8fafc;
 }
 
+/* Secondary text used for email and supporting values */
 .users-secondary-text{
-font-size:14px;
-font-weight:500;
-color:#475569;
+    font-size:14px;
+    font-weight:500;
+    color:#475569;
 }
 
+/* Secondary text colors in dark mode */
 .dark .users-secondary-text{
-color:#cbd5e1;
+    color:#cbd5e1;
 }
 
-/* =====================================================
-   ROLE BADGES
-   Status labels for user roles
-===================================================== */
+/* Base role badge component */
 .users-role-badge{
-display:inline-flex;
-align-items:center;
-padding:7px 12px;
-border-radius:999px;
-font-size:12px;
-font-weight:700;
-text-transform:capitalize;
+    display:inline-flex;
+    align-items:center;
+    padding:7px 12px;
+    border-radius:999px;
+    font-size:12px;
+    font-weight:700;
+    text-transform:capitalize;
 }
 
+/* Superadmin role badge colors in light mode */
 .users-role-badge-admin{
-background:#dcfce7;
-color:#15803d;
+    background:#dcfce7;
+    color:#15803d;
 }
 
+/* Superadmin role badge colors in dark mode */
 .dark .users-role-badge-admin{
-background:rgba(34,197,94,.14);
-color:#4ade80;
+    background:rgba(34,197,94,.14);
+    color:#4ade80;
 }
 
+/* Client role badge colors in light mode */
 .users-role-badge-client{
-background:#e2e8f0;
-color:#334155;
+    background:#e2e8f0;
+    color:#334155;
 }
 
+/* Client role badge colors in dark mode */
 .dark .users-role-badge-client{
-background:#1e293b;
-color:#cbd5e1;
+    background:#1e293b;
+    color:#cbd5e1;
 }
 
-/* =====================================================
-   ACTION BUTTONS
-   Reusable action styles for edit and delete
-===================================================== */
+/* Base action button styling */
 .users-btn{
-display:inline-flex;
-align-items:center;
-justify-content:center;
-padding:6px 14px;
-border:none;
-border-radius:8px;
-font-size:14px;
-font-weight:500;
-text-decoration:none;
-cursor:pointer;
-transition:all .22s ease;
-box-shadow:0 6px 16px rgba(15,23,42,.06);
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:6px 14px;
+    border:none;
+    border-radius:8px;
+    font-size:14px;
+    font-weight:500;
+    text-decoration:none;
+    cursor:pointer;
+    transition:all .22s ease;
+    box-shadow:0 6px 16px rgba(15,23,42,.06);
 }
 
-
+/* Shared hover lift for action buttons */
 .users-btn:hover{
-transform:translateY(-1px);
+    transform:translateY(-1px);
 }
 
+/* Edit button colors in light mode */
 .users-btn-edit{
-background:#dbeafe;
-color:#0369a1;
+    background:#dbeafe;
+    color:#0369a1;
 }
 
+/* Edit button hover colors in light mode */
 .users-btn-edit:hover{
-background:#bfdbfe;
-color:#075985;
+    background:#bfdbfe;
+    color:#075985;
 }
 
+/* Edit button colors in dark mode */
 .dark .users-btn-edit{
-background:rgba(14,165,233,.16);
-color:#7dd3fc;
-box-shadow:none;
+    background:rgba(14,165,233,.16);
+    color:#7dd3fc;
+    box-shadow:none;
 }
 
+/* Edit button hover colors in dark mode */
 .dark .users-btn-edit:hover{
-background:rgba(14,165,233,.24);
-color:#bae6fd;
+    background:rgba(14,165,233,.24);
+    color:#bae6fd;
 }
 
+/* Delete button colors in light mode */
 .users-btn-delete{
-background:#ef4444;
-color:#ffffff;
+    background:#ef4444;
+    color:#ffffff;
 }
 
+/* Delete button hover colors in light mode */
 .users-btn-delete:hover{
-background:#dc2626;
-color:#ffffff;
+    background:#dc2626;
+    color:#ffffff;
 }
 
+/* Delete button colors in dark mode */
 .dark .users-btn-delete{
-background:#ef4444;
-color:#ffffff;
-box-shadow:none;
+    background:#ef4444;
+    color:#ffffff;
+    box-shadow:none;
 }
 
+/* Delete button hover colors in dark mode */
 .dark .users-btn-delete:hover{
-background:#dc2626;
+    background:#dc2626;
 }
 
-/* =====================================================
-   USERS TABLE REFINEMENT
-   Visual polish for table rows in users module
-===================================================== */
-.users-table th{
-vertical-align:middle;
-white-space:nowrap;
-}
-
-.users-table td{
-vertical-align:middle;
-}
-
-.users-table tbody tr{
-transition:background-color .2s ease;
-}
-
-.users-table tbody tr:hover{
-background:#f8fafc;
-}
-
-.dark .users-table tbody tr:hover{
-background:rgba(15,23,42,.55);
-}
-
-/* =====================================================
-   RESPONSIVE ADJUSTMENTS
-   Prevents action overflow on narrower screens
-===================================================== */
-@media (max-width: 1024px){
-
-.users-btn{
-padding:6px 14px;
-}
-
-
-.users-person-cell{
-min-width:unset;
-}
-}
-/* =====================================================
-   DISABLED DELETE BUTTON
-   Protects the last superadmin from destructive actions
-===================================================== */
+/* Disabled delete button for protected users */
 .users-btn-delete-disabled{
-background:#fca5a5;
-color:#ffffff;
-opacity:.55;
-cursor:not-allowed;
-box-shadow:none;
-pointer-events:auto;
+    background:#fca5a5;
+    color:#ffffff;
+    opacity:.55;
+    cursor:not-allowed;
+    box-shadow:none;
+    pointer-events:auto;
 }
 
+/* Preserve disabled delete appearance on hover */
 .users-btn-delete-disabled:hover{
-transform:none;
-background:#fca5a5;
+    transform:none;
+    background:#fca5a5;
 }
 
+/* Disabled delete colors in dark mode */
 .dark .users-btn-delete-disabled{
-background:#7f1d1d;
-color:#fecaca;
-opacity:.7;
+    background:#7f1d1d;
+    color:#fecaca;
+    opacity:.7;
 }
-/* =====================================================
-   ACTIONS COLUMN ALIGNMENT
-   Keeps action buttons side by side and aligned right
-===================================================== */
+
+/* Improve table header alignment and prevent wrapping */
+.users-table th{
+    vertical-align:middle;
+    white-space:nowrap;
+}
+
+/* Keep table body cells vertically centered */
+.users-table td{
+    vertical-align:middle;
+}
+
+/* Smooth hover transition for users table rows */
+.users-table tbody tr{
+    transition:background-color .2s ease;
+}
+
+/* Row hover color in light mode */
+.users-table tbody tr:hover{
+    background:#f8fafc;
+}
+
+/* Row hover color in dark mode */
+.dark .users-table tbody tr:hover{
+    background:rgba(15,23,42,.55);
+}
+
+/* Align actions column to the right */
 .users-actions-cell{
-text-align:right;
-width:1%;
-white-space:nowrap;
+    text-align:right;
+    width:1%;
+    white-space:nowrap;
 }
 
+/* Keep action buttons grouped on one line */
 .users-actions{
-display:flex;
-justify-content:flex-end;
-align-items:center;
-gap:12px;
-width:100%;
+    display:flex;
+    justify-content:flex-end;
+    align-items:center;
+    gap:12px;
+    width:100%;
 }
 
+/* Password input wrapper for toggle button positioning */
+.password-field{
+    position:relative;
+    display:flex;
+    align-items:center;
+}
 
+/* Add right padding to avoid icon overlap */
+.password-input{
+    padding-right:50px;
+}
 
+/* Hide native browser password reveal controls */
+.password-input::-ms-reveal,
+.password-input::-ms-clear{
+    display:none;
+}
+
+/* Hide native WebKit credential decorations when available */
+.password-input::-webkit-credentials-auto-fill-button,
+.password-input::-webkit-textfield-decoration-container{
+    display:none !important;
+}
+
+/* Toggle button for show/hide password */
+.password-toggle{
+    position:absolute;
+    right:12px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:22px;
+    height:22px;
+    padding:0;
+    background:transparent;
+    border:none;
+    cursor:pointer;
+    color:#6b7280;
+    transition:color .2s ease, transform .2s ease;
+    z-index:2;
+}
+
+/* Toggle button hover state in light mode */
+.password-toggle:hover{
+    color:#16a34a;
+    transform:scale(1.05);
+}
+
+/* Toggle button color in dark mode */
+.dark .password-toggle{
+    color:#94a3b8;
+}
+
+/* Toggle button hover state in dark mode */
+.dark .password-toggle:hover{
+    color:#22c55e;
+}
+
+/* Size for password visibility SVG icons */
+.password-icon{
+    width:20px;
+    height:20px;
+    pointer-events:none;
+}
+
+/* Responsive adjustment for tighter layouts */
+@media (max-width:1024px){
+
+    /* Preserve usable button padding on smaller screens */
+    .users-btn{
+        padding:6px 14px;
+    }
+
+    /* Remove forced minimum width in narrow layouts */
+    .users-person-cell{
+        min-width:unset;
+    }
+}
