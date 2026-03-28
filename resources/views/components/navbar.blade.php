@@ -34,7 +34,7 @@
                         </li>
 
                         <li>
-                            <a href="{{ route('accommodations') }}"
+                            <a href="{{ route('accommodations.index') }}"
                                 class="nav-link {{ request()->routeIs('accommodations') ? 'active' : '' }}">
                                 {{ __('navigation.accommodations') }}
                             </a>
@@ -269,7 +269,7 @@
             </li>
 
             <li>
-                <a href="{{ route('accommodations') }}"
+                <a href="{{ route('accommodations.index') }}"
                     class="mobile-nav-link flex items-center gap-3 transition {{ request()->routeIs('accommodations') ? 'text-green-600 font-semibold' : '' }}">
                     {{ __('navigation.accommodations') }}
                 </a>

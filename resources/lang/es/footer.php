@@ -7,7 +7,7 @@ return [
 
     // Newsletter Section
     'newsletter_title' => 'Suscripción',
-    'newsletter_subtitle' => 'Recibe infromacion de toures, hospedajes y ofertas exclusivas.',
+    'newsletter_subtitle' => 'Recibe infromacion de tours, hospedajes y ofertas exclusivas.',
     'email_placeholder' => 'Tu correo electrónico',
     'subscribe' => 'Suscribirse',
 

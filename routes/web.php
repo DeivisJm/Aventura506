@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Session;
 | Public Controllers
 |--------------------------------------------------------------------------
 */
+use App\Http\Controllers\AccommodationController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\BookingController;
@@ -37,8 +38,11 @@ use App\Http\Controllers\Admin\AdminUserController;
 */
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('/accommodations', fn() => view('pages.accommodations'))
-    ->name('accommodations');
+Route::get('/accommodations', [AccommodationController::class, 'index'])
+    ->name('accommodations.index');
+
+Route::get('/accommodations/{slug}', [AccommodationController::class, 'show'])
+    ->name('accommodations.show');
 
 Route::get('/about_us', fn() => view('pages.about_us'))
     ->name('about');
