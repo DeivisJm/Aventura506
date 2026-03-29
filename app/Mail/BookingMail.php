@@ -35,12 +35,16 @@ class BookingMail extends Mailable
 
     public function build()
     {
-        return $this->withSymfonyMessage(function (Email $message) {
-            $message->embedFromPath(
-                public_path('images/logos/logo.png'),
-                'logo',
-                'image/png'
-            );
+        $logoPath = public_path('images/logos/logo.png');
+
+        return $this->withSymfonyMessage(function (Email $message) use ($logoPath) {
+            if (file_exists($logoPath)) {
+                $message->embedFromPath(
+                    $logoPath,
+                    'logo',
+                    'image/png'
+                );
+            }
         });
     }
 }

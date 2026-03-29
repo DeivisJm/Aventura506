@@ -72,22 +72,22 @@ class AccountController extends Controller
      * Display bookings associated with the authenticated user.
      * Matches records by user_id when available, and also by guest_email.
      */
-    public function bookings()
-    {
-        /** @var User $user */
-        $user = Auth::user();
+   public function bookings()
+{
+    /** @var \App\Models\User $user */
+    $user = Auth::user();
 
-        $bookings = Booking::with(['tour'])
-            ->where(function ($query) use ($user) {
-                $query->where('guest_email', $user->email);
+    $bookings = Booking::with(['tour'])
+        ->where(function ($query) use ($user) {
+            $query->where('guest_email', $user->email);
 
-                if (!is_null($user->id)) {
-                    $query->orWhere('user_id', $user->id);
-                }
-            })
-            ->latest()
-            ->get();
+            if (!is_null($user->id)) {
+                $query->orWhere('user_id', $user->id);
+            }
+        })
+        ->latest()
+        ->get();
 
-        return view('account.bookings', compact('user', 'bookings'));
-    }
+    return view('account.bookings', compact('user', 'bookings'));
+}
 }

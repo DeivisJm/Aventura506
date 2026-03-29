@@ -3,19 +3,21 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
-use App\Mail\BookingMail;
-use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Booking;
 use App\Models\BookingDetail;
 use App\Models\TourPrice;
 use App\Models\Tour;
+use App\Models\ExchangeRate;
+use App\Jobs\SendBookingEmailJob;
 use Carbon\Carbon;
 
 class BookingController extends Controller
 {
+    /**
+     * Store a new booking request.
+     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -31,68 +33,95 @@ class BookingController extends Controller
             'currency'    => 'required|in:USD,CRC',
         ]);
 
-        $selectedPrices = array_filter($validated['prices'], fn($qty) => (int) $qty > 0);
+        /*
+        |--------------------------------------------------------------------------
+        | Validate selected prices
+        |--------------------------------------------------------------------------
+        */
+        $selectedPrices = array_filter(
+            $validated['prices'],
+            fn($qty) => (int) $qty > 0
+        );
 
         if (count($selectedPrices) === 0) {
-            return back()->withErrors([
-                'prices' => 'You must select at least one ticket.'
-            ])->withInput();
+            return back()
+                ->withErrors([
+                    'prices' => __('booking.select_ticket_error'),
+                ])
+                ->withInput();
         }
+
+        $tour = Tour::with('company')->findOrFail($validated['tour_id']);
 
         DB::beginTransaction();
 
         try {
-            $tour = Tour::with('company')->findOrFail($validated['tour_id']);
-
             $totalUsd = 0;
             $persons = 0;
 
             $selectedCurrency = $validated['currency'];
 
-            //change tip form settings (default 500)
-            $exchangeRate = (float) \App\Models\ExchangeRate::getValue('usd_to_crc', 500);
+            /*
+            |--------------------------------------------------------------------------
+            | Exchange rate
+            |--------------------------------------------------------------------------
+            | Fallback value is kept for safety.
+            */
+            $exchangeRate = (float) ExchangeRate::getValue('usd_to_crc', 500);
 
             $formattedDate = Carbon::parse($validated['date'])->format('Y-m-d');
             $formattedTime = Carbon::parse($validated['time'])->format('H:i:s');
 
+            /*
+            |--------------------------------------------------------------------------
+            | Create booking
+            |--------------------------------------------------------------------------
+            */
             $booking = Booking::create([
                 'tour_id'           => $tour->id,
                 'guest_name'        => $validated['name'],
                 'guest_email'       => $validated['email'],
                 'guest_phone'       => $validated['phone'],
                 'guest_nationality' => $validated['nationality'],
-                'notes'             => $validated['notes'],
+                'notes'             => $validated['notes'] ?? null,
                 'date'              => $formattedDate,
                 'time'              => $formattedTime,
                 'total'             => 0,
                 'status'            => 'pending',
+                'currency'          => $selectedCurrency,
             ]);
 
+            /*
+            |--------------------------------------------------------------------------
+            | Create booking details and compute totals
+            |--------------------------------------------------------------------------
+            */
             foreach ($validated['prices'] as $priceId => $quantity) {
-                if ($quantity > 0) {
-                    $tourPrice = TourPrice::findOrFail($priceId);
+                $quantity = (int) $quantity;
 
-                    //price in USD always
-                    $priceInUsd = $tourPrice->price;
-
-                    //convert to CRC
-                    $priceInCrc = $priceInUsd * $exchangeRate;
-
-                    BookingDetail::create([
-                        'booking_id'    => $booking->id,
-                        'tour_price_id' => $tourPrice->id,
-                        'quantity'      => $quantity,
-                        'price'         => $priceInUsd,
-                        'price_usd'     => $priceInUsd,
-                        'price_crc'     => $priceInCrc,
-                    ]);
-
-                    if (!$tourPrice->is_free) {
-                        $totalUsd += $quantity * $priceInUsd;
-                    }
-
-                    $persons += $quantity;
+                if ($quantity <= 0) {
+                    continue;
                 }
+
+                $tourPrice = TourPrice::findOrFail($priceId);
+
+                $priceInUsd = (float) $tourPrice->price;
+                $priceInCrc = $priceInUsd * $exchangeRate;
+
+                BookingDetail::create([
+                    'booking_id'    => $booking->id,
+                    'tour_price_id' => $tourPrice->id,
+                    'quantity'      => $quantity,
+                    'price'         => $priceInUsd,
+                    'price_usd'     => $priceInUsd,
+                    'price_crc'     => $priceInCrc,
+                ]);
+
+                if (!$tourPrice->is_free) {
+                    $totalUsd += $quantity * $priceInUsd;
+                }
+
+                $persons += $quantity;
             }
 
             $totalCrc = $totalUsd * $exchangeRate;
@@ -101,6 +130,11 @@ class BookingController extends Controller
                 ? $totalCrc
                 : $totalUsd;
 
+            /*
+            |--------------------------------------------------------------------------
+            | Update booking totals
+            |--------------------------------------------------------------------------
+            */
             $booking->update([
                 'persons'       => $persons,
                 'total'         => $totalDisplay,
@@ -111,51 +145,32 @@ class BookingController extends Controller
                 'total_display' => $totalDisplay,
             ]);
 
-            $booking->load('details.tourPrice');
-
-            $pdf = Pdf::loadView('emails.booking-pdf', [
-                'booking' => $booking
-            ]);
-
-            $pdfContent = $pdf->output();
-
-            /* Main internal receiver */
-            $to = [config('mail.booking_receiver')];
-
-            /* CC recipients: guest + company email if available */
-            $cc = [$booking->guest_email];
-
-            if (!empty($tour->company?->email)) {
-                $cc[] = $tour->company->email;
-            }
-
-            /* Remove empty or duplicated emails */
-            $to = array_values(array_unique(array_filter($to)));
-            $cc = array_values(array_unique(array_filter($cc)));
-
-            /* Send booking email with PDF attachment */
-            Mail::to($to)
-                ->cc($cc)
-                ->send(
-                    (new BookingMail($booking))
-                        ->attachData($pdfContent, 'booking.pdf', [
-                            'mime' => 'application/pdf',
-                        ])
-                );
-
             DB::commit();
+
+            /*
+            |--------------------------------------------------------------------------
+            | Send booking email asynchronously
+            |--------------------------------------------------------------------------
+            | The response is returned immediately. Email and PDF generation
+            | happen later in a queued job.
+            */
+            SendBookingEmailJob::dispatch($booking->id);
 
             return redirect()
                 ->route('tours.show', $tour->slug)
-                ->with('booking_success', 'Booking sent successfully!');
+                ->with('booking_success', __('booking.success_message'));
         } catch (\Throwable $e) {
             DB::rollBack();
 
-            Log::error('BOOKING ERROR: ' . $e->getMessage());
+            Log::error('BOOKING ERROR: ' . $e->getMessage(), [
+                'tour_id' => $validated['tour_id'] ?? null,
+                'email'   => $validated['email'] ?? null,
+            ]);
 
             return redirect()
                 ->route('tours.show', $tour->slug)
-                ->with('booking_error', 'There was a problem processing your booking. Please try again.');
+                ->with('booking_error', __('booking.error_message'))
+                ->withInput();
         }
     }
 }
