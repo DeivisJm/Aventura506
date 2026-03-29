@@ -1,18 +1,20 @@
 /* ===== RECTANGULAR BOOKING MODAL – FINAL DARK PRO ===== */
 
 /* Overlay */
-
 .booking-overlay {
     position: fixed;
     inset: 0;
+    z-index: 9999;
     background: rgba(0, 0, 0, 0.55);
     backdrop-filter: blur(10px);
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 12px;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.35s ease;
+    overflow: hidden;
 }
 
 .booking-overlay.active {
@@ -24,13 +26,13 @@
 .booking-container {
     background: var(--card);
     color: var(--text);
-    width: 95%;
+    width: min(95%, 1400px);
     max-width: 1400px;
-    max-height: 90vh;
+    height: auto;
+    max-height: calc(100dvh - 24px);
     display: flex;
     flex-direction: column;
-    overflow-y: auto;
-    /* CAMBIO AQUÍ */
+    overflow: hidden;
     border-radius: 16px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
     transform: translateY(40px) scale(0.96);
@@ -38,21 +40,27 @@
     transition: all 0.4s cubic-bezier(.16, 1, .3, 1);
 }
 
-
 .booking-overlay.active .booking-container {
     transform: translateY(0) scale(1);
     opacity: 1;
 }
 
 /* Desktop scroll control */
+.booking-content {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
 @media (min-width: 1025px) {
     .booking-content {
-        overflow-y: auto;
-        max-height: 75vh;
+        max-height: calc(100dvh - 170px);
     }
 
     .form-side {
-        overflow-y: auto;
+        overflow-y: visible;
     }
 }
 
@@ -169,11 +177,16 @@
 }
 
 /* Close button */
-
 .booking-close {
     cursor: pointer;
     transition: transform 0.35s cubic-bezier(.16, 1, .3, 1), color 0.25s ease;
-    margin-top: 20px;
+    margin-top: 44px;
+}
+
+@media (max-width: 767px) {
+    .booking-close {
+        margin-top: 28px;
+    }
 }
 
 .booking-close:hover {
@@ -230,16 +243,27 @@
 }
 
 /* Responsive */
-
 @media (max-width: 1024px) {
     .booking-content {
         display: flex !important;
         flex-direction: column !important;
+        flex: 1;
+        min-height: 0;
+        overflow-y: auto;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
     }
 
     .calendar-side {
         border-right: none !important;
         border-bottom: 1px solid #e5e7eb;
+        min-height: auto !important;
+        flex: 0 0 auto;
+    }
+
+    .form-side {
+        min-height: auto;
+        flex: 0 0 auto;
     }
 }
 
@@ -396,3 +420,126 @@
     color: #f8fafc;
 }
 
+/* =====================================================
+   MOBILE SCROLL FIX
+   Keeps the current structure and allows full vertical scroll
+===================================================== */
+@media (max-width: 767px) {
+    .booking-overlay {
+        padding: 0.5rem;
+        align-items: flex-start;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+    .booking-container {
+        width: calc(100vw - 1rem);
+        max-width: calc(100vw - 1rem);
+        height: auto;
+        max-height: calc(100dvh - 1rem);
+        border-radius: 14px;
+        margin: 0 auto;
+        overflow: hidden;
+    }
+
+    .booking-header {
+        padding: 1rem 1.1rem;
+    }
+
+    .booking-content {
+        flex: 1;
+        min-height: 0;
+        overflow-y: auto;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .calendar-side,
+    .form-side {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        padding: 1.1rem;
+        box-sizing: border-box;
+    }
+}
+/* =====================================================
+   MOBILE WIDTH FIX
+   Prevents right-side clipping inside the booking modal
+===================================================== */
+.booking-container,
+.booking-content,
+.calendar-side,
+.form-side,
+#bookingForm {
+    min-width: 0;
+}
+
+.booking-content,
+.form-side {
+    overflow-x: hidden;
+}
+
+@media (max-width: 767px) {
+    .booking-header > div {
+        min-width: 0;
+    }
+
+    .booking-header h2 {
+        font-size: 1.1rem;
+        line-height: 1.3;
+        padding-right: 0.5rem;
+    }
+
+    .booking-close {
+        margin-top: 10px;
+        margin-right: 2px;
+        flex-shrink: 0;
+    }
+
+    .booking-input,
+    .country-select,
+    .iti {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    #dynamicPriceOptions > div {
+        overflow: hidden;
+    }
+}
+/* =====================================================
+   MOBILE CALENDAR FIX
+   Lets the calendar section shrink naturally on mobile
+===================================================== */
+@media (max-width: 767px) {
+    .calendar-side {
+        min-height: auto !important;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+
+    #calendarGrid {
+        gap: 0.4rem;
+    }
+
+    #calendarGrid button {
+        padding: 7px;
+        min-height: 34px;
+        font-size: 0.85rem;
+    }
+
+    #daysHeader {
+        margin-bottom: 0.6rem;
+        font-size: 0.72rem;
+    }
+
+    .month-btn {
+        font-size: 20px;
+        padding: 2px 8px;
+    }
+
+    #currentMonth {
+        font-size: 1rem;
+    }
+}
