@@ -3,46 +3,61 @@
 namespace App\Http\Controllers;
 
 use App\Models\Accommodation;
-use App\Models\Category;
 use Illuminate\Http\Request;
 
 class AccommodationController extends Controller
 {
+    /**
+     * Display the public accommodations page.
+     */
     public function index(Request $request)
     {
-        $currentCategory = $request->get('category', 'all');
-
-        $categories = Category::all();
-
         $query = Accommodation::query()
-            ->where('is_active', true)
-            ->with(['category', 'company'])
-            ->orderByDesc('is_featured')
-            ->orderBy('sort_order')
-            ->orderByDesc('id');
+            ->where('is_active', true);
 
-        if ($currentCategory !== 'all') {
-            $query->whereHas('category', function ($q) use ($currentCategory) {
-                $q->where('slug', $currentCategory);
+        /**
+         * Apply text search across translated JSON fields.
+         */
+        if ($request->filled('search')) {
+            $search = trim((string) $request->search);
+
+            $query->where(function ($q) use ($search) {
+                $q->where('name->es', 'like', "%{$search}%")
+                    ->orWhere('name->en', 'like', "%{$search}%")
+                    ->orWhere('short_description->es', 'like', "%{$search}%")
+                    ->orWhere('short_description->en', 'like', "%{$search}%")
+                    ->orWhere('location->es', 'like', "%{$search}%")
+                    ->orWhere('location->en', 'like', "%{$search}%");
             });
         }
 
-        $accommodations = $query->paginate(9)->withQueryString();
+        /**
+         * Apply minimum numeric filters.
+         */
+        if ($request->filled('guests')) {
+            $query->where('guests', '>=', (int) $request->guests);
+        }
 
-        return view('pages.accommodations', compact(
-            'accommodations',
-            'categories',
-            'currentCategory'
-        ));
-    }
+        if ($request->filled('bedrooms')) {
+            $query->where('bedrooms', '>=', (int) $request->bedrooms);
+        }
 
-    public function show(string $slug)
-    {
-        $accommodation = Accommodation::with(['category', 'company'])
-            ->where('slug', $slug)
-            ->where('is_active', true)
-            ->firstOrFail();
+        if ($request->filled('beds')) {
+            $query->where('beds', '>=', (int) $request->beds);
+        }
 
-        return view('pages.accommodations_detail', compact('accommodation'));
+        if ($request->filled('bathrooms')) {
+            $query->where('bathrooms', '>=', (int) $request->bathrooms);
+        }
+
+        /**
+         * Keep a consistent ordering across the page.
+         */
+        $accommodations = $query
+            ->orderBy('sort_order')
+            ->orderBy('id')
+            ->get();
+
+        return view('pages.accommodations', compact('accommodations'));
     }
 }

@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             TourPriceSeeder::class,
             TourScheduleSeeder::class,
             SuperAdminSeeder::class,
+            AccommodationSeeder::class,
         ]);
 
         ExchangeRate::updateOrCreate(

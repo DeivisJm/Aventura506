@@ -1,24 +1,40 @@
 <?php
 
 return [
-    'page_title' => 'Accommodations',
-    'hero_badge' => 'Stay in Costa Rica',
-    'hero_title_prefix' => 'Find your perfect',
-    'hero_title_highlight' => 'place to stay',
-    'hero_description' => 'Explore unique stays with comfort, great locations, and memorable experiences for your trip.',
-    'filter_title' => 'Filter accommodations',
-    'featured' => 'Featured',
-    'view_more' => 'View more',
-    'no_results' => 'No accommodations available.',
-    'showing' => 'Showing',
-    'of' => 'of',
-    'results' => 'results',
-    'from_per_night' => 'From per night',
+
+    // Page
+    'title' => 'Accommodations',
+
+    // Hero
+    'hero_tag' => 'Accommodations in La Fortuna',
+    'hero_title_line_1' => 'Find the',
+    'hero_title_highlight' => 'ideal stay',
+    'hero_description' =>
+    'Discover selected accommodation options to complement
+        your La Fortuna adventure with comfort, location,
+        and a reliable experience.',
+
+    // Filter
+    'filter_kicker' => 'Smart search',
+    'filter_title' => 'Filter the ideal stay for your trip',
+    'filter_search' => 'Search',
+    'filter_search_placeholder' => 'Name, location or description',
+    'filter_button' => 'Search stays',
+    'filter_clear' => 'Clear filters',
+
+    // Card labels
     'guests' => 'guests',
     'bedrooms' => 'bedrooms',
     'beds' => 'beds',
     'bathrooms' => 'bathrooms',
-    'filters' => [
-        'all' => 'All',
-    ],
+
+    // Call to action
+    'book_now' => 'Book accommodation',
+
+    // Empty state
+    'empty_title' => 'No accommodations available',
+    'empty_description' =>
+    'New accommodation options will be available
+        in this section soon.',
+
 ];

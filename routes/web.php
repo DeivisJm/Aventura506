@@ -36,13 +36,11 @@ use App\Http\Controllers\Admin\AdminUserController;
 |--------------------------------------------------------------------------
 | These routes are accessible to all visitors.
 */
+
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/accommodations', [AccommodationController::class, 'index'])
     ->name('accommodations.index');
-
-Route::get('/accommodations/{slug}', [AccommodationController::class, 'show'])
-    ->name('accommodations.show');
 
 Route::get('/about_us', fn() => view('pages.about_us'))
     ->name('about');

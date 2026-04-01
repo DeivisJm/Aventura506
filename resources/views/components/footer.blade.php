@@ -110,7 +110,7 @@
 
                 <a href="{{ route('accommodations.index') }}"
                     class="transition hover:text-green-600 dark:hover:text-green-400
-        {{ request()->routeIs('accommodations') ? 'text-green-600 dark:text-green-400 font-medium' : '' }}">
+        {{ request()->routeIs('accommodations.*') ? 'text-green-600 dark:text-green-400 font-medium' : '' }}">
                     {{ __('navigation.accommodations') }}
                 </a>
 

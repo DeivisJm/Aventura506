@@ -14,6 +14,7 @@ import './auth/password-toggle';
 import './navbar/profile-menu';
 
 /* ================= PAGES ================= */
+import './pages/accommodations';
 import './pages/booking';
 import './pages/booking-dynamic';
 

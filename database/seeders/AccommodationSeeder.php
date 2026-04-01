@@ -7,64 +7,53 @@ use Illuminate\Database\Seeder;
 
 class AccommodationSeeder extends Seeder
 {
+    /**
+     * Run the database seeds.
+     */
     public function run(): void
     {
-        Accommodation::create([
-            'name' => [
-                'es' => 'Cabaña Vista al Volcán',
-                'en' => 'Volcano View Cabin',
-            ],
-            'slug' => 'cabana-vista-al-volcan',
-            'short_description' => [
-                'es' => 'Una cabaña acogedora con vistas espectaculares al volcán y rodeada de naturaleza.',
-                'en' => 'A cozy cabin with spectacular volcano views surrounded by nature.',
-            ],
-            'description' => [
-                'es' => 'Disfruta de una experiencia relajante en una cabaña privada con jacuzzi, terraza y desayuno incluido.',
-                'en' => 'Enjoy a relaxing experience in a private cabin with jacuzzi, terrace, and breakfast included.',
-            ],
-            'image' => 'images/accommodations/cabana-volcan.jpg',
-            'gallery' => [
-                'images/accommodations/cabana-volcan.jpg',
-                'images/accommodations/cabana-volcan-2.jpg',
-            ],
-            'property_type' => [
-                'es' => 'Cabaña completa',
-                'en' => 'Entire cabin',
-            ],
-            'location_text' => [
-                'es' => 'La Fortuna, San Carlos',
-                'en' => 'La Fortuna, San Carlos',
-            ],
-            'province' => 'Alajuela',
-            'city' => 'La Fortuna',
-            'address' => 'Camino al volcán',
-            'price_per_night' => 145.00,
-            'currency' => 'USD',
-            'max_guests' => 4,
-            'bedrooms' => 2,
-            'beds' => 2,
-            'bathrooms' => 1,
-            'size_m2' => 65,
-            'check_in_time' => '15:00',
-            'check_out_time' => '11:00',
-            'rating' => 4.90,
-            'reviews_count' => 128,
-            'amenities' => [
-                'es' => ['Wifi', 'Jacuzzi', 'Desayuno', 'Parqueo', 'Aire acondicionado'],
-                'en' => ['Wifi', 'Jacuzzi', 'Breakfast', 'Parking', 'Air conditioning'],
-            ],
-            'house_rules' => [
-                'es' => ['No fumar', 'No mascotas', 'No fiestas'],
-                'en' => ['No smoking', 'No pets', 'No parties'],
-            ],
-            'includes' => [
-                'es' => ['Toallas', 'Cocina equipada', 'Café'],
-                'en' => ['Towels', 'Equipped kitchen', 'Coffee'],
-            ],
-            'is_featured' => true,
-            'is_active' => true,
-            'sort_order' => 1,
-        ]);
+        Accommodation::updateOrCreate(
+            ['slug' => 'lake-view-cabin-near-la-fortuna'],
+            [
+                'name' => [
+                    'es' => 'Cabaña con vista al lago cerca de La Fortuna',
+                    'en' => 'Lake View Cabin Near La Fortuna',
+                ],
+                'short_description' => [
+                    'es' => 'Hospedaje privado rodeado de naturaleza, ideal para descansar cerca de La Fortuna y disfrutar una experiencia tranquila con acceso cómodo a la zona.',
+                    'en' => 'A private nature-surrounded stay, perfect for relaxing near La Fortuna and enjoying a peaceful experience with easy access to the area.',
+                ],
+                'location' => [
+                    'es' => 'San Carlos, Costa Rica',
+                    'en' => 'San Carlos, Costa Rica',
+                ],
+                'host_name' => 'Jorge Mario',
+                'phone' => null,
+                'external_url' => 'https://www.airbnb.mx/rooms/1648667304664452468?unique_share_id=0f32b737-7353-4990-b6b6-b65567dd5d9c&viralityEntryPoint=1&s=76&source_impression_id=p3_1774752295_P3kBSiiRXnTCpA_k',
+
+                'main_image' => 'images/accommodations/jmario1.jpg',
+
+                'gallery_images' => [
+                    'images/accommodations/jmario2.jpg',
+                    'images/accommodations/jmario3.jpg',
+                    'images/accommodations/jmario4.jpg',
+                    'images/accommodations/jmario5.jpg',
+                ],
+
+                'guests' => 8,
+                'bedrooms' => 3,
+                'beds' => 4,
+                'bathrooms' => 1,
+                'amenities' => [
+                    'wifi',
+                    'kitchen',
+                    'free_parking',
+                    'lake_access',
+                    'workspace',
+                ],
+                'is_active' => true,
+                'sort_order' => 1,
+            ]
+        );
     }
 }

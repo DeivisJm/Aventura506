@@ -20,8 +20,9 @@
 @import './admin/users.css';
 
 /* Pages */
+@import './pages/accommodations.css';
 @import './pages/profile.css';
-@import './pages/bookings.css';
+@import './pages/profile-bookings.css';
 @import './pages/tours.css';
 @import './pages/tour-detail.css';
 

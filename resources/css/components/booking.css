@@ -1,6 +1,11 @@
-/* ===== RECTANGULAR BOOKING MODAL – FINAL DARK PRO ===== */
+/* =====================================================
+   RECTANGULAR BOOKING MODAL
+   Clean responsive version with mobile overflow fixes
+===================================================== */
 
-/* Overlay */
+/* =====================================================
+   OVERLAY
+===================================================== */
 .booking-overlay {
     position: fixed;
     inset: 0;
@@ -13,8 +18,8 @@
     padding: 12px;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.35s ease;
     overflow: hidden;
+    transition: opacity 0.35s ease;
 }
 
 .booking-overlay.active {
@@ -22,13 +27,14 @@
     pointer-events: auto;
 }
 
-/* Container */
+/* =====================================================
+   CONTAINER
+===================================================== */
 .booking-container {
     background: var(--card);
     color: var(--text);
     width: min(95%, 1400px);
     max-width: 1400px;
-    height: auto;
     max-height: calc(100dvh - 24px);
     display: flex;
     flex-direction: column;
@@ -45,13 +51,27 @@
     opacity: 1;
 }
 
-/* Desktop scroll control */
+/* =====================================================
+   CONTENT SCROLL BEHAVIOR
+===================================================== */
+.booking-container,
+.booking-content,
+.calendar-side,
+.form-side,
+#bookingForm {
+    min-width: 0;
+}
+
 .booking-content {
     flex: 1;
     min-height: 0;
     overflow-y: auto;
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
+}
+
+.form-side {
+    overflow-x: hidden;
 }
 
 @media (min-width: 1025px) {
@@ -75,33 +95,38 @@
     border-radius: 10px;
 }
 
-/* Labels */
-
+/* =====================================================
+   LABELS
+===================================================== */
 .booking-label {
-    font-weight: 600;
     display: block;
     margin-bottom: 6px;
+    font-weight: 600;
 }
 
-/* Inputs */
-
+/* =====================================================
+   INPUTS
+===================================================== */
 .booking-input {
+    width: 100%;
+    max-width: 100%;
+    padding: 12px;
     border: 1px solid #d1d5db;
     border-radius: 10px;
-    padding: 12px;
     background: var(--bg);
     color: var(--text);
     transition: all 0.25s ease;
 }
 
 .booking-input:focus {
+    outline: none;
     border-color: var(--accent);
     box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.15);
-    outline: none;
 }
 
-/* Calendar */
-
+/* =====================================================
+   CALENDAR
+===================================================== */
 #calendarGrid button {
     padding: 10px;
     border-radius: 8px;
@@ -119,13 +144,14 @@
     cursor: not-allowed;
 }
 
-/* Month navigation */
-
+/* =====================================================
+   MONTH NAVIGATION
+===================================================== */
 .month-btn {
-    font-size: 22px;
     padding: 4px 12px;
-    background: transparent;
     border: none;
+    background: transparent;
+    font-size: 22px;
     cursor: pointer;
     transition: 0.2s ease;
 }
@@ -134,12 +160,13 @@
     color: var(--accent);
 }
 
-/* Time buttons */
-
+/* =====================================================
+   TIME BUTTONS
+===================================================== */
 .booking-time {
-    border-radius: 8px;
     padding: 10px;
     border: 1px solid #d1d5db;
+    border-radius: 8px;
     background: transparent;
     transition: all 0.2s ease;
 }
@@ -151,23 +178,31 @@
     border-color: var(--accent);
 }
 
-/* Total */
+.time-disabled {
+    opacity: 0.35;
+    pointer-events: none;
+    cursor: not-allowed;
+}
 
+/* =====================================================
+   TOTAL
+===================================================== */
 .booking-total {
     display: flex;
     justify-content: space-between;
-    font-weight: 600;
     font-size: 18px;
+    font-weight: 600;
 }
 
-/* Confirm button */
-
+/* =====================================================
+   CONFIRM BUTTON
+===================================================== */
 .booking-confirm {
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
     background: var(--accent);
     color: #fff;
-    padding: 14px;
-    border-radius: 12px;
-    border: none;
     cursor: pointer;
     transition: all 0.25s ease;
 }
@@ -176,17 +211,13 @@
     transform: translateY(-2px);
 }
 
-/* Close button */
+/* =====================================================
+   CLOSE BUTTON
+===================================================== */
 .booking-close {
+    margin-top: 44px;
     cursor: pointer;
     transition: transform 0.35s cubic-bezier(.16, 1, .3, 1), color 0.25s ease;
-    margin-top: 44px;
-}
-
-@media (max-width: 767px) {
-    .booking-close {
-        margin-top: 28px;
-    }
 }
 
 .booking-close:hover {
@@ -194,8 +225,9 @@
     transform: rotate(180deg) scale(1.1);
 }
 
-/* Time section animation */
-
+/* =====================================================
+   TIME SECTION ANIMATION
+===================================================== */
 #timeSection {
     transition: all 0.4s ease;
 }
@@ -210,10 +242,12 @@
     transform: translateY(0);
 }
 
-/* Intl Tel Input */
-
+/* =====================================================
+   INTL TEL INPUT
+===================================================== */
 .iti {
     width: 100%;
+    max-width: 100%;
 }
 
 .iti__country-list {
@@ -223,10 +257,12 @@
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
-/* Country select */
-
+/* =====================================================
+   COUNTRY SELECT
+===================================================== */
 .country-select {
     width: 100%;
+    max-width: 100%;
 }
 
 .country-select .flag-dropdown {
@@ -242,7 +278,89 @@
     padding-left: 55px !important;
 }
 
-/* Responsive */
+/* =====================================================
+   PRICE ROWS
+===================================================== */
+#dynamicPriceOptions > div {
+    padding: 12px 0;
+    transition: all 0.2s ease;
+}
+
+#dynamicPriceOptions > div:hover {
+    background: rgba(34, 197, 94, 0.05);
+}
+
+/* =====================================================
+   VALIDATION
+===================================================== */
+.booking-input.error {
+    border: 1px solid #ef4444 !important;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+}
+
+.error-message {
+    margin-top: 6px;
+    font-size: 13px;
+    color: #ef4444;
+}
+
+.error-message.hidden {
+    display: none;
+}
+
+/* =====================================================
+   QUANTITY BUTTONS
+===================================================== */
+.qty-btn {
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #d1d5db;
+    border-radius: 12px;
+    background: #ffffff;
+    color: #111827;
+    font-size: 1.15rem;
+    font-weight: 700;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition:
+        background-color 0.25s ease,
+        border-color 0.25s ease,
+        color 0.25s ease,
+        transform 0.2s ease,
+        box-shadow 0.25s ease;
+}
+
+.qty-btn:hover {
+    background: #f0fdf4;
+    border-color: #22c55e;
+    color: #16a34a;
+    transform: translateY(-1px);
+}
+
+.qty-btn:active {
+    transform: scale(0.96);
+}
+
+.qty-btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.qty-value {
+    min-width: 20px;
+    text-align: center;
+    font-weight: 700;
+    color: #111827;
+}
+
+/* =====================================================
+   TABLET / SMALL DESKTOP
+===================================================== */
 @media (max-width: 1024px) {
     .booking-content {
         display: flex !important;
@@ -255,10 +373,10 @@
     }
 
     .calendar-side {
-        border-right: none !important;
-        border-bottom: 1px solid #e5e7eb;
         min-height: auto !important;
         flex: 0 0 auto;
+        border-right: none !important;
+        border-bottom: 1px solid #e5e7eb;
     }
 
     .form-side {
@@ -267,8 +385,102 @@
     }
 }
 
-/* ===== DARK MODE FIXES ===== */
+/* =====================================================
+   MOBILE LAYOUT FIXES
+===================================================== */
+@media (max-width: 767px) {
+    .booking-overlay {
+        padding: 0.5rem;
+        align-items: flex-start;
+        justify-content: center;
+        overflow: hidden;
+    }
 
+    .booking-container {
+        width: calc(100vw - 1rem);
+        max-width: calc(100vw - 1rem);
+        height: auto;
+        max-height: calc(100dvh - 1rem);
+        margin: 0 auto;
+        border-radius: 14px;
+        overflow: hidden;
+    }
+
+    .booking-header {
+        padding: 1rem 1.1rem;
+    }
+
+    .booking-header > div {
+        min-width: 0;
+    }
+
+    .booking-header h2 {
+        padding-right: 0.5rem;
+        font-size: 1.1rem;
+        line-height: 1.3;
+    }
+
+    .booking-close {
+        margin-top: 10px;
+        margin-right: 2px;
+        flex-shrink: 0;
+    }
+
+    .booking-content {
+        flex: 1;
+        min-height: 0;
+        overflow-y: auto;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .calendar-side,
+    .form-side {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+        padding: 1.1rem;
+    }
+
+    .calendar-side {
+        min-height: auto !important;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+
+    #calendarGrid {
+        gap: 0.4rem;
+    }
+
+    #calendarGrid button {
+        min-height: 34px;
+        padding: 7px;
+        font-size: 0.85rem;
+    }
+
+    #daysHeader {
+        margin-bottom: 0.6rem;
+        font-size: 0.72rem;
+    }
+
+    .month-btn {
+        padding: 2px 8px;
+        font-size: 20px;
+    }
+
+    #currentMonth {
+        font-size: 1rem;
+    }
+
+    #dynamicPriceOptions > div {
+        overflow: hidden;
+    }
+}
+
+/* =====================================================
+   DARK MODE
+===================================================== */
 .dark .booking-container {
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
 }
@@ -306,240 +518,19 @@
     background: #1f2937;
 }
 
-/* ===============================
-   PRICE ROW STYLE
-=============================== */
-
-#dynamicPriceOptions>div {
-    padding: 12px 0;
-    transition: all 0.2s ease;
-}
-
-#dynamicPriceOptions>div:hover {
-    background: rgba(34, 197, 94, 0.05);
-}
-
-.time-disabled {
-    opacity: 0.35;
-    pointer-events: none;
-    cursor: not-allowed;
-}
-
-/* ===============================
-   VALIDATION STYLES
-=============================== */
-
-.booking-input.error {
-    border: 1px solid #ef4444 !important;
-    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
-}
-
-.error-message {
-    color: #ef4444;
-    font-size: 13px;
-    margin-top: 6px;
-}
-
-.error-message.hidden {
-    display: none;
-}
-
-/* =====================================================
-   BOOKING QUANTITY BUTTONS
-   Plus / minus controls for dynamic ticket quantities
-===================================================== */
-.qty-btn{
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
-    border: 1px solid #d1d5db;
-    background: #ffffff;
-    color: #111827;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.15rem;
-    font-weight: 700;
-    line-height: 1;
-    cursor: pointer;
-    transition:
-        background-color .25s ease,
-        border-color .25s ease,
-        color .25s ease,
-        transform .2s ease,
-        box-shadow .25s ease;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
-
-.qty-btn:hover{
-    background: #f0fdf4;
-    border-color: #22c55e;
-    color: #16a34a;
-    transform: translateY(-1px);
-}
-
-.qty-btn:active{
-    transform: scale(0.96);
-}
-
-.qty-btn:disabled{
-    opacity: .55;
-    cursor: not-allowed;
-    transform: none;
-}
-
-/* =====================================================
-   DARK MODE
-   Keeps quantity buttons visible inside dark modal
-===================================================== */
-.dark .qty-btn{
+.dark .qty-btn {
     background: #1e293b;
     border-color: #334155;
     color: #f8fafc;
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.28);
 }
 
-.dark .qty-btn:hover{
+.dark .qty-btn:hover {
     background: #0f172a;
     border-color: #22c55e;
     color: #4ade80;
 }
 
-/* =====================================================
-   QUANTITY VALUE
-   Counter number between minus and plus buttons
-===================================================== */
-.qty-value{
-    min-width: 20px;
-    text-align: center;
-    font-weight: 700;
-    color: #111827;
-}
-
-.dark .qty-value{
+.dark .qty-value {
     color: #f8fafc;
-}
-
-/* =====================================================
-   MOBILE SCROLL FIX
-   Keeps the current structure and allows full vertical scroll
-===================================================== */
-@media (max-width: 767px) {
-    .booking-overlay {
-        padding: 0.5rem;
-        align-items: flex-start;
-        justify-content: center;
-        overflow: hidden;
-    }
-
-    .booking-container {
-        width: calc(100vw - 1rem);
-        max-width: calc(100vw - 1rem);
-        height: auto;
-        max-height: calc(100dvh - 1rem);
-        border-radius: 14px;
-        margin: 0 auto;
-        overflow: hidden;
-    }
-
-    .booking-header {
-        padding: 1rem 1.1rem;
-    }
-
-    .booking-content {
-        flex: 1;
-        min-height: 0;
-        overflow-y: auto;
-        overflow-x: hidden;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    .calendar-side,
-    .form-side {
-        width: 100%;
-        max-width: 100%;
-        min-width: 0;
-        padding: 1.1rem;
-        box-sizing: border-box;
-    }
-}
-/* =====================================================
-   MOBILE WIDTH FIX
-   Prevents right-side clipping inside the booking modal
-===================================================== */
-.booking-container,
-.booking-content,
-.calendar-side,
-.form-side,
-#bookingForm {
-    min-width: 0;
-}
-
-.booking-content,
-.form-side {
-    overflow-x: hidden;
-}
-
-@media (max-width: 767px) {
-    .booking-header > div {
-        min-width: 0;
-    }
-
-    .booking-header h2 {
-        font-size: 1.1rem;
-        line-height: 1.3;
-        padding-right: 0.5rem;
-    }
-
-    .booking-close {
-        margin-top: 10px;
-        margin-right: 2px;
-        flex-shrink: 0;
-    }
-
-    .booking-input,
-    .country-select,
-    .iti {
-        width: 100%;
-        max-width: 100%;
-    }
-
-    #dynamicPriceOptions > div {
-        overflow: hidden;
-    }
-}
-/* =====================================================
-   MOBILE CALENDAR FIX
-   Lets the calendar section shrink naturally on mobile
-===================================================== */
-@media (max-width: 767px) {
-    .calendar-side {
-        min-height: auto !important;
-        padding-top: 1rem;
-        padding-bottom: 1rem;
-    }
-
-    #calendarGrid {
-        gap: 0.4rem;
-    }
-
-    #calendarGrid button {
-        padding: 7px;
-        min-height: 34px;
-        font-size: 0.85rem;
-    }
-
-    #daysHeader {
-        margin-bottom: 0.6rem;
-        font-size: 0.72rem;
-    }
-
-    .month-btn {
-        font-size: 20px;
-        padding: 2px 8px;
-    }
-
-    #currentMonth {
-        font-size: 1rem;
-    }
 }

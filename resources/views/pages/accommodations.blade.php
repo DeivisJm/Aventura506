@@ -2,166 +2,336 @@
 
 @extends('layouts.app')
 
-@section('title', __('accommodations.page_title'))
+@section('title', __('accommodations.title'))
 
 @section('content')
-
 <section class="accommodations-page">
+
     <div class="max-w-7xl mx-auto px-6 py-20">
 
-        <header class="mb-20 text-center scroll-hero accommodations-hero">
+        {{-- ================= PAGE HEADER ================= --}}
+        <header class="mb-16 text-center scroll-hero accommodations-hero">
+
             <span class="inline-block text-green-600 font-semibold tracking-wide uppercase text-sm opacity-0 animate-hero hero-delay-1">
-                {{ __('accommodations.hero_badge') }}
+                {{ __('accommodations.hero_tag') }}
             </span>
 
             <h1 class="mt-4 text-4xl md:text-5xl xl:text-6xl font-extrabold text-gray-900 dark:text-white leading-tight opacity-0 animate-hero hero-delay-2">
-                {{ __('accommodations.hero_title_prefix') }}
+                {{ __('accommodations.hero_title_line_1') }}
                 <span class="text-green-600">
                     {{ __('accommodations.hero_title_highlight') }}
                 </span>
             </h1>
 
-            <p class="mt-6 text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto opacity-0 animate-hero hero-delay-3">
+            <p class="mt-6 text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed opacity-0 animate-hero hero-delay-3">
                 {{ __('accommodations.hero_description') }}
             </p>
+
         </header>
 
-        <section class="mb-16">
-            <h2 class="text-xl font-semibold mb-6 accommodations-filter-title text-gray-900 dark:text-white">
-                {{ __('accommodations.filter_title') }}
-            </h2>
+        {{-- ================= FILTER PANEL ================= --}}
+        <section class="mb-14 scroll-hero">
 
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-                <a href="{{ route('accommodations.index', ['category' => 'all']) }}"
-                   class="filter-card {{ $currentCategory === 'all' ? 'active' : '' }}">
-                    {{ __('accommodations.filters.all') }}
-                </a>
+            <form method="GET" action="{{ route('accommodations.index') }}" class="accommodation-filter-shell">
 
-                @foreach($categories as $category)
-                    @php
-                        $categoryName = $category->translated_name ?? (
-                            is_array($category->name ?? null)
-                                ? ($category->name[app()->getLocale()] ?? $category->name['es'] ?? '')
-                                : ($category->name ?? '')
-                        );
-                    @endphp
+                <div class="accommodation-filter-header">
+                    <div>
+                        <p class="accommodation-filter-kicker">
+                            {{ __('accommodations.filter_kicker') }}
+                        </p>
 
-                    <a href="{{ route('accommodations.index', ['category' => $category->slug]) }}"
-                       class="filter-card {{ $currentCategory === $category->slug ? 'active' : '' }}">
-                        {{ $categoryName }}
+                        <h2 class="accommodation-filter-title">
+                            {{ __('accommodations.filter_title') }}
+                        </h2>
+                    </div>
+
+                    <div class="accommodation-filter-actions accommodation-filter-actions-desktop">
+                        <a href="{{ route('accommodations.index') }}" class="accommodation-filter-clear">
+                            {{ __('accommodations.filter_clear') }}
+                        </a>
+
+                        <button type="submit" class="accommodation-filter-submit">
+                            {{ __('accommodations.filter_button') }}
+                        </button>
+                    </div>
+                </div>
+
+                <div class="accommodation-filter-grid">
+
+                    {{-- Search --}}
+                    <div class="accommodation-filter-field accommodation-filter-field-search">
+                        <label for="search" class="accommodation-filter-label">
+                            {{ __('accommodations.filter_search') }}
+                        </label>
+
+                        <div class="accommodation-filter-input-wrap">
+                            <svg class="accommodation-filter-input-icon" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-4.35-4.35M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" />
+                            </svg>
+
+                            <input
+                                type="text"
+                                id="search"
+                                name="search"
+                                value="{{ request('search') }}"
+                                placeholder="{{ __('accommodations.filter_search_placeholder') }}"
+                                class="accommodation-filter-input">
+                        </div>
+                    </div>
+
+                    {{-- Guests --}}
+                    <div class="accommodation-filter-field">
+                        <label for="guests" class="accommodation-filter-label">
+                            {{ __('accommodations.guests') }}
+                        </label>
+
+                        <input
+                            type="number"
+                            id="guests"
+                            name="guests"
+                            min="1"
+                            value="{{ request('guests') }}"
+                            placeholder="0"
+                            class="accommodation-filter-input">
+                    </div>
+
+                    {{-- Bedrooms --}}
+                    <div class="accommodation-filter-field">
+                        <label for="bedrooms" class="accommodation-filter-label">
+                            {{ __('accommodations.bedrooms') }}
+                        </label>
+
+                        <input
+                            type="number"
+                            id="bedrooms"
+                            name="bedrooms"
+                            min="1"
+                            value="{{ request('bedrooms') }}"
+                            placeholder="0"
+                            class="accommodation-filter-input">
+                    </div>
+
+                    {{-- Beds --}}
+                    <div class="accommodation-filter-field">
+                        <label for="beds" class="accommodation-filter-label">
+                            {{ __('accommodations.beds') }}
+                        </label>
+
+                        <input
+                            type="number"
+                            id="beds"
+                            name="beds"
+                            min="1"
+                            value="{{ request('beds') }}"
+                            placeholder="0"
+                            class="accommodation-filter-input">
+                    </div>
+
+                    {{-- Bathrooms --}}
+                    <div class="accommodation-filter-field">
+                        <label for="bathrooms" class="accommodation-filter-label">
+                            {{ __('accommodations.bathrooms') }}
+                        </label>
+
+                        <input
+                            type="number"
+                            id="bathrooms"
+                            name="bathrooms"
+                            min="1"
+                            value="{{ request('bathrooms') }}"
+                            placeholder="0"
+                            class="accommodation-filter-input">
+                    </div>
+                </div>
+
+                <div class="accommodation-filter-actions accommodation-filter-actions-mobile">
+                    <a href="{{ route('accommodations.index') }}" class="accommodation-filter-clear">
+                        {{ __('accommodations.filter_clear') }}
                     </a>
-                @endforeach
-            </div>
+
+                    <button type="submit" class="accommodation-filter-submit">
+                        {{ __('accommodations.filter_button') }}
+                    </button>
+                </div>
+
+            </form>
         </section>
 
+        {{-- ================= RESULTS GRID ================= --}}
         <section class="scroll-hero">
-            <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            @if($accommodations->isEmpty())
+                <div class="text-center py-16">
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
+                        {{ __('accommodations.empty_title') }}
+                    </h2>
 
-                @forelse ($accommodations as $accommodation)
-                    @php
-                        $name = $accommodation->getTranslated('name');
-                        $description = $accommodation->getTranslated('short_description');
-                        $location = $accommodation->getTranslated('location_text');
-                        $propertyType = $accommodation->getTranslated('property_type');
-                        $imagePath = $accommodation->image_url;
-                    @endphp
+                    <p class="mt-4 text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+                        {{ __('accommodations.empty_description') }}
+                    </p>
+                </div>
+            @else
+                <div class="accommodations-grid">
+                    @foreach($accommodations as $index => $accommodation)
+                        @php
+                            $name = $accommodation->getTranslated('name');
+                            $description = $accommodation->getTranslated('short_description');
+                            $location = $accommodation->getTranslated('location');
+                            $gallery = $accommodation->getAllImages();
 
-                    <article class="accommodation-card scroll-hero bg-white dark:bg-gray-900 rounded-3xl shadow hover:shadow-xl transition overflow-hidden border border-gray-100 dark:border-gray-800">
-                        <div class="relative">
-                            <img src="{{ $imagePath }}"
-                                 alt="{{ $name }}"
-                                 class="h-64 w-full object-cover">
+                            $amenities = $accommodation->getAmenityItems();
+                            $visibleAmenities = array_slice($amenities, 0, 5);
 
-                            @if($accommodation->is_featured)
-                                <span class="absolute top-4 left-4 bg-white/90 text-green-700 text-xs font-semibold px-3 py-1 rounded-full shadow">
-                                    {{ __('accommodations.featured') }}
-                                </span>
-                            @endif
-                        </div>
+                            $cardId = 'accommodation-slider-' . $accommodation->id . '-' . $index;
+                        @endphp
 
-                        <div class="p-6">
-                            <div class="flex items-start justify-between gap-3 mb-3">
-                                <div>
-                                    <p class="text-sm text-green-600 font-medium">
-                                        {{ $propertyType }}
-                                    </p>
-                                    <h3 class="text-xl font-bold text-gray-900 dark:text-white">
-                                        {{ $name }}
-                                    </h3>
+                        <article class="accommodation-card">
+                            {{-- ================= IMAGE / SLIDER ================= --}}
+                            <div class="accommodation-media" data-slider="{{ $cardId }}">
+                                <div class="accommodation-slider-track">
+                                    @foreach($gallery as $image)
+                                        <div class="accommodation-slide">
+                                            <img
+                                                src="{{ asset($image) }}"
+                                                alt="{{ $name }} - image {{ $loop->iteration }}"
+                                                class="accommodation-slide-image">
+                                        </div>
+                                    @endforeach
                                 </div>
 
-                                @if($accommodation->rating)
-                                    <div class="text-sm font-semibold text-gray-700 dark:text-gray-200 whitespace-nowrap">
-                                        ⭐ {{ number_format((float)$accommodation->rating, 1) }}
+                                <div class="accommodation-media-overlay"></div>
+
+                                @if(count($gallery) > 1)
+                                    <button type="button" class="accommodation-arrow accommodation-arrow-prev" data-slider-prev aria-label="Previous image">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 18l-6-6 6-6" />
+                                        </svg>
+                                    </button>
+
+                                    <button type="button" class="accommodation-arrow accommodation-arrow-next" data-slider-next aria-label="Next image">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6" />
+                                        </svg>
+                                    </button>
+                                @endif
+
+                                @if($location)
+                                    <div class="accommodation-location-badge">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 21s-6-5.686-6-11a6 6 0 1112 0c0 5.314-6 11-6 11z" />
+                                            <circle cx="12" cy="10" r="2.5" />
+                                        </svg>
+                                        <span>{{ $location }}</span>
+                                    </div>
+                                @endif
+
+                                @if(count($gallery) > 1)
+                                    <div class="accommodation-slider-indicators-wrap">
+                                        <div class="accommodation-slider-indicators">
+                                            @foreach($gallery as $image)
+                                                <button
+                                                    type="button"
+                                                    class="accommodation-indicator {{ $loop->first ? 'is-active' : '' }}"
+                                                    data-slide-to="{{ $loop->index }}"
+                                                    aria-label="Go to image {{ $loop->iteration }}">
+                                                </button>
+                                            @endforeach
+                                        </div>
                                     </div>
                                 @endif
                             </div>
 
-                            <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">
-                                {{ $location }}
-                            </p>
+                            {{-- ================= CARD CONTENT ================= --}}
+                            <div class="accommodation-card-body">
+                                <div class="accommodation-card-top">
+                                    <h3 class="accommodation-card-title">
+                                        {{ $name }}
+                                    </h3>
 
-                            <p class="text-gray-600 dark:text-gray-300 text-sm mb-4">
-                                {{ Str::limit($description, 120) }}
-                            </p>
-
-                            <div class="grid grid-cols-2 gap-3 text-sm text-gray-600 dark:text-gray-300 mb-5">
-                                <div>👥 {{ $accommodation->max_guests }} {{ __('accommodations.guests') }}</div>
-                                <div>🛏 {{ $accommodation->bedrooms }} {{ __('accommodations.bedrooms') }}</div>
-                                <div>🛌 {{ $accommodation->beds }} {{ __('accommodations.beds') }}</div>
-                                <div>🛁 {{ $accommodation->bathrooms }} {{ __('accommodations.bathrooms') }}</div>
-                            </div>
-
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <p class="text-xs text-gray-500 dark:text-gray-400">
-                                        {{ __('accommodations.from_per_night') }}
-                                    </p>
-                                    <p class="text-lg font-bold text-gray-900 dark:text-white">
-                                        {{ $accommodation->currency }} {{ number_format((float)$accommodation->price_per_night, 2) }}
+                                    <p class="accommodation-card-description">
+                                        {{ Str::limit($description, 145) }}
                                     </p>
                                 </div>
 
-                                <a href="{{ route('accommodations.show', $accommodation->slug) }}"
-                                   class="btn-primary inline-block text-sm">
-                                    {{ __('accommodations.view_more') }}
-                                </a>
+                                {{-- ================= PROPERTY META ================= --}}
+                                <div class="accommodation-meta-grid">
+                                    <div class="accommodation-meta-item">
+                                        <span class="accommodation-meta-icon">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M17 20a4 4 0 00-8 0M12 12a4 4 0 100-8 4 4 0 000 8M21 20a4 4 0 00-3-3.87M16 4.13a4 4 0 010 7.75" />
+                                            </svg>
+                                        </span>
+                                        <div class="accommodation-meta-text">
+                                            <strong>{{ $accommodation->guests ?? 0 }}</strong>
+                                            <span>{{ __('accommodations.guests') }}</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="accommodation-meta-item">
+                                        <span class="accommodation-meta-icon">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M5 10V7a2 2 0 012-2h10a2 2 0 012 2v3M4 10v7M20 10v7M4 17h16" />
+                                            </svg>
+                                        </span>
+                                        <div class="accommodation-meta-text">
+                                            <strong>{{ $accommodation->bedrooms ?? 0 }}</strong>
+                                            <span>{{ __('accommodations.bedrooms') }}</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="accommodation-meta-item">
+                                        <span class="accommodation-meta-icon">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M4 11h16M6 11V8a2 2 0 012-2h8a2 2 0 012 2v3M5 11v6M19 11v6M9 14h6" />
+                                            </svg>
+                                        </span>
+                                        <div class="accommodation-meta-text">
+                                            <strong>{{ $accommodation->beds ?? 0 }}</strong>
+                                            <span>{{ __('accommodations.beds') }}</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="accommodation-meta-item">
+                                        <span class="accommodation-meta-icon">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10M9 17V9a3 3 0 116 0v8M5 17h14" />
+                                            </svg>
+                                        </span>
+                                        <div class="accommodation-meta-text">
+                                            <strong>{{ $accommodation->bathrooms ?? 0 }}</strong>
+                                            <span>{{ __('accommodations.bathrooms') }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{-- ================= AMENITIES ================= --}}
+                                @if(!empty($visibleAmenities))
+                                    <div class="accommodation-amenities">
+                                        @foreach($visibleAmenities as $amenity)
+                                            <span class="accommodation-amenity-chip">
+                                                <span class="accommodation-amenity-icon">{!! $amenity['icon'] !!}</span>
+                                                <span>{{ $amenity['label'] }}</span>
+                                            </span>
+                                        @endforeach
+                                    </div>
+                                @endif
+
+                                {{-- ================= CALL TO ACTION ================= --}}
+                                <div class="accommodation-card-footer">
+                                    <a
+                                        href="{{ $accommodation->external_url }}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="accommodation-cta">
+                                        {{ __('accommodations.book_now') }}
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                    </article>
-
-                @empty
-                    <p class="col-span-3 text-center text-gray-500 dark:text-gray-400">
-                        {{ __('accommodations.no_results') }}
-                    </p>
-                @endforelse
-
-            </div>
-        </section>
-
-        @if ($accommodations->hasPages())
-            <div class="mt-16 border-t border-gray-200 dark:border-gray-800 pt-8">
-                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-                    <p class="text-sm text-gray-600 dark:text-gray-400">
-                        {{ __('accommodations.showing') }}
-                        <span class="font-semibold text-green-600">
-                            {{ $accommodations->firstItem() }} - {{ $accommodations->lastItem() }}
-                        </span>
-                        {{ __('accommodations.of') }}
-                        <span class="font-semibold">
-                            {{ $accommodations->total() }}
-                        </span>
-                        {{ __('accommodations.results') }}
-                    </p>
-
-                    <div class="custom-pagination">
-                        {{ $accommodations->onEachSide(1)->links('vendor.pagination.custom-green') }}
-                    </div>
+                        </article>
+                    @endforeach
                 </div>
-            </div>
-        @endif
+            @endif
+        </section>
 
     </div>
 </section>
-
 @endsection

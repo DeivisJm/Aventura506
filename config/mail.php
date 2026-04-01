@@ -6,12 +6,7 @@ return [
     |--------------------------------------------------------------------------
     | Default Mailer
     |--------------------------------------------------------------------------
-    |
-    | This defines which mailer transport Laravel will use.
-    | We are using SMTP (Gmail) powered by Symfony Mailer.
-    |
     */
-
     'default' => env('MAIL_MAILER', 'smtp'),
 
     /*
@@ -19,7 +14,6 @@ return [
     | Mailer Configurations
     |--------------------------------------------------------------------------
     */
-
     'mailers' => [
 
         'smtp' => [
@@ -45,12 +39,6 @@ return [
             'transport' => 'array',
         ],
 
-        /*
-        |--------------------------------------------------------------------------
-        | Failover configuration
-        | If SMTP fails, fallback to log
-        |--------------------------------------------------------------------------
-        */
         'failover' => [
             'transport' => 'failover',
             'mailers' => ['smtp', 'log'],
@@ -59,10 +47,9 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Global "From" Address
+    | Global From Address
     |--------------------------------------------------------------------------
     */
-
     'from' => [
         'address' => env('MAIL_FROM_ADDRESS', 'no-reply@aventura506.com'),
         'name' => env('MAIL_FROM_NAME', 'Aventura506'),
@@ -72,9 +59,7 @@ return [
     |--------------------------------------------------------------------------
     | Booking Receiver Email
     |--------------------------------------------------------------------------
-    | Used to receive booking notifications.
     */
-
     'booking_receiver' => env('BOOKING_RECEIVER_EMAIL', null),
 
 ];
