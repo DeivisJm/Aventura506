@@ -373,30 +373,54 @@
                         </div>
 
 
-                        {{--IMAGE--}}
-                        <div class="form-card">
+                        {{-- IMAGE --}}
+                        <div class="form-card accommodation-gallery-card">
 
-                            <div class="form-card-header">
-                                <h3 class="form-card-title">Imagen del Tour</h3>
+                            <div class="form-card-header accommodation-gallery-header">
+                                <div>
+                                    <h3 class="form-card-title">Imagen del Tour</h3>
+                                    <p class="form-help mt-1">
+                                        Selecciona la imagen principal que representará este tour en el sitio web.
+                                    </p>
+                                </div>
                             </div>
 
-                            <div class="form-field">
-
+                            <label class="accommodation-main-dropzone" for="tour-image-input">
                                 <input
                                     type="file"
                                     name="image"
                                     id="tour-image-input"
                                     class="form-input-file"
                                     accept="image/*">
-                            </div>
 
-                            <div class="admin-image-preview">
+                                <span class="accommodation-dropzone-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="w-10 h-10">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2 1.586-1.586a2 2 0 012.828 0L20 14m-10-4h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                </span>
 
-                                <img
-                                    id="tour-image-preview"
-                                    src="{{ isset($tour) && $tour->image ? asset($tour->image) : '' }}"
-                                    alt="Tour Preview">
+                                <span class="accommodation-dropzone-title">Seleccionar imagen del tour</span>
+                                <span class="accommodation-dropzone-text">JPG, PNG o WEBP</span>
+                            </label>
 
+                            <div class="accommodation-main-preview-list" id="tour-image-preview-wrapper">
+                                @if(isset($tour) && !empty($tour->image))
+                                <div class="accommodation-main-preview-card">
+                                    <img
+                                        id="tour-image-preview"
+                                        src="{{ asset($tour->image) }}"
+                                        alt="Tour preview"
+                                        class="accommodation-main-preview-image">
+                                </div>
+                                @else
+                                <div class="accommodation-main-preview-card hidden" id="tour-image-preview-card">
+                                    <img
+                                        id="tour-image-preview"
+                                        src=""
+                                        alt="Tour preview"
+                                        class="accommodation-main-preview-image">
+                                </div>
+                                @endif
                             </div>
 
                         </div>

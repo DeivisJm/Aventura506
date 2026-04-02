@@ -276,10 +276,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* =====================================================
     IMAGE PREVIEW
-    Show selected image before submitting the form
+    Show selected tour image before submitting the form
     ===================================================== */
     const imageInput = document.getElementById("tour-image-input");
     const imagePreview = document.getElementById("tour-image-preview");
+    const imagePreviewCard = document.getElementById("tour-image-preview-card");
 
     if (imageInput && imagePreview) {
         imageInput.addEventListener("change", function () {
@@ -290,6 +291,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
             reader.onload = function (e) {
                 imagePreview.src = e.target.result;
+
+                if (imagePreviewCard) {
+                    imagePreviewCard.classList.remove("hidden");
+                }
             };
 
             reader.readAsDataURL(file);

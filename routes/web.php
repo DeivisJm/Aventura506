@@ -23,6 +23,7 @@ use App\Http\Controllers\TourController;
 | Admin Controllers
 |--------------------------------------------------------------------------
 */
+use App\Http\Controllers\Admin\AdminAccommodationController;
 use App\Http\Controllers\Admin\AdminCategoryController;
 use App\Http\Controllers\Admin\AdminCompanyController;
 use App\Http\Controllers\Admin\AdminDashboardController;
@@ -175,6 +176,32 @@ Route::prefix('admin')
         */
         Route::resource('exchange-rates', AdminExchangeRateController::class)
             ->names('admin.exchange_rates');
+
+        /*
+        |--------------------------------------------------------------------------
+        | Accommodations
+        |--------------------------------------------------------------------------
+        */
+        Route::get('/accommodations', [AdminAccommodationController::class, 'index'])
+            ->name('admin.accommodations.index');
+
+        Route::get('/accommodations/create', [AdminAccommodationController::class, 'create'])
+            ->name('admin.accommodations.create');
+
+        Route::post('/accommodations', [AdminAccommodationController::class, 'store'])
+            ->name('admin.accommodations.store');
+
+        Route::get('/accommodations/{accommodation}/edit', [AdminAccommodationController::class, 'edit'])
+            ->name('admin.accommodations.edit');
+
+        Route::put('/accommodations/{accommodation}', [AdminAccommodationController::class, 'update'])
+            ->name('admin.accommodations.update');
+
+        Route::patch('/accommodations/{accommodation}/toggle', [AdminAccommodationController::class, 'toggle'])
+            ->name('admin.accommodations.toggle');
+
+        Route::patch('/accommodations/{accommodation}/position', [AdminAccommodationController::class, 'updatePosition'])
+            ->name('admin.accommodations.update-position');
 
         /*
         |--------------------------------------------------------------------------

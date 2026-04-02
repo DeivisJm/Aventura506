@@ -96,11 +96,9 @@
 
             </form>
 
-
         </div>
 
     </div>
-
 
     <!-- NAVIGATION -->
     <nav class="admin-nav">
@@ -132,6 +130,11 @@
             </a>
 
         </div>
+
+        <a href="{{ route('admin.accommodations.index') }}"
+            class="admin-sidebar-link {{ request()->routeIs('admin.accommodations.*') ? 'active' : '' }}">
+            Hospedajes
+        </a>
 
         <a href="{{ route('admin.users.index') }}"
             class="admin-sidebar-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">

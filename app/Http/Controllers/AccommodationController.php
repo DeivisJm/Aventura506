@@ -15,9 +15,6 @@ class AccommodationController extends Controller
         $query = Accommodation::query()
             ->where('is_active', true);
 
-        /**
-         * Apply text search across translated JSON fields.
-         */
         if ($request->filled('search')) {
             $search = trim((string) $request->search);
 
@@ -26,14 +23,10 @@ class AccommodationController extends Controller
                     ->orWhere('name->en', 'like', "%{$search}%")
                     ->orWhere('short_description->es', 'like', "%{$search}%")
                     ->orWhere('short_description->en', 'like', "%{$search}%")
-                    ->orWhere('location->es', 'like', "%{$search}%")
-                    ->orWhere('location->en', 'like', "%{$search}%");
+                    ->orWhere('location', 'like', "%{$search}%");
             });
         }
 
-        /**
-         * Apply minimum numeric filters.
-         */
         if ($request->filled('guests')) {
             $query->where('guests', '>=', (int) $request->guests);
         }
@@ -50,9 +43,6 @@ class AccommodationController extends Controller
             $query->where('bathrooms', '>=', (int) $request->bathrooms);
         }
 
-        /**
-         * Keep a consistent ordering across the page.
-         */
         $accommodations = $query
             ->orderBy('sort_order')
             ->orderBy('id')

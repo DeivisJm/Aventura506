@@ -19,6 +19,8 @@ import './pages/booking';
 import './pages/booking-dynamic';
 
 /* ================= ADMIN ================= */
+import "./admin/accommodations";
+import "./admin/accommodations-form";
 import './admin/admin-dashboard';
 import './admin/admin-live-search';
 import './admin/admin-tabs.js';

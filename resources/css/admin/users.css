@@ -255,9 +255,9 @@
     align-items:center;
 }
 
-/* Add right padding to avoid icon overlap */
+/* Add enough right padding to prevent text overlap with the toggle */
 .password-input{
-    padding-right:50px;
+    padding-right:60px !important;
 }
 
 /* Hide native browser password reveal controls */
@@ -275,12 +275,14 @@
 /* Toggle button for show/hide password */
 .password-toggle{
     position:absolute;
+    top:50%;
     right:12px;
+    transform:translateY(-50%);
     display:inline-flex;
     align-items:center;
     justify-content:center;
-    width:22px;
-    height:22px;
+    width:32px;
+    height:32px;
     padding:0;
     background:transparent;
     border:none;
@@ -293,7 +295,6 @@
 /* Toggle button hover state in light mode */
 .password-toggle:hover{
     color:#16a34a;
-    transform:scale(1.05);
 }
 
 /* Toggle button color in dark mode */
@@ -308,21 +309,25 @@
 
 /* Size for password visibility SVG icons */
 .password-icon{
-    width:20px;
-    height:20px;
+    width:22px;
+    height:22px;
     pointer-events:none;
 }
 
-/* Responsive adjustment for tighter layouts */
-@media (max-width:1024px){
-
-    /* Preserve usable button padding on smaller screens */
-    .users-btn{
-        padding:6px 14px;
+/* Responsive adjustment for password fields on small screens */
+@media (max-width:767px){
+    .password-input{
+        padding-right:58px !important;
     }
 
-    /* Remove forced minimum width in narrow layouts */
-    .users-person-cell{
-        min-width:unset;
+    .password-toggle{
+        right:10px;
+        width:30px;
+        height:30px;
+    }
+
+    .password-icon{
+        width:21px;
+        height:21px;
     }
 }

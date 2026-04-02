@@ -39,7 +39,6 @@ class Accommodation extends Model
     protected $casts = [
         'name' => 'array',
         'short_description' => 'array',
-        'location' => 'array',
         'gallery_images' => 'array',
         'amenities' => 'array',
         'is_active' => 'boolean',
@@ -82,7 +81,6 @@ class Accommodation extends Model
 
     /**
      * Return all images for the card slider.
-     * main_image goes first, then gallery_images.
      */
     public function getAllImages(): array
     {
