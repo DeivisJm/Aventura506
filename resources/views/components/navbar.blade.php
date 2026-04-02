@@ -256,7 +256,7 @@
             {{-- Main navigation --}}
             <li>
                 <a href="{{ route('home') }}"
-                    class="mobile-nav-link flex items-center gap-3 transition {{ request()->routeIs('home.*') ? 'text-green-600 font-semibold' : '' }}">
+                    class="mobile-nav-link flex items-center gap-3 transition {{ request()->routeIs('home') ? 'text-green-600 font-semibold' : '' }}">
                     {{ __('navigation.home') }}
                 </a>
             </li>
@@ -277,14 +277,14 @@
 
             <li>
                 <a href="{{ route('about') }}"
-                    class="mobile-nav-link flex items-center gap-3 transition {{ request()->routeIs('about.*') ? 'text-green-600 font-semibold' : '' }}">
+                    class="mobile-nav-link flex items-center gap-3 transition {{ request()->routeIs('about') ? 'text-green-600 font-semibold' : '' }}">
                     {{ __('navigation.about') }}
                 </a>
             </li>
 
             <li>
                 <a href="{{ route('contact') }}"
-                    class="mobile-nav-link flex items-center gap-3 transition {{ request()->routeIs('contact.*') ? 'text-green-600 font-semibold' : '' }}">
+                    class="mobile-nav-link flex items-center gap-3 transition {{ request()->routeIs('contact') ? 'text-green-600 font-semibold' : '' }}">
                     {{ __('navigation.contact') }}
                 </a>
             </li>
