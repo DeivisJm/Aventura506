@@ -1,6 +1,6 @@
 /* =====================================================
    TOUR DETAIL PAGE
-   Exclusive styles for tour detail hero and detail layout
+   Premium, structured, and refined version
 ===================================================== */
 
 /* =====================================================
@@ -130,8 +130,38 @@
 }
 
 /* =====================================================
+   SECTION TITLE ACCENT
+===================================================== */
+
+.tour-detail-section-heading {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.95rem;
+}
+
+.tour-detail-section-heading::after {
+    content: "";
+    width: 100%;
+    height: 3px;
+    border-radius: 9999px;
+    background: linear-gradient(
+        90deg,
+        rgba(22, 163, 74, 0.96) 0%,
+        rgba(74, 222, 128, 0.52) 100%
+    );
+}
+
+.dark .tour-detail-section-heading::after {
+    background: linear-gradient(
+        90deg,
+        rgba(74, 222, 128, 0.88) 0%,
+        rgba(74, 222, 128, 0.28) 100%
+    );
+}
+
+/* =====================================================
    FEATURED TOUR BANNER ON HOME
-   Uses the same visual image treatment as detail hero
 ===================================================== */
 
 .home-featured-tour-banner {
@@ -167,6 +197,139 @@
 }
 
 /* =====================================================
+   SHARED CONTENT SECTIONS
+===================================================== */
+
+.tour-detail-section-block {
+    position: relative;
+}
+
+/* =====================================================
+   SHARED FEATURE LISTS
+   Includes and Recommendations
+===================================================== */
+
+.tour-detail-feature-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.35rem 2.4rem;
+}
+
+.tour-detail-feature-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 0.15rem 0;
+}
+
+.tour-detail-feature-icon {
+    width: 2.2rem;
+    height: 2.2rem;
+    min-width: 2.2rem;
+    border-radius: 9999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0.08rem;
+    flex-shrink: 0;
+    color: #2a614a;
+    border: 1px solid #d7e5dc;
+    background: linear-gradient(180deg, #f3f8f5 0%, #eaf2ed 100%);
+    box-shadow:
+        0 8px 16px rgba(28, 60, 47, 0.05),
+        inset 0 1px 0 rgba(255, 255, 255, 0.82);
+}
+
+.tour-detail-feature-text {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.9;
+    color: var(--muted);
+    transition: color 0.25s ease;
+}
+
+.tour-detail-feature-row:hover .tour-detail-feature-text {
+    color: var(--text);
+}
+
+/* =====================================================
+   RECOMMENDATIONS VARIANT
+===================================================== */
+
+.tour-detail-feature-row.is-recommendation .tour-detail-feature-icon {
+    color: #53687a;
+    border-color: #dce3ea;
+    background: linear-gradient(180deg, #f8fafb 0%, #eef2f5 100%);
+    box-shadow:
+        0 8px 16px rgba(15, 23, 42, 0.04),
+        inset 0 1px 0 rgba(255, 255, 255, 0.86);
+}
+
+/* =====================================================
+   IDEAL FOR
+   Premium editorial variant without heavy chip background
+===================================================== */
+
+.tour-detail-ideal-list-premium {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.15rem 2rem;
+}
+
+.tour-detail-ideal-row {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.95rem;
+    padding: 1rem 1.15rem 1rem 0;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+    transition:
+        border-color 0.25s ease,
+        transform 0.25s ease;
+}
+
+.tour-detail-ideal-row:hover {
+    transform: translateX(2px);
+    border-bottom-color: rgba(22, 163, 74, 0.18);
+}
+
+.tour-detail-ideal-row-icon {
+    width: 2.2rem;
+    height: 2.2rem;
+    min-width: 2.2rem;
+    border-radius: 9999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #2f664e;
+    border: 1px solid #d9e6dd;
+    background: linear-gradient(180deg, #f4f8f5 0%, #eaf2ed 100%);
+    box-shadow:
+        0 8px 16px rgba(28, 60, 47, 0.04),
+        inset 0 1px 0 rgba(255, 255, 255, 0.84);
+    flex-shrink: 0;
+}
+
+.tour-detail-ideal-row-text {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.7;
+    color: var(--text);
+}
+
+/* =====================================================
+   SHARED SVG SIZING
+===================================================== */
+
+.tour-detail-feature-icon svg,
+.tour-detail-ideal-row-icon svg {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+}
+
+/* =====================================================
    DETAIL CONTENT HELPERS
 ===================================================== */
 
@@ -189,7 +352,55 @@ h3 {
 }
 
 /* =====================================================
-   RESPONSIVE
+   DARK MODE
+===================================================== */
+
+.dark .tour-detail-feature-icon {
+    color: #a7c8b4;
+    border-color: rgba(139, 170, 153, 0.12);
+    background: linear-gradient(180deg, rgba(28, 48, 39, 0.88) 0%, rgba(20, 34, 28, 0.96) 100%);
+    box-shadow:
+        0 10px 18px rgba(0, 0, 0, 0.16),
+        inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.dark .tour-detail-feature-row.is-recommendation .tour-detail-feature-icon {
+    color: #b3c0cb;
+    border-color: rgba(165, 176, 186, 0.10);
+    background: linear-gradient(180deg, rgba(40, 46, 53, 0.92) 0%, rgba(27, 32, 38, 0.98) 100%);
+}
+
+.dark .tour-detail-feature-text {
+    color: #aab4be;
+}
+
+.dark .tour-detail-feature-row:hover .tour-detail-feature-text {
+    color: #eef2f7;
+}
+
+.dark .tour-detail-ideal-row {
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+.dark .tour-detail-ideal-row:hover {
+    border-bottom-color: rgba(74, 222, 128, 0.18);
+}
+
+.dark .tour-detail-ideal-row-icon {
+    color: #9fc4af;
+    border-color: rgba(140, 170, 154, 0.14);
+    background: linear-gradient(180deg, rgba(29, 49, 40, 0.90) 0%, rgba(21, 36, 30, 0.98) 100%);
+    box-shadow:
+        0 10px 18px rgba(0, 0, 0, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.dark .tour-detail-ideal-row-text {
+    color: #d8e5dc;
+}
+
+/* =====================================================
+   RESPONSIVE LAYOUT
 ===================================================== */
 
 @media (max-width: 1024px) {
@@ -209,14 +420,17 @@ h3 {
 }
 
 @media (max-width: 768px) {
+    .tour-detail-feature-list,
+    .tour-detail-ideal-list-premium {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
     .tour-detail-hero {
         min-height: auto;
     }
 
-    .tour-detail-hero-image {
-        object-position: center 24%;
-    }
-
+    .tour-detail-hero-image,
     .home-featured-tour-banner-image {
         object-position: center 24%;
     }
@@ -265,5 +479,17 @@ h3 {
     .tour-detail-hero-pill-text {
         white-space: normal;
         text-align: left;
+    }
+
+    .tour-detail-feature-icon,
+    .tour-detail-ideal-row-icon {
+        width: 2rem;
+        height: 2rem;
+        min-width: 2rem;
+    }
+
+    .tour-detail-feature-text,
+    .tour-detail-ideal-row-text {
+        font-size: 0.95rem;
     }
 }

@@ -10,7 +10,7 @@ return [
     'hero_title_line_2' => 'en un solo lugar',
 
     'hero_description' =>
-    'Descubrí tours, experiencias naturales y hospedaje cuidadosamente
+    'Descubrí tours, experiencias naturales y hospedajes cuidadosamente
         seleccionados para que aproveches La Fortuna al máximo,
         sin perder tiempo ni dinero.',
 

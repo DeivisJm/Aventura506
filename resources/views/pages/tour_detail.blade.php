@@ -118,11 +118,11 @@
             <section>
 
                 <div class="mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-main">
-                        {{ __('tour_detail.about_title') }}
-                    </h2>
-
-                    <div class="mt-4 w-20 h-[3px] bg-gradient-to-r from-green-600 to-green-400 rounded-full"></div>
+                    <div class="tour-detail-section-heading">
+                        <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-main">
+                            {{ __('tour_detail.about_title') }}
+                        </h2>
+                    </div>
                 </div>
 
                 <div class="max-w-3xl text-lg text-muted leading-relaxed space-y-6">
@@ -132,36 +132,34 @@
 
             </section>
 
-
             {{-- ================= INCLUDES ================= --}}
             @if($tour->detail?->includes)
-            <section>
+            <section class="tour-detail-section-block">
 
                 <div class="mb-12">
-                    <h3 class="text-2xl font-semibold tracking-tight text-main">
-                        {{ __('tour_detail.includes_title') }}
-                    </h3>
-                    <div class="mt-4 w-16 h-[2px] bg-green-600/60 rounded-full"></div>
+                    <div class="tour-detail-section-heading">
+                        <h3 class="text-2xl font-semibold tracking-tight text-main">
+                            {{ __('tour_detail.includes_title') }}
+                        </h3>
+                    </div>
                 </div>
 
-                <div class="grid md:grid-cols-2 gap-x-16 gap-y-8">
+                @php
+                $includeItems = $tour->detail?->getIncludeItems() ?? [];
+                @endphp
 
-                    @foreach($tour->detail->includes[app()->getLocale()]
-                    ?? $tour->detail->includes['es']
-                    ?? [] as $item)
+                <div class="tour-detail-feature-list">
+                    @foreach($includeItems as $item)
+                    <div class="tour-detail-feature-row">
+                        <span class="tour-detail-feature-icon">
+                            {!! $item['icon'] !!}
+                        </span>
 
-                    <div class="flex items-start gap-4 group">
-
-                        <div class="mt-1 w-2 h-2 rounded-full bg-green-600 group-hover:scale-125 transition-transform duration-300"></div>
-
-                        <p class="text-muted leading-relaxed group-hover:text-main transition-colors duration-300">
-                            {{ $item }}
+                        <p class="tour-detail-feature-text">
+                            {{ $item['label'] }}
                         </p>
-
                     </div>
-
                     @endforeach
-
                 </div>
 
             </section>
@@ -170,39 +168,32 @@
 
             {{-- ================= IDEAL FOR ================= --}}
             @if($tour->detail?->ideal_for)
-            <section>
+            <section class="tour-detail-section-block">
 
                 <div class="mb-12">
-                    <h3 class="text-2xl font-semibold tracking-tight text-main">
-                        {{ __('tour_detail.ideal_for_title') }}
-                    </h3>
-
-                    <div class="mt-4 w-16 h-[2px] bg-green-600/60 rounded-full"></div>
+                    <div class="tour-detail-section-heading">
+                        <h3 class="text-2xl font-semibold tracking-tight text-main">
+                            {{ __('tour_detail.ideal_for_title') }}
+                        </h3>
+                    </div>
                 </div>
 
-                <div class="flex flex-wrap gap-5">
+                @php
+                $idealForItems = $tour->detail?->getIdealForItems() ?? [];
+                @endphp
 
-                    @foreach($tour->detail->ideal_for[app()->getLocale()]
-                    ?? $tour->detail->ideal_for['es']
-                    ?? [] as $item)
+                <div class="tour-detail-ideal-list-premium">
+                    @foreach($idealForItems as $item)
+                    <div class="tour-detail-ideal-row">
+                        <span class="tour-detail-ideal-row-icon">
+                            {!! $item['icon'] !!}
+                        </span>
 
-                    <span class="px-6 py-3
-                bg-green-50
-                text-green-700
-                rounded-full
-                text-sm
-                font-medium
-                border border-green-200
-                hover:bg-green-100
-                transition-all duration-300
-                whitespace-nowrap">
-
-                        {{ $item }}
-
-                    </span>
-
+                        <p class="tour-detail-ideal-row-text">
+                            {{ $item['label'] }}
+                        </p>
+                    </div>
                     @endforeach
-
                 </div>
 
             </section>
@@ -211,33 +202,32 @@
 
             {{-- ================= RECOMMENDATIONS ================= --}}
             @if($tour->detail?->recommendations)
-            <section>
+            <section class="tour-detail-section-block">
 
                 <div class="mb-12">
-                    <h3 class="text-2xl font-semibold tracking-tight text-main">
-                        {{ __('tour_detail.recommendations_title') ?? 'Recomendaciones para su visita' }}
-                    </h3>
-                    <div class="mt-4 w-16 h-[2px] bg-green-600/60 rounded-full"></div>
+                    <div class="tour-detail-section-heading">
+                        <h3 class="text-2xl font-semibold tracking-tight text-main">
+                            {{ __('tour_detail.recommendations_title') ?? 'Recomendaciones para su visita' }}
+                        </h3>
+                    </div>
                 </div>
 
-                <div class="grid md:grid-cols-2 gap-x-16 gap-y-8">
+                @php
+                $recommendationItems = $tour->detail?->getRecommendationItems() ?? [];
+                @endphp
 
-                    @foreach($tour->detail->recommendations[app()->getLocale()]
-                    ?? $tour->detail->recommendations['es']
-                    ?? [] as $item)
+                <div class="tour-detail-feature-list">
+                    @foreach($recommendationItems as $item)
+                    <div class="tour-detail-feature-row is-recommendation">
+                        <span class="tour-detail-feature-icon is-recommendation">
+                            {!! $item['icon'] !!}
+                        </span>
 
-                    <div class="flex items-start gap-4 group">
-
-                        <div class="mt-1 w-2 h-2 rounded-full bg-green-600 group-hover:scale-125 transition-transform duration-300"></div>
-
-                        <p class="text-muted leading-relaxed group-hover:text-main transition-colors duration-300">
-                            {{ $item }}
+                        <p class="tour-detail-feature-text">
+                            {{ $item['label'] }}
                         </p>
-
                     </div>
-
                     @endforeach
-
                 </div>
 
             </section>
