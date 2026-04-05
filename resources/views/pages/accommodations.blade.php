@@ -30,9 +30,9 @@
         </header>
 
         {{-- ================= FILTER PANEL ================= --}}
-        <section class="mb-14 scroll-hero">
+        <section class="mb-14 scroll-hero accommodations-filter-section">
 
-            <form method="GET" action="{{ route('accommodations.index') }}" class="accommodation-filter-shell">
+            <form method="GET" action="{{ route('accommodations.index') }}" class="accommodation-filter-shell accommodation-filter-shell-airbnb">
 
                 <div class="accommodation-filter-header">
                     <div>
@@ -44,121 +44,129 @@
                             {{ __('accommodations.filter_title') }}
                         </h2>
                     </div>
-
-                    <div class="accommodation-filter-actions accommodation-filter-actions-desktop">
-                        <a href="{{ route('accommodations.index') }}" class="accommodation-filter-clear">
-                            {{ __('accommodations.filter_clear') }}
-                        </a>
-
-                        <button type="submit" class="accommodation-filter-submit">
-                            {{ __('accommodations.filter_button') }}
-                        </button>
-                    </div>
                 </div>
+                <div class="accommodation-airbnb-bar">
 
-                <div class="accommodation-filter-grid">
-
-                    {{-- Search --}}
-                    <div class="accommodation-filter-field accommodation-filter-field-search">
-                        <label for="search" class="accommodation-filter-label">
+                    {{-- Buscar --}}
+                    <div class="accommodation-airbnb-col accommodation-airbnb-col-search">
+                        <label for="search" class="accommodation-airbnb-label">
                             {{ __('accommodations.filter_search') }}
                         </label>
 
-                        <div class="accommodation-filter-input-wrap">
-                            <svg class="accommodation-filter-input-icon" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-4.35-4.35M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" />
-                            </svg>
-
-                            <input
-                                type="text"
-                                id="search"
-                                name="search"
-                                value="{{ request('search') }}"
-                                placeholder="{{ __('accommodations.filter_search_placeholder') }}"
-                                class="accommodation-filter-input">
-                        </div>
+                        <input
+                            type="text"
+                            id="search"
+                            name="search"
+                            value="{{ request('search') }}"
+                            placeholder="{{ __('accommodations.filter_search_placeholder') }}"
+                            class="accommodation-airbnb-input">
                     </div>
 
-                    {{-- Guests --}}
-                    <div class="accommodation-filter-field">
-                        <label for="guests" class="accommodation-filter-label">
-                            {{ __('accommodations.guests') }}
+                    {{-- Huéspedes y más --}}
+                    <div class="accommodation-airbnb-col accommodation-airbnb-col-more">
+                        <label class="accommodation-airbnb-label">
+                            {{ __('accommodations.filter_more') }}
                         </label>
 
-                        <input
-                            type="number"
-                            id="guests"
-                            name="guests"
-                            min="1"
-                            value="{{ request('guests') }}"
-                            placeholder="0"
-                            class="accommodation-filter-input">
+                        <button
+                            type="button"
+                            class="accommodation-airbnb-trigger"
+                            data-filter-toggle
+                            aria-expanded="false">
+                            <span
+                                data-filter-summary
+                                data-placeholder="{{ __('accommodations.filter_more_placeholder') }}"
+                                data-label-guests="{{ __('accommodations.filter_summary_guests') }}"
+                                data-label-bedrooms="{{ __('accommodations.filter_summary_bedrooms') }}"
+                                data-label-beds="{{ __('accommodations.filter_summary_beds') }}"
+                                data-label-bathrooms="{{ __('accommodations.filter_summary_bathrooms') }}">
+                                {{ __('accommodations.filter_more_placeholder') }}
+                            </span>
+                        </button>
                     </div>
 
-                    {{-- Bedrooms --}}
-                    <div class="accommodation-filter-field">
-                        <label for="bedrooms" class="accommodation-filter-label">
-                            {{ __('accommodations.bedrooms') }}
-                        </label>
-
-                        <input
-                            type="number"
-                            id="bedrooms"
-                            name="bedrooms"
-                            min="1"
-                            value="{{ request('bedrooms') }}"
-                            placeholder="0"
-                            class="accommodation-filter-input">
-                    </div>
-
-                    {{-- Beds --}}
-                    <div class="accommodation-filter-field">
-                        <label for="beds" class="accommodation-filter-label">
-                            {{ __('accommodations.beds') }}
-                        </label>
-
-                        <input
-                            type="number"
-                            id="beds"
-                            name="beds"
-                            min="1"
-                            value="{{ request('beds') }}"
-                            placeholder="0"
-                            class="accommodation-filter-input">
-                    </div>
-
-                    {{-- Bathrooms --}}
-                    <div class="accommodation-filter-field">
-                        <label for="bathrooms" class="accommodation-filter-label">
-                            {{ __('accommodations.bathrooms') }}
-                        </label>
-
-                        <input
-                            type="number"
-                            id="bathrooms"
-                            name="bathrooms"
-                            min="1"
-                            value="{{ request('bathrooms') }}"
-                            placeholder="0"
-                            class="accommodation-filter-input">
-                    </div>
-                </div>
-
-                <div class="accommodation-filter-actions accommodation-filter-actions-mobile">
-                    <a href="{{ route('accommodations.index') }}" class="accommodation-filter-clear">
-                        {{ __('accommodations.filter_clear') }}
-                    </a>
-
-                    <button type="submit" class="accommodation-filter-submit">
+                    {{-- Botón buscar --}}
+                    <button type="submit" class="accommodation-airbnb-submit">
                         {{ __('accommodations.filter_button') }}
                     </button>
-                </div>
 
+                    {{-- Panel --}}
+                    <div class="accommodation-airbnb-panel" data-filter-panel hidden>
+                        <div class="accommodation-airbnb-panel-inner">
+
+                            <div class="accommodation-airbnb-row">
+                                <div>
+                                    <strong>{{ __('accommodations.filter_guests_title') }}</strong>
+                                    <p>{{ __('accommodations.filter_guests_description') }}</p>
+                                </div>
+
+                                <div class="accommodation-airbnb-stepper">
+                                    <button type="button" data-action="minus" data-target="guests">−</button>
+                                    <input type="hidden" name="guests" value="{{ request('guests', 0) }}" data-input="guests">
+                                    <span data-value="guests">{{ request('guests', 0) }}</span>
+                                    <button type="button" data-action="plus" data-target="guests">+</button>
+                                </div>
+                            </div>
+
+                            <div class="accommodation-airbnb-row">
+                                <div>
+                                    <strong>{{ __('accommodations.filter_bedrooms_title') }}</strong>
+                                    <p>{{ __('accommodations.filter_bedrooms_description') }}</p>
+                                </div>
+
+                                <div class="accommodation-airbnb-stepper">
+                                    <button type="button" data-action="minus" data-target="bedrooms">−</button>
+                                    <input type="hidden" name="bedrooms" value="{{ request('bedrooms', 0) }}" data-input="bedrooms">
+                                    <span data-value="bedrooms">{{ request('bedrooms', 0) }}</span>
+                                    <button type="button" data-action="plus" data-target="bedrooms">+</button>
+                                </div>
+                            </div>
+
+                            <div class="accommodation-airbnb-row">
+                                <div>
+                                    <strong>{{ __('accommodations.filter_beds_title') }}</strong>
+                                    <p>{{ __('accommodations.filter_beds_description') }}</p>
+                                </div>
+
+                                <div class="accommodation-airbnb-stepper">
+                                    <button type="button" data-action="minus" data-target="beds">−</button>
+                                    <input type="hidden" name="beds" value="{{ request('beds', 0) }}" data-input="beds">
+                                    <span data-value="beds">{{ request('beds', 0) }}</span>
+                                    <button type="button" data-action="plus" data-target="beds">+</button>
+                                </div>
+                            </div>
+
+                            <div class="accommodation-airbnb-row accommodation-airbnb-row-last">
+                                <div>
+                                    <strong>{{ __('accommodations.filter_bathrooms_title') }}</strong>
+                                    <p>{{ __('accommodations.filter_bathrooms_description') }}</p>
+                                </div>
+
+                                <div class="accommodation-airbnb-stepper">
+                                    <button type="button" data-action="minus" data-target="bathrooms">−</button>
+                                    <input type="hidden" name="bathrooms" value="{{ request('bathrooms', 0) }}" data-input="bathrooms">
+                                    <span data-value="bathrooms">{{ request('bathrooms', 0) }}</span>
+                                    <button type="button" data-action="plus" data-target="bathrooms">+</button>
+                                </div>
+                            </div>
+
+                            <div class="accommodation-airbnb-panel-actions">
+                                <a href="{{ route('accommodations.index') }}" class="accommodation-filter-clear">
+                                    {{ __('accommodations.filter_clear') }}
+                                </a>
+
+                                <button type="submit" class="accommodation-filter-submit">
+                                    {{ __('accommodations.filter_button') }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </form>
         </section>
 
         {{-- ================= RESULTS GRID ================= --}}
-        <section class="scroll-hero">
+        <section class="scroll-hero accommodations-results-section">
             @if($accommodations->isEmpty())
             <div class="text-center py-16">
                 <h2 class="text-2xl font-bold text-gray-900 dark:text-white">

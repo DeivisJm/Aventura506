@@ -1,7 +1,42 @@
 /* =====================================================
    ACCOMMODATIONS PAGE
-===================================================== */
+   Aventura506 - Premium Lodging Experience
+   ===================================================== */
 
+/* =====================================================
+   DESIGN TOKENS
+   Unified green palette and shared shadows for a more
+   refined, premium, and consistent visual language.
+===================================================== */
+:root {
+    --acc-green-50: #f4fbf6;
+    --acc-green-100: #e7f6eb;
+    --acc-green-200: #cfead8;
+    --acc-green-300: #a9d8b9;
+    --acc-green-400: #78be90;
+    --acc-green-500: #4f9f6f;
+    --acc-green-600: #3f8b5f;
+    --acc-green-700: #32704d;
+    --acc-green-800: #28593e;
+
+    --acc-text-strong: #111827;
+    --acc-text-muted: #6b7280;
+    --acc-border-soft: rgba(15, 23, 42, 0.08);
+    --acc-border-soft-dark: rgba(255, 255, 255, 0.08);
+
+    --acc-surface: rgba(255, 255, 255, 0.92);
+    --acc-surface-dark: rgba(17, 24, 39, 0.92);
+
+    --acc-shadow-sm: 0 10px 24px rgba(15, 23, 42, 0.08);
+    --acc-shadow-md: 0 18px 40px rgba(15, 23, 42, 0.10);
+    --acc-shadow-lg: 0 24px 50px rgba(15, 23, 42, 0.14);
+    --acc-shadow-green: 0 14px 28px rgba(79, 159, 111, 0.22);
+    --acc-shadow-green-hover: 0 18px 34px rgba(79, 159, 111, 0.28);
+}
+
+/* =====================================================
+   PAGE WRAPPER
+===================================================== */
 .accommodations-page {
     background-color: var(--bg);
     color: var(--text);
@@ -20,22 +55,28 @@
 }
 
 /* =====================================================
-   PREMIUM FILTER PANEL
+   FILTER SHELL
 ===================================================== */
+.accommodations-filter-section {
+    position: relative;
+    z-index: 5;
+    overflow: visible !important;
+}
 
 .accommodation-filter-shell {
     position: relative;
     padding: 1.2rem;
     border-radius: 2rem;
-    background: rgba(255, 255, 255, 0.92);
-    border: 1px solid rgba(15, 23, 42, 0.08);
-    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+    background: var(--acc-surface);
+    border: 1px solid var(--acc-border-soft);
+    box-shadow: var(--acc-shadow-md);
     backdrop-filter: blur(12px);
+    overflow: visible !important;
 }
 
 .dark .accommodation-filter-shell {
-    background: rgba(17, 24, 39, 0.92);
-    border-color: rgba(255, 255, 255, 0.08);
+    background: var(--acc-surface-dark);
+    border-color: var(--acc-border-soft-dark);
     box-shadow: 0 18px 40px rgba(0, 0, 0, 0.34);
 }
 
@@ -48,12 +89,12 @@
 }
 
 .accommodation-filter-kicker {
+    margin: 0;
     font-size: 0.78rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.18em;
-    color: #16a34a;
-    margin: 0;
+    color: var(--acc-green-600);
 }
 
 .accommodation-filter-title {
@@ -61,94 +102,16 @@
     font-size: 1.35rem;
     line-height: 1.2;
     font-weight: 800;
-    color: #111827;
+    color: var(--acc-text-strong);
 }
 
 .dark .accommodation-filter-title {
     color: #ffffff;
 }
 
-.accommodation-filter-grid {
-    display: grid;
-    grid-template-columns: 1.6fr repeat(4, minmax(0, 1fr));
-    gap: 0.9rem;
-    align-items: end;
-}
-
-.accommodation-filter-field {
-    display: flex;
-    flex-direction: column;
-    gap: 0.45rem;
-    min-width: 0;
-}
-
-.accommodation-filter-field-search {
-    min-width: 0;
-}
-
-.accommodation-filter-label {
-    font-size: 0.76rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: #6b7280;
-}
-
-.dark .accommodation-filter-label {
-    color: #9ca3af;
-}
-
-.accommodation-filter-input-wrap {
-    position: relative;
-}
-
-.accommodation-filter-input-icon {
-    position: absolute;
-    top: 50%;
-    left: 1rem;
-    width: 1rem;
-    height: 1rem;
-    color: #6b7280;
-    transform: translateY(-50%);
-    pointer-events: none;
-}
-
-.dark .accommodation-filter-input-icon {
-    color: #9ca3af;
-}
-
-.accommodation-filter-input {
-    width: 100%;
-    height: 3.45rem;
-    border-radius: 1.1rem;
-    border: 1px solid rgba(15, 23, 42, 0.08);
-    background: #ffffff;
-    color: #111827;
-    padding: 0 1rem;
-    font-size: 0.96rem;
-    outline: none;
-    transition: border-color 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
-}
-
-.accommodation-filter-field-search .accommodation-filter-input {
-    padding-left: 2.75rem;
-}
-
-.accommodation-filter-input:focus {
-    border-color: rgba(34, 197, 94, 0.45);
-    box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.12);
-}
-
-.dark .accommodation-filter-input {
-    background: rgba(255, 255, 255, 0.04);
-    color: #ffffff;
-    border-color: rgba(255, 255, 255, 0.08);
-}
-
-.dark .accommodation-filter-input::placeholder {
-    color: #9ca3af;
-}
-
+/* =====================================================
+   GENERIC FILTER ACTIONS
+===================================================== */
 .accommodation-filter-actions {
     display: flex;
     align-items: center;
@@ -178,19 +141,19 @@
 .accommodation-filter-submit {
     border: 0;
     color: #ffffff;
-    background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
-    box-shadow: 0 14px 28px rgba(34, 197, 94, 0.22);
+    background: linear-gradient(135deg, var(--acc-green-600) 0%, var(--acc-green-500) 100%);
+    box-shadow: var(--acc-shadow-green);
 }
 
 .accommodation-filter-submit:hover {
     transform: translateY(-1px);
-    box-shadow: 0 18px 34px rgba(34, 197, 94, 0.28);
+    box-shadow: var(--acc-shadow-green-hover);
 }
 
 .accommodation-filter-clear {
     color: #374151;
     background: #f3f4f6;
-    border: 1px solid rgba(15, 23, 42, 0.08);
+    border: 1px solid var(--acc-border-soft);
 }
 
 .accommodation-filter-clear:hover {
@@ -200,7 +163,7 @@
 .dark .accommodation-filter-clear {
     color: #e5e7eb;
     background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.08);
+    border-color: var(--acc-border-soft-dark);
 }
 
 .dark .accommodation-filter-clear:hover {
@@ -208,8 +171,252 @@
 }
 
 /* =====================================================
-   GRID
+   AIRBNB-STYLE FILTER BAR
 ===================================================== */
+.accommodation-filter-shell-airbnb {
+    position: relative;
+    z-index: 5;
+    overflow: visible !important;
+}
+
+.accommodation-airbnb-bar {
+    position: relative;
+    z-index: 5;
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0;
+    min-height: 5.2rem;
+    border-radius: 9999px;
+    background: #ffffff;
+    border: 1px solid var(--acc-border-soft);
+    box-shadow: var(--acc-shadow-sm);
+    overflow: visible !important;
+}
+
+.dark .accommodation-airbnb-bar {
+    background: rgba(17, 24, 39, 0.96);
+    border-color: var(--acc-border-soft-dark);
+}
+
+.accommodation-airbnb-col {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 5.2rem;
+    padding: 0 1.5rem;
+}
+
+.accommodation-airbnb-col:not(:last-of-type)::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 1px;
+    height: 2rem;
+    background: var(--acc-border-soft);
+    transform: translateY(-50%);
+}
+
+.dark .accommodation-airbnb-col:not(:last-of-type)::after {
+    background: var(--acc-border-soft-dark);
+}
+
+.accommodation-airbnb-label {
+    margin: 0 0 0.2rem;
+    font-size: 0.78rem;
+    font-weight: 800;
+    color: var(--acc-text-strong);
+}
+
+.dark .accommodation-airbnb-label {
+    color: #ffffff;
+}
+
+.accommodation-airbnb-input,
+.accommodation-airbnb-trigger {
+    width: 100%;
+    border: 0;
+    outline: none;
+    background: transparent;
+    padding: 0;
+    font-size: 0.98rem;
+    color: var(--acc-text-muted);
+    text-align: left;
+}
+
+.accommodation-airbnb-input::placeholder {
+    color: #9ca3af;
+}
+
+.dark .accommodation-airbnb-input,
+.dark .accommodation-airbnb-trigger {
+    color: #d1d5db;
+}
+
+.accommodation-airbnb-trigger {
+    cursor: pointer;
+}
+
+.accommodation-airbnb-submit {
+    margin-right: 0.6rem;
+    height: 3.35rem;
+    padding: 0 1.4rem;
+    border: 0;
+    border-radius: 9999px;
+    color: #ffffff;
+    font-size: 0.95rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--acc-green-600) 0%, var(--acc-green-500) 100%);
+    box-shadow: 0 12px 24px rgba(79, 159, 111, 0.24);
+    transition: transform 0.22s ease, box-shadow 0.22s ease, filter 0.22s ease;
+}
+
+.accommodation-airbnb-submit:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 28px rgba(79, 159, 111, 0.28);
+    filter: saturate(1.03);
+}
+
+.accommodation-airbnb-submit:focus-visible,
+.accommodation-filter-submit:focus-visible,
+.accommodation-cta:focus-visible,
+.accommodation-airbnb-stepper button:focus-visible {
+    outline: none;
+    box-shadow:
+        0 0 0 4px rgba(79, 159, 111, 0.16),
+        0 12px 24px rgba(79, 159, 111, 0.22);
+}
+
+/* =====================================================
+   FILTER PANEL / POPOVER
+===================================================== */
+.accommodation-airbnb-panel {
+    position: absolute;
+    top: calc(100% + 1rem);
+    right: 0;
+    min-width: 420px;
+    max-width: 460px;
+    z-index: 60;
+}
+
+.accommodation-airbnb-panel[hidden] {
+    display: none !important;
+}
+
+.accommodation-airbnb-panel-inner {
+    position: relative;
+    z-index: 60;
+    padding: 1.35rem;
+    border-radius: 2rem;
+    background: #ffffff;
+    border: 1px solid var(--acc-border-soft);
+    box-shadow: 0 28px 60px rgba(15, 23, 42, 0.18);
+}
+
+.dark .accommodation-airbnb-panel-inner {
+    background: #111827;
+    border-color: var(--acc-border-soft-dark);
+}
+
+.accommodation-airbnb-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--acc-border-soft);
+}
+
+.dark .accommodation-airbnb-row {
+    border-bottom-color: var(--acc-border-soft-dark);
+}
+
+.accommodation-airbnb-row-last {
+    border-bottom: 0;
+}
+
+.accommodation-airbnb-row strong {
+    display: block;
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--acc-text-strong);
+}
+
+.dark .accommodation-airbnb-row strong {
+    color: #ffffff;
+}
+
+.accommodation-airbnb-row p {
+    margin: 0.25rem 0 0;
+    font-size: 0.9rem;
+    color: var(--acc-text-muted);
+}
+
+.dark .accommodation-airbnb-row p {
+    color: #9ca3af;
+}
+
+.accommodation-airbnb-stepper {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.accommodation-airbnb-stepper button {
+    width: 2.45rem;
+    height: 2.45rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(79, 159, 111, 0.22);
+    background: #ffffff;
+    color: var(--acc-green-600);
+    font-size: 1.3rem;
+    font-weight: 800;
+    line-height: 1;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.accommodation-airbnb-stepper button:hover {
+    background: var(--acc-green-50);
+    border-color: rgba(79, 159, 111, 0.36);
+    color: var(--acc-green-700);
+}
+
+.dark .accommodation-airbnb-stepper button {
+    background: rgba(255, 255, 255, 0.04);
+    color: #9fd3b1;
+    border-color: rgba(159, 211, 177, 0.18);
+}
+
+.accommodation-airbnb-stepper span {
+    min-width: 1.3rem;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--acc-text-strong);
+}
+
+.dark .accommodation-airbnb-stepper span {
+    color: #ffffff;
+}
+
+.accommodation-airbnb-panel-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.8rem;
+    padding-top: 1rem;
+}
+
+/* =====================================================
+   RESULTS GRID
+===================================================== */
+.accommodations-results-section,
+.accommodations-grid {
+    position: relative;
+    z-index: 1;
+}
 
 .accommodations-grid {
     display: grid;
@@ -231,195 +438,42 @@
 }
 
 /* =====================================================
-   CARD
+   ACCOMMODATION CARD
 ===================================================== */
-
 .accommodation-card {
+    position: relative;
+    z-index: 1;
     display: flex;
     flex-direction: column;
     height: 100%;
     overflow: hidden;
     border-radius: 2rem;
     background: rgba(255, 255, 255, 0.92);
-    border: 1px solid rgba(15, 23, 42, 0.08);
-    box-shadow: 0 14px 32px rgba(15, 23, 42, 0.08);
+    border: 1px solid var(--acc-border-soft);
+    box-shadow: var(--acc-shadow-sm);
     transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
     backdrop-filter: blur(10px);
 }
 
 .accommodation-card:hover {
     transform: translateY(-6px);
-    box-shadow: 0 24px 50px rgba(15, 23, 42, 0.14);
-    border-color: rgba(34, 197, 94, 0.18);
+    box-shadow: var(--acc-shadow-lg);
+    border-color: rgba(79, 159, 111, 0.18);
+    z-index: 2;
 }
 
 .dark .accommodation-card {
     background: rgba(17, 24, 39, 0.92);
-    border-color: rgba(255, 255, 255, 0.08);
+    border-color: var(--acc-border-soft-dark);
     box-shadow: 0 18px 40px rgba(0, 0, 0, 0.38);
 }
 
- /* =====================================================
-   AIRBNB LOGO
-===================================================== */
-.accommodation-card-footer {
-    margin-top: auto;
-    padding-top: 1.2rem;
-}
-
-.accommodation-cta {
-    position: relative;
-    display: inline-flex;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-    gap: 0.8rem;
-    padding: 1rem 1.25rem;
-    border-radius: 9999px;
-    text-decoration: none;
-    font-size: 1rem;
-    font-weight: 800;
-    letter-spacing: 0.01em;
-    color: #ffffff;
-    background:
-        linear-gradient(135deg, #ff385c 0%, #e11d48 55%, #be123c 100%);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    box-shadow:
-        0 14px 30px rgba(225, 29, 72, 0.26),
-        inset 0 1px 0 rgba(255, 255, 255, 0.24),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.12);
-    overflow: hidden;
-    transition:
-        transform 0.24s ease,
-        box-shadow 0.24s ease,
-        opacity 0.24s ease,
-        filter 0.24s ease;
-}
-
-.accommodation-cta::before {
-    content: "";
-    position: absolute;
-    inset: 1px;
-    border-radius: inherit;
-    background: linear-gradient(
-        180deg,
-        rgba(255, 255, 255, 0.14) 0%,
-        rgba(255, 255, 255, 0.04) 40%,
-        rgba(255, 255, 255, 0.00) 100%
-    );
-    pointer-events: none;
-}
-
-.accommodation-cta::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -35%;
-    width: 35%;
-    height: 100%;
-    background: linear-gradient(
-        90deg,
-        transparent 0%,
-        rgba(255, 255, 255, 0.22) 50%,
-        transparent 100%
-    );
-    transform: skewX(-20deg);
-    transition: left 0.55s ease;
-    pointer-events: none;
-}
-
-.accommodation-cta:hover {
-    color: #ffffff;
-    text-decoration: none;
-    transform: translateY(-2px);
-    box-shadow:
-        0 18px 38px rgba(225, 29, 72, 0.34),
-        inset 0 1px 0 rgba(255, 255, 255, 0.28),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.14);
-    filter: saturate(1.05);
-}
-
-.accommodation-cta:hover::after {
-    left: 120%;
-}
-
-.accommodation-cta:focus-visible {
-    outline: none;
-    box-shadow:
-        0 0 0 4px rgba(255, 56, 92, 0.22),
-        0 18px 38px rgba(225, 29, 72, 0.30),
-        inset 0 1px 0 rgba(255, 255, 255, 0.28);
-}
-
-.accommodation-cta-icon,
-.accommodation-cta-text {
-    position: relative;
-    z-index: 2;
-}
-
-.accommodation-cta-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 2.15rem;
-    height: 2.15rem;
-    min-width: 2.15rem;
-    border-radius: 9999px;
-    background: rgba(255, 255, 255, 0.16);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.22),
-        0 6px 14px rgba(0, 0, 0, 0.10);
-    backdrop-filter: blur(10px);
-}
-
-.accommodation-cta-text {
-    white-space: nowrap;
-}
-
-/* Dark mode: más profundidad sin perder contraste */
-.dark .accommodation-cta {
-    color: #ffffff;
-    background:
-        linear-gradient(135deg, #166534 0%, #15803d 52%, #166534 100%);
-    border-color: rgba(74, 222, 128, 0.16);
-    box-shadow:
-        0 16px 34px rgba(0, 0, 0, 0.34),
-        0 10px 24px rgba(22, 163, 74, 0.22),
-        inset 0 1px 0 rgba(255, 255, 255, 0.10),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.20);
-}
-
-.dark .accommodation-cta:hover {
-    color: #ffffff;
-    box-shadow:
-        0 20px 42px rgba(0, 0, 0, 0.40),
-        0 12px 28px rgba(34, 197, 94, 0.28),
-        inset 0 1px 0 rgba(255, 255, 255, 0.12),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.22);
-    filter: saturate(1.08) brightness(1.03);
-}
-
-.dark .accommodation-cta:focus-visible {
-    box-shadow:
-        0 0 0 4px rgba(34, 197, 94, 0.18),
-        0 20px 42px rgba(0, 0, 0, 0.38),
-        0 12px 28px rgba(34, 197, 94, 0.24);
-}
-
-.dark .accommodation-cta-icon {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.10);
-    box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.08),
-        0 8px 18px rgba(0, 0, 0, 0.18);
-}
-
 /* =====================================================
-   MEDIA / SLIDER
+   CARD MEDIA / SLIDER
 ===================================================== */
 .accommodation-media {
     position: relative;
+    z-index: 1;
     height: 280px;
     overflow: hidden;
     background: #f3f4f6;
@@ -438,12 +492,12 @@
 }
 
 .accommodation-slide {
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
     min-width: 100%;
     width: 100%;
     height: 100%;
-    flex-shrink: 0;
-    position: relative;
-    overflow: hidden;
 }
 
 .accommodation-slide-image {
@@ -454,7 +508,6 @@
     object-position: center;
 }
 
-/* Overlay suave */
 .accommodation-media-overlay {
     position: absolute;
     inset: 0;
@@ -479,7 +532,7 @@
     padding: 0.48rem 0.78rem;
     border-radius: 9999px;
     background: rgba(15, 23, 42, 0.34);
-    color: #fff;
+    color: #ffffff;
     font-size: 0.82rem;
     font-weight: 600;
     line-height: 1;
@@ -496,7 +549,6 @@
 .accommodation-arrow {
     position: absolute;
     top: 50%;
-    transform: translateY(-50%);
     z-index: 5;
     width: 2.8rem;
     height: 2.8rem;
@@ -508,12 +560,13 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    transform: translateY(-50%);
     transition: all 0.22s ease;
     backdrop-filter: blur(8px);
 }
 
 .accommodation-arrow:hover {
-    background: #fff;
+    background: #ffffff;
     transform: translateY(-50%) scale(1.05);
 }
 
@@ -529,8 +582,8 @@
     position: absolute;
     left: 50%;
     bottom: 0.55rem;
-    transform: translateX(-50%);
     z-index: 5;
+    transform: translateX(-50%);
     pointer-events: none;
 }
 
@@ -549,12 +602,12 @@
 .accommodation-indicator {
     width: 0.38rem;
     height: 0.38rem;
+    padding: 0;
     border: 0;
     border-radius: 9999px;
     background: rgba(255, 255, 255, 0.40);
     cursor: pointer;
     transition: all 0.22s ease;
-    padding: 0;
 }
 
 .accommodation-indicator:hover {
@@ -569,9 +622,8 @@
 }
 
 /* =====================================================
-   BODY
+   CARD BODY
 ===================================================== */
-
 .accommodation-card-body {
     display: flex;
     flex-direction: column;
@@ -588,19 +640,19 @@
     font-size: 1.9rem;
     line-height: 1.12;
     font-weight: 800;
-    color: #111827;
     letter-spacing: -0.02em;
+    color: var(--acc-text-strong);
 }
 
 .dark .accommodation-card-title {
-    color: #fff;
+    color: #ffffff;
 }
 
 .accommodation-card-description {
     margin-top: 0.95rem;
     font-size: 1rem;
     line-height: 1.8;
-    color: #6b7280;
+    color: var(--acc-text-muted);
 }
 
 .dark .accommodation-card-description {
@@ -608,9 +660,8 @@
 }
 
 /* =====================================================
-   META
+   PROPERTY META
 ===================================================== */
-
 .accommodation-meta-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -641,13 +692,13 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: rgba(34, 197, 94, 0.12);
-    color: #16a34a;
+    background: rgba(79, 159, 111, 0.12);
+    color: var(--acc-green-600);
 }
 
 .dark .accommodation-meta-icon {
-    background: rgba(34, 197, 94, 0.18);
-    color: #4ade80;
+    background: rgba(79, 159, 111, 0.18);
+    color: #9fd3b1;
 }
 
 .accommodation-meta-text {
@@ -659,17 +710,17 @@
 .accommodation-meta-text strong {
     font-size: 1.15rem;
     font-weight: 800;
-    color: #111827;
+    color: var(--acc-text-strong);
 }
 
 .dark .accommodation-meta-text strong {
-    color: #fff;
+    color: #ffffff;
 }
 
 .accommodation-meta-text span {
     margin-top: 0.2rem;
     font-size: 0.82rem;
-    color: #6b7280;
+    color: var(--acc-text-muted);
 }
 
 .dark .accommodation-meta-text span {
@@ -679,7 +730,6 @@
 /* =====================================================
    AMENITIES
 ===================================================== */
-
 .accommodation-amenities {
     display: flex;
     flex-wrap: wrap;
@@ -696,15 +746,15 @@
     font-size: 0.84rem;
     font-weight: 600;
     line-height: 1;
-    color: #15803d;
-    background: #f0fdf4;
-    border: 1px solid rgba(34, 197, 94, 0.12);
+    color: var(--acc-green-700);
+    background: var(--acc-green-50);
+    border: 1px solid rgba(79, 159, 111, 0.14);
 }
 
 .dark .accommodation-amenity-chip {
-    color: #4ade80;
-    background: rgba(34, 197, 94, 0.1);
-    border-color: rgba(74, 222, 128, 0.15);
+    color: #9fd3b1;
+    background: rgba(79, 159, 111, 0.10);
+    border-color: rgba(159, 211, 177, 0.14);
 }
 
 .accommodation-amenity-icon {
@@ -714,59 +764,148 @@
 }
 
 /* =====================================================
-   FOOTER / BUTTON
+   CARD CTA
 ===================================================== */
-
 .accommodation-card-footer {
     margin-top: auto;
     padding-top: 1.2rem;
 }
 
 .accommodation-cta {
+    position: relative;
     display: inline-flex;
     width: 100%;
     justify-content: center;
     align-items: center;
-    text-align: center;
+    gap: 0.8rem;
     padding: 1rem 1.25rem;
     border-radius: 9999px;
     text-decoration: none;
     font-size: 1rem;
-    font-weight: 700;
-    color: #fff;
-    background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
-    box-shadow: 0 14px 28px rgba(34, 197, 94, 0.22);
-    transition: transform 0.22s ease, box-shadow 0.22s ease, opacity 0.22s ease;
+    font-weight: 800;
+    letter-spacing: 0.01em;
+    color: #ffffff;
+    background: linear-gradient(135deg, var(--acc-green-600) 0%, var(--acc-green-500) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow:
+        0 14px 28px rgba(79, 159, 111, 0.22),
+        inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    overflow: hidden;
+    transition: transform 0.24s ease, box-shadow 0.24s ease, filter 0.24s ease;
+}
+
+.accommodation-cta::before {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    border-radius: inherit;
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.12) 0%,
+        rgba(255, 255, 255, 0.03) 45%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    pointer-events: none;
+}
+
+.accommodation-cta::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -35%;
+    width: 35%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.18) 50%,
+        transparent 100%
+    );
+    transform: skewX(-20deg);
+    transition: left 0.55s ease;
+    pointer-events: none;
 }
 
 .accommodation-cta:hover {
-    color: #fff;
+    color: #ffffff;
+    text-decoration: none;
     transform: translateY(-2px);
-    box-shadow: 0 18px 36px rgba(34, 197, 94, 0.3);
+    box-shadow:
+        0 18px 34px rgba(79, 159, 111, 0.28),
+        inset 0 1px 0 rgba(255, 255, 255, 0.22);
+    filter: saturate(1.03);
+}
+
+.accommodation-cta:hover::after {
+    left: 120%;
+}
+
+.accommodation-cta-icon,
+.accommodation-cta-text {
+    position: relative;
+    z-index: 2;
+}
+
+.accommodation-cta-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.15rem;
+    height: 2.15rem;
+    min-width: 2.15rem;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.18),
+        0 6px 14px rgba(0, 0, 0, 0.10);
+    backdrop-filter: blur(10px);
+}
+
+.accommodation-cta-text {
+    white-space: nowrap;
+}
+
+.dark .accommodation-cta {
+    color: #ffffff;
+    background: linear-gradient(135deg, var(--acc-green-700) 0%, var(--acc-green-600) 100%);
+    border-color: rgba(159, 211, 177, 0.12);
+    box-shadow:
+        0 16px 34px rgba(0, 0, 0, 0.34),
+        0 10px 24px rgba(63, 139, 95, 0.20),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.dark .accommodation-cta:hover {
+    color: #ffffff;
+    box-shadow:
+        0 20px 42px rgba(0, 0, 0, 0.40),
+        0 12px 28px rgba(63, 139, 95, 0.24),
+        inset 0 1px 0 rgba(255, 255, 255, 0.10);
+    filter: saturate(1.05);
+}
+
+.dark .accommodation-cta-icon {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.10);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.08),
+        0 8px 18px rgba(0, 0, 0, 0.18);
 }
 
 /* =====================================================
-   RESPONSIVE
+   GLOBAL OVERFLOW SAFETY
 ===================================================== */
+.scroll-hero,
+.accommodation-filter-shell,
+.accommodation-filter-shell-airbnb {
+    overflow: visible !important;
+}
 
+/* =====================================================
+   TABLET / MEDIUM SCREENS
+===================================================== */
 @media (max-width: 1279px) {
-    .accommodation-filter-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    .accommodation-filter-field-search {
-        grid-column: 1 / -1;
-    }
-
-    .accommodation-filter-actions-desktop {
-        display: none;
-    }
-
-    .accommodation-filter-actions-mobile {
-        display: flex;
-        justify-content: flex-end;
-    }
-
     .accommodation-media {
         height: 255px;
     }
@@ -776,6 +915,9 @@
     }
 }
 
+/* =====================================================
+   MOBILE
+===================================================== */
 @media (max-width: 767px) {
     .accommodation-filter-shell {
         padding: 1rem;
@@ -790,18 +932,56 @@
         font-size: 1.15rem;
     }
 
-    .accommodation-filter-grid {
-        grid-template-columns: 1fr;
-        gap: 0.75rem;
-    }
-
-    .accommodation-filter-actions-mobile {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
     .accommodation-filter-submit,
     .accommodation-filter-clear {
+        width: 100%;
+    }
+
+    .accommodation-airbnb-bar {
+        grid-template-columns: 1fr;
+        gap: 0.65rem;
+        padding: 0.7rem;
+        border-radius: 1.8rem;
+    }
+
+    .accommodation-airbnb-col {
+        min-height: auto;
+        padding: 0.95rem 1rem;
+        border-radius: 1.1rem;
+        background: #f8fafc;
+    }
+
+    .dark .accommodation-airbnb-col {
+        background: rgba(255, 255, 255, 0.04);
+    }
+
+    .accommodation-airbnb-col::after {
+        display: none;
+    }
+
+    .accommodation-airbnb-submit {
+        width: 100%;
+        margin-right: 0;
+    }
+
+    .accommodation-airbnb-panel {
+        position: static;
+        width: 100%;
+        min-width: 0;
+        max-width: none;
+        margin-top: 0.7rem;
+    }
+
+    .accommodation-airbnb-panel-inner {
+        border-radius: 1.5rem;
+    }
+
+    .accommodation-airbnb-panel-actions {
+        flex-direction: column;
+    }
+
+    .accommodation-airbnb-panel-actions .accommodation-filter-clear,
+    .accommodation-airbnb-panel-actions .accommodation-filter-submit {
         width: 100%;
     }
 
