@@ -12,7 +12,7 @@ class Accommodation extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = [
+   protected $fillable = [
         'name',
         'slug',
         'short_description',
@@ -43,7 +43,6 @@ class Accommodation extends Model
         'amenities' => 'array',
         'is_active' => 'boolean',
     ];
-
     /**
      * Automatically generate slug when missing.
      */

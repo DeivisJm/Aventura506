@@ -1,219 +1,224 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const storageKey = "admin_accommodation_active_tab";
+    const form = document.getElementById("accommodation-form");
+    if (!form) return;
 
-    /* =====================================================
-       TAB PERSISTENCE
-    ===================================================== */
+    /* =========================================
+       TABS
+    ========================================= */
+    const activeTabInput = document.getElementById("active-tab-input");
     const tabButtons = document.querySelectorAll(".admin-tab");
     const tabContents = document.querySelectorAll(".admin-tab-content");
 
-    const activateTab = (tabId) => {
-        tabButtons.forEach((tab) => {
-            tab.classList.toggle("active", tab.dataset.tab === tabId);
+    function activateTab(tabId) {
+        tabButtons.forEach((button) => {
+            button.classList.toggle("active", button.dataset.tab === tabId);
         });
 
         tabContents.forEach((content) => {
             content.classList.toggle("active", content.id === tabId);
         });
 
-        sessionStorage.setItem(storageKey, tabId);
-    };
-
-    if (tabButtons.length && tabContents.length) {
-        const savedTab = sessionStorage.getItem(storageKey);
-        const tabExists = [...tabButtons].some((tab) => tab.dataset.tab === savedTab);
-
-        if (savedTab && tabExists) {
-            activateTab(savedTab);
+        if (activeTabInput) {
+            activeTabInput.value = tabId;
         }
-
-        tabButtons.forEach((button) => {
-            button.addEventListener("click", () => {
-                activateTab(button.dataset.tab);
-            });
-        });
     }
 
-    const form = document.getElementById("accommodation-form");
-
-    form?.addEventListener("submit", () => {
-        const activeTab = document.querySelector(".admin-tab.active")?.dataset.tab;
-
-        if (activeTab) {
-            sessionStorage.setItem(storageKey, activeTab);
-        }
+    tabButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+            activateTab(button.dataset.tab);
+        });
     });
 
-    /* =====================================================
-       MAIN IMAGE PREVIEW
-    ===================================================== */
+    if (activeTabInput && activeTabInput.value) {
+        activateTab(activeTabInput.value);
+    }
+
+    /* =========================================
+       MAIN IMAGE
+    ========================================= */
     const mainImageInput = document.getElementById("main-image-input");
     const mainImagePreview = document.getElementById("main-image-preview");
     const mainImagePreviewCard = document.getElementById("main-image-preview-card");
 
-    if (mainImageInput && mainImagePreview) {
-        mainImageInput.addEventListener("change", (event) => {
-            const file = event.target.files?.[0];
+    if (mainImageInput && mainImagePreview && mainImagePreviewCard) {
+        mainImageInput.addEventListener("change", function () {
+            const file = this.files?.[0];
             if (!file) return;
 
             const reader = new FileReader();
 
-            reader.onload = (e) => {
-                mainImagePreview.src = e.target?.result;
-
-                if (mainImagePreviewCard) {
-                    mainImagePreviewCard.classList.remove("hidden");
-                }
+            reader.onload = function (event) {
+                mainImagePreview.src = event.target?.result || "";
+                mainImagePreviewCard.classList.remove("hidden");
             };
 
             reader.readAsDataURL(file);
         });
     }
 
-    /* =====================================================
-       GALLERY MANAGEMENT
-       Counts existing images, checked removals, and new files
-    ===================================================== */
+    /* =========================================
+       GALLERY
+    ========================================= */
     const addGalleryButton = document.getElementById("add-gallery-image-btn");
-    const galleryInputTrigger = document.getElementById("gallery-images-input");
+    const galleryPickerInput = document.getElementById("gallery-images-input");
     const galleryStoreInput = document.getElementById("gallery-images-store");
     const galleryPreviewGrid = document.getElementById("gallery-preview-grid");
     const galleryCounter = document.getElementById("gallery-counter");
-    const removeExistingCheckboxes = document.querySelectorAll(".existing-gallery-remove-checkbox");
+    const existingGalleryGrid = document.getElementById("existing-gallery-grid");
 
-    const galleryLimit = Number(galleryCounter?.dataset.max || 7);
-    const existingGalleryCount = Number(galleryCounter?.dataset.existingCount || 0);
+    const maxGalleryImages = Number(galleryCounter?.dataset.max || 7);
 
-    let galleryFiles = [];
+    // Aquí se guardan TODAS las imágenes seleccionadas para no sobreescribir
+    let selectedGalleryFiles = [];
 
-    const getCheckedExistingRemovalsCount = () => {
-        return [...removeExistingCheckboxes].filter((checkbox) => checkbox.checked).length;
-    };
+    function getExistingActiveCount() {
+        if (!existingGalleryGrid) return 0;
 
-    const getEffectiveExistingCount = () => {
-        return Math.max(existingGalleryCount - getCheckedExistingRemovalsCount(), 0);
-    };
+        let count = 0;
 
-    const getCurrentTotalCount = () => {
-        return getEffectiveExistingCount() + galleryFiles.length;
-    };
+        existingGalleryGrid.querySelectorAll("[data-existing-gallery-item]").forEach((item) => {
+            const checkbox = item.querySelector(".existing-gallery-remove-checkbox");
+            if (!checkbox || !checkbox.checked) {
+                count++;
+            }
+        });
 
-    const getRemainingSlots = () => {
-        return Math.max(galleryLimit - getCurrentTotalCount(), 0);
-    };
+        return count;
+    }
 
-    const updateGalleryCounter = () => {
+    function getTotalSelectedCount() {
+        return getExistingActiveCount() + selectedGalleryFiles.length;
+    }
+
+    function updateGalleryCounter() {
         if (!galleryCounter) return;
+        galleryCounter.textContent = `${getTotalSelectedCount()} / ${maxGalleryImages} imágenes seleccionadas`;
+    }
 
-        galleryCounter.textContent = `${getCurrentTotalCount()} / ${galleryLimit} imágenes seleccionadas`;
-    };
+    function updateGalleryButtonState() {
+        if (!addGalleryButton) return;
 
-    const syncGalleryInput = () => {
+        const disable = getTotalSelectedCount() >= maxGalleryImages;
+        addGalleryButton.disabled = disable;
+        addGalleryButton.classList.toggle("is-disabled", disable);
+    }
+
+    function syncGalleryStoreInput() {
         if (!galleryStoreInput) return;
 
         const dataTransfer = new DataTransfer();
 
-        galleryFiles.forEach((file) => {
+        selectedGalleryFiles.forEach((file) => {
             dataTransfer.items.add(file);
         });
 
         galleryStoreInput.files = dataTransfer.files;
-    };
+    }
 
-    const renderGalleryPreviews = () => {
+    function renderGalleryPreviews() {
         if (!galleryPreviewGrid) return;
 
         galleryPreviewGrid.innerHTML = "";
 
-        galleryFiles.forEach((file, index) => {
-            const reader = new FileReader();
+        selectedGalleryFiles.forEach((file, index) => {
+            const card = document.createElement("div");
+            card.className = "accommodation-gallery-preview-card";
 
-            reader.onload = (e) => {
-                const card = document.createElement("div");
-                card.className = "accommodation-gallery-preview-card";
+            const image = document.createElement("img");
+            image.className = "accommodation-gallery-preview-image";
+            image.alt = `Gallery preview ${index + 1}`;
+            image.src = URL.createObjectURL(file);
 
-                card.innerHTML = `
-                    <img src="${e.target?.result}" alt="Gallery preview" class="accommodation-gallery-preview-image">
-                    <button type="button" class="accommodation-gallery-remove-btn" data-index="${index}" aria-label="Quitar imagen">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
-                        </svg>
-                    </button>
-                `;
+            const removeButton = document.createElement("button");
+            removeButton.type = "button";
+            removeButton.className = "accommodation-gallery-remove-btn";
+            removeButton.setAttribute("aria-label", "Quitar imagen");
+            removeButton.innerHTML = `
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 6l12 12M18 6L6 18" />
+                </svg>
+            `;
 
-                galleryPreviewGrid.appendChild(card);
+            removeButton.addEventListener("click", () => {
+                selectedGalleryFiles.splice(index, 1);
+                syncGalleryStoreInput();
+                renderGalleryPreviews();
+                updateGalleryCounter();
+                updateGalleryButtonState();
+            });
 
-                const removeButton = card.querySelector(".accommodation-gallery-remove-btn");
-
-                removeButton?.addEventListener("click", () => {
-                    galleryFiles.splice(index, 1);
-                    syncGalleryInput();
-                    renderGalleryPreviews();
-                    updateGalleryCounter();
-                    updateGalleryButtonState();
-                });
-            };
-
-            reader.readAsDataURL(file);
+            card.appendChild(image);
+            card.appendChild(removeButton);
+            galleryPreviewGrid.appendChild(card);
         });
-    };
+    }
 
-    const updateGalleryButtonState = () => {
-        if (!addGalleryButton) return;
+    function getAvailableSlots() {
+        return Math.max(0, maxGalleryImages - getExistingActiveCount() - selectedGalleryFiles.length);
+    }
 
-        const isLimitReached = getCurrentTotalCount() >= galleryLimit;
-
-        addGalleryButton.disabled = isLimitReached;
-        addGalleryButton.classList.toggle("is-disabled", isLimitReached);
-
-        if (galleryInputTrigger) {
-            galleryInputTrigger.disabled = isLimitReached;
-        }
-    };
-
-    const appendGalleryFiles = (fileList) => {
+    function addFilesToSelection(fileList) {
         const incomingFiles = Array.from(fileList || []);
         if (!incomingFiles.length) return;
 
-        let remainingSlots = getRemainingSlots();
+        const availableSlots = getAvailableSlots();
 
-        if (remainingSlots <= 0) {
-            updateGalleryButtonState();
-            updateGalleryCounter();
+        if (availableSlots <= 0) {
+            alert("Ya alcanzaste el máximo de 7 imágenes.");
             return;
         }
 
-        for (const file of incomingFiles) {
-            if (remainingSlots <= 0) {
-                break;
-            }
+        const filesToAdd = incomingFiles.slice(0, availableSlots);
 
-            galleryFiles.push(file);
-            remainingSlots--;
+        if (incomingFiles.length > filesToAdd.length) {
+            alert(`Solo puedes agregar ${availableSlots} imagen(es) más.`);
         }
 
-        syncGalleryInput();
+        selectedGalleryFiles.push(...filesToAdd);
+
+        syncGalleryStoreInput();
         renderGalleryPreviews();
         updateGalleryCounter();
         updateGalleryButtonState();
-    };
+    }
 
-    addGalleryButton?.addEventListener("click", () => {
-        if (getRemainingSlots() <= 0) return;
-        galleryInputTrigger?.click();
-    });
-
-    galleryInputTrigger?.addEventListener("change", (event) => {
-        appendGalleryFiles(event.target.files);
-        event.target.value = "";
-    });
-
-    removeExistingCheckboxes.forEach((checkbox) => {
-        checkbox.addEventListener("change", () => {
-            updateGalleryCounter();
-            updateGalleryButtonState();
+    if (addGalleryButton && galleryPickerInput) {
+        addGalleryButton.addEventListener("click", () => {
+            if (getAvailableSlots() <= 0) return;
+            galleryPickerInput.click();
         });
-    });
+    }
+
+    if (galleryPickerInput) {
+        galleryPickerInput.addEventListener("change", function () {
+            addFilesToSelection(this.files);
+            this.value = "";
+        });
+    }
+
+    if (existingGalleryGrid) {
+        existingGalleryGrid.querySelectorAll(".existing-gallery-remove-checkbox").forEach((checkbox) => {
+            checkbox.addEventListener("change", () => {
+                const item = checkbox.closest("[data-existing-gallery-item]");
+                if (item) {
+                    item.classList.toggle("is-marked-for-removal", checkbox.checked);
+                }
+
+                // Si al desmarcar/marcar cambia el espacio disponible
+                if (selectedGalleryFiles.length > getAvailableSlots() + selectedGalleryFiles.length) {
+                    selectedGalleryFiles = selectedGalleryFiles.slice(
+                        0,
+                        Math.max(0, maxGalleryImages - getExistingActiveCount())
+                    );
+                    syncGalleryStoreInput();
+                    renderGalleryPreviews();
+                }
+
+                updateGalleryCounter();
+                updateGalleryButtonState();
+            });
+        });
+    }
 
     updateGalleryCounter();
     updateGalleryButtonState();

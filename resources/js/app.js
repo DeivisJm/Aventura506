@@ -24,6 +24,6 @@ import "./admin/accommodations-form";
 import './admin/admin-dashboard';
 import './admin/admin-live-search';
 import './admin/admin-tabs.js';
-import './admin/form-tours.js';
+import './admin/tours-form.js';
 import './admin/tours';
 

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 use App\Http\Controllers\Controller;
 use App\Models\Accommodation;
 use Illuminate\Http\JsonResponse;
@@ -72,20 +74,13 @@ class AdminAccommodationController extends Controller
         $validated = $this->validateAccommodationRequest($request);
 
         DB::transaction(function () use ($request, $validated) {
-            /**
-             * Store main image using the same public disk strategy used by tours.
-             * This produces a database path like: storage/accommodations/filename.jpg
-             */
             $mainImagePath = null;
 
-            if ($request->hasFile('main_image')) {
+            if ($request->hasFile('main_image') && $request->file('main_image')->isValid()) {
                 $path = $request->file('main_image')->store('accommodations', 'public');
                 $mainImagePath = 'storage/' . $path;
             }
 
-            /**
-             * Store gallery images using the same storage strategy.
-             */
             $galleryImages = $this->storeGalleryImages($request);
 
             Accommodation::create([
@@ -135,21 +130,15 @@ class AdminAccommodationController extends Controller
         $validated = $this->validateAccommodationRequest($request, $accommodation->id);
 
         DB::transaction(function () use ($request, $validated, $accommodation) {
-            /**
-             * Keep the current main image unless a new one is uploaded.
-             */
             $mainImagePath = $accommodation->main_image;
 
-            if ($request->hasFile('main_image')) {
+            if ($request->hasFile('main_image') && $request->file('main_image')->isValid()) {
                 $this->deletePublicFileIfExists($accommodation->main_image);
 
                 $path = $request->file('main_image')->store('accommodations', 'public');
                 $mainImagePath = 'storage/' . $path;
             }
 
-            /**
-             * Merge existing gallery with newly uploaded gallery files.
-             */
             $existingGallery = is_array($accommodation->gallery_images)
                 ? $accommodation->gallery_images
                 : [];
@@ -161,14 +150,10 @@ class AdminAccommodationController extends Controller
                 $newGalleryImages
             )));
 
-            /**
-             * Remove checked existing gallery items.
-             * The form sends indexes from the existing gallery array.
-             */
             if ($request->filled('gallery_remove') && is_array($request->gallery_remove)) {
                 $removeIndexes = collect($request->gallery_remove)
-                    ->filter(fn ($value) => is_numeric($value))
-                    ->map(fn ($value) => (int) $value)
+                    ->filter(fn($value) => is_numeric($value))
+                    ->map(fn($value) => (int) $value)
                     ->unique()
                     ->sortDesc()
                     ->values();
@@ -306,9 +291,10 @@ class AdminAccommodationController extends Controller
 
             'amenities' => ['nullable', 'string'],
 
-            'main_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
-            'gallery_images' => ['nullable'],
-            'gallery_images.*' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
+            'main_image' => ['nullable', 'file', 'mimes:jpg,jpeg,png,webp,avif', 'max:4096'],
+
+            'gallery_images' => ['nullable', 'array', 'min:1', 'max:7'],
+            'gallery_images.*' => ['nullable', 'file', 'mimes:jpg,jpeg,png,webp,avif', 'max:4096'],
 
             'gallery_remove' => ['nullable', 'array'],
             'gallery_remove.*' => ['integer'],
@@ -323,15 +309,27 @@ class AdminAccommodationController extends Controller
     {
         $galleryPaths = [];
 
-        if ($request->hasFile('gallery_images')) {
-            foreach ($request->file('gallery_images') as $image) {
-                if (!$image) {
-                    continue;
-                }
+        if (!$request->hasFile('gallery_images')) {
+            return $galleryPaths;
+        }
 
-                $path = $image->store('accommodations', 'public');
-                $galleryPaths[] = 'storage/' . $path;
+        $files = $request->file('gallery_images');
+
+        if (!is_array($files)) {
+            $files = [$files];
+        }
+
+        foreach ($files as $image) {
+            if (!$image instanceof \Illuminate\Http\UploadedFile) {
+                continue;
             }
+
+            if (!$image->isValid()) {
+                continue;
+            }
+
+            $path = $image->store('accommodations', 'public');
+            $galleryPaths[] = 'storage/' . $path;
         }
 
         return $galleryPaths;
@@ -347,9 +345,9 @@ class AdminAccommodationController extends Controller
         }
 
         return collect(explode(',', $amenities))
-            ->map(fn ($item) => trim($item))
+            ->map(fn($item) => trim($item))
             ->filter()
-            ->map(fn ($item) => Str::slug($item, '_'))
+            ->map(fn($item) => Str::slug($item, '_'))
             ->unique()
             ->values()
             ->all();

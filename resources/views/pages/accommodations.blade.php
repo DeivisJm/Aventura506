@@ -160,175 +160,200 @@
         {{-- ================= RESULTS GRID ================= --}}
         <section class="scroll-hero">
             @if($accommodations->isEmpty())
-                <div class="text-center py-16">
-                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
-                        {{ __('accommodations.empty_title') }}
-                    </h2>
+            <div class="text-center py-16">
+                <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
+                    {{ __('accommodations.empty_title') }}
+                </h2>
 
-                    <p class="mt-4 text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-                        {{ __('accommodations.empty_description') }}
-                    </p>
-                </div>
+                <p class="mt-4 text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+                    {{ __('accommodations.empty_description') }}
+                </p>
+            </div>
             @else
-                <div class="accommodations-grid">
-                    @foreach($accommodations as $index => $accommodation)
-                        @php
-                            $name = $accommodation->getTranslated('name');
-                            $description = $accommodation->getTranslated('short_description');
-                            $location = $accommodation->getTranslated('location');
-                            $gallery = $accommodation->getAllImages();
+            <div class="accommodations-grid">
+                @foreach($accommodations as $index => $accommodation)
+                @php
+                $name = $accommodation->getTranslated('name');
+                $description = $accommodation->getTranslated('short_description');
+                $location = $accommodation->getTranslated('location');
+                $gallery = $accommodation->getAllImages();
 
-                            $amenities = $accommodation->getAmenityItems();
-                            $visibleAmenities = array_slice($amenities, 0, 5);
+                $amenities = $accommodation->getAmenityItems();
+                $visibleAmenities = array_slice($amenities, 0, 5);
 
-                            $cardId = 'accommodation-slider-' . $accommodation->id . '-' . $index;
-                        @endphp
+                $cardId = 'accommodation-slider-' . $accommodation->id . '-' . $index;
+                @endphp
 
-                        <article class="accommodation-card">
-                            {{-- ================= IMAGE / SLIDER ================= --}}
-                            <div class="accommodation-media" data-slider="{{ $cardId }}">
-                                <div class="accommodation-slider-track">
-                                    @foreach($gallery as $image)
-                                        <div class="accommodation-slide">
-                                            <img
-                                                src="{{ asset($image) }}"
-                                                alt="{{ $name }} - image {{ $loop->iteration }}"
-                                                class="accommodation-slide-image">
-                                        </div>
-                                    @endforeach
+                <article class="accommodation-card">
+                    {{-- ================= IMAGE / SLIDER ================= --}}
+                    <div class="accommodation-media" data-slider="{{ $cardId }}">
+                        <div class="accommodation-slider-track">
+                            @foreach($gallery as $image)
+                            <div class="accommodation-slide">
+                                <div
+                                    class="accommodation-slide-bg"
+                                    style="background-image: url('{{ asset($image) }}');">
                                 </div>
 
-                                <div class="accommodation-media-overlay"></div>
+                                <img
+                                    src="{{ asset($image) }}"
+                                    alt="{{ $name }} - image {{ $loop->iteration }}"
+                                    class="accommodation-slide-image">
+                            </div>
+                            @endforeach
+                        </div>
 
-                                @if(count($gallery) > 1)
-                                    <button type="button" class="accommodation-arrow accommodation-arrow-prev" data-slider-prev aria-label="Previous image">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 18l-6-6 6-6" />
-                                        </svg>
-                                    </button>
+                        <div class="accommodation-media-overlay"></div>
 
-                                    <button type="button" class="accommodation-arrow accommodation-arrow-next" data-slider-next aria-label="Next image">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6" />
-                                        </svg>
-                                    </button>
-                                @endif
+                        @if(count($gallery) > 1)
+                        <button type="button" class="accommodation-arrow accommodation-arrow-prev" data-slider-prev aria-label="Previous image">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 18l-6-6 6-6" />
+                            </svg>
+                        </button>
 
-                                @if($location)
-                                    <div class="accommodation-location-badge">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 21s-6-5.686-6-11a6 6 0 1112 0c0 5.314-6 11-6 11z" />
-                                            <circle cx="12" cy="10" r="2.5" />
-                                        </svg>
-                                        <span>{{ $location }}</span>
-                                    </div>
-                                @endif
+                        <button type="button" class="accommodation-arrow accommodation-arrow-next" data-slider-next aria-label="Next image">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6" />
+                            </svg>
+                        </button>
+                        @endif
 
-                                @if(count($gallery) > 1)
-                                    <div class="accommodation-slider-indicators-wrap">
-                                        <div class="accommodation-slider-indicators">
-                                            @foreach($gallery as $image)
-                                                <button
-                                                    type="button"
-                                                    class="accommodation-indicator {{ $loop->first ? 'is-active' : '' }}"
-                                                    data-slide-to="{{ $loop->index }}"
-                                                    aria-label="Go to image {{ $loop->iteration }}">
-                                                </button>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                @endif
+                        @if($location)
+                        <div class="accommodation-location-badge">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 21s-6-5.686-6-11a6 6 0 1112 0c0 5.314-6 11-6 11z" />
+                                <circle cx="12" cy="10" r="2.5" />
+                            </svg>
+                            <span>{{ $location }}</span>
+                        </div>
+                        @endif
+
+                        @if(count($gallery) > 1)
+                        <div class="accommodation-slider-indicators-wrap">
+                            <div class="accommodation-slider-indicators">
+                                @foreach($gallery as $image)
+                                <button
+                                    type="button"
+                                    class="accommodation-indicator {{ $loop->first ? 'is-active' : '' }}"
+                                    data-slide-to="{{ $loop->index }}"
+                                    aria-label="Go to image {{ $loop->iteration }}">
+                                </button>
+                                @endforeach
+                            </div>
+                        </div>
+                        @endif
+                    </div>
+
+                    {{-- ================= CARD CONTENT ================= --}}
+                    <div class="accommodation-card-body">
+                        <div class="accommodation-card-top">
+                            <h3 class="accommodation-card-title">
+                                {{ $name }}
+                            </h3>
+
+                            <p class="accommodation-card-description">
+                                {{ Str::limit($description, 145) }}
+                            </p>
+                        </div>
+
+                        {{-- ================= PROPERTY META ================= --}}
+                        <div class="accommodation-meta-grid">
+                            <div class="accommodation-meta-item">
+                                <span class="accommodation-meta-icon">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 20a4 4 0 00-8 0M12 12a4 4 0 100-8 4 4 0 000 8M21 20a4 4 0 00-3-3.87M16 4.13a4 4 0 010 7.75" />
+                                    </svg>
+                                </span>
+                                <div class="accommodation-meta-text">
+                                    <strong>{{ $accommodation->guests ?? 0 }}</strong>
+                                    <span>{{ __('accommodations.guests') }}</span>
+                                </div>
                             </div>
 
-                            {{-- ================= CARD CONTENT ================= --}}
-                            <div class="accommodation-card-body">
-                                <div class="accommodation-card-top">
-                                    <h3 class="accommodation-card-title">
-                                        {{ $name }}
-                                    </h3>
-
-                                    <p class="accommodation-card-description">
-                                        {{ Str::limit($description, 145) }}
-                                    </p>
-                                </div>
-
-                                {{-- ================= PROPERTY META ================= --}}
-                                <div class="accommodation-meta-grid">
-                                    <div class="accommodation-meta-item">
-                                        <span class="accommodation-meta-icon">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M17 20a4 4 0 00-8 0M12 12a4 4 0 100-8 4 4 0 000 8M21 20a4 4 0 00-3-3.87M16 4.13a4 4 0 010 7.75" />
-                                            </svg>
-                                        </span>
-                                        <div class="accommodation-meta-text">
-                                            <strong>{{ $accommodation->guests ?? 0 }}</strong>
-                                            <span>{{ __('accommodations.guests') }}</span>
-                                        </div>
-                                    </div>
-
-                                    <div class="accommodation-meta-item">
-                                        <span class="accommodation-meta-icon">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M5 10V7a2 2 0 012-2h10a2 2 0 012 2v3M4 10v7M20 10v7M4 17h16" />
-                                            </svg>
-                                        </span>
-                                        <div class="accommodation-meta-text">
-                                            <strong>{{ $accommodation->bedrooms ?? 0 }}</strong>
-                                            <span>{{ __('accommodations.bedrooms') }}</span>
-                                        </div>
-                                    </div>
-
-                                    <div class="accommodation-meta-item">
-                                        <span class="accommodation-meta-icon">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M4 11h16M6 11V8a2 2 0 012-2h8a2 2 0 012 2v3M5 11v6M19 11v6M9 14h6" />
-                                            </svg>
-                                        </span>
-                                        <div class="accommodation-meta-text">
-                                            <strong>{{ $accommodation->beds ?? 0 }}</strong>
-                                            <span>{{ __('accommodations.beds') }}</span>
-                                        </div>
-                                    </div>
-
-                                    <div class="accommodation-meta-item">
-                                        <span class="accommodation-meta-icon">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10M9 17V9a3 3 0 116 0v8M5 17h14" />
-                                            </svg>
-                                        </span>
-                                        <div class="accommodation-meta-text">
-                                            <strong>{{ $accommodation->bathrooms ?? 0 }}</strong>
-                                            <span>{{ __('accommodations.bathrooms') }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {{-- ================= AMENITIES ================= --}}
-                                @if(!empty($visibleAmenities))
-                                    <div class="accommodation-amenities">
-                                        @foreach($visibleAmenities as $amenity)
-                                            <span class="accommodation-amenity-chip">
-                                                <span class="accommodation-amenity-icon">{!! $amenity['icon'] !!}</span>
-                                                <span>{{ $amenity['label'] }}</span>
-                                            </span>
-                                        @endforeach
-                                    </div>
-                                @endif
-
-                                {{-- ================= CALL TO ACTION ================= --}}
-                                <div class="accommodation-card-footer">
-                                    <a
-                                        href="{{ $accommodation->external_url }}"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        class="accommodation-cta">
-                                        {{ __('accommodations.book_now') }}
-                                    </a>
+                            <div class="accommodation-meta-item">
+                                <span class="accommodation-meta-icon">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M5 10V7a2 2 0 012-2h10a2 2 0 012 2v3M4 10v7M20 10v7M4 17h16" />
+                                    </svg>
+                                </span>
+                                <div class="accommodation-meta-text">
+                                    <strong>{{ $accommodation->bedrooms ?? 0 }}</strong>
+                                    <span>{{ __('accommodations.bedrooms') }}</span>
                                 </div>
                             </div>
-                        </article>
-                    @endforeach
-                </div>
+
+                            <div class="accommodation-meta-item">
+                                <span class="accommodation-meta-icon">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 11h16M6 11V8a2 2 0 012-2h8a2 2 0 012 2v3M5 11v6M19 11v6M9 14h6" />
+                                    </svg>
+                                </span>
+                                <div class="accommodation-meta-text">
+                                    <strong>{{ $accommodation->beds ?? 0 }}</strong>
+                                    <span>{{ __('accommodations.beds') }}</span>
+                                </div>
+                            </div>
+
+                            <div class="accommodation-meta-item">
+                                <span class="accommodation-meta-icon">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10M9 17V9a3 3 0 116 0v8M5 17h14" />
+                                    </svg>
+                                </span>
+                                <div class="accommodation-meta-text">
+                                    <strong>{{ $accommodation->bathrooms ?? 0 }}</strong>
+                                    <span>{{ __('accommodations.bathrooms') }}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- ================= AMENITIES ================= --}}
+                        @if(!empty($visibleAmenities))
+                        <div class="accommodation-amenities">
+                            @foreach($visibleAmenities as $amenity)
+                            <span class="accommodation-amenity-chip">
+                                <span class="accommodation-amenity-icon">{!! $amenity['icon'] !!}</span>
+                                <span>{{ $amenity['label'] }}</span>
+                            </span>
+                            @endforeach
+                        </div>
+                        @endif
+
+                        {{-- ================= CALL TO ACTION ================= --}}
+                        <div class="accommodation-card-footer">
+                            <a
+                                href="{{ $accommodation->external_url }}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="accommodation-cta">
+
+                                <span class="accommodation-cta-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" fill="none" class="w-5 h-5">
+                                        <path
+                                            d="M12 3.8c-1.15 0-2.03.7-2.63 2.02l-4.94 10.87c-.22.48-.33.94-.33 1.36 0 1.32 1 2.25 2.34 2.25 1 0 1.88-.52 2.6-1.54L12 14.7l3.96 4.06c.72 1.02 1.6 1.54 2.6 1.54 1.34 0 2.34-.93 2.34-2.25 0-.42-.11-.88-.33-1.36L15.63 5.82C15.03 4.5 14.15 3.8 13 3.8h-1Z"
+                                            stroke="currentColor"
+                                            stroke-width="1.8"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round" />
+                                        <path
+                                            d="M9.55 10.55c0-1.38 1.05-2.45 2.45-2.45s2.45 1.07 2.45 2.45S13.4 13 12 13s-2.45-1.07-2.45-2.45Z"
+                                            stroke="currentColor"
+                                            stroke-width="1.8"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round" />
+                                    </svg>
+                                </span>
+
+                                <span class="accommodation-cta-text">
+                                    {{ __('accommodations.book_now') }}
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+                @endforeach
+            </div>
             @endif
         </section>
 

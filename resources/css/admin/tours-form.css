@@ -591,6 +591,10 @@ Outside the image, on the right border
 /* ======================================================
 TOUR CROPPER MODAL
 ====================================================== */
+.dark .tour-cropper-close-text:hover{
+    color:#ef4444;
+    transform:rotate(180deg) scale(1.1);
+}
 
 .tour-cropper-modal{
     position:fixed;

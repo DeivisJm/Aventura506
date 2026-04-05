@@ -29,7 +29,7 @@ return [
     'bathrooms' => 'bathrooms',
 
     // Call to action
-    'book_now' => 'Book accommodation',
+    'book_now' => 'View on Airbnb',
 
     // Empty state
     'empty_title' => 'No accommodations available',

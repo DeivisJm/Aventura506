@@ -259,15 +259,174 @@
     box-shadow: 0 18px 40px rgba(0, 0, 0, 0.38);
 }
 
+ /* =====================================================
+   AIRBNB LOGO
+===================================================== */
+.accommodation-card-footer {
+    margin-top: auto;
+    padding-top: 1.2rem;
+}
+
+.accommodation-cta {
+    position: relative;
+    display: inline-flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 1rem 1.25rem;
+    border-radius: 9999px;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: 0.01em;
+    color: #ffffff;
+    background:
+        linear-gradient(135deg, #ff385c 0%, #e11d48 55%, #be123c 100%);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow:
+        0 14px 30px rgba(225, 29, 72, 0.26),
+        inset 0 1px 0 rgba(255, 255, 255, 0.24),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.12);
+    overflow: hidden;
+    transition:
+        transform 0.24s ease,
+        box-shadow 0.24s ease,
+        opacity 0.24s ease,
+        filter 0.24s ease;
+}
+
+.accommodation-cta::before {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    border-radius: inherit;
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.14) 0%,
+        rgba(255, 255, 255, 0.04) 40%,
+        rgba(255, 255, 255, 0.00) 100%
+    );
+    pointer-events: none;
+}
+
+.accommodation-cta::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -35%;
+    width: 35%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.22) 50%,
+        transparent 100%
+    );
+    transform: skewX(-20deg);
+    transition: left 0.55s ease;
+    pointer-events: none;
+}
+
+.accommodation-cta:hover {
+    color: #ffffff;
+    text-decoration: none;
+    transform: translateY(-2px);
+    box-shadow:
+        0 18px 38px rgba(225, 29, 72, 0.34),
+        inset 0 1px 0 rgba(255, 255, 255, 0.28),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.14);
+    filter: saturate(1.05);
+}
+
+.accommodation-cta:hover::after {
+    left: 120%;
+}
+
+.accommodation-cta:focus-visible {
+    outline: none;
+    box-shadow:
+        0 0 0 4px rgba(255, 56, 92, 0.22),
+        0 18px 38px rgba(225, 29, 72, 0.30),
+        inset 0 1px 0 rgba(255, 255, 255, 0.28);
+}
+
+.accommodation-cta-icon,
+.accommodation-cta-text {
+    position: relative;
+    z-index: 2;
+}
+
+.accommodation-cta-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.15rem;
+    height: 2.15rem;
+    min-width: 2.15rem;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.22),
+        0 6px 14px rgba(0, 0, 0, 0.10);
+    backdrop-filter: blur(10px);
+}
+
+.accommodation-cta-text {
+    white-space: nowrap;
+}
+
+/* Dark mode: más profundidad sin perder contraste */
+.dark .accommodation-cta {
+    color: #ffffff;
+    background:
+        linear-gradient(135deg, #166534 0%, #15803d 52%, #166534 100%);
+    border-color: rgba(74, 222, 128, 0.16);
+    box-shadow:
+        0 16px 34px rgba(0, 0, 0, 0.34),
+        0 10px 24px rgba(22, 163, 74, 0.22),
+        inset 0 1px 0 rgba(255, 255, 255, 0.10),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.20);
+}
+
+.dark .accommodation-cta:hover {
+    color: #ffffff;
+    box-shadow:
+        0 20px 42px rgba(0, 0, 0, 0.40),
+        0 12px 28px rgba(34, 197, 94, 0.28),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.22);
+    filter: saturate(1.08) brightness(1.03);
+}
+
+.dark .accommodation-cta:focus-visible {
+    box-shadow:
+        0 0 0 4px rgba(34, 197, 94, 0.18),
+        0 20px 42px rgba(0, 0, 0, 0.38),
+        0 12px 28px rgba(34, 197, 94, 0.24);
+}
+
+.dark .accommodation-cta-icon {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.10);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.08),
+        0 8px 18px rgba(0, 0, 0, 0.18);
+}
+
 /* =====================================================
    MEDIA / SLIDER
 ===================================================== */
-
 .accommodation-media {
     position: relative;
     height: 280px;
     overflow: hidden;
-    background: #e5e7eb;
+    background: #f3f4f6;
+}
+
+.dark .accommodation-media {
+    background: #111827;
 }
 
 .accommodation-slider-track {
@@ -280,8 +439,11 @@
 
 .accommodation-slide {
     min-width: 100%;
+    width: 100%;
     height: 100%;
     flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
 }
 
 .accommodation-slide-image {
@@ -289,12 +451,19 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
 }
 
+/* Overlay suave */
 .accommodation-media-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgba(15, 23, 42, 0.72), rgba(15, 23, 42, 0.16), rgba(15, 23, 42, 0.03));
+    background: linear-gradient(
+        to top,
+        rgba(15, 23, 42, 0.42),
+        rgba(15, 23, 42, 0.10),
+        rgba(15, 23, 42, 0.02)
+    );
     pointer-events: none;
 }
 

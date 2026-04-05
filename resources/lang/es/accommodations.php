@@ -29,7 +29,7 @@ return [
     'bathrooms' => 'baños',
 
     // Call to action
-    'book_now' => 'Reservar hospedaje',
+    'book_now' => 'Ver en Airbnb',
 
     // Empty state
     'empty_title' => 'No hay hospedajes disponibles',

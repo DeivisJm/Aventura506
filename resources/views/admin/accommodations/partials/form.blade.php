@@ -13,14 +13,26 @@
         </p>
 
     </div>
-
+    @if ($errors->any())
+    <div style="background:#fee2e2; color:#991b1b; padding:16px; border-radius:10px; margin-bottom:20px;">
+        <strong>Errores de validación:</strong>
+        <ul style="margin-top:10px;">
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
     <form method="POST"
         action="{{ isset($accommodation->id) ? route('admin.accommodations.update', $accommodation) : route('admin.accommodations.store') }}"
         enctype="multipart/form-data"
         class="admin-form"
-        id="accommodation-form">
+        id="accommodation-form"
+        novalidate>
 
         @csrf
+
+        <input type="hidden" name="active_tab" id="active-tab-input" value="{{ old('active_tab', session('active_tab', 'general')) }}">
 
         @if(isset($accommodation->id))
         @method('PUT')
@@ -324,12 +336,18 @@
                             <span class="accommodation-dropzone-text">Puedes seleccionar una o varias imágenes por vez</span>
                         </label>
 
-                        {{-- Hidden real input used for submit --}}
                         <input
                             type="file"
                             name="gallery_images[]"
                             id="gallery-images-store"
-                            class="hidden"
+                            style="position:absolute; left:-9999px; width:1px; height:1px; opacity:0;"
+                            multiple>
+
+                        <input
+                            type="file"
+                            name="gallery_images[]"
+                            id="gallery-images-store"
+                            style="position:absolute; left:-9999px; width:1px; height:1px; opacity:0;"
                             multiple>
 
                         @php

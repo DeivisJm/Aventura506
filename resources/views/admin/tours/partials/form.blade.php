@@ -434,7 +434,7 @@
                                             </span>
 
                                             <span class="tour-admin-crop-btn-text">
-                                                <strong>Editar recorte</strong>
+                                                <strong>Editar imagen</strong>
                                                 <small>Ajustar imagen del card</small>
                                             </span>
                                         </button>
