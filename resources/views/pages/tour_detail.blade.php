@@ -5,51 +5,42 @@
 @section('content')
 
 {{-- ================= HERO PRO ================= --}}
-<section class="relative min-h-[85vh] flex items-center justify-center overflow-hidden">
+<section class="tour-detail-hero">
 
-    <div class="absolute inset-0">
-        <img src="{{ $tour->image_url }}"
+    <div class="tour-detail-hero-media">
+        <img
+            src="{{ $tour->image_url }}"
             alt="{{ $tour->getTranslated('name') }}"
-            class="w-full h-full object-cover scale-105 transition-transform duration-[6000ms] ease-out hover:scale-110">
+            class="tour-detail-hero-image">
 
-        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-black/30"></div>
+        <div class="tour-detail-hero-overlay"></div>
     </div>
 
-    <div class="relative z-10 text-center px-6 text-white max-w-4xl">
+    <div class="tour-detail-hero-content">
 
-        <div class="inline-flex items-center gap-3 px-5 py-2 bg-white/10 backdrop-blur-md rounded-full text-sm uppercase tracking-widest border border-white/20">
-            <span class="text-green-400">
+        <div class="tour-detail-hero-badge">
+            <span class="tour-detail-hero-badge-text">
                 @if($tour->category)
                 {{ strtoupper(__('categories.' . strtolower($tour->category->slug))) }}
                 @endif
             </span>
         </div>
 
-        <h1 class="mt-6 text-4xl md:text-6xl font-extrabold leading-tight">
+        <h1 class="tour-detail-hero-title">
             {{ $tour->getTranslated('name') }}
         </h1>
 
-        <p class="mt-6 text-xl text-gray-200 max-w-2xl mx-auto">
+        <p class="tour-detail-hero-description">
             {{ $tour->getTranslated('description') }}
         </p>
 
-        <div class="mt-10 flex flex-wrap justify-center gap-6 text-sm text-white">
+        <div class="tour-detail-hero-meta">
 
             {{-- Duration --}}
             @if($tour->detail?->duration)
-            <div class="flex items-center gap-3 
-                bg-white/10 
-                px-5 py-2.5 
-                rounded-full 
-                backdrop-blur-md 
-                border border-white/20">
+            <div class="tour-detail-hero-pill">
 
-                <div class="flex items-center justify-center 
-                    w-8 h-8 
-                    rounded-full 
-                    bg-white/20 
-                    backdrop-blur-sm">
-
+                <div class="tour-detail-hero-pill-icon">
                     <svg class="w-4 h-4 text-white"
                         fill="none"
                         stroke="currentColor"
@@ -60,29 +51,18 @@
                     </svg>
                 </div>
 
-                <span class="font-medium tracking-wide">
+                <span class="tour-detail-hero-pill-text">
                     {{ $tour->detail->getTranslated('duration') }}
                 </span>
 
             </div>
             @endif
 
-
             {{-- Start Hours --}}
             @if($tour->detail?->start_hours_text)
-            <div class="flex items-center gap-3 
-                bg-white/10 
-                px-5 py-2.5 
-                rounded-full 
-                backdrop-blur-md 
-                border border-white/20">
+            <div class="tour-detail-hero-pill">
 
-                <div class="flex items-center justify-center 
-                    w-8 h-8 
-                    rounded-full 
-                    bg-white/20 
-                    backdrop-blur-sm">
-
+                <div class="tour-detail-hero-pill-icon">
                     <svg class="w-4 h-4 text-white"
                         fill="none"
                         stroke="currentColor"
@@ -93,28 +73,18 @@
                     </svg>
                 </div>
 
-                <span class="font-medium tracking-wide">
+                <span class="tour-detail-hero-pill-text">
                     {{ $tour->detail->getTranslated('start_hours_text') }}
                 </span>
 
             </div>
             @endif
 
-
             {{-- Company --}}
-            <div class="flex items-center gap-3 
-                bg-white/10 
-                px-5 py-2.5 
-                rounded-full 
-                backdrop-blur-md 
-                border border-white/20">
+            @if($tour->company?->name)
+            <div class="tour-detail-hero-pill">
 
-                <div class="flex items-center justify-center 
-                    w-8 h-8 
-                    rounded-full 
-                    bg-white/20 
-                    backdrop-blur-sm">
-
+                <div class="tour-detail-hero-pill-icon">
                     <svg class="w-4 h-4 text-white"
                         fill="none"
                         stroke="currentColor"
@@ -125,13 +95,12 @@
                     </svg>
                 </div>
 
-                @if($tour->company?->name)
-                <span class="font-semibold tracking-wide">
+                <span class="tour-detail-hero-pill-text">
                     {{ $tour->company->name }}
                 </span>
-                @endif
 
             </div>
+            @endif
 
         </div>
 

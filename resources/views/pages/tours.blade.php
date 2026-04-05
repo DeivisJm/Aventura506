@@ -98,19 +98,22 @@
                 $imagePath = $tour->image_url;
                 @endphp
 
-                <article class="scroll-hero bg-white rounded-2xl shadow hover:shadow-lg transition overflow-hidden">
+                <article class="tour-public-card scroll-hero">
 
-                    <img src="{{ $imagePath }}"
-                        alt="{{ $tourName }}"
-                        class="h-48 w-full object-cover">
+                    <div class="tour-public-card-image-frame">
+                        <img
+                            src="{{ $imagePath }}"
+                            alt="{{ $tourName }}"
+                            class="tour-public-card-image">
+                    </div>
 
-                    <div class="p-6">
+                    <div class="tour-public-card-body">
 
-                        <h3 class="text-xl font-semibold mb-2">
+                        <h3 class="tour-public-card-title">
                             {{ $tourName }}
                         </h3>
 
-                        <p class="text-gray-600 text-sm mb-4">
+                        <p class="tour-public-card-text">
                             {{ Str::limit($description, 120) }}
                         </p>
 
@@ -122,8 +125,6 @@
                     </div>
 
                 </article>
-
-
 
                 @empty
 

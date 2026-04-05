@@ -12,6 +12,7 @@ use App\Models\TourPrice;
 use App\Models\TourSchedule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 class AdminTourController extends Controller
 {
@@ -243,8 +244,13 @@ class AdminTourController extends Controller
             'schedules.*.start_time' => 'required',
 
             // Image
-            'image' => 'nullable|image|max:2048',
+            'image' => 'nullable|file|mimes:jpg,jpeg,png,webp|max:10240',
+            'cropped_image' => 'nullable|string',
+        ], [
+            'image.mimes' => 'La imagen debe ser un archivo JPG, JPEG, PNG o WEBP.',
+            'image.max' => 'La imagen no debe superar los 10 MB.',
         ]);
+
 
         // Validate category
         if ($request->category_id === 'new') {
@@ -322,15 +328,16 @@ class AdminTourController extends Controller
 
     /**
      * Save or replace the tour image.
+     * Priority:
+     * 1. Cropped base64 image from the crop editor
+     * 2. Raw uploaded file fallback
      */
     private function handleTourImage(Request $request, Tour $tour): void
     {
-        // Stop if no new image was uploaded
-        if (!$request->hasFile('image')) {
+        if (!$request->filled('cropped_image') && !$request->hasFile('image')) {
             return;
         }
 
-        // Delete old file only if it belongs to the public storage disk
         if (!empty($tour->image) && str_starts_with($tour->image, 'storage/')) {
             $oldPath = str_replace('storage/', '', $tour->image);
 
@@ -339,13 +346,35 @@ class AdminTourController extends Controller
             }
         }
 
-        // Store new file inside storage/app/public/tours
-        $path = $request->file('image')->store('tours', 'public');
+        if ($request->filled('cropped_image')) {
+            $base64Image = $request->input('cropped_image');
 
-        // Save public URL path in database
-        $tour->update([
-            'image' => 'storage/' . $path,
-        ]);
+            if (preg_match('/^data:image\/(\w+);base64,/', $base64Image, $matches)) {
+                $extension = strtolower($matches[1]);
+                $extension = $extension === 'jpeg' ? 'jpg' : $extension;
+
+                $base64Image = substr($base64Image, strpos($base64Image, ',') + 1);
+                $decodedImage = base64_decode($base64Image);
+
+                $fileName = 'tours/' . Str::random(40) . '.' . $extension;
+
+                Storage::disk('public')->put($fileName, $decodedImage);
+
+                $tour->update([
+                    'image' => 'storage/' . $fileName,
+                ]);
+            }
+
+            return;
+        }
+
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('tours', 'public');
+
+            $tour->update([
+                'image' => 'storage/' . $path,
+            ]);
+        }
     }
 
     /**

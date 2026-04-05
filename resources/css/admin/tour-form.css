@@ -422,3 +422,516 @@ margin-top:10px;
     background: #1e293b;
     color: #e2e8f0;
 }
+/* ======================================================
+TOUR IMAGE CROPPER UI
+Professional crop editor layout for admin forms
+====================================================== */
+
+/* ======================================================
+TOUR ADMIN IMAGE PREVIEW
+Premium preview styled like public tour card
+Button placed OUTSIDE the image on the right side
+====================================================== */
+
+/* importante: permite que el botón salga hacia afuera */
+.accommodation-main-preview-list,
+.accommodation-main-preview-card{
+    overflow: visible !important;
+}
+
+.tour-admin-preview-card{
+    position: relative;
+    width: 100%;
+    max-width: 380px;
+    margin-right: 240px; /* espacio reservado para el botón externo */
+    border-radius: 1.25rem;
+    overflow: visible;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        border-color .25s ease;
+}
+
+.tour-admin-preview-card:hover{
+    transform: translateY(-4px);
+    box-shadow: 0 18px 36px rgba(15, 23, 42, 0.12);
+    border-color: rgba(22, 163, 74, 0.25);
+}
+
+.dark .tour-admin-preview-card{
+    background: #0f172a;
+    border-color: #1f2937;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.28);
+}
+
+.tour-admin-preview-media{
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 1.25rem;
+    background: #f8fafc;
+}
+
+.dark .tour-admin-preview-media{
+    background: #020617;
+}
+
+.tour-admin-preview-image{
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    transition: transform .4s ease;
+}
+
+.tour-admin-preview-card:hover .tour-admin-preview-image{
+    transform: scale(1.04);
+}
+
+/* ======================================================
+EXTERNAL PREMIUM BUTTON
+Outside the image, on the right border
+====================================================== */
+
+.tour-admin-crop-btn{
+    position: absolute;
+    top: 50%;
+    left: calc(100% + 18px); /* lo pone completamente afuera */
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 210px;
+    padding: 12px 16px;
+    border: 1px solid rgba(255,255,255,0.65);
+    border-radius: 18px;
+    background: rgba(255,255,255,0.96);
+    color: #111827;
+    cursor: pointer;
+    z-index: 10;
+    box-shadow:
+        0 20px 40px rgba(15, 23, 42, 0.16),
+        0 6px 18px rgba(15, 23, 42, 0.10);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    transition:
+        transform .22s ease,
+        box-shadow .22s ease,
+        background .22s ease;
+}
+
+.tour-admin-crop-btn:hover{
+    transform: translateY(-50%) translateX(4px);
+    box-shadow:
+        0 24px 48px rgba(15, 23, 42, 0.22),
+        0 8px 20px rgba(15, 23, 42, 0.12);
+}
+
+.dark .tour-admin-crop-btn{
+    background: rgba(15, 23, 42, 0.94);
+    color: #f8fafc;
+    border-color: rgba(148, 163, 184, 0.14);
+    box-shadow:
+        0 20px 40px rgba(0, 0, 0, 0.34),
+        0 6px 18px rgba(0, 0, 0, 0.22);
+}
+
+.dark .tour-admin-crop-btn:hover{
+    background: rgba(15, 23, 42, 0.98);
+}
+
+.tour-admin-crop-btn-icon{
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+    color: #15803d;
+}
+
+.dark .tour-admin-crop-btn-icon{
+    background: rgba(22, 163, 74, 0.16);
+    color: #86efac;
+}
+
+.tour-admin-crop-btn-icon svg{
+    width: 18px;
+    height: 18px;
+}
+
+.tour-admin-crop-btn-text{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 1.2;
+}
+
+.tour-admin-crop-btn-text strong{
+    font-size: 13px;
+    font-weight: 700;
+    color: inherit;
+}
+
+.tour-admin-crop-btn-text small{
+    margin-top: 3px;
+    font-size: 11px;
+    color: #64748b;
+}
+
+.dark .tour-admin-crop-btn-text small{
+    color: #94a3b8;
+}
+
+/* ======================================================
+TOUR CROPPER MODAL
+====================================================== */
+
+.tour-cropper-modal{
+    position:fixed;
+    inset:0;
+    z-index:9999;
+}
+
+.tour-cropper-backdrop{
+    position:absolute;
+    inset:0;
+    background:rgba(0, 0, 0, 0.55);
+    backdrop-filter:blur(10px);
+}
+
+.tour-cropper-dialog{
+    position:relative;
+    width:min(95%, 1400px);
+    max-width:1400px;
+    max-height:calc(100dvh - 24px);
+    margin:12px auto;
+    background:#ffffff;
+    border-radius:16px;
+    overflow:hidden;
+    box-shadow:0 20px 60px rgba(0, 0, 0, 0.25);
+    display:flex;
+    flex-direction:column;
+}
+
+.dark .tour-cropper-dialog{
+    background:#020617;
+    border:1px solid #1f2937;
+}
+
+.tour-cropper-header{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:16px;
+    padding:22px 24px;
+    border-bottom:1px solid #e5e7eb;
+}
+
+.dark .tour-cropper-header{
+    border-color:#1f2937;
+}
+
+.tour-cropper-title{
+    font-size:20px;
+    font-weight:800;
+    color:#0f172a;
+}
+
+.dark .tour-cropper-title{
+    color:#f8fafc;
+}
+
+.tour-cropper-subtitle{
+    margin-top:6px;
+    font-size:13px;
+    color:#64748b;
+    line-height:1.5;
+}
+
+.dark .tour-cropper-subtitle{
+    color:#94a3b8;
+}
+
+.tour-cropper-close-text{
+    margin-top:44px;
+    border:none;
+    background:transparent;
+    color:#111827;
+    line-height:1;
+    cursor:pointer;
+    transition:transform 0.35s cubic-bezier(.16, 1, .3, 1), color 0.25s ease;
+}
+
+.tour-cropper-close-text:hover{
+    color:#ef4444;
+    transform:rotate(180deg) scale(1.1);
+}
+
+.dark .tour-cropper-close-text{
+    color:#f8fafc;
+}
+
+.tour-cropper-body{
+    display:grid;
+    grid-template-columns:minmax(0, 1fr) 320px;
+    gap:24px;
+    padding:24px;
+    overflow:auto;
+    flex:1;
+    min-height:0;
+}
+
+.tour-cropper-stage{
+    min-height:520px;
+    border-radius:20px;
+    overflow:hidden;
+    background:#f8fafc;
+    border:1px solid #e5e7eb;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.dark .tour-cropper-stage{
+    background:#0f172a;
+    border-color:#1f2937;
+}
+
+.tour-cropper-stage img{
+    display:block;
+    max-width:100%;
+    max-height:100%;
+}
+
+.tour-cropper-side{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+}
+
+.tour-cropper-side-card{
+    padding:18px;
+    border-radius:18px;
+    background:#f8fafc;
+    border:1px solid #e5e7eb;
+}
+
+.dark .tour-cropper-side-card{
+    background:#0f172a;
+    border-color:#1f2937;
+}
+
+.tour-cropper-side-title{
+    font-size:14px;
+    font-weight:800;
+    color:#0f172a;
+    margin-bottom:12px;
+}
+
+.dark .tour-cropper-side-title{
+    color:#f8fafc;
+}
+
+.tour-cropper-card-sample{
+    width:100%;
+    aspect-ratio:16/9;
+    overflow:hidden;
+    border-radius:16px;
+    background:#ffffff;
+    border:1px solid #dbe2ea;
+}
+
+.dark .tour-cropper-card-sample{
+    background:#020617;
+    border-color:#334155;
+}
+
+.tour-cropper-card-sample img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+}
+
+.tour-cropper-actions{
+    display:grid;
+    gap:10px;
+}
+
+.tour-cropper-secondary-btn,
+.tour-cropper-cancel-btn,
+.tour-cropper-save-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    min-height:44px;
+    padding:10px 14px;
+    border-radius:8px;
+    font-size:14px;
+    font-weight:500;
+    cursor:pointer;
+    transition:all .22s ease;
+    box-shadow:0 6px 16px rgba(15,23,42,.06);
+}
+
+.tour-cropper-secondary-btn{
+    border:none;
+    background:#dbeafe;
+    color:#0369a1;
+}
+
+.tour-cropper-secondary-btn:hover{
+    background:#bfdbfe;
+    color:#075985;
+    transform:translateY(-1px);
+}
+
+.dark .tour-cropper-secondary-btn{
+    background:rgba(14,165,233,.16);
+    color:#7dd3fc;
+    box-shadow:none;
+}
+
+.dark .tour-cropper-secondary-btn:hover{
+    background:rgba(14,165,233,.24);
+    color:#bae6fd;
+}
+
+.tour-cropper-footer{
+    display:flex;
+    justify-content:flex-end;
+    gap:12px;
+    padding:20px 24px;
+    border-top:1px solid #e5e7eb;
+}
+
+.dark .tour-cropper-footer{
+    border-color:#1f2937;
+}
+
+.tour-cropper-cancel-btn{
+    border:none;
+    background:#ef4444;
+    color:#ffffff;
+}
+
+.tour-cropper-cancel-btn:hover{
+    background:#dc2626;
+    color:#ffffff;
+    transform:translateY(-1px);
+}
+
+.dark .tour-cropper-cancel-btn{
+    background:#ef4444;
+    color:#ffffff;
+    box-shadow:none;
+}
+
+.dark .tour-cropper-cancel-btn:hover{
+    background:#dc2626;
+}
+
+.tour-cropper-save-btn{
+    border:none;
+    background:#16a34a;
+    color:#ffffff;
+}
+
+.tour-cropper-save-btn:hover{
+    background:#15803d;
+    transform:translateY(-1px);
+}
+
+body.tour-cropper-open{
+    overflow:hidden;
+}
+
+/* Cropper visual tuning */
+.cropper-container{
+    max-width:100%;
+}
+
+.cropper-view-box,
+.cropper-face{
+    border-radius:0;
+}
+
+.cropper-line,
+.cropper-point{
+    background-color:#16a34a;
+}
+
+.cropper-view-box{
+    outline:1px solid rgba(22,163,74,.9);
+    outline-color:rgba(22,163,74,.9);
+}
+
+/* ======================================================
+RESPONSIVE
+====================================================== */
+
+@media (max-width: 1024px){
+    .tour-admin-preview-card{
+        max-width: 360px;
+        margin-right: 0;
+    }
+
+    .tour-admin-crop-btn{
+        position: static;
+        transform: none;
+        width: 100%;
+        min-width: unset;
+        margin-top: 14px;
+    }
+
+    .tour-admin-crop-btn:hover{
+        transform: translateY(-1px);
+    }
+
+    .tour-cropper-body{
+        grid-template-columns:1fr;
+    }
+
+    .tour-cropper-stage{
+        min-height:420px;
+    }
+}
+
+@media (max-width: 767px){
+    .tour-admin-preview-card{
+        max-width: 100%;
+    }
+
+    .tour-cropper-dialog{
+        width:calc(100vw - 1rem);
+        max-width:calc(100vw - 1rem);
+        max-height:calc(100dvh - 1rem);
+        margin:.5rem auto;
+        border-radius:14px;
+    }
+
+    .tour-cropper-header{
+        padding:1rem 1.1rem;
+    }
+
+    .tour-cropper-body{
+        padding:1.1rem;
+    }
+
+    .tour-cropper-footer{
+        padding:1rem 1.1rem;
+    }
+
+    .tour-cropper-close-text{
+        margin-top:10px;
+        margin-right:2px;
+        flex-shrink:0;
+    }
+}

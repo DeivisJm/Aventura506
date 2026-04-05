@@ -47,7 +47,7 @@
 
         {{-- IMAGES --}}
         <div class="relative grid grid-cols-2 gap-6 scroll-hero">
-            
+
             {{-- Volcán Arenal --}}
             <img src="https://image-tc.galaxy.tf/wijpeg-27ubwpu4ecat1y90z03clnvcx/la-fortuna-san-carlos_standard.jpg?crop=316%2C0%2C1067%2C800" alt="Volcán Arenal - La Fortuna" class="rounded-2xl shadow-xl object-cover h-56 w-full transition-all duration-500 ease-out hover:scale-110 hover:-translate-y-1 cursor-pointer">
 
@@ -147,15 +147,16 @@ $startingPrice = $featuredTour->prices
 @endphp
 <section class="bg-white py-20 overflow-hidden">
     <div class="max-w-7xl mx-auto px-6">
-        <div class="scroll-hero relative rounded-[2rem] overflow-hidden shadow-2xl">
+        <div class="scroll-hero home-featured-tour-banner">
 
             {{-- Background image --}}
-            <div class="absolute inset-0">
+            <div class="home-featured-tour-banner-media">
                 <img
                     src="{{ $featuredTour->image ? asset($featuredTour->image) : asset('images/default-tour.jpg') }}"
                     alt="{{ $tourName }}"
-                    class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-black/30"></div>
+                    class="home-featured-tour-banner-image">
+
+                <div class="home-featured-tour-banner-overlay"></div>
             </div>
 
             {{-- Decorative glow --}}

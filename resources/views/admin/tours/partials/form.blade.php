@@ -372,7 +372,6 @@
 
                         </div>
 
-
                         {{-- IMAGE --}}
                         <div class="form-card accommodation-gallery-card">
 
@@ -385,16 +384,23 @@
                                 </div>
                             </div>
 
+                            {{-- Hidden field that stores the cropped result --}}
+                            <input
+                                type="hidden"
+                                name="cropped_image"
+                                id="cropped-image-input"
+                                value="">
+
                             <label class="accommodation-main-dropzone" for="tour-image-input">
                                 <input
                                     type="file"
                                     name="image"
                                     id="tour-image-input"
                                     class="form-input-file"
-                                    accept="image/*">
+                                    accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp">
 
                                 <span class="accommodation-dropzone-icon">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="w-10 h-10">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" class="w-10 h-10" aria-hidden="true">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2 1.586-1.586a2 2 0 012.828 0L20 14m-10-4h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                     </svg>
                                 </span>
@@ -404,28 +410,118 @@
                             </label>
 
                             <div class="accommodation-main-preview-list" id="tour-image-preview-wrapper">
-                                @if(isset($tour) && !empty($tour->image))
-                                <div class="accommodation-main-preview-card">
-                                    <img
-                                        id="tour-image-preview"
-                                        src="{{ asset($tour->image) }}"
-                                        alt="Tour preview"
-                                        class="accommodation-main-preview-image">
+                                <div class="accommodation-main-preview-card {{ !empty($tour->image) ? '' : 'hidden' }}" id="tour-image-preview-card">
+
+                                    <div class="tour-admin-preview-card">
+                                        <div class="tour-admin-preview-media">
+                                            <img
+                                                id="tour-image-preview"
+                                                src="{{ !empty($tour->image) ? $tour->image_url : '' }}"
+                                                alt="Tour preview"
+                                                class="tour-admin-preview-image">
+                                        </div>
+
+                                        <button
+                                            type="button"
+                                            id="open-tour-cropper"
+                                            class="tour-admin-crop-btn"
+                                            title="Editar recorte">
+
+                                            <span class="tour-admin-crop-btn-icon">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.65-1.65a2.121 2.121 0 113 3L7.5 19.5 3 21l1.5-4.5 12.362-12.013z" />
+                                                </svg>
+                                            </span>
+
+                                            <span class="tour-admin-crop-btn-text">
+                                                <strong>Editar recorte</strong>
+                                                <small>Ajustar imagen del card</small>
+                                            </span>
+                                        </button>
+                                    </div>
+
                                 </div>
-                                @else
-                                <div class="accommodation-main-preview-card hidden" id="tour-image-preview-card">
-                                    <img
-                                        id="tour-image-preview"
-                                        src=""
-                                        alt="Tour preview"
-                                        class="accommodation-main-preview-image">
-                                </div>
-                                @endif
                             </div>
 
                         </div>
 
+                        {{-- IMAGE CROPPER MODAL --}}
+                        <div class="tour-cropper-modal hidden" id="tour-cropper-modal">
+                            <div class="tour-cropper-backdrop" id="tour-cropper-close-backdrop"></div>
+
+                            <div class="tour-cropper-dialog" role="dialog" aria-modal="true" aria-labelledby="tour-cropper-title">
+                                <div class="tour-cropper-header">
+                                    <div>
+                                        <h3 class="tour-cropper-title" id="tour-cropper-title">Editar imagen de card</h3>
+                                        <p class="tour-cropper-subtitle">
+                                            Ajusta el recorte dentro del mismo formato que se mostrará en las cards públicas.
+                                        </p>
+                                    </div>
+
+                                    <button type="button"
+                                        id="tour-cropper-close"
+                                        class="tour-cropper-close-text text-2xl md:text-3xl"
+                                        aria-label="Cerrar editor">
+                                        ✕
+                                    </button>
+                                </div>
+
+                                <div class="tour-cropper-body">
+                                    <div class="tour-cropper-stage">
+                                        <img id="tour-cropper-image" src="" alt="Crop editor preview">
+                                    </div>
+
+                                    <div class="tour-cropper-side">
+                                        <div class="tour-cropper-side-card">
+                                            <h4 class="tour-cropper-side-title">Vista previa de la card</h4>
+                                            <div class="tour-cropper-card-sample">
+                                                <img id="tour-cropper-preview-thumb" src="" alt="Card preview thumbnail">
+                                            </div>
+                                        </div>
+
+                                        <div class="tour-cropper-side-card">
+                                            <h4 class="tour-cropper-side-title">Acciones</h4>
+
+                                            <div class="tour-cropper-actions">
+                                                <button type="button" class="tour-cropper-secondary-btn" id="tour-cropper-zoom-in">
+                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" class="w-4 h-4" aria-hidden="true">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M5 12h14" />
+                                                    </svg>
+                                                    <span>Acercar</span>
+                                                </button>
+
+                                                <button type="button" class="tour-cropper-secondary-btn" id="tour-cropper-zoom-out">
+                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" class="w-4 h-4" aria-hidden="true">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
+                                                    </svg>
+                                                    <span>Alejar</span>
+                                                </button>
+
+                                                <button type="button" class="tour-cropper-secondary-btn" id="tour-cropper-reset">
+                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" class="w-4 h-4" aria-hidden="true">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 4.5v5h5M19.5 19.5v-5h-5" />
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M20 9a8 8 0 00-13.66-5.66L4.5 4.5M4 15a8 8 0 0013.66 5.66L19.5 19.5" />
+                                                    </svg>
+                                                    <span>Restablecer</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tour-cropper-footer">
+                                    <button type="button" class="tour-cropper-cancel-btn" id="tour-cropper-cancel">
+                                        Cancelar
+                                    </button>
+
+                                    <button type="button" class="tour-cropper-save-btn" id="tour-cropper-apply">
+                                        Aplicar recorte
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                </div>
 
             </section>
 

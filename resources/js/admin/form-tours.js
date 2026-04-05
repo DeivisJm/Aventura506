@@ -1,3 +1,6 @@
+import Cropper from "cropperjs";
+import "cropperjs/dist/cropper.css";
+
 document.addEventListener("DOMContentLoaded", () => {
 
     /* =====================================================
@@ -103,9 +106,10 @@ document.addEventListener("DOMContentLoaded", () => {
                             placeholder="Ej: 55.00"
                             required>
                     </div>
-                      <p class="form-help">
-                                    Ingresa siempre el precio en dólares ($) usando el formato 00.00
-                                </p>
+
+                    <p class="form-help">
+                        Ingresa siempre el precio en dólares ($) usando el formato 00.00
+                    </p>
                 </div>
 
             </div>
@@ -275,36 +279,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     /* =====================================================
-    IMAGE PREVIEW
-    Show selected tour image before submitting the form
-    ===================================================== */
-    const imageInput = document.getElementById("tour-image-input");
-    const imagePreview = document.getElementById("tour-image-preview");
-    const imagePreviewCard = document.getElementById("tour-image-preview-card");
-
-    if (imageInput && imagePreview) {
-        imageInput.addEventListener("change", function () {
-            const file = this.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-
-            reader.onload = function (e) {
-                imagePreview.src = e.target.result;
-
-                if (imagePreviewCard) {
-                    imagePreviewCard.classList.remove("hidden");
-                }
-            };
-
-            reader.readAsDataURL(file);
-        });
-    }
-
-    /* =====================================================
     COMPANY EXTRA INFO
     Fill email and phone based on selected company
-    If no data exists, keep the field empty and use placeholder
     ===================================================== */
     const companySelect = document.getElementById("company_select");
     const companyEmailField = document.getElementById("company_email");
@@ -320,7 +296,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const selectedPhone = (selectedOption.getAttribute("data-phone") || "").trim();
         const isNewCompany = companySelect.value === "new";
 
-        /* If the user is creating a new company, keep fields fully editable and blank */
         if (isNewCompany) {
             companyEmailField.value = "";
             companyPhoneField.value = "";
@@ -329,11 +304,9 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        /* Only auto-fill when there is actual data */
         companyEmailField.value = selectedEmail;
         companyPhoneField.value = selectedPhone;
 
-        /* Use placeholders when the selected company has no saved data */
         companyEmailField.placeholder = selectedEmail ? "" : "Correo de la compañía";
         companyPhoneField.placeholder = selectedPhone ? "" : "Teléfono de la compañía";
     }
@@ -345,7 +318,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* =====================================================
     NEW CATEGORY TOGGLE
-    Show multilingual category inputs only when needed
     ===================================================== */
     const categorySelect = document.getElementById("category_id");
     const newCategoryWrapper = document.getElementById("new-category-wrapper");
@@ -375,7 +347,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* =====================================================
     NEW COMPANY TOGGLE
-    Show new company name input only when needed
     ===================================================== */
     const newCompanyWrapper = document.getElementById("new-company-wrapper");
     const newCompanyInput = document.getElementById("new_company");
@@ -392,7 +363,6 @@ document.addEventListener("DOMContentLoaded", () => {
             newCompanyInput.value = "";
         }
 
-        /* Also refresh company extra fields depending on the selected option */
         updateCompanyInfo();
     }
 
@@ -401,4 +371,218 @@ document.addEventListener("DOMContentLoaded", () => {
         toggleNewCompanyField();
     }
 
+    /* =====================================================
+    TOUR IMAGE CROPPER
+    Professional crop workflow for tour card images
+    ===================================================== */
+    let tourCropper = null;
+    let currentImageSource = "";
+
+    const imageInput = document.getElementById("tour-image-input");
+    const imagePreview = document.getElementById("tour-image-preview");
+    const imagePreviewCard = document.getElementById("tour-image-preview-card");
+    const croppedImageInput = document.getElementById("cropped-image-input");
+
+    const cropperModal = document.getElementById("tour-cropper-modal");
+    const cropperImage = document.getElementById("tour-cropper-image");
+    const cropperPreviewThumb = document.getElementById("tour-cropper-preview-thumb");
+
+    const openCropperBtn = document.getElementById("open-tour-cropper");
+    const closeCropperBtn = document.getElementById("tour-cropper-close");
+    const closeCropperBackdrop = document.getElementById("tour-cropper-close-backdrop");
+    const cancelCropperBtn = document.getElementById("tour-cropper-cancel");
+    const applyCropperBtn = document.getElementById("tour-cropper-apply");
+
+    const zoomInBtn = document.getElementById("tour-cropper-zoom-in");
+    const zoomOutBtn = document.getElementById("tour-cropper-zoom-out");
+    const resetCropperBtn = document.getElementById("tour-cropper-reset");
+
+    function updateCropperPreview() {
+        if (!tourCropper || !cropperPreviewThumb) return;
+
+        const canvas = tourCropper.getCroppedCanvas({
+            width: 1280,
+            height: 720,
+            imageSmoothingEnabled: true,
+            imageSmoothingQuality: "high",
+        });
+
+        if (!canvas) return;
+
+        cropperPreviewThumb.src = canvas.toDataURL("image/jpeg", 0.92);
+    }
+
+    function openTourCropperModal(source) {
+        if (!cropperModal || !cropperImage || !source) return;
+
+        currentImageSource = source;
+        cropperImage.src = source;
+        cropperPreviewThumb.src = source;
+
+        cropperModal.classList.remove("hidden");
+        document.body.classList.add("tour-cropper-open");
+
+        if (tourCropper) {
+            tourCropper.destroy();
+            tourCropper = null;
+        }
+
+        cropperImage.onload = () => {
+            if (tourCropper) {
+                tourCropper.destroy();
+                tourCropper = null;
+            }
+
+            tourCropper = new Cropper(cropperImage, {
+                aspectRatio: 16 / 9,
+                viewMode: 1,
+                dragMode: "move",
+                autoCropArea: 1,
+                background: true,
+                responsive: true,
+                restore: false,
+                guides: true,
+                center: true,
+                highlight: true,
+                movable: true,
+                zoomable: true,
+                rotatable: false,
+                scalable: false,
+                minCropBoxWidth: 320,
+                minCropBoxHeight: 180,
+                cropBoxMovable: true,
+                cropBoxResizable: true,
+                toggleDragModeOnDblclick: false,
+
+                ready() {
+                    updateCropperPreview();
+                },
+
+                crop() {
+                    updateCropperPreview();
+                },
+            });
+        };
+    }
+
+    function closeTourCropperModal() {
+        if (!cropperModal) return;
+
+        cropperModal.classList.add("hidden");
+        document.body.classList.remove("tour-cropper-open");
+
+        if (tourCropper) {
+            tourCropper.destroy();
+            tourCropper = null;
+        }
+    }
+
+    function applyTourCrop() {
+        if (!tourCropper || !imagePreview || !croppedImageInput) return;
+
+        const canvas = tourCropper.getCroppedCanvas({
+            width: 1280,
+            height: 720,
+            imageSmoothingEnabled: true,
+            imageSmoothingQuality: "high",
+        });
+
+        if (!canvas) return;
+
+        const croppedBase64 = canvas.toDataURL("image/jpeg", 0.92);
+
+        imagePreview.src = croppedBase64;
+        croppedImageInput.value = croppedBase64;
+
+        if (imagePreviewCard) {
+            imagePreviewCard.classList.remove("hidden");
+        }
+
+        closeTourCropperModal();
+    }
+
+    function handleTourImageSelection(file) {
+        if (!file) return;
+
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            const source = e.target?.result;
+            if (!source) return;
+
+            if (imagePreviewCard) {
+                imagePreviewCard.classList.remove("hidden");
+            }
+
+            openTourCropperModal(source);
+        };
+
+        reader.readAsDataURL(file);
+    }
+
+    if (imageInput) {
+        imageInput.addEventListener("change", function () {
+            const file = this.files && this.files[0];
+            if (!file) return;
+
+            handleTourImageSelection(file);
+        });
+    }
+
+    if (openCropperBtn) {
+        openCropperBtn.addEventListener("click", function () {
+            const source = croppedImageInput?.value || imagePreview?.src || currentImageSource;
+            if (!source) return;
+
+            openTourCropperModal(source);
+        });
+    }
+
+    if (closeCropperBtn) {
+        closeCropperBtn.addEventListener("click", closeTourCropperModal);
+    }
+
+    if (closeCropperBackdrop) {
+        closeCropperBackdrop.addEventListener("click", closeTourCropperModal);
+    }
+
+    if (cancelCropperBtn) {
+        cancelCropperBtn.addEventListener("click", closeTourCropperModal);
+    }
+
+    if (applyCropperBtn) {
+        applyCropperBtn.addEventListener("click", applyTourCrop);
+    }
+
+    if (zoomInBtn) {
+        zoomInBtn.addEventListener("click", () => {
+            if (!tourCropper) return;
+            tourCropper.zoom(0.1);
+            updateCropperPreview();
+        });
+    }
+
+    if (zoomOutBtn) {
+        zoomOutBtn.addEventListener("click", () => {
+            if (!tourCropper) return;
+            tourCropper.zoom(-0.1);
+            updateCropperPreview();
+        });
+    }
+
+    if (resetCropperBtn) {
+        resetCropperBtn.addEventListener("click", () => {
+            if (!tourCropper) return;
+            tourCropper.reset();
+            setTimeout(() => {
+                updateCropperPreview();
+            }, 30);
+        });
+    }
+
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && cropperModal && !cropperModal.classList.contains("hidden")) {
+            closeTourCropperModal();
+        }
+    });
 });
