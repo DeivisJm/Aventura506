@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Services\SubscriberNotificationService;
 use Illuminate\Http\Request;
 use App\Models\Tour;
 use Illuminate\Support\Str;
@@ -54,15 +55,17 @@ class AdminTourController extends Controller
         ));
     }
 
-    public function store(Request $request)
+    public function store(Request $request, SubscriberNotificationService $subscriberNotificationService)
     {
         $this->validateTourRequest($request);
 
-        DB::transaction(function () use ($request) {
+        $createdTour = null;
+
+        DB::transaction(function () use ($request, &$createdTour) {
             $categoryId = $this->resolveCategoryId($request);
             $companyId = $this->resolveCompanyId($request);
 
-            $tour = Tour::create([
+            $createdTour = Tour::create([
                 'name' => $request->name,
                 'slug' => Str::slug($request->slug),
                 'description' => $request->description,
@@ -72,12 +75,16 @@ class AdminTourController extends Controller
                 'sort_order' => (Tour::max('sort_order') ?? 0) + 1,
             ]);
 
-            $this->handleTourImage($request, $tour);
-            $this->saveTourDetail($request, $tour);
+            $this->handleTourImage($request, $createdTour);
+            $this->saveTourDetail($request, $createdTour);
             $this->updateCompanyInfo($request, $companyId);
-            $this->syncTourPrices($request, $tour, false);
-            $this->syncTourSchedules($request, $tour, false);
+            $this->syncTourPrices($request, $createdTour, false);
+            $this->syncTourSchedules($request, $createdTour, false);
         });
+
+        if ($createdTour) {
+            $subscriberNotificationService->sendNewTourNotification($createdTour->fresh());
+        }
 
         return redirect()
             ->route('admin.tours.index')
@@ -506,5 +513,36 @@ class AdminTourController extends Controller
                 ]);
             }
         }
+    }
+    public function destroy(Tour $tour)
+    {
+        $hasBookings = DB::table('bookings')
+            ->where('tour_id', $tour->id)
+            ->exists();
+
+        if ($hasBookings) {
+            return redirect()
+                ->route('admin.tours.index')
+                ->with('error', 'No se puede eliminar este tour porque ya tiene reservas asociadas.');
+        }
+
+        DB::transaction(function () use ($tour) {
+            if (!empty($tour->image) && str_starts_with($tour->image, 'storage/')) {
+                $oldPath = str_replace('storage/', '', $tour->image);
+
+                if (Storage::disk('public')->exists($oldPath)) {
+                    Storage::disk('public')->delete($oldPath);
+                }
+            }
+
+            $tour->detail()?->delete();
+            $tour->prices()->delete();
+            $tour->schedulesAdmin()->delete();
+            $tour->delete();
+        });
+
+        return redirect()
+            ->route('admin.tours.index')
+            ->with('success', 'El tour fue eliminado correctamente.');
     }
 }

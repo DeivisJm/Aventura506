@@ -58,123 +58,116 @@
 
     @forelse ($accommodations as $accommodation)
 
-        @php
-            $name = $accommodation->name['es'] ?? $accommodation->name['en'] ?? 'Hospedaje';
-            $image = $accommodation->main_image
-                ? asset($accommodation->main_image)
-                : asset('images/default-accommodation.jpg');
-        @endphp
+    @php
+    $name = $accommodation->name['es'] ?? $accommodation->name['en'] ?? 'Hospedaje';
+    $image = $accommodation->main_image
+    ? asset($accommodation->main_image)
+    : asset('images/default-accommodation.jpg');
+    @endphp
 
-        <div class="tour-card bg-white dark:bg-gray-800 rounded-2xl shadow-lg 
-            hover:shadow-2xl transition duration-300 overflow-hidden group
-            {{ !$accommodation->is_active ? 'border-2 border-red-500' : '' }}">
+    <div class="tour-card accommodation-admin-card bg-white dark:bg-gray-800 rounded-2xl shadow-lg transition duration-300 overflow-hidden
+    {{ !$accommodation->is_active ? 'accommodation-admin-card--inactive' : '' }}">
 
-            <img src="{{ $image }}"
-                alt="{{ $name }}"
-                class="h-48 w-full object-cover group-hover:scale-105 transition duration-300">
+        <img src="{{ $image }}"
+            alt="{{ $name }}"
+            class="h-48 w-full object-cover transition duration-300">
 
-            <div class="p-6">
+        <div class="p-6 accommodation-admin-card-body">
 
-                <h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">
-                    {{ $name }}
-                </h3>
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 accommodation-admin-card-title">
+                {{ $name }}
+            </h3>
 
-                <div class="flex justify-between items-center">
+            {{-- TOP STATUS / TOGGLE --}}
+            <div class="accommodation-admin-card-topbar">
 
-                    {{-- STATUS --}}
-                    <span class="
-                        inline-flex items-center gap-2
-                        px-4 py-2
-                        rounded-full
-                        text-sm font-semibold
-                        transition-all duration-300
-                        shadow-sm
-                        {{ $accommodation->is_active
-                            ? 'bg-green-50 text-green-700 ring-1 ring-green-200 hover:bg-green-100'
-                            : 'bg-red-50 text-red-700 ring-1 ring-red-200 hover:bg-red-100' }}
-                    ">
+                <span class="accommodation-admin-status-badge {{ $accommodation->is_active ? 'is-active' : 'is-inactive' }}">
+                    @if($accommodation->is_active)
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    @else
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                    @endif
 
-                        @if($accommodation->is_active)
-                            <svg class="w-4 h-4 text-green-600"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    d="M5 13l4 4L19 7" />
-                            </svg>
-                        @else
-                            <svg class="w-4 h-4 text-red-600"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        @endif
+                    <span>{{ $accommodation->is_active ? 'Activo' : 'Desactivado' }}</span>
+                </span>
 
-                        {{ $accommodation->is_active ? 'Activo' : 'Desactivado' }}
-                    </span>
+                <form method="POST"
+                    action="{{ route('admin.accommodations.toggle', $accommodation) }}"
+                    class="m-0">
+                    @csrf
+                    @method('PATCH')
 
-                    {{-- TOGGLE --}}
+                    <button type="submit"
+                        class="accommodation-admin-toggle-link {{ $accommodation->is_active ? 'accommodation-admin-toggle-link--warning' : 'accommodation-admin-toggle-link--success' }}">
+                        {{ $accommodation->is_active ? 'Desactivar' : 'Activar' }}
+                    </button>
+                </form>
+
+            </div>
+
+            <div class="accommodation-admin-card-bottom">
+
+                <div class="accommodation-admin-card-actions-row">
+
+                    <a href="{{ route('admin.accommodations.edit', $accommodation) }}"
+                        class="accommodation-admin-action-link accommodation-admin-action-link-edit">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.65-1.65a2.121 2.121 0 113 3L7.5 21H3v-4.5L16.862 4.487z" />
+                        </svg>
+                        <span>Editar</span>
+                    </a>
+
                     <form method="POST"
-                        action="{{ route('admin.accommodations.toggle', $accommodation) }}">
+                        action="{{ route('admin.accommodations.destroy', $accommodation) }}"
+                        class="m-0 accommodation-admin-delete-form js-delete-accommodation-form"
+                        data-accommodation-name="{{ $name }}">
                         @csrf
-                        @method('PATCH')
+                        @method('DELETE')
 
-                        <button type="submit"
-                            class="text-sm font-semibold transition-all duration-200
-                            {{ $accommodation->is_active
-                                ? 'text-red-600 hover:text-red-800'
-                                : 'text-green-600 hover:text-green-800' }}">
-                            {{ $accommodation->is_active ? 'Desactivar' : 'Activar' }}
+                        <button type="button"
+                            class="accommodation-admin-action-link accommodation-admin-action-link-delete js-open-delete-modal">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 7h12M9 7V5a1 1 0 011-1h4a1 1 0 011 1v2m-7 0v11m4-11v11m4-11v11M5 7l1 13a1 1 0 001 1h10a1 1 0 001-1l1-13" />
+                            </svg>
+                            <span>Eliminar</span>
                         </button>
                     </form>
 
                 </div>
 
-                {{-- EDIT / ORDER --}}
-                <div class="mt-4 flex items-end justify-between gap-4 min-h-[64px]">
-
-                    <a href="{{ route('admin.accommodations.edit', $accommodation) }}"
-                        class="text-sm font-semibold text-cyan-500 hover:text-cyan-700 transition">
-                        Editar
-                    </a>
+                <div class="accommodation-admin-order-section accommodation-admin-order-section--separated">
+                    <span class="accommodation-admin-order-label">Orden</span>
 
                     <div class="tour-position-box"
                         data-accommodation-id="{{ $accommodation->id }}"
                         data-update-url="{{ route('admin.accommodations.update-position', $accommodation) }}">
 
-                        <span class="tour-position-label">
-                            Orden
-                        </span>
-
                         <select class="tour-position-select"
                             aria-label="Seleccionar posición del hospedaje">
                             @for($position = 1; $position <= $totalAccommodations; $position++)
                                 <option value="{{ $position }}"
-                                    {{ (int) $accommodation->sort_order === $position ? 'selected' : '' }}>
-                                    {{ $position }}
+                                {{ (int) $accommodation->sort_order === $position ? 'selected' : '' }}>
+                                {{ $position }}
                                 </option>
-                            @endfor
+                                @endfor
                         </select>
-
                     </div>
-
                 </div>
-
             </div>
 
         </div>
 
+    </div>
+
     @empty
 
-        <p class="col-span-3 text-center text-gray-500">
-            No hay hospedajes registrados.
-        </p>
+    <p class="col-span-3 text-center text-gray-500">
+        No hay hospedajes registrados.
+    </p>
 
     @endforelse
 
@@ -207,5 +200,42 @@
 </div>
 
 @endif
+<div class="accommodation-delete-modal" id="accommodation-delete-modal" aria-hidden="true">
+    <div class="accommodation-delete-modal-backdrop" data-delete-modal-close></div>
 
+    <div class="accommodation-delete-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="accommodation-delete-modal-title">
+        <div class="accommodation-delete-modal-header">
+            <div class="accommodation-delete-modal-icon">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v4m0 4h.01M10.29 3.86l-7.5 13A1 1 0 003.66 18h16.68a1 1 0 00.87-1.5l-7.5-13a1 1 0 00-1.74 0z" />
+                </svg>
+            </div>
+
+            <div>
+                <h3 class="accommodation-delete-modal-title" id="accommodation-delete-modal-title">
+                    Eliminar hospedaje
+                </h3>
+                <p class="accommodation-delete-modal-subtitle" id="accommodation-delete-modal-description">
+                    Esta acción eliminará el hospedaje seleccionado de forma permanente.
+                </p>
+            </div>
+        </div>
+
+        <div class="accommodation-delete-modal-body">
+            <p class="accommodation-delete-modal-note">
+                Esta acción no se puede deshacer. Asegúrate de que realmente deseas eliminar este hospedaje del sistema.
+            </p>
+        </div>
+
+        <div class="accommodation-delete-modal-actions">
+            <button type="button" class="accommodation-delete-modal-cancel" data-delete-modal-close>
+                Cancelar
+            </button>
+
+            <button type="button" class="accommodation-delete-modal-confirm" id="accommodation-delete-modal-confirm">
+                Sí, eliminar
+            </button>
+        </div>
+    </div>
+</div>
 @endsection

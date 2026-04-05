@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Support\Facades\Validator;
+use App\Services\SubscriberNotificationService;
 use Illuminate\Validation\ValidationException;
 use App\Http\Controllers\Controller;
 use App\Models\Accommodation;
@@ -69,11 +70,13 @@ class AdminAccommodationController extends Controller
     /**
      * Store a newly created accommodation.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request, SubscriberNotificationService $subscriberNotificationService): RedirectResponse
     {
         $validated = $this->validateAccommodationRequest($request);
 
-        DB::transaction(function () use ($request, $validated) {
+        $createdAccommodation = null;
+
+        DB::transaction(function () use ($request, $validated, &$createdAccommodation) {
             $mainImagePath = null;
 
             if ($request->hasFile('main_image') && $request->file('main_image')->isValid()) {
@@ -83,7 +86,7 @@ class AdminAccommodationController extends Controller
 
             $galleryImages = $this->storeGalleryImages($request);
 
-            Accommodation::create([
+            $createdAccommodation = Accommodation::create([
                 'name' => [
                     'es' => $validated['name']['es'],
                     'en' => $validated['name']['en'],
@@ -108,6 +111,10 @@ class AdminAccommodationController extends Controller
                 'sort_order' => ((int) Accommodation::max('sort_order')) + 1,
             ]);
         });
+
+        if ($createdAccommodation) {
+            $subscriberNotificationService->sendNewAccommodationNotification($createdAccommodation->fresh());
+        }
 
         return redirect()
             ->route('admin.accommodations.index')
@@ -372,5 +379,27 @@ class AdminAccommodationController extends Controller
         if (Storage::disk('public')->exists($storagePath)) {
             Storage::disk('public')->delete($storagePath);
         }
+    }
+
+    /**
+     * Remove the specified accommodation.
+     */
+    public function destroy(Accommodation $accommodation): RedirectResponse
+    {
+        $this->deletePublicFileIfExists($accommodation->main_image);
+
+        $galleryImages = is_array($accommodation->gallery_images)
+            ? $accommodation->gallery_images
+            : [];
+
+        foreach ($galleryImages as $image) {
+            $this->deletePublicFileIfExists($image);
+        }
+
+        $accommodation->delete();
+
+        return redirect()
+            ->route('admin.accommodations.index')
+            ->with('success', 'El hospedaje fue eliminado correctamente.');
     }
 }

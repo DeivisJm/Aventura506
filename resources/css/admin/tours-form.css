@@ -588,6 +588,338 @@ Outside the image, on the right border
     color: #94a3b8;
 }
 
+/* =====================================================
+   TOURS ADMIN INDEX CARD
+   Premium layout matching accommodations
+===================================================== */
+
+.tour-admin-card {
+    border: 1px solid rgba(15, 23, 42, 0.06);
+    box-shadow: 0 14px 28px rgba(15, 23, 42, 0.08);
+    transition: transform 0.24s ease, box-shadow 0.24s ease, border-color 0.24s ease;
+}
+
+.tour-admin-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 20px 36px rgba(15, 23, 42, 0.12);
+}
+
+.tour-admin-card--inactive {
+    border: 2px solid #d97706;
+    box-shadow: 0 16px 32px rgba(217, 119, 6, 0.12);
+}
+
+.tour-admin-card-body {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem 1.5rem 1.3rem;
+}
+
+.tour-admin-card-title {
+    margin-bottom: 1rem;
+    line-height: 1.45;
+    min-height: 84px;
+}
+
+.tour-admin-card-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 1rem;
+}
+
+.tour-admin-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 40px;
+    padding: 0 14px;
+    border-radius: 9999px;
+    font-size: 14px;
+    font-weight: 700;
+    border: 1px solid transparent;
+    white-space: nowrap;
+}
+
+.tour-admin-status-badge.is-active {
+    background: #f0fdf4;
+    color: #15803d;
+    border-color: #bbf7d0;
+}
+
+.tour-admin-status-badge.is-inactive {
+    background: #fff7ed;
+    color: #b45309;
+    border-color: #fdba74;
+}
+
+.tour-admin-toggle-link {
+    background: transparent;
+    border: 0;
+    padding: 0;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.2s ease, color 0.2s ease;
+    white-space: nowrap;
+}
+
+.tour-admin-toggle-link:hover {
+    opacity: 0.82;
+}
+
+.tour-admin-toggle-link--warning {
+    color: #b45309;
+}
+
+.tour-admin-toggle-link--success {
+    color: #15803d;
+}
+
+.tour-admin-card-bottom {
+    margin-top: 0.35rem;
+    border-top: 1px solid #e5e7eb;
+    padding-top: 1rem;
+}
+
+.dark .tour-admin-card-bottom {
+    border-top-color: #334155;
+}
+
+.tour-admin-card-actions-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.tour-admin-action-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-height: 36px;
+    padding: 0;
+    white-space: nowrap;
+}
+
+.tour-admin-action-link-edit {
+    color: #0891b2;
+}
+
+.tour-admin-action-link-edit:hover {
+    color: #0e7490;
+}
+
+.tour-admin-action-link-delete {
+    color: #dc2626;
+}
+
+.tour-admin-action-link-delete:hover {
+    color: #b91c1c;
+}
+
+.tour-admin-order-section {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px dashed #dbe3ee;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.dark .tour-admin-order-section {
+    border-top-color: #334155;
+}
+
+.tour-admin-order-label {
+    display: block;
+    width: 100%;
+    margin: 0;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #64748b;
+    line-height: 1;
+}
+
+.tour-delete-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: none;
+}
+
+.tour-delete-modal.is-open {
+    display: block;
+}
+
+.tour-delete-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.55);
+    backdrop-filter: blur(4px);
+}
+
+.tour-delete-modal-dialog {
+    position: relative;
+    width: min(92vw, 520px);
+    margin: 10vh auto 0;
+    border-radius: 24px;
+    background: #ffffff;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    box-shadow: 0 28px 70px rgba(15, 23, 42, 0.22);
+    overflow: hidden;
+}
+
+.dark .tour-delete-modal-dialog {
+    background: #0f172a;
+    border-color: #334155;
+}
+
+.tour-delete-modal-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 22px 24px 14px;
+}
+
+.tour-delete-modal-icon {
+    width: 52px;
+    height: 52px;
+    min-width: 52px;
+    border-radius: 9999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #fef2f2;
+    color: #dc2626;
+    border: 1px solid #fecaca;
+}
+
+.tour-delete-modal-title {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #0f172a;
+}
+
+.dark .tour-delete-modal-title {
+    color: #f8fafc;
+}
+
+.tour-delete-modal-subtitle {
+    margin: 4px 0 0;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #64748b;
+}
+
+.dark .tour-delete-modal-subtitle {
+    color: #94a3b8;
+}
+
+.tour-delete-modal-body {
+    padding: 0 24px 22px;
+}
+
+.tour-delete-modal-note {
+    margin: 0;
+    padding: 14px 16px;
+    border-radius: 16px;
+    background: #fff7ed;
+    border: 1px solid #fed7aa;
+    color: #9a3412;
+    font-size: 0.92rem;
+    line-height: 1.6;
+}
+
+.tour-delete-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 0 24px 24px;
+}
+
+.tour-delete-modal-cancel,
+.tour-delete-modal-confirm {
+    min-height: 44px;
+    padding: 0 18px;
+    border-radius: 14px;
+    font-size: 14px;
+    font-weight: 700;
+    border: 0;
+    cursor: pointer;
+    transition: all 0.22s ease;
+}
+
+.tour-delete-modal-cancel {
+    background: #f1f5f9;
+    color: #334155;
+    border: 1px solid #dbe3ee;
+}
+
+.tour-delete-modal-cancel:hover {
+    background: #e2e8f0;
+}
+
+.tour-delete-modal-confirm {
+    background: #dc2626;
+    color: #ffffff;
+    box-shadow: 0 12px 24px rgba(220, 38, 38, 0.18);
+}
+
+.tour-delete-modal-confirm:hover {
+    background: #b91c1c;
+    box-shadow: 0 16px 28px rgba(185, 28, 28, 0.22);
+}
+
+@media (max-width: 640px) {
+    .tour-admin-card-title {
+        min-height: auto;
+    }
+
+    .tour-admin-card-topbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .tour-admin-card-actions-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .tour-admin-order-section {
+        align-items: center;
+    }
+
+    .tour-delete-modal-dialog {
+        width: calc(100vw - 24px);
+        margin-top: 8vh;
+    }
+
+    .tour-delete-modal-actions {
+        flex-direction: column;
+    }
+
+    .tour-delete-modal-cancel,
+    .tour-delete-modal-confirm {
+        width: 100%;
+    }
+}
+
 /* ======================================================
 TOUR CROPPER MODAL
 ====================================================== */

@@ -46,4 +46,53 @@ document.addEventListener("DOMContentLoaded", function () {
 
         select.dataset.originalValue = select.value;
     });
+
+    const modal = document.getElementById("accommodation-delete-modal");
+    const confirmButton = document.getElementById("accommodation-delete-modal-confirm");
+    const description = document.getElementById("accommodation-delete-modal-description");
+
+    if (!modal || !confirmButton || !description) return;
+
+    let activeForm = null;
+
+    const openModal = (form) => {
+        activeForm = form;
+
+        const accommodationName = form.dataset.accommodationName || "este hospedaje";
+        description.textContent = `Vas a eliminar "${accommodationName}" de forma permanente.`;
+
+        modal.classList.add("is-open");
+        modal.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+    };
+
+    const closeModal = () => {
+        modal.classList.remove("is-open");
+        modal.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+        activeForm = null;
+    };
+
+    document.querySelectorAll(".js-open-delete-modal").forEach((button) => {
+        button.addEventListener("click", () => {
+            const form = button.closest(".js-delete-accommodation-form");
+            if (form) openModal(form);
+        });
+    });
+
+    modal.querySelectorAll("[data-delete-modal-close]").forEach((element) => {
+        element.addEventListener("click", closeModal);
+    });
+
+    confirmButton.addEventListener("click", () => {
+        if (activeForm) {
+            activeForm.submit();
+        }
+    });
+
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && modal.classList.contains("is-open")) {
+            closeModal();
+        }
+    });
 });

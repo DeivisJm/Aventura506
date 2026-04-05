@@ -197,6 +197,9 @@ Route::prefix('admin')
         Route::put('/accommodations/{accommodation}', [AdminAccommodationController::class, 'update'])
             ->name('admin.accommodations.update');
 
+        Route::delete('/accommodations/{accommodation}', [AdminAccommodationController::class, 'destroy'])
+            ->name('admin.accommodations.destroy');
+
         Route::patch('/accommodations/{accommodation}/toggle', [AdminAccommodationController::class, 'toggle'])
             ->name('admin.accommodations.toggle');
 
@@ -313,6 +316,9 @@ Route::prefix('admin')
 
         Route::put('/tours/{tour}', [AdminTourController::class, 'update'])
             ->name('admin.tours.update');
+
+        Route::delete('/tours/{tour}', [AdminTourController::class, 'destroy'])
+            ->name('admin.tours.destroy');
 
         Route::patch('/tours/{tour}/toggle', [AdminTourController::class, 'toggle'])
             ->name('admin.tours.toggle');

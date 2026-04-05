@@ -221,3 +221,384 @@
     transform: translateY(-2px);
     box-shadow: 0 10px 20px rgba(15, 23, 42, 0.12);
 }
+
+/* =====================================================
+   ACCOMMODATIONS ADMIN INDEX CARD
+   Premium balanced layout for status, actions and ordering
+===================================================== */
+
+.accommodation-admin-card {
+    border: 1px solid rgba(15, 23, 42, 0.06);
+    box-shadow: 0 14px 28px rgba(15, 23, 42, 0.08);
+    transition: transform 0.24s ease, box-shadow 0.24s ease, border-color 0.24s ease;
+}
+
+.accommodation-admin-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 20px 36px rgba(15, 23, 42, 0.12);
+}
+
+.accommodation-admin-card--inactive {
+    border: 2px solid #d97706;
+    box-shadow: 0 16px 32px rgba(217, 119, 6, 0.12);
+}
+
+.accommodation-admin-card-body {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem 1.5rem 1.3rem;
+}
+
+.accommodation-admin-card-title {
+    margin-bottom: 1rem;
+    line-height: 1.45;
+    min-height: 84px;
+}
+
+.accommodation-admin-card-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 1rem;
+}
+
+.accommodation-admin-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 40px;
+    padding: 0 14px;
+    border-radius: 9999px;
+    font-size: 14px;
+    font-weight: 700;
+    border: 1px solid transparent;
+    white-space: nowrap;
+}
+
+.accommodation-admin-status-badge.is-active {
+    background: #f0fdf4;
+    color: #15803d;
+    border-color: #bbf7d0;
+}
+
+.accommodation-admin-status-badge.is-inactive {
+    background: #fff7ed;
+    color: #b45309;
+    border-color: #fdba74;
+}
+
+.accommodation-admin-toggle-link {
+    background: transparent;
+    border: 0;
+    padding: 0;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.2s ease, color 0.2s ease;
+    white-space: nowrap;
+}
+
+.accommodation-admin-toggle-link:hover {
+    opacity: 0.82;
+}
+
+.accommodation-admin-toggle-link--warning {
+    color: #b45309;
+}
+
+.accommodation-admin-toggle-link--success {
+    color: #15803d;
+}
+
+.accommodation-admin-card-bottom {
+    margin-top: 0.35rem;
+    border-top: 1px solid #e5e7eb;
+    padding-top: 1rem;
+}
+
+.dark .accommodation-admin-card-bottom {
+    border-top-color: #334155;
+}
+
+.accommodation-admin-card-actions-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.accommodation-admin-action-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-height: 36px;
+    padding: 0;
+    white-space: nowrap;
+}
+
+.accommodation-admin-action-link-edit {
+    color: #0891b2;
+}
+
+.accommodation-admin-action-link-edit:hover {
+    color: #0e7490;
+}
+
+.accommodation-admin-action-link-delete {
+    color: #dc2626;
+}
+
+.accommodation-admin-action-link-delete:hover {
+    color: #b91c1c;
+}
+
+.accommodation-admin-order-section--separated {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px dashed #dbe3ee;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.dark .accommodation-admin-order-section--separated {
+    border-top-color: #334155;
+}
+
+.accommodation-admin-order-label {
+    display: block;
+    width: 100%;
+    margin: 0;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #64748b;
+    line-height: 1;
+}
+
+.tour-position-box {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tour-position-box .tour-position-label {
+    display: none;
+}
+
+.tour-position-select {
+    display: block;
+    margin: 0 auto;
+    min-width: 64px;
+    height: 38px;
+    border-radius: 9999px;
+    border: 1px solid #c7d2fe;
+    background: #eef2ff;
+    color: #4338ca;
+    font-weight: 700;
+    text-align: center;
+    text-align-last: center;
+    padding: 0 14px;
+    box-shadow: 0 6px 14px rgba(99, 102, 241, 0.10);
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.tour-position-select:hover {
+    border-color: #a5b4fc;
+    background: #e0e7ff;
+}
+
+.tour-position-select:focus {
+    border-color: #818cf8;
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.16);
+}
+
+/* =====================================================
+   DELETE MODAL
+===================================================== */
+
+.accommodation-delete-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: none;
+}
+
+.accommodation-delete-modal.is-open {
+    display: block;
+}
+
+.accommodation-delete-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.55);
+    backdrop-filter: blur(4px);
+}
+
+.accommodation-delete-modal-dialog {
+    position: relative;
+    width: min(92vw, 520px);
+    margin: 10vh auto 0;
+    border-radius: 24px;
+    background: #ffffff;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    box-shadow: 0 28px 70px rgba(15, 23, 42, 0.22);
+    overflow: hidden;
+}
+
+.dark .accommodation-delete-modal-dialog {
+    background: #0f172a;
+    border-color: #334155;
+}
+
+.accommodation-delete-modal-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 22px 24px 14px;
+}
+
+.accommodation-delete-modal-icon {
+    width: 52px;
+    height: 52px;
+    min-width: 52px;
+    border-radius: 9999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #fef2f2;
+    color: #dc2626;
+    border: 1px solid #fecaca;
+}
+
+.accommodation-delete-modal-title {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #0f172a;
+}
+
+.dark .accommodation-delete-modal-title {
+    color: #f8fafc;
+}
+
+.accommodation-delete-modal-subtitle {
+    margin: 4px 0 0;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #64748b;
+}
+
+.dark .accommodation-delete-modal-subtitle {
+    color: #94a3b8;
+}
+
+.accommodation-delete-modal-body {
+    padding: 0 24px 22px;
+}
+
+.accommodation-delete-modal-note {
+    margin: 0;
+    padding: 14px 16px;
+    border-radius: 16px;
+    background: #fff7ed;
+    border: 1px solid #fed7aa;
+    color: #9a3412;
+    font-size: 0.92rem;
+    line-height: 1.6;
+}
+
+.accommodation-delete-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 0 24px 24px;
+}
+
+.accommodation-delete-modal-cancel,
+.accommodation-delete-modal-confirm {
+    min-height: 44px;
+    padding: 0 18px;
+    border-radius: 14px;
+    font-size: 14px;
+    font-weight: 700;
+    border: 0;
+    cursor: pointer;
+    transition: all 0.22s ease;
+}
+
+.accommodation-delete-modal-cancel {
+    background: #f1f5f9;
+    color: #334155;
+    border: 1px solid #dbe3ee;
+}
+
+.accommodation-delete-modal-cancel:hover {
+    background: #e2e8f0;
+}
+
+.accommodation-delete-modal-confirm {
+    background: #dc2626;
+    color: #ffffff;
+    box-shadow: 0 12px 24px rgba(220, 38, 38, 0.18);
+}
+
+.accommodation-delete-modal-confirm:hover {
+    background: #b91c1c;
+    box-shadow: 0 16px 28px rgba(185, 28, 28, 0.22);
+}
+
+@media (max-width: 640px) {
+    .accommodation-admin-card-title {
+        min-height: auto;
+    }
+
+    .accommodation-admin-card-topbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .accommodation-admin-card-actions-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .accommodation-admin-order-section--separated {
+        width: 100%;
+        align-items: center;
+    }
+
+    .tour-position-box {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .accommodation-delete-modal-dialog {
+        width: calc(100vw - 24px);
+        margin-top: 8vh;
+    }
+
+    .accommodation-delete-modal-actions {
+        flex-direction: column;
+    }
+
+    .accommodation-delete-modal-cancel,
+    .accommodation-delete-modal-confirm {
+        width: 100%;
+    }
+}
