@@ -34,41 +34,153 @@
 
         </header>
 
-        {{-- ================= FILTER CARDS ================= --}}
-        <section class="mb-16">
+        {{-- ================= SMART FILTER ================= --}}
+        @php
+        $currentCategory = request('category', 'all');
+        $currentSearch = request('search', '');
 
-            <h2 class="text-xl font-semibold mb-6 tours-filter-title">
-                {{ __('tours.filter_title') }}
-            </h2>
+        $selectedCategory = $categories->firstWhere('slug', $currentCategory);
+        $selectedCategoryName = $selectedCategory
+        ? $selectedCategory->translated_name
+        : __('tours.filter_all_categories');
+        @endphp
 
-            @php
-            $currentCategory = request('category', 'all');
-            @endphp
+        <section class="mb-16 scroll-hero tours-smart-filter-section">
 
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+            <form method="GET" action="{{ route('tours.index') }}" class="tours-smart-filter-shell">
 
-                {{-- All categories --}}
-                <a href="{{ route('tours.index', ['category' => 'all']) }}"
-                    class="filter-card {{ $currentCategory === 'all' ? 'active' : '' }}">
-                    {{ __('tours.filters.all') }}
-                </a>
+                <div class="tours-smart-filter-header">
+                    <div>
+                        <p class="tours-smart-filter-kicker">
+                            {{ __('tours.filter_kicker') }}
+                        </p>
 
-                {{-- Dynamic categories from database --}}
-                @foreach($categories as $category)
-                <a href="{{ route('tours.index', ['category' => $category->slug]) }}"
-                    class="filter-card {{ $currentCategory === $category->slug ? 'active' : '' }}">
-                    {{ $category->translated_name }}
-                </a>
-                @endforeach
+                        <h2 class="tours-smart-filter-title">
+                            {{ __('tours.filter_title') }}
+                        </h2>
+                    </div>
+                </div>
 
-            </div>
+                <div class="tours-smart-filter-bar">
+
+                    {{-- Buscar --}}
+                    <div class="tours-smart-filter-field tours-smart-filter-field-search">
+                        <label for="search" class="tours-smart-filter-label">
+                            {{ __('tours.filter_search') }}
+                        </label>
+
+                        <div class="tours-smart-input-wrap">
+                            <svg class="tours-smart-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                <circle cx="11" cy="11" r="7"></circle>
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M20 20l-3.5-3.5"></path>
+                            </svg>
+
+                            <input
+                                type="text"
+                                id="search"
+                                name="search"
+                                value="{{ $currentSearch }}"
+                                placeholder="{{ __('tours.filter_search_placeholder') }}"
+                                class="tours-smart-input">
+                        </div>
+                    </div>
+
+                    {{-- Categoría custom --}}
+                    <div class="tours-smart-filter-field tours-smart-filter-field-category">
+                        <label class="tours-smart-filter-label">
+                            {{ __('tours.filter_category') }}
+                        </label>
+
+                        <div class="tours-smart-dropdown" data-category-dropdown>
+                            <input
+                                type="hidden"
+                                name="category"
+                                value="{{ $currentCategory }}"
+                                data-category-input>
+
+                            <button
+                                type="button"
+                                class="tours-smart-dropdown-trigger"
+                                data-category-trigger
+                                aria-expanded="false"
+                                aria-haspopup="listbox">
+                                <span class="tours-smart-dropdown-trigger-text" data-category-label>
+                                    {{ $selectedCategoryName }}
+                                </span>
+
+                                <svg class="tours-smart-dropdown-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6" />
+                                </svg>
+                            </button>
+
+                            <div class="tours-smart-dropdown-panel" data-category-panel hidden>
+                                <div class="tours-smart-dropdown-options" role="listbox">
+
+                                    <button
+                                        type="button"
+                                        class="tours-smart-dropdown-option {{ $currentCategory === 'all' ? 'is-active' : '' }}"
+                                        data-category-option
+                                        data-value="all"
+                                        data-label="{{ __('tours.filter_all_categories') }}">
+                                        {{ __('tours.filter_all_categories') }}
+                                    </button>
+
+                                    @foreach($categories as $category)
+                                    <button
+                                        type="button"
+                                        class="tours-smart-dropdown-option {{ $currentCategory === $category->slug ? 'is-active' : '' }}"
+                                        data-category-option
+                                        data-value="{{ $category->slug }}"
+                                        data-label="{{ $category->translated_name }}">
+                                        {{ $category->translated_name }}
+                                    </button>
+                                    @endforeach
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Acciones --}}
+                    <div class="tours-smart-filter-actions">
+                        <button type="submit" class="tours-smart-submit">
+                            {{ __('tours.filter_button') }}
+                        </button>
+
+                        <a href="{{ route('tours.index') }}" class="tours-smart-clear">
+                            {{ __('tours.filter_clear') }}
+                        </a>
+                    </div>
+
+                </div>
+
+                @if($currentSearch || $currentCategory !== 'all')
+                <div class="tours-smart-filter-summary">
+                    <span class="tours-smart-filter-summary-label">
+                        {{ __('tours.filter_active_label') }}
+                    </span>
+
+                    @if($currentSearch)
+                    <span class="tours-smart-filter-chip">
+                        {{ __('tours.filter_active_search') }}: {{ $currentSearch }}
+                    </span>
+                    @endif
+
+                    @if($currentCategory !== 'all')
+                    <span class="tours-smart-filter-chip">
+                        {{ __('tours.filter_active_category') }}: {{ $selectedCategoryName }}
+                    </span>
+                    @endif
+                </div>
+                @endif
+
+            </form>
         </section>
 
         {{-- ================= TOURS GRID ================= --}}
         <section class="scroll-hero">
 
-            <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-
+            <div class="tours-premium-grid">
                 @forelse ($tours as $tour)
 
                 @php
@@ -128,7 +240,7 @@
 
                 @empty
 
-                <p class="col-span-3 text-center text-gray-500">
+                <p class="tours-empty-state">
                     {{ __('tours.no_results') }}
                 </p>
 
@@ -159,7 +271,7 @@
 
                 {{-- PAGINATION --}}
                 <div class="custom-pagination">
-                    {{ $tours->onEachSide(1)->links('vendor.pagination.custom-green') }}
+                    {{ $tours->appends(request()->query())->onEachSide(1)->links('vendor.pagination.custom-green') }}
                 </div>
 
             </div>

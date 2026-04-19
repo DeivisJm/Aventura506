@@ -29,7 +29,6 @@ return [
     'video_by' => 'Videos by',
 
     //featured tours
-
     'featured_tour_badge' => 'Recommended experience',
     'featured_tour_intro' => 'Your next adventure in La Fortuna',
     'featured_tour_helper_text' => 'Check schedules, pricing and availability before booking this experience.',

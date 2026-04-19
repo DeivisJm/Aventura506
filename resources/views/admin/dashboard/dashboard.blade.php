@@ -26,7 +26,7 @@
 
         <article class="dashboard-kpi-lite-card">
             <span class="dashboard-kpi-lite-card__label">
-                Total de Reservas
+                Total de Reservas de Tours
             </span>
 
             <h2 class="dashboard-kpi-lite-card__value">
@@ -69,7 +69,7 @@
         <article class="dashboard-kpi-lite-card dashboard-kpi-lite-card--module">
             <div class="dashboard-kpi-lite-card__top">
                 <span class="dashboard-kpi-lite-card__label">
-                    Total de Tours
+                    LIsta de Tours
                 </span>
 
                 <span class="dashboard-kpi-lite-card__icon">
@@ -104,7 +104,7 @@
         <article class="dashboard-secondary-lite-card">
             <div class="dashboard-secondary-lite-card__head">
                 <span class="dashboard-secondary-lite-card__label">
-                    Hospedajes
+                   Listas de  Hospedajes
                 </span>
             </div>
 

@@ -1,7 +1,3 @@
-{{-- =========================================================
-   RECTANGULAR BOOKING MODAL – FIXED RESPONSIVE VERSION
-========================================================= --}}
-
 <div id="bookingModal" class="booking-overlay">
 
     <div class="booking-container

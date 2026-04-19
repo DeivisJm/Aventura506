@@ -17,6 +17,7 @@ import './navbar/profile-menu';
 import './pages/accommodations';
 import './pages/booking';
 import './pages/booking-dynamic';
+import './pages/tours-filter';
 
 /* ================= ADMIN ================= */
 import "./admin/accommodations";

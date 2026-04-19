@@ -108,10 +108,6 @@
             Panel Administrativo
         </a>
 
-        <a href="#" class="admin-sidebar-link">
-            Reservas
-        </a>
-
         <a href="{{ route('admin.tours.index') }}"
             class="admin-sidebar-link {{ request()->routeIs('admin.tours.*', 'admin.categories.*', 'admin.companies.*') ? 'active' : '' }}">
             Tours
