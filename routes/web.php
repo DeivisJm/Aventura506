@@ -263,6 +263,9 @@ Route::prefix('admin')
         Route::put('/categories/{category}', [AdminCategoryController::class, 'update'])
             ->name('admin.categories.update');
 
+        Route::patch('/categories/{category}/toggle', [AdminCategoryController::class, 'toggle'])
+            ->name('admin.categories.toggle');
+
         Route::delete('/categories/{category}', [AdminCategoryController::class, 'destroy'])
             ->name('admin.categories.destroy');
 

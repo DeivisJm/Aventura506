@@ -12,7 +12,7 @@ class User extends Authenticatable
         'username',
         'email',
         'password',
-        'role_id'
+        'role_id',
     ];
 
     protected $hidden = [
@@ -20,7 +20,10 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    public function role()
+    /**
+     * Role assigned to the user.
+     */
+    public function role(): BelongsTo
     {
         return $this->belongsTo(Role::class);
     }

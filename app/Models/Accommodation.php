@@ -12,7 +12,7 @@ class Accommodation extends Model
      *
      * @var array<int, string>
      */
-   protected $fillable = [
+    protected $fillable = [
         'name',
         'slug',
         'short_description',
@@ -43,6 +43,7 @@ class Accommodation extends Model
         'amenities' => 'array',
         'is_active' => 'boolean',
     ];
+
     /**
      * Automatically generate slug when missing.
      */
@@ -107,6 +108,29 @@ class Accommodation extends Model
     }
 
     /**
+     * Return a comma-separated list of amenities for the admin form.
+     */
+    public function getAmenityAdminInput(?string $locale = null): string
+    {
+        $locale = $locale ?? app()->getLocale();
+        $labels = [];
+
+        if (!is_array($this->amenities)) {
+            return '';
+        }
+
+        foreach ($this->amenities as $amenity) {
+            $label = $this->resolveAmenityLabel($amenity, $locale);
+
+            if ($label) {
+                $labels[] = $label;
+            }
+        }
+
+        return implode(', ', $labels);
+    }
+
+    /**
      * Normalize amenities for multilingual display.
      */
     public function getAmenityItems(?string $locale = null): array
@@ -136,6 +160,9 @@ class Accommodation extends Model
         return $items;
     }
 
+    /**
+     * Resolve an amenity label from old or new JSON formats.
+     */
     protected function resolveAmenityLabel(mixed $amenity, string $locale): ?string
     {
         if (is_string($amenity)) {
@@ -154,15 +181,15 @@ class Accommodation extends Model
                 ?? null;
         }
 
-        if (isset($amenity[$locale])) {
+        if (isset($amenity[$locale]) && is_string($amenity[$locale])) {
             return $amenity[$locale];
         }
 
-        if (isset($amenity['en'])) {
+        if (isset($amenity['en']) && is_string($amenity['en'])) {
             return $amenity['en'];
         }
 
-        if (isset($amenity['es'])) {
+        if (isset($amenity['es']) && is_string($amenity['es'])) {
             return $amenity['es'];
         }
 
@@ -170,9 +197,16 @@ class Accommodation extends Model
             return $amenity['name'];
         }
 
+        if (isset($amenity['key']) && is_string($amenity['key'])) {
+            return $this->translateAmenitySlug($amenity['key'], $locale);
+        }
+
         return null;
     }
 
+    /**
+     * Resolve a stable amenity key.
+     */
     protected function resolveAmenityKey(mixed $amenity, ?string $label): string
     {
         if (is_string($amenity)) {
@@ -190,9 +224,27 @@ class Accommodation extends Model
         return 'amenity';
     }
 
+    /**
+     * Translate old slug-based amenities for display.
+     */
     protected function translateAmenitySlug(string $slug, string $locale): string
     {
-        $map = [
+        $map = $this->getAmenityDictionary();
+
+        $slug = Str::slug($slug, '_');
+
+        return $map[$slug][$locale]
+            ?? $map[$slug]['en']
+            ?? $map[$slug]['es']
+            ?? Str::headline(str_replace('_', ' ', $slug));
+    }
+
+    /**
+     * Dictionary used for backward compatibility and normalization.
+     */
+    protected function getAmenityDictionary(): array
+    {
+        return [
             'wifi' => ['es' => 'Wi-Fi', 'en' => 'Wi-Fi'],
             'kitchen' => ['es' => 'Cocina', 'en' => 'Kitchen'],
             'free_parking' => ['es' => 'Parqueo gratis', 'en' => 'Free parking'],
@@ -211,15 +263,11 @@ class Accommodation extends Model
             'balcony' => ['es' => 'Balcón', 'en' => 'Balcony'],
             'garden' => ['es' => 'Jardín', 'en' => 'Garden'],
         ];
-
-        $slug = Str::slug($slug, '_');
-
-        return $map[$slug][$locale]
-            ?? $map[$slug]['en']
-            ?? $map[$slug]['es']
-            ?? Str::headline(str_replace('_', ' ', $slug));
     }
 
+    /**
+     * Return SVG icon for a given amenity key.
+     */
     public function getAmenityIcon(string $key): string
     {
         $key = Str::of($key)->lower()->ascii()->replace('-', '_')->value();
@@ -237,7 +285,7 @@ class Accommodation extends Model
         }
 
         if (str_contains($key, 'lake') || str_contains($key, 'lago') || str_contains($key, 'water')) {
-            return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M3 15c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2M3 19c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2M12 3v6"/></svg>';
+            return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M3 15c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2 2 2 4 2M3 19c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2M12 3v6"/></svg>';
         }
 
         if (str_contains($key, 'workspace') || str_contains($key, 'work') || str_contains($key, 'office')) {

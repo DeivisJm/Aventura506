@@ -128,25 +128,25 @@
 
                     <div class="form-grid">
 
-                        <div class="form-field">
-                            <label class="form-label">Rol</label>
+                       <div class="form-field">
+    <label class="form-label">Rol</label>
 
-                            <select name="role_id" class="form-input" required>
-                                <option value="">Selecciona un rol</option>
+    <select name="role_id" class="form-input" required>
+        <option value="">Selecciona un rol</option>
 
-                                @foreach($roles as $role)
-                                <option
-                                    value="{{ $role->id }}"
-                                    {{ old('role_id', $user->role_id ?? '') == $role->id ? 'selected' : '' }}>
-                                    {{ ucfirst($role->name) }}
-                                </option>
-                                @endforeach
-                            </select>
+        @foreach($roles as $role)
+        <option
+            value="{{ $role->id }}"
+            {{ old('role_id', $user->role_id ?? '') == $role->id ? 'selected' : '' }}>
+            {{ $role->display_name }}
+        </option>
+        @endforeach
+    </select>
 
-                            @error('role_id')
-                            <p class="form-help text-red-500">{{ $message }}</p>
-                            @enderror
-                        </div>
+    @error('role_id')
+    <p class="form-help text-red-500">{{ $message }}</p>
+    @enderror
+</div>
 
                         <div class="form-field">
                             <label class="form-label">

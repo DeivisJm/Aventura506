@@ -9,8 +9,25 @@ class Role extends Model
 {
     protected $fillable = ['name'];
 
-    public function users()
+    /**
+     * Users that belong to this role.
+     */
+    public function users(): HasMany
     {
         return $this->hasMany(User::class);
+    }
+
+    /**
+     * Human-friendly label for UI display in Spanish
+     * without changing the technical value stored in the database.
+     */
+    public function getDisplayNameAttribute(): string
+    {
+        return match ($this->name) {
+            'superadmin' => 'Super Administrador',
+            'admin' => 'Administrador',
+            'client' => 'Cliente',
+            default => ucfirst(str_replace('_', ' ', $this->name)),
+        };
     }
 }

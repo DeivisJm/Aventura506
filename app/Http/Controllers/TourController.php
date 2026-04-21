@@ -14,46 +14,53 @@ class TourController extends Controller
      * ======================================================
      */
     public function index(Request $request)
-    {
-        $category = $request->get('category', 'all');
-        $search = trim((string) $request->get('search', ''));
+{
+    $category = $request->get('category', 'all');
+    $search = trim((string) $request->get('search', ''));
 
-        $categories = Category::orderByRaw("JSON_UNQUOTE(JSON_EXTRACT(name, '$.es')) ASC")->get();
+    $categories = Category::where('is_active', true)
+        ->orderByRaw("JSON_UNQUOTE(JSON_EXTRACT(name, '$.es')) ASC")
+        ->get();
 
-        $query = Tour::with('category')
-            ->where('active', true);
+    $query = Tour::with('category')
+        ->where('active', true)
+        ->whereHas('category', function ($q) {
+            $q->where('is_active', true);
+        });
 
-        // Filter by selected category slug
-        if (!empty($category) && $category !== 'all') {
-            $query->whereHas('category', function ($q) use ($category) {
-                $q->where('slug', $category);
-            });
-        }
-
-        // Smart search by tour name, description, and category
-        if ($search !== '') {
-            $searchLike = '%' . $search . '%';
-
-            $query->where(function ($q) use ($searchLike) {
-                $q->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(name, '$.es')) LIKE ?", [$searchLike])
-                    ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(name, '$.en')) LIKE ?", [$searchLike])
-                    ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(description, '$.es')) LIKE ?", [$searchLike])
-                    ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(description, '$.en')) LIKE ?", [$searchLike])
-                    ->orWhereHas('category', function ($categoryQuery) use ($searchLike) {
-                        $categoryQuery->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(name, '$.es')) LIKE ?", [$searchLike])
-                            ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(name, '$.en')) LIKE ?", [$searchLike]);
-                    });
-            });
-        }
-
-        $tours = $query
-            ->orderBy('sort_order')
-            ->orderBy('id')
-            ->paginate(9)
-            ->appends($request->query());
-
-        return view('pages.tours', compact('tours', 'categories'));
+    if (!empty($category) && $category !== 'all') {
+        $query->whereHas('category', function ($q) use ($category) {
+            $q->where('slug', $category)
+              ->where('is_active', true);
+        });
     }
+
+    if ($search !== '') {
+        $searchLike = '%' . $search . '%';
+
+        $query->where(function ($q) use ($searchLike) {
+            $q->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(name, '$.es')) LIKE ?", [$searchLike])
+                ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(name, '$.en')) LIKE ?", [$searchLike])
+                ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(description, '$.es')) LIKE ?", [$searchLike])
+                ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(description, '$.en')) LIKE ?", [$searchLike])
+                ->orWhereHas('category', function ($categoryQuery) use ($searchLike) {
+                    $categoryQuery->where('is_active', true)
+                        ->where(function ($subQuery) use ($searchLike) {
+                            $subQuery->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(name, '$.es')) LIKE ?", [$searchLike])
+                                ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(name, '$.en')) LIKE ?", [$searchLike]);
+                        });
+                });
+        });
+    }
+
+    $tours = $query
+        ->orderBy('sort_order')
+        ->orderBy('id')
+        ->paginate(9)
+        ->appends($request->query());
+
+    return view('pages.tours', compact('tours', 'categories'));
+}
 
     /**
      * ======================================================

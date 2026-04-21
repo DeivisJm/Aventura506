@@ -23,6 +23,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    function activateTabForField(field) {
+        const tabContent = field.closest(".admin-tab-content");
+        if (!tabContent) return;
+        activateTab(tabContent.id);
+    }
+
     tabButtons.forEach((button) => {
         button.addEventListener("click", () => {
             activateTab(button.dataset.tab);
@@ -32,6 +38,287 @@ document.addEventListener("DOMContentLoaded", () => {
     if (activeTabInput && activeTabInput.value) {
         activateTab(activeTabInput.value);
     }
+
+    /* =========================================
+       VALIDATION MODAL
+    ========================================= */
+    const validationAlert = document.querySelector("[data-validation-alert]");
+    const validationAlertList = validationAlert?.querySelector("[data-validation-alert-list]");
+    const alertCloseButtons = validationAlert?.querySelectorAll("[data-alert-close]");
+
+    function showValidationAlert(messages) {
+        if (!validationAlert || !validationAlertList) return;
+
+        validationAlertList.innerHTML = "";
+
+        messages.forEach((message) => {
+            const li = document.createElement("li");
+            li.textContent = message;
+            validationAlertList.appendChild(li);
+        });
+
+        validationAlert.classList.add("is-open");
+        validationAlert.setAttribute("aria-hidden", "false");
+    }
+
+    function hideValidationAlert() {
+        if (!validationAlert) return;
+        validationAlert.classList.remove("is-open");
+        validationAlert.setAttribute("aria-hidden", "true");
+    }
+
+    function getFirstInvalidField() {
+        return form.querySelector(".form-input-error, .form-textarea.form-input-error");
+    }
+
+    function scrollToField(field) {
+        if (!field) return;
+        activateTabForField(field);
+
+        setTimeout(() => {
+            field.scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+            });
+
+            field.focus({ preventScroll: true });
+        }, 180);
+    }
+
+    if (alertCloseButtons?.length) {
+        alertCloseButtons.forEach((button) => {
+            button.addEventListener("click", () => {
+                hideValidationAlert();
+                const firstInvalidField = getFirstInvalidField();
+                scrollToField(firstInvalidField);
+            });
+        });
+    }
+
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && validationAlert?.classList.contains("is-open")) {
+            hideValidationAlert();
+        }
+    });
+
+    /* =========================================
+       FIELD VALIDATION
+    ========================================= */
+    const fieldsToValidate = form.querySelectorAll("[data-validate]");
+
+    function isValidUrl(value) {
+        try {
+            const url = new URL(value);
+            return url.protocol === "http:" || url.protocol === "https:";
+        } catch {
+            return false;
+        }
+    }
+
+    function splitAmenities(value) {
+        return value
+            .split(",")
+            .map((item) => item.trim())
+            .filter((item) => item !== "");
+    }
+
+    function removeFieldErrors(field) {
+        if (!field) return;
+
+        field.classList.remove("form-input-error");
+
+        const formField = field.closest(".form-field");
+        if (!formField) return;
+
+        formField.querySelectorAll(".form-input-error-message").forEach((node) => {
+            node.remove();
+        });
+    }
+
+    function addFieldError(field, message, extraClass = "is-runtime") {
+        if (!field) return;
+
+        field.classList.add("form-input-error");
+
+        const formField = field.closest(".form-field");
+        if (!formField) return;
+
+        const existing = formField.querySelector(`.form-input-error-message.${extraClass}`);
+        if (existing) {
+            existing.textContent = message;
+            return;
+        }
+
+        const errorNode = document.createElement("p");
+        errorNode.className = `form-input-error-message ${extraClass}`;
+        errorNode.textContent = message;
+        formField.appendChild(errorNode);
+    }
+
+    function removeRuntimeErrors() {
+        form.querySelectorAll(".form-input-error-message.is-runtime, .form-input-error-message.is-pair-error").forEach((node) => node.remove());
+
+        fieldsToValidate.forEach((field) => {
+            field.classList.remove("form-input-error");
+        });
+    }
+
+    function validateField(field) {
+        const rule = field.dataset.validate;
+        const label = field.dataset.label || "Este campo";
+        const value = (field.value || "").trim();
+
+        if (value === "") {
+            return `${label} es obligatorio.`;
+        }
+
+        switch (rule) {
+            case "text":
+                if (!/^[A-Za-zÀ-ÿ0-9\s\-&.'()]+$/u.test(value)) {
+                    return `${label} contiene caracteres no permitidos.`;
+                }
+                break;
+
+            case "letters":
+                if (!/^[A-Za-zÀ-ÿ\s]+$/u.test(value)) {
+                    return `${label} solo debe contener letras y espacios.`;
+                }
+                break;
+
+            case "slug":
+                if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(value)) {
+                    return `${label} debe usar solo minúsculas, números y guiones.`;
+                }
+                break;
+
+            case "location":
+                if (!/^[A-Za-zÀ-ÿ0-9\s,.\-#]+$/u.test(value)) {
+                    return `${label} contiene caracteres no permitidos.`;
+                }
+                break;
+
+            case "phone":
+                if (!/^\d{8,15}$/.test(value)) {
+                    return `${label} debe contener solo números, entre 8 y 15 dígitos.`;
+                }
+                break;
+
+            case "url":
+                if (!isValidUrl(value)) {
+                    return `${label} debe contener una URL válida.`;
+                }
+                break;
+
+            case "number": {
+                const numericValue = Number(value);
+                const min = field.getAttribute("min");
+
+                if (Number.isNaN(numericValue)) {
+                    return `${label} debe ser un número válido.`;
+                }
+
+                if (min !== null && numericValue < Number(min)) {
+                    return `${label} debe ser mayor o igual a ${min}.`;
+                }
+
+                break;
+            }
+
+            case "textarea":
+                if (value.length < 10) {
+                    return `${label} debe tener al menos 10 caracteres.`;
+                }
+                break;
+
+            case "amenities":
+                if (!/^[A-Za-zÀ-ÿ0-9\s,\-\/&.+]+$/u.test(value)) {
+                    return `${label} contiene caracteres no permitidos.`;
+                }
+
+                if (splitAmenities(value).length === 0) {
+                    return `${label} debe incluir al menos una amenidad.`;
+                }
+
+                break;
+
+            default:
+                break;
+        }
+
+        return null;
+    }
+
+    function validateFieldLive(field) {
+        removeFieldErrors(field);
+
+        const error = validateField(field);
+
+        if (error) {
+            addFieldError(field, error, "is-runtime");
+            return false;
+        }
+
+        return true;
+    }
+
+    function clearAmenitiesPairError() {
+        const amenitiesEs = form.querySelector("#amenities-es");
+        const amenitiesEn = form.querySelector("#amenities-en");
+
+        if (amenitiesEs) {
+            const formFieldEs = amenitiesEs.closest(".form-field");
+            formFieldEs?.querySelectorAll(".form-input-error-message.is-pair-error").forEach((node) => node.remove());
+        }
+
+        if (amenitiesEn) {
+            const formFieldEn = amenitiesEn.closest(".form-field");
+            formFieldEn?.querySelectorAll(".form-input-error-message.is-pair-error").forEach((node) => node.remove());
+            amenitiesEn.classList.remove("form-input-error");
+        }
+    }
+
+    function validateAmenitiesPair() {
+        const amenitiesEs = form.querySelector("#amenities-es");
+        const amenitiesEn = form.querySelector("#amenities-en");
+
+        if (!amenitiesEs || !amenitiesEn) return null;
+
+        clearAmenitiesPairError();
+
+        const countEs = splitAmenities(amenitiesEs.value.trim()).length;
+        const countEn = splitAmenities(amenitiesEn.value.trim()).length;
+
+        if (countEs !== countEn) {
+            amenitiesEn.classList.add("form-input-error");
+            addFieldError(
+                amenitiesEn,
+                "La cantidad de amenidades en inglés debe coincidir con la cantidad de amenidades en español.",
+                "is-pair-error"
+            );
+            return "La cantidad de amenidades en inglés debe coincidir con la cantidad de amenidades en español.";
+        }
+
+        return null;
+    }
+
+    fieldsToValidate.forEach((field) => {
+        const handleLiveValidation = () => {
+            validateFieldLive(field);
+
+            if (field.id === "amenities-es" || field.id === "amenities-en") {
+                const amenitiesEsValid = validateFieldLive(form.querySelector("#amenities-es"));
+                const amenitiesEnValid = validateFieldLive(form.querySelector("#amenities-en"));
+
+                if (amenitiesEsValid && amenitiesEnValid) {
+                    validateAmenitiesPair();
+                }
+            }
+        };
+
+        field.addEventListener("input", handleLiveValidation);
+        field.addEventListener("change", handleLiveValidation);
+        field.addEventListener("blur", handleLiveValidation);
+    });
 
     /* =========================================
        MAIN IMAGE
@@ -67,8 +354,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const existingGalleryGrid = document.getElementById("existing-gallery-grid");
 
     const maxGalleryImages = Number(galleryCounter?.dataset.max || 7);
-
-    // Aquí se guardan TODAS las imágenes seleccionadas para no sobreescribir
     let selectedGalleryFiles = [];
 
     function getExistingActiveCount() {
@@ -88,6 +373,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function getTotalSelectedCount() {
         return getExistingActiveCount() + selectedGalleryFiles.length;
+    }
+
+    function getAvailableSlots() {
+        return Math.max(0, maxGalleryImages - getExistingActiveCount() - selectedGalleryFiles.length);
     }
 
     function updateGalleryCounter() {
@@ -153,10 +442,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    function getAvailableSlots() {
-        return Math.max(0, maxGalleryImages - getExistingActiveCount() - selectedGalleryFiles.length);
-    }
-
     function addFilesToSelection(fileList) {
         const incomingFiles = Array.from(fileList || []);
         if (!incomingFiles.length) return;
@@ -204,16 +489,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     item.classList.toggle("is-marked-for-removal", checkbox.checked);
                 }
 
-                // Si al desmarcar/marcar cambia el espacio disponible
-                if (selectedGalleryFiles.length > getAvailableSlots() + selectedGalleryFiles.length) {
-                    selectedGalleryFiles = selectedGalleryFiles.slice(
-                        0,
-                        Math.max(0, maxGalleryImages - getExistingActiveCount())
-                    );
-                    syncGalleryStoreInput();
-                    renderGalleryPreviews();
-                }
-
                 updateGalleryCounter();
                 updateGalleryButtonState();
             });
@@ -222,4 +497,45 @@ document.addEventListener("DOMContentLoaded", () => {
 
     updateGalleryCounter();
     updateGalleryButtonState();
+
+    /* =========================================
+       FORM SUBMIT VALIDATION
+    ========================================= */
+    form.addEventListener("submit", (event) => {
+        removeRuntimeErrors();
+
+        const messages = [];
+        let firstInvalidField = null;
+
+        fieldsToValidate.forEach((field) => {
+            const error = validateField(field);
+
+            if (error) {
+                if (!firstInvalidField) {
+                    firstInvalidField = field;
+                }
+
+                addFieldError(field, error, "is-runtime");
+                messages.push(error);
+            }
+        });
+
+        const amenitiesPairError = validateAmenitiesPair();
+        if (amenitiesPairError) {
+            const amenitiesEn = form.querySelector("#amenities-en");
+            if (!firstInvalidField && amenitiesEn) {
+                firstInvalidField = amenitiesEn;
+            }
+            messages.push(amenitiesPairError);
+        }
+
+        if (messages.length) {
+            event.preventDefault();
+            showValidationAlert(messages);
+
+            if (firstInvalidField) {
+                activateTabForField(firstInvalidField);
+            }
+        }
+    });
 });

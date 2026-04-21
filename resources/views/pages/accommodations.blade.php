@@ -362,8 +362,38 @@
                 </article>
                 @endforeach
             </div>
-            @endif
+                        @endif
         </section>
+
+        @if ($accommodations->hasPages())
+
+        <div class="mt-16 border-t pt-8">
+
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+
+                {{-- LEFT COUNTER --}}
+                <p class="text-sm text-gray-600 dark:text-gray-400">
+                    {{ __('accommodations.showing') }}
+                    <span class="font-semibold text-green-600">
+                        {{ $accommodations->firstItem() }} - {{ $accommodations->lastItem() }}
+                    </span>
+                    {{ __('accommodations.of') }}
+                    <span class="font-semibold text-gray-900 dark:text-white">
+                        {{ $accommodations->total() }}
+                    </span>
+                    {{ __('accommodations.results') }}
+                </p>
+
+                {{-- PAGINATION --}}
+                <div class="custom-pagination">
+                    {{ $accommodations->appends(request()->query())->onEachSide(1)->links('vendor.pagination.custom-green') }}
+                </div>
+
+            </div>
+
+        </div>
+
+        @endif
 
     </div>
 </section>

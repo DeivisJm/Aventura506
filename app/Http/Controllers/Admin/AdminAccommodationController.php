@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Support\Facades\Validator;
-use App\Services\SubscriberNotificationService;
-use Illuminate\Validation\ValidationException;
 use App\Http\Controllers\Controller;
 use App\Models\Accommodation;
+use App\Services\SubscriberNotificationService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
@@ -27,9 +26,6 @@ class AdminAccommodationController extends Controller
 
         $query = Accommodation::query();
 
-        /**
-         * Search across translated name/description fields and plain location field.
-         */
         if ($search !== '') {
             $query->where(function ($builder) use ($search) {
                 $builder->where('name->es', 'like', "%{$search}%")
@@ -97,8 +93,8 @@ class AdminAccommodationController extends Controller
                     'en' => $validated['short_description']['en'],
                 ],
                 'location' => $validated['location'],
-                'host_name' => $validated['host_name'] ?? null,
-                'phone' => $validated['phone'] ?? null,
+                'host_name' => $validated['host_name'],
+                'phone' => $validated['phone'],
                 'external_url' => $validated['external_url'],
                 'main_image' => $mainImagePath,
                 'gallery_images' => $galleryImages,
@@ -106,7 +102,7 @@ class AdminAccommodationController extends Controller
                 'bedrooms' => (int) $validated['bedrooms'],
                 'beds' => (int) $validated['beds'],
                 'bathrooms' => (int) $validated['bathrooms'],
-                'amenities' => $this->normalizeAmenities($validated['amenities'] ?? null),
+                'amenities' => $this->normalizeAmenities($validated['amenities']),
                 'is_active' => true,
                 'sort_order' => ((int) Accommodation::max('sort_order')) + 1,
             ]);
@@ -186,8 +182,8 @@ class AdminAccommodationController extends Controller
                     'en' => $validated['short_description']['en'],
                 ],
                 'location' => $validated['location'],
-                'host_name' => $validated['host_name'] ?? null,
-                'phone' => $validated['phone'] ?? null,
+                'host_name' => $validated['host_name'],
+                'phone' => $validated['phone'],
                 'external_url' => $validated['external_url'],
                 'main_image' => $mainImagePath,
                 'gallery_images' => $galleryImages,
@@ -195,7 +191,7 @@ class AdminAccommodationController extends Controller
                 'bedrooms' => (int) $validated['bedrooms'],
                 'beds' => (int) $validated['beds'],
                 'bathrooms' => (int) $validated['bathrooms'],
-                'amenities' => $this->normalizeAmenities($validated['amenities'] ?? null),
+                'amenities' => $this->normalizeAmenities($validated['amenities']),
             ]);
         });
 
@@ -272,40 +268,110 @@ class AdminAccommodationController extends Controller
      */
     protected function validateAccommodationRequest(Request $request, ?int $accommodationId = null): array
     {
-        return $request->validate([
-            'name.es' => ['required', 'string', 'max:255'],
-            'name.en' => ['required', 'string', 'max:255'],
+        $mainImageRules = $accommodationId
+            ? ['nullable', 'file', 'mimes:jpg,jpeg,png,webp,avif', 'max:4096']
+            : ['required', 'file', 'mimes:jpg,jpeg,png,webp,avif', 'max:4096'];
 
-            'slug' => [
-                'required',
-                'string',
-                'max:255',
-                Rule::unique('accommodations', 'slug')->ignore($accommodationId),
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'name.es' => ['required', 'string', 'max:255', 'regex:/^[\pL\pN\s\-\&\.\'\(\)]+$/u'],
+                'name.en' => ['required', 'string', 'max:255', 'regex:/^[\pL\pN\s\-\&\.\'\(\)]+$/u'],
+
+                'slug' => [
+                    'required',
+                    'string',
+                    'max:255',
+                    'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/',
+                    Rule::unique('accommodations', 'slug')->ignore($accommodationId),
+                ],
+
+                'short_description.es' => ['required', 'string', 'max:1000'],
+                'short_description.en' => ['required', 'string', 'max:1000'],
+
+                'location' => ['required', 'string', 'max:255', 'regex:/^[\pL\pN\s,\.\-#]+$/u'],
+                'host_name' => ['required', 'string', 'max:255', 'regex:/^[\pL\s]+$/u'],
+                'phone' => ['required', 'string', 'max:15', 'regex:/^\d{8,15}$/'],
+                'external_url' => ['required', 'url', 'max:2048'],
+
+                'guests' => ['required', 'integer', 'min:1'],
+                'bedrooms' => ['required', 'integer', 'min:0'],
+                'beds' => ['required', 'integer', 'min:0'],
+                'bathrooms' => ['required', 'integer', 'min:0'],
+
+                'amenities.es' => ['required', 'string', 'max:1000', 'regex:/^[\pL\pN\s,\-\/&\.\+]+$/u'],
+                'amenities.en' => ['required', 'string', 'max:1000', 'regex:/^[\pL\pN\s,\-\/&\.\+]+$/u'],
+
+                'main_image' => $mainImageRules,
+
+                'gallery_images' => ['nullable', 'array', 'max:7'],
+                'gallery_images.*' => ['nullable', 'file', 'mimes:jpg,jpeg,png,webp,avif', 'max:4096'],
+
+                'gallery_remove' => ['nullable', 'array'],
+                'gallery_remove.*' => ['integer'],
+                'active_tab' => ['nullable', 'string'],
             ],
+            $this->validationMessages(),
+            $this->validationAttributes()
+        );
 
-            'short_description.es' => ['required', 'string', 'max:1000'],
-            'short_description.en' => ['required', 'string', 'max:1000'],
+        $validator->after(function ($validator) use ($request) {
+            $amenitiesEs = $this->splitAmenitiesString(data_get($request->all(), 'amenities.es'));
+            $amenitiesEn = $this->splitAmenitiesString(data_get($request->all(), 'amenities.en'));
 
-            'location' => ['required', 'string', 'max:255'],
-            'host_name' => ['nullable', 'string', 'max:255'],
-            'phone' => ['nullable', 'string', 'max:50'],
-            'external_url' => ['required', 'url', 'max:2048'],
+            if (count($amenitiesEs) !== count($amenitiesEn)) {
+                $validator->errors()->add(
+                    'amenities.en',
+                    'La cantidad de amenidades en inglés debe coincidir con la cantidad de amenidades en español.'
+                );
+            }
+        });
 
-            'guests' => ['required', 'integer', 'min:1'],
-            'bedrooms' => ['required', 'integer', 'min:0'],
-            'beds' => ['required', 'integer', 'min:0'],
-            'bathrooms' => ['required', 'integer', 'min:0'],
+        return $validator->validate();
+    }
 
-            'amenities' => ['nullable', 'string'],
+    /**
+     * Custom validation messages in Spanish.
+     */
+    protected function validationMessages(): array
+    {
+        return [
+            'required' => 'El campo :attribute es obligatorio.',
+            'url' => 'El campo :attribute debe contener una URL válida.',
+            'integer' => 'El campo :attribute debe ser numérico.',
+            'min' => 'El campo :attribute debe ser al menos :min.',
+            'max' => 'El campo :attribute no puede superar :max caracteres.',
+            'regex' => 'El formato del campo :attribute no es válido.',
+            'mimes' => 'El archivo de :attribute debe ser JPG, JPEG, PNG, WEBP o AVIF.',
+            'file' => 'El campo :attribute debe ser un archivo válido.',
+            'unique' => 'Ya existe un hospedaje con ese slug.',
+        ];
+    }
 
-            'main_image' => ['nullable', 'file', 'mimes:jpg,jpeg,png,webp,avif', 'max:4096'],
-
-            'gallery_images' => ['nullable', 'array', 'min:1', 'max:7'],
-            'gallery_images.*' => ['nullable', 'file', 'mimes:jpg,jpeg,png,webp,avif', 'max:4096'],
-
-            'gallery_remove' => ['nullable', 'array'],
-            'gallery_remove.*' => ['integer'],
-        ]);
+    /**
+     * Custom validation attribute names.
+     */
+    protected function validationAttributes(): array
+    {
+        return [
+            'name.es' => 'nombre del hospedaje en español',
+            'name.en' => 'nombre del hospedaje en inglés',
+            'slug' => 'slug del hospedaje',
+            'short_description.es' => 'descripción corta en español',
+            'short_description.en' => 'descripción corta en inglés',
+            'location' => 'ubicación',
+            'host_name' => 'nombre del anfitrión',
+            'phone' => 'teléfono',
+            'external_url' => 'enlace externo',
+            'guests' => 'huéspedes',
+            'bedrooms' => 'habitaciones',
+            'beds' => 'camas',
+            'bathrooms' => 'baños',
+            'amenities.es' => 'amenidades en español',
+            'amenities.en' => 'amenidades en inglés',
+            'main_image' => 'imagen principal',
+            'gallery_images' => 'galería de imágenes',
+        ];
     }
 
     /**
@@ -343,19 +409,51 @@ class AdminAccommodationController extends Controller
     }
 
     /**
-     * Normalize comma-separated amenities into slug format.
+     * Normalize bilingual amenities into JSON objects for storage.
      */
-    protected function normalizeAmenities(?string $amenities): array
+    protected function normalizeAmenities(array $amenities): array
     {
-        if (!$amenities) {
+        $itemsEs = $this->splitAmenitiesString($amenities['es'] ?? '');
+        $itemsEn = $this->splitAmenitiesString($amenities['en'] ?? '');
+
+        $total = max(count($itemsEs), count($itemsEn));
+        $normalized = [];
+
+        for ($index = 0; $index < $total; $index++) {
+            $labelEs = $itemsEs[$index] ?? null;
+            $labelEn = $itemsEn[$index] ?? null;
+
+            if (!$labelEs && !$labelEn) {
+                continue;
+            }
+
+            $keyBase = $labelEn ?: $labelEs;
+            $key = Str::slug((string) $keyBase, '_');
+
+            $normalized[] = [
+                'key' => $key,
+                'label' => [
+                    'es' => $labelEs ?? $labelEn,
+                    'en' => $labelEn ?? $labelEs,
+                ],
+            ];
+        }
+
+        return $normalized;
+    }
+
+    /**
+     * Split a comma-separated amenity string.
+     */
+    protected function splitAmenitiesString(?string $value): array
+    {
+        if (!$value) {
             return [];
         }
 
-        return collect(explode(',', $amenities))
-            ->map(fn($item) => trim($item))
-            ->filter()
-            ->map(fn($item) => Str::slug($item, '_'))
-            ->unique()
+        return collect(explode(',', $value))
+            ->map(fn($item) => trim((string) $item))
+            ->filter(fn($item) => $item !== '')
             ->values()
             ->all();
     }

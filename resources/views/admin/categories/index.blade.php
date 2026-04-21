@@ -51,29 +51,29 @@
 
 </form>
 
-<div class="admin-card entity-table-card">
+<div class="admin-card entity-table-card category-admin-card">
 
     <div class="mb-2">
         <h2 class="admin-section-title">Listado de categorías</h2>
         <p class="admin-section-description mt-2">
-            Edita aquí las categorías vinculadas a los tours.
+            Edita, activa o desactiva aquí las categorías vinculadas a los tours.
         </p>
     </div>
 
-   <table class="admin-table entity-table entity-table-3-cols">
+    <table class="admin-table entity-table entity-table-4-cols">
 
         <thead>
             <tr>
                 <th>Nombre</th>
+                <th>Estado</th>
                 <th>Tours</th>
                 <th class="entity-actions-header">Acciones</th>
             </tr>
         </thead>
-        
 
         <tbody>
             @forelse($categories as $category)
-            <tr>
+            <tr class="{{ !$category->is_active ? 'category-row-inactive' : '' }}">
                 <td>
                     <div class="entity-name-cell">
                         <span class="entity-name">
@@ -85,7 +85,17 @@
                             {{ $category->name['en'] }}
                         </span>
                         @endif
+
+                        <span class="category-slug-text">
+                            {{ $category->slug }}
+                        </span>
                     </div>
+                </td>
+
+                <td>
+                    <span class="category-status-badge {{ $category->is_active ? 'is-active' : 'is-inactive' }}">
+                        {{ $category->is_active ? 'Activa' : 'Inactiva' }}
+                    </span>
                 </td>
 
                 <td>
@@ -96,12 +106,46 @@
 
                 <td class="entity-actions-cell">
                     <div class="entity-actions-wrap">
+                        <div class="users-actions entity-actions category-actions-premium">
 
-                        <div class="users-actions entity-actions">
                             <a href="{{ route('admin.categories.edit', $category) }}"
                                 class="users-btn users-btn-edit">
                                 Editar
                             </a>
+
+                            @if($category->is_active)
+                                @if($category->tours_count > 0)
+                                    {{-- Only this button opens the confirmation modal --}}
+                                    <button
+                                        type="button"
+                                        class="category-toggle-btn category-toggle-btn--warning js-category-disable-modal-trigger"
+                                        data-category-name="{{ $category->name['es'] ?? '' }}"
+                                        data-category-tours="{{ $category->tours_count }}"
+                                        data-category-action="{{ route('admin.categories.toggle', $category) }}">
+                                        Desactivar
+                                    </button>
+                                @else
+                                    {{-- Direct disable when there are no associated tours --}}
+                                    <form method="POST" action="{{ route('admin.categories.toggle', $category) }}">
+                                        @csrf
+                                        @method('PATCH')
+
+                                        <button type="submit" class="category-toggle-btn category-toggle-btn--warning">
+                                            Desactivar
+                                        </button>
+                                    </form>
+                                @endif
+                            @else
+                                {{-- Activate directly without any modal --}}
+                                <form method="POST" action="{{ route('admin.categories.toggle', $category) }}">
+                                    @csrf
+                                    @method('PATCH')
+
+                                    <button type="submit" class="category-toggle-btn category-toggle-btn--success">
+                                        Activar
+                                    </button>
+                                </form>
+                            @endif
 
                             <form method="POST"
                                 action="{{ route('admin.categories.destroy', $category) }}"
@@ -115,13 +159,14 @@
                                     Eliminar
                                 </button>
                             </form>
+
                         </div>
                     </div>
                 </td>
             </tr>
             @empty
             <tr>
-                <td colspan="3" class="text-center py-10 text-gray-500 dark:text-gray-400">
+                <td colspan="4" class="text-center py-10 text-gray-500 dark:text-gray-400">
                     No hay categorías registradas.
                 </td>
             </tr>
@@ -136,6 +181,62 @@
     </div>
     @endif
 
+</div>
+
+{{-- ================= CONFIRMATION MODAL ================= --}}
+<div class="category-disable-modal" id="category-disable-modal" aria-hidden="true">
+    <div class="category-disable-modal-backdrop" data-category-modal-close></div>
+
+    <div class="category-disable-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="category-disable-modal-title">
+        <div class="category-disable-modal-header">
+            <div class="category-disable-modal-icon">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v4m0 4h.01M10.29 3.86l-7.4 12.82A2 2 0 004.63 20h14.74a2 2 0 001.74-3.32l-7.4-12.82a2 2 0 00-3.48 0z" />
+                </svg>
+            </div>
+
+            <div class="category-disable-modal-copy">
+                <h3 class="category-disable-modal-title" id="category-disable-modal-title">
+                    Desactivar categoría con tours asociados
+                </h3>
+
+                <p class="category-disable-modal-subtitle">
+                    Esta categoría tiene tours vinculados y también serán desactivados.
+                </p>
+            </div>
+
+            <button type="button" class="category-disable-modal-close-icon" data-category-modal-close aria-label="Cerrar">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 6l12 12M18 6L6 18" />
+                </svg>
+            </button>
+        </div>
+
+        <div class="category-disable-modal-body">
+            <p class="category-disable-modal-note">
+                La categoría <strong id="category-disable-modal-name">—</strong> tiene
+                <strong id="category-disable-modal-count">0</strong> tour(es) asociado(s).
+                Si continúas, la categoría dejará de mostrarse al usuario y sus tours relacionados
+                también quedarán inactivos.
+            </p>
+        </div>
+
+        <div class="category-disable-modal-actions">
+            <button type="button" class="category-disable-modal-cancel" data-category-modal-close>
+                Cancelar
+            </button>
+
+            <form method="POST" id="category-disable-modal-form">
+                @csrf
+                @method('PATCH')
+                <input type="hidden" name="confirm_disable_with_tours" value="1">
+
+                <button type="submit" class="category-disable-modal-confirm">
+                    Desactivar categoría y tours
+                </button>
+            </form>
+        </div>
+    </div>
 </div>
 
 @endsection

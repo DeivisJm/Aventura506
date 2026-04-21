@@ -1,23 +1,22 @@
 /* =====================================================
    ACCOMMODATIONS PAGE
    Aventura506 - Premium Lodging Experience
-   ===================================================== */
+===================================================== */
 
 /* =====================================================
    DESIGN TOKENS
-   Unified green palette and shared shadows for a more
-   refined, premium, and consistent visual language.
+   Unified project green palette + premium shadows
 ===================================================== */
 :root {
-    --acc-green-50: #f4fbf6;
-    --acc-green-100: #e7f6eb;
-    --acc-green-200: #cfead8;
-    --acc-green-300: #a9d8b9;
-    --acc-green-400: #78be90;
-    --acc-green-500: #4f9f6f;
-    --acc-green-600: #3f8b5f;
-    --acc-green-700: #32704d;
-    --acc-green-800: #28593e;
+    --acc-green-50: #f0fdf4;
+    --acc-green-100: #dcfce7;
+    --acc-green-200: #bbf7d0;
+    --acc-green-300: #86efac;
+    --acc-green-400: #4ade80;
+    --acc-green-500: #22c55e;
+    --acc-green-600: #16a34a;
+    --acc-green-700: #15803d;
+    --acc-green-800: #166534;
 
     --acc-text-strong: #111827;
     --acc-text-muted: #6b7280;
@@ -30,8 +29,8 @@
     --acc-shadow-sm: 0 10px 24px rgba(15, 23, 42, 0.08);
     --acc-shadow-md: 0 18px 40px rgba(15, 23, 42, 0.10);
     --acc-shadow-lg: 0 24px 50px rgba(15, 23, 42, 0.14);
-    --acc-shadow-green: 0 14px 28px rgba(79, 159, 111, 0.22);
-    --acc-shadow-green-hover: 0 18px 34px rgba(79, 159, 111, 0.28);
+    --acc-shadow-green: 0 14px 28px rgba(22, 163, 74, 0.22);
+    --acc-shadow-green-hover: 0 18px 34px rgba(22, 163, 74, 0.28);
 }
 
 /* =====================================================
@@ -269,13 +268,13 @@
     font-size: 0.95rem;
     font-weight: 800;
     background: linear-gradient(135deg, var(--acc-green-600) 0%, var(--acc-green-500) 100%);
-    box-shadow: 0 12px 24px rgba(79, 159, 111, 0.24);
+    box-shadow: 0 12px 24px rgba(22, 163, 74, 0.24);
     transition: transform 0.22s ease, box-shadow 0.22s ease, filter 0.22s ease;
 }
 
 .accommodation-airbnb-submit:hover {
     transform: translateY(-1px);
-    box-shadow: 0 16px 28px rgba(79, 159, 111, 0.28);
+    box-shadow: 0 16px 28px rgba(22, 163, 74, 0.28);
     filter: saturate(1.03);
 }
 
@@ -285,8 +284,8 @@
 .accommodation-airbnb-stepper button:focus-visible {
     outline: none;
     box-shadow:
-        0 0 0 4px rgba(79, 159, 111, 0.16),
-        0 12px 24px rgba(79, 159, 111, 0.22);
+        0 0 0 4px rgba(22, 163, 74, 0.16),
+        0 12px 24px rgba(22, 163, 74, 0.22);
 }
 
 /* =====================================================
@@ -368,7 +367,7 @@
     width: 2.45rem;
     height: 2.45rem;
     border-radius: 9999px;
-    border: 1px solid rgba(79, 159, 111, 0.22);
+    border: 1px solid rgba(22, 163, 74, 0.22);
     background: #ffffff;
     color: var(--acc-green-600);
     font-size: 1.3rem;
@@ -380,14 +379,14 @@
 
 .accommodation-airbnb-stepper button:hover {
     background: var(--acc-green-50);
-    border-color: rgba(79, 159, 111, 0.36);
+    border-color: rgba(22, 163, 74, 0.36);
     color: var(--acc-green-700);
 }
 
 .dark .accommodation-airbnb-stepper button {
     background: rgba(255, 255, 255, 0.04);
-    color: #9fd3b1;
-    border-color: rgba(159, 211, 177, 0.18);
+    color: var(--acc-green-300);
+    border-color: rgba(134, 239, 172, 0.18);
 }
 
 .accommodation-airbnb-stepper span {
@@ -458,7 +457,7 @@
 .accommodation-card:hover {
     transform: translateY(-6px);
     box-shadow: var(--acc-shadow-lg);
-    border-color: rgba(79, 159, 111, 0.18);
+    border-color: rgba(22, 163, 74, 0.18);
     z-index: 2;
 }
 
@@ -692,13 +691,13 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: rgba(79, 159, 111, 0.12);
+    background: rgba(22, 163, 74, 0.12);
     color: var(--acc-green-600);
 }
 
 .dark .accommodation-meta-icon {
-    background: rgba(79, 159, 111, 0.18);
-    color: #9fd3b1;
+    background: rgba(22, 163, 74, 0.18);
+    color: var(--acc-green-300);
 }
 
 .accommodation-meta-text {
@@ -748,13 +747,13 @@
     line-height: 1;
     color: var(--acc-green-700);
     background: var(--acc-green-50);
-    border: 1px solid rgba(79, 159, 111, 0.14);
+    border: 1px solid rgba(22, 163, 74, 0.14);
 }
 
 .dark .accommodation-amenity-chip {
-    color: #9fd3b1;
-    background: rgba(79, 159, 111, 0.10);
-    border-color: rgba(159, 211, 177, 0.14);
+    color: var(--acc-green-300);
+    background: rgba(22, 163, 74, 0.10);
+    border-color: rgba(134, 239, 172, 0.14);
 }
 
 .accommodation-amenity-icon {
@@ -788,7 +787,7 @@
     background: linear-gradient(135deg, var(--acc-green-600) 0%, var(--acc-green-500) 100%);
     border: 1px solid rgba(255, 255, 255, 0.14);
     box-shadow:
-        0 14px 28px rgba(79, 159, 111, 0.22),
+        0 14px 28px rgba(22, 163, 74, 0.22),
         inset 0 1px 0 rgba(255, 255, 255, 0.18);
     overflow: hidden;
     transition: transform 0.24s ease, box-shadow 0.24s ease, filter 0.24s ease;
@@ -831,7 +830,7 @@
     text-decoration: none;
     transform: translateY(-2px);
     box-shadow:
-        0 18px 34px rgba(79, 159, 111, 0.28),
+        0 18px 34px rgba(22, 163, 74, 0.28),
         inset 0 1px 0 rgba(255, 255, 255, 0.22);
     filter: saturate(1.03);
 }
@@ -869,10 +868,10 @@
 .dark .accommodation-cta {
     color: #ffffff;
     background: linear-gradient(135deg, var(--acc-green-700) 0%, var(--acc-green-600) 100%);
-    border-color: rgba(159, 211, 177, 0.12);
+    border-color: rgba(134, 239, 172, 0.12);
     box-shadow:
         0 16px 34px rgba(0, 0, 0, 0.34),
-        0 10px 24px rgba(63, 139, 95, 0.20),
+        0 10px 24px rgba(22, 163, 74, 0.20),
         inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
@@ -880,7 +879,7 @@
     color: #ffffff;
     box-shadow:
         0 20px 42px rgba(0, 0, 0, 0.40),
-        0 12px 28px rgba(63, 139, 95, 0.24),
+        0 12px 28px rgba(22, 163, 74, 0.24),
         inset 0 1px 0 rgba(255, 255, 255, 0.10);
     filter: saturate(1.05);
 }

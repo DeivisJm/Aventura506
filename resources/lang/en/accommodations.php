@@ -52,4 +52,9 @@ return [
     'empty_title' => 'No accommodations available at the moment',
     'empty_description' => 'New carefully selected stay options will be available here very soon.',
 
+     // Pagination
+    'showing' => 'Showing',
+    'of' => 'of',
+    'results' => 'accommodations',
+
 ];

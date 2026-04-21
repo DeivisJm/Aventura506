@@ -1,10 +1,10 @@
 /* =====================================================
    ACCOMMODATIONS ADMIN FORM
-   Main image and gallery experience for admin accommodation form
+   Premium styling, bilingual amenities and validation UX
 ===================================================== */
 
 .accommodation-gallery-card {
-    border: 1px solid #dbeafe;
+    border: 1px solid rgba(34, 197, 94, 0.14);
     background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
 }
 
@@ -222,9 +222,214 @@
     box-shadow: 0 10px 20px rgba(15, 23, 42, 0.12);
 }
 
+.accommodation-existing-gallery-item.is-marked-for-removal img {
+    opacity: 0.45;
+    filter: grayscale(1);
+}
+
+/* =====================================================
+   VALIDATION MODAL
+   Centered warning modal for form errors
+===================================================== */
+
+.form-validation-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+.form-validation-modal.is-open {
+    display: flex;
+}
+
+.form-validation-modal__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.58);
+    backdrop-filter: blur(6px);
+}
+
+.form-validation-modal__dialog {
+    position: relative;
+    z-index: 2;
+    width: min(92vw, 620px);
+    border-radius: 24px;
+    padding: 24px;
+    border: 1px solid rgba(22, 163, 74, 0.18);
+    background: linear-gradient(180deg, #ffffff 0%, #f0fdf4 100%);
+    box-shadow: 0 30px 70px rgba(15, 23, 42, 0.24);
+}
+
+.dark .form-validation-modal__dialog {
+    border-color: rgba(34, 197, 94, 0.16);
+    background: linear-gradient(180deg, #0f172a 0%, #052e16 100%);
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.42);
+}
+
+.form-validation-modal__icon {
+    width: 58px;
+    height: 58px;
+    margin: 0 auto 16px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(22, 163, 74, 0.12);
+    color: #16a34a;
+}
+
+.dark .form-validation-modal__icon {
+    background: rgba(34, 197, 94, 0.14);
+    color: #4ade80;
+}
+
+.form-validation-modal__icon svg {
+    width: 26px;
+    height: 26px;
+}
+
+.form-validation-modal__content {
+    text-align: center;
+}
+
+.form-validation-modal__title {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #14532d;
+}
+
+.dark .form-validation-modal__title {
+    color: #bbf7d0;
+}
+
+.form-validation-modal__text {
+    margin: 10px 0 14px;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #166534;
+}
+
+.dark .form-validation-modal__text {
+    color: #86efac;
+}
+
+.form-validation-modal__list {
+    margin: 0;
+    padding-left: 18px;
+    text-align: left;
+    max-height: 220px;
+    overflow-y: auto;
+    color: #334155;
+    font-size: 0.93rem;
+    line-height: 1.65;
+}
+
+.dark .form-validation-modal__list {
+    color: #e2e8f0;
+}
+
+.form-validation-modal__actions {
+    margin-top: 18px;
+    display: flex;
+    justify-content: center;
+}
+
+.form-validation-modal__close {
+    min-height: 46px;
+    padding: 0 18px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 12px 24px rgba(22, 163, 74, 0.18);
+}
+
+.form-validation-modal__close:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 28px rgba(22, 163, 74, 0.24);
+}
+
+/* =====================================================
+   INVALID FIELDS
+===================================================== */
+
+.form-input-error {
+    border-color: #dc2626 !important;
+    box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.10) !important;
+}
+
+.form-input-error-message {
+    margin-top: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #dc2626;
+    line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+    .form-validation-modal {
+        padding: 16px;
+    }
+
+    .form-validation-modal__dialog {
+        width: 100%;
+        border-radius: 20px;
+        padding: 20px;
+    }
+
+    .form-validation-modal__close {
+        width: 100%;
+    }
+}
+
+/* =====================================================
+   BILINGUAL AMENITIES
+===================================================== */
+
+.accommodation-amenities-help-box {
+    margin-bottom: 16px;
+    padding: 14px 16px;
+    border-radius: 16px;
+    border: 1px solid rgba(22, 163, 74, 0.12);
+    background: #f0fdf4;
+    color: #166534;
+}
+
+.dark .accommodation-amenities-help-box {
+    border-color: rgba(34, 197, 94, 0.16);
+    background: rgba(34, 197, 94, 0.08);
+    color: #bbf7d0;
+}
+
+.accommodation-amenities-help-box strong {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 800;
+}
+
+.accommodation-amenities-help-box p {
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.6;
+}
+
+.accommodation-amenities-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
 /* =====================================================
    ACCOMMODATIONS ADMIN INDEX CARD
-   Premium balanced layout for status, actions and ordering
 ===================================================== */
 
 .accommodation-admin-card {
@@ -405,26 +610,26 @@
     min-width: 64px;
     height: 38px;
     border-radius: 9999px;
-    border: 1px solid #c7d2fe;
-    background: #eef2ff;
-    color: #4338ca;
+    border: 1px solid rgba(22, 163, 74, 0.20);
+    background: #f0fdf4;
+    color: #15803d;
     font-weight: 700;
     text-align: center;
     text-align-last: center;
     padding: 0 14px;
-    box-shadow: 0 6px 14px rgba(99, 102, 241, 0.10);
+    box-shadow: 0 6px 14px rgba(22, 163, 74, 0.10);
     outline: none;
     transition: all 0.2s ease;
 }
 
 .tour-position-select:hover {
-    border-color: #a5b4fc;
-    background: #e0e7ff;
+    border-color: rgba(22, 163, 74, 0.34);
+    background: #dcfce7;
 }
 
 .tour-position-select:focus {
-    border-color: #818cf8;
-    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.16);
+    border-color: #22c55e;
+    box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.16);
 }
 
 /* =====================================================
@@ -560,6 +765,20 @@
 .accommodation-delete-modal-confirm:hover {
     background: #b91c1c;
     box-shadow: 0 16px 28px rgba(185, 28, 28, 0.22);
+}
+
+@media (max-width: 768px) {
+    .accommodation-amenities-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-validation-alert {
+        flex-direction: column;
+    }
+
+    .form-validation-alert__close {
+        width: 100%;
+    }
 }
 
 @media (max-width: 640px) {

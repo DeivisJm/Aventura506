@@ -46,7 +46,8 @@ class AccommodationController extends Controller
         $accommodations = $query
             ->orderBy('sort_order')
             ->orderBy('id')
-            ->get();
+            ->paginate(6)
+            ->appends($request->query());
 
         return view('pages.accommodations', compact('accommodations'));
     }

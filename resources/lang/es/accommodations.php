@@ -52,4 +52,9 @@ return [
     'empty_title' => 'No hay hospedajes disponibles en este momento',
     'empty_description' => 'Muy pronto podrás descubrir nuevas opciones de hospedaje cuidadosamente seleccionadas en esta sección.',
 
+    // Pagination
+    'showing' => 'Mostrando',
+    'of' => 'de',
+    'results' => 'hospedajes',
+
 ];

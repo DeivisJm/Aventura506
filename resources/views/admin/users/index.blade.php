@@ -87,7 +87,7 @@ USERS TABLE
                 {{ $user->role?->name === 'superadmin'
                     ? 'users-role-badge-admin'
                     : 'users-role-badge-client' }}">
-                        {{ $user->role?->name ?? 'Sin rol' }}
+                        {{ $user->role?->display_name ?? 'Sin rol' }}
                     </span>
                 </td>
 
