@@ -228,15 +228,24 @@ document.addEventListener('DOMContentLoaded', () => {
             initialCountry: window.appLocale === 'es' ? "cr" : "us",
             preferredCountries: ["cr", "us", "ca"],
             separateDialCode: true,
-            nationalMode: false,
+            nationalMode: true,
+            formatOnDisplay: false,
+            strictMode: true,
+            allowedNumberTypes: null,
             autoPlaceholder: "aggressive",
             utilsScript:
                 "https://cdn.jsdelivr.net/npm/intl-tel-input@23.0.12/build/js/utils.js"
         });
 
-        phoneInput.addEventListener('input', () => {
-            phoneInput.value = phoneInput.value.replace(/[^0-9]/g, '');
-        });
+        window.bookingPhoneItiPromise = iti.promise?.catch(() => null) || Promise.resolve();
+
+        const normalizePhoneValue = () => {
+            phoneInput.value = phoneInput.value.replace(/\D+/g, '');
+        };
+
+        phoneInput.addEventListener('input', normalizePhoneValue);
+        phoneInput.addEventListener('change', normalizePhoneValue);
+        phoneInput.addEventListener('blur', normalizePhoneValue);
     }
 
     /* ================= NATIONALITY WITH FLAG ================= */
@@ -272,7 +281,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     form?.addEventListener('submit', function (e) {
 
+        if (window.bookingEnhancedValidationEnabled) return;
+
         e.preventDefault(); // 🔥 SIEMPRE bloquea primero
+
+        if (phoneInput) {
+            phoneInput.value = phoneInput.value.replace(/\D+/g, '');
+        }
 
         let hasError = false;
         let firstError = null;

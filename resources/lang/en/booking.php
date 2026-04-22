@@ -22,8 +22,8 @@ return [
     'confirm' => 'Confirm booking',
 
     'select_nationality' => 'Select your nationality',
-    'national_option' => 'Nacional / Residente',
-    'international_option' => 'Internacional / No Residente',
+    'national_option' => 'National / Resident',
+    'international_option' => 'International / Non-Resident',
 
     // Booking UI
     'view_more' => 'View more times',
@@ -57,5 +57,27 @@ return [
     'email_new_booking' => 'New Booking Received',
     'email_details' => 'Booking Details',
     'email_footer' => 'This email was generated automatically.',
+
+    // Validation Modal
+    'validation_title' => 'The booking could not be completed',
+    'validation_text' => 'Please review the highlighted fields and fix the errors before continuing.',
+    'validation_close' => 'Close and review',
+
+    // Validation Messages
+    'error_name_required' => 'Name is required.',
+    'error_name_invalid' => 'Name can only contain letters and spaces.',
+    'error_email_required' => 'Email is required.',
+    'error_email_invalid' => 'You must enter a valid email address.',
+    'error_phone_required' => 'Phone number is required.',
+    'error_phone_invalid' => 'The phone number must contain only digits and be 7 to 15 digits long.',
+    'error_phone_country_invalid' => 'The phone number does not match the selected country format.',
+    'error_nationality_required' => 'Nationality is required.',
+    'error_nationality_phone_mismatch' => 'The selected nationality does not match the phone country.',
+    'error_date_required' => 'You must select a date.',
+    'error_time_required' => 'You must select a time.',
+    'error_persons_required' => 'You must select at least one person.',
+    'error_phone_digits_only' => 'The phone number must contain only digits.',
+    'error_phone_too_short' => 'The number is too short for the selected country.',
+    'error_phone_too_long' => 'The number is too long for the selected country.',
 
 ];

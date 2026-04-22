@@ -534,3 +534,163 @@
 .dark .qty-value {
     color: #f8fafc;
 }
+/* =====================================================
+   BOOKING VALIDATION MODAL
+   Premium validation modal aligned with booking styles
+===================================================== */
+
+.booking-validation-modal {
+    position: absolute;
+    inset: 0;
+    z-index: 60;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+}
+
+.booking-validation-modal.is-open {
+    display: flex;
+}
+
+.booking-validation-modal__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.60);
+    backdrop-filter: blur(6px);
+}
+
+.booking-validation-modal__dialog {
+    position: relative;
+    z-index: 2;
+    width: min(92vw, 560px);
+    border-radius: 20px;
+    padding: 22px;
+    background: var(--card);
+    color: var(--text);
+    border: 1px solid rgba(34, 197, 94, 0.18);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+}
+
+.booking-validation-modal__icon {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 16px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(34, 197, 94, 0.12);
+    color: #16a34a;
+}
+
+.booking-validation-modal__icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+.booking-validation-modal__content {
+    text-align: center;
+}
+
+.booking-validation-modal__title {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #166534;
+}
+
+.booking-validation-modal__text {
+    margin: 10px 0 14px;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #374151;
+}
+
+.booking-validation-modal__list {
+    margin: 0;
+    padding-left: 18px;
+    text-align: left;
+    max-height: 220px;
+    overflow-y: auto;
+    font-size: 0.93rem;
+    line-height: 1.65;
+    color: #ef4444;
+}
+
+.booking-validation-modal__actions {
+    margin-top: 18px;
+    display: flex;
+    justify-content: center;
+}
+
+.booking-validation-modal__close {
+    min-height: 46px;
+    padding: 0 18px;
+    border: none;
+    border-radius: 14px;
+    background: var(--accent);
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 12px 24px rgba(34, 197, 94, 0.18);
+}
+
+.booking-validation-modal__close:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 28px rgba(34, 197, 94, 0.24);
+}
+
+/* Keep existing booking error style, but slightly stronger */
+.booking-input.error {
+    border: 1px solid #ef4444 !important;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+}
+
+.error-message {
+    margin-top: 6px;
+    font-size: 13px;
+    color: #ef4444;
+}
+
+.error-message.hidden {
+    display: none;
+}
+
+@media (max-width: 767px) {
+    .booking-validation-modal {
+        padding: 12px;
+    }
+
+    .booking-validation-modal__dialog {
+        width: 100%;
+        border-radius: 16px;
+        padding: 18px;
+    }
+
+    .booking-validation-modal__close {
+        width: 100%;
+    }
+}
+
+/* =====================================================
+   DARK MODE
+===================================================== */
+.dark .booking-validation-modal__dialog {
+    border-color: rgba(74, 222, 128, 0.16);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+}
+
+.dark .booking-validation-modal__title {
+    color: #86efac;
+}
+
+.dark .booking-validation-modal__text {
+    color: #d1d5db;
+}
+
+.dark .booking-validation-modal__list {
+    color: #fca5a5;
+}

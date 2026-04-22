@@ -212,4 +212,43 @@
         </div>
     </div>
     
+    {{-- ================= BOOKING VALIDATION MODAL ================= --}}
+    <div id="bookingValidationModal" class="booking-validation-modal" aria-hidden="true">
+
+        <div class="booking-validation-modal__backdrop" data-booking-validation-close></div>
+
+        <div
+            class="booking-validation-modal__dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="bookingValidationTitle">
+
+            <div class="booking-validation-modal__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v5m0 4h.01M10.29 3.86l-7.4 12.82A2 2 0 004.63 20h14.74a2 2 0 001.74-3.32l-7.4-12.82a2 2 0 00-3.48 0z" />
+                </svg>
+            </div>
+
+            <div class="booking-validation-modal__content">
+                <h3 id="bookingValidationTitle" class="booking-validation-modal__title">
+                    {{ __('booking.validation_title') }}
+                </h3>
+
+                <p class="booking-validation-modal__text">
+                    {{ __('booking.validation_text') }}
+                </p>
+
+                <ul class="booking-validation-modal__list" data-booking-validation-list></ul>
+            </div>
+
+            <div class="booking-validation-modal__actions">
+                <button
+                    type="button"
+                    class="booking-validation-modal__close"
+                    data-booking-validation-close>
+                    {{ __('booking.validation_close') }}
+                </button>
+            </div>
+        </div>
+    </div>
 </div>

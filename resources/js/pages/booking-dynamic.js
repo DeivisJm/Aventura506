@@ -343,8 +343,8 @@ if (openNationalityBtn && nationalityModal) {
                 nationalityInputField.value = btn.dataset.country;
             }
 
-            if (phoneInputField && btn.dataset.code) {
-                phoneInputField.value = btn.dataset.code + " ";
+            if (phoneInputField) {
+                phoneInputField.value = "";
             }
 
             nationalityModal.classList.add('hidden');

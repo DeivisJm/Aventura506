@@ -508,6 +508,23 @@ return [
     window.appLocale = "{{ app()->getLocale() }}";
 </script>
 
+<script type="application/json" id="booking-validation-translations">
+{!! json_encode([
+    'error_name_required' => __('booking.error_name_required'),
+    'error_name_invalid' => __('booking.error_name_invalid'),
+    'error_email_required' => __('booking.error_email_required'),
+    'error_email_invalid' => __('booking.error_email_invalid'),
+    'error_phone_required' => __('booking.error_phone_required'),
+    'error_phone_invalid' => __('booking.error_phone_invalid'),
+    'error_phone_country_invalid' => __('booking.error_phone_country_invalid'),
+    'error_nationality_required' => __('booking.error_nationality_required'),
+    'error_nationality_phone_mismatch' => __('booking.error_nationality_phone_mismatch'),
+    'error_date_required' => __('booking.error_date_required'),
+    'error_time_required' => __('booking.error_time_required'),
+    'error_persons_required' => __('booking.error_persons_required'),
+], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
+</script>
+
 <x-booking-modal :tour="$tour" />
 
 <script>
