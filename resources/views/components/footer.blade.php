@@ -67,8 +67,9 @@
 
 
                     {{-- INSTAGRAM --}}
-                    <a href="#"
+                    <a href="https://www.instagram.com/aventura_506?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
                         target="_blank"
+                        rel="noopener noreferrer"
                         class="transition duration-300 hover:-translate-y-1 hover:text-green-600 dark:hover:text-green-400">
 
                         <svg xmlns="http://www.w3.org/2000/svg"
