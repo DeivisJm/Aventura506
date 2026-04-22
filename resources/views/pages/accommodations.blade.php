@@ -362,7 +362,7 @@
                 </article>
                 @endforeach
             </div>
-                        @endif
+            @endif
         </section>
 
         @if ($accommodations->hasPages())

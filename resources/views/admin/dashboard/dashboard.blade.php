@@ -3,113 +3,113 @@
 @section('admin-content')
 
 @php
-    /*
-    |--------------------------------------------------------------------------
-    | Normalize monthly bookings data
-    |--------------------------------------------------------------------------
-    | The chart dataset may come as stdClass items from the query builder.
-    | We convert every row to an array so the view can safely use array access.
-    */
-    $monthlyBookingsCollection = collect($monthlyBookings ?? [])->map(function ($item) {
-        return is_array($item) ? $item : (array) $item;
-    });
+/*
+|--------------------------------------------------------------------------
+| Normalize monthly bookings data
+|--------------------------------------------------------------------------
+| The chart dataset may come as stdClass items from the query builder.
+| We convert every row to an array so the view can safely use array access.
+*/
+$monthlyBookingsCollection = collect($monthlyBookings ?? [])->map(function ($item) {
+return is_array($item) ? $item : (array) $item;
+});
 
-    /*
-    |--------------------------------------------------------------------------
-    | Normalize month names to full Spanish labels
-    |--------------------------------------------------------------------------
-    | This lets the dashboard display full month names consistently in the
-    | best month card and in the chart labels.
-    */
-    $monthNames = [
-        '1' => 'Enero',
-        '01' => 'Enero',
-        'jan' => 'Enero',
-        'january' => 'Enero',
+/*
+|--------------------------------------------------------------------------
+| Normalize month names to full Spanish labels
+|--------------------------------------------------------------------------
+| This lets the dashboard display full month names consistently in the
+| best month card and in the chart labels.
+*/
+$monthNames = [
+'1' => 'Enero',
+'01' => 'Enero',
+'jan' => 'Enero',
+'january' => 'Enero',
 
-        '2' => 'Febrero',
-        '02' => 'Febrero',
-        'feb' => 'Febrero',
-        'february' => 'Febrero',
+'2' => 'Febrero',
+'02' => 'Febrero',
+'feb' => 'Febrero',
+'february' => 'Febrero',
 
-        '3' => 'Marzo',
-        '03' => 'Marzo',
-        'mar' => 'Marzo',
-        'march' => 'Marzo',
+'3' => 'Marzo',
+'03' => 'Marzo',
+'mar' => 'Marzo',
+'march' => 'Marzo',
 
-        '4' => 'Abril',
-        '04' => 'Abril',
-        'apr' => 'Abril',
-        'april' => 'Abril',
+'4' => 'Abril',
+'04' => 'Abril',
+'apr' => 'Abril',
+'april' => 'Abril',
 
-        '5' => 'Mayo',
-        '05' => 'Mayo',
-        'may' => 'Mayo',
+'5' => 'Mayo',
+'05' => 'Mayo',
+'may' => 'Mayo',
 
-        '6' => 'Junio',
-        '06' => 'Junio',
-        'jun' => 'Junio',
-        'june' => 'Junio',
+'6' => 'Junio',
+'06' => 'Junio',
+'jun' => 'Junio',
+'june' => 'Junio',
 
-        '7' => 'Julio',
-        '07' => 'Julio',
-        'jul' => 'Julio',
-        'july' => 'Julio',
+'7' => 'Julio',
+'07' => 'Julio',
+'jul' => 'Julio',
+'july' => 'Julio',
 
-        '8' => 'Agosto',
-        '08' => 'Agosto',
-        'aug' => 'Agosto',
-        'august' => 'Agosto',
+'8' => 'Agosto',
+'08' => 'Agosto',
+'aug' => 'Agosto',
+'august' => 'Agosto',
 
-        '9' => 'Septiembre',
-        '09' => 'Septiembre',
-        'sep' => 'Septiembre',
-        'sept' => 'Septiembre',
-        'september' => 'Septiembre',
+'9' => 'Septiembre',
+'09' => 'Septiembre',
+'sep' => 'Septiembre',
+'sept' => 'Septiembre',
+'september' => 'Septiembre',
 
-        '10' => 'Octubre',
-        'oct' => 'Octubre',
-        'october' => 'Octubre',
+'10' => 'Octubre',
+'oct' => 'Octubre',
+'october' => 'Octubre',
 
-        '11' => 'Noviembre',
-        'nov' => 'Noviembre',
-        'november' => 'Noviembre',
+'11' => 'Noviembre',
+'nov' => 'Noviembre',
+'november' => 'Noviembre',
 
-        '12' => 'Diciembre',
-        'dec' => 'Diciembre',
-        'december' => 'Diciembre',
-    ];
+'12' => 'Diciembre',
+'dec' => 'Diciembre',
+'december' => 'Diciembre',
+];
 
-    $formatMonthName = function ($month) use ($monthNames) {
-        $key = strtolower(trim((string) $month));
-        return $monthNames[$key] ?? (string) $month;
-    };
+$formatMonthName = function ($month) use ($monthNames) {
+$key = strtolower(trim((string) $month));
+return $monthNames[$key] ?? (string) $month;
+};
 
-    $chartLabelsFull = $monthlyBookingsCollection->pluck('month')->map(function ($month) use ($formatMonthName) {
-        return $formatMonthName($month);
-    });
+$chartLabelsFull = $monthlyBookingsCollection->pluck('month')->map(function ($month) use ($formatMonthName) {
+return $formatMonthName($month);
+});
 
-    $yearlyBookingsTotal = $monthlyBookingsCollection->sum(function ($item) {
-        return (int) ($item['total'] ?? 0);
-    });
+$yearlyBookingsTotal = $monthlyBookingsCollection->sum(function ($item) {
+return (int) ($item['total'] ?? 0);
+});
 
-    $bestMonthRow = $monthlyBookingsCollection
-        ->sortByDesc(function ($item) {
-            return (int) ($item['total'] ?? 0);
-        })
-        ->first();
+$bestMonthRow = $monthlyBookingsCollection
+->sortByDesc(function ($item) {
+return (int) ($item['total'] ?? 0);
+})
+->first();
 
-    $bestMonth = isset($bestMonthRow['month'])
-        ? $formatMonthName($bestMonthRow['month'])
-        : '—';
+$bestMonth = isset($bestMonthRow['month'])
+? $formatMonthName($bestMonthRow['month'])
+: '—';
 
-    $bestMonthTotal = (int) ($bestMonthRow['total'] ?? 0);
+$bestMonthTotal = (int) ($bestMonthRow['total'] ?? 0);
 
-    $monthlyAverage = $monthlyBookingsCollection->count() > 0
-        ? round($yearlyBookingsTotal / $monthlyBookingsCollection->count(), 1)
-        : 0;
+$monthlyAverage = $monthlyBookingsCollection->count() > 0
+? round($yearlyBookingsTotal / $monthlyBookingsCollection->count(), 1)
+: 0;
 
-    $monthsTracked = $monthlyBookingsCollection->count();
+$monthsTracked = $monthlyBookingsCollection->count();
 @endphp
 
 <div class="dashboard-premium-executive">

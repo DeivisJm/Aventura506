@@ -21,11 +21,11 @@ class Tour extends Model
     ];
 
     protected $casts = [
-    'name' => 'array',
-    'description' => 'array',
-    'active' => 'boolean',
-    'deactivated_by_category' => 'boolean',
-];
+        'name' => 'array',
+        'description' => 'array',
+        'active' => 'boolean',
+        'deactivated_by_category' => 'boolean',
+    ];
 
     /*
     |--------------------------------------------------------------------------

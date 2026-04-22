@@ -20,6 +20,7 @@ class TourDetail extends Model
         'start_hours_text',
         'includes',
         'ideal_for',
+        'recommendations',
         'location_name',
     ];
 

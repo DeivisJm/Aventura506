@@ -26,6 +26,7 @@ import './admin/admin-dashboard';
 import './admin/admin-live-search';
 import './admin/admin-tabs.js';
 import './admin/categories-index.js';
+import './admin/company-form.js';
 import './admin/tours-form.js';
 import './admin/tours';
 

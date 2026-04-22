@@ -1,8 +1,8 @@
 <div class="admin-page">
 
     @php
-        $isEditing = isset($accommodation->id);
-        $requiresMainImage = !$isEditing || empty($accommodation->main_image);
+    $isEditing = isset($accommodation->id);
+    $requiresMainImage = !$isEditing || empty($accommodation->main_image);
     @endphp
 
     <div class="admin-page-header">
@@ -20,49 +20,49 @@
     </div>
 
     {{-- Validation modal --}}
-<div
-    id="accommodation-validation-alert"
-    class="form-validation-modal {{ $errors->any() ? 'is-open' : '' }}"
-    data-validation-alert
-    aria-hidden="{{ $errors->any() ? 'false' : 'true' }}">
-
-    <div class="form-validation-modal__backdrop" data-alert-close></div>
-
     <div
-        class="form-validation-modal__dialog"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="accommodation-validation-title">
+        id="accommodation-validation-alert"
+        class="form-validation-modal {{ $errors->any() ? 'is-open' : '' }}"
+        data-validation-alert
+        aria-hidden="{{ $errors->any() ? 'false' : 'true' }}">
 
-        <div class="form-validation-modal__icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v5m0 4h.01M10.29 3.86l-7.4 12.82A2 2 0 004.63 20h14.74a2 2 0 001.74-3.32l-7.4-12.82a2 2 0 00-3.48 0z" />
-            </svg>
-        </div>
+        <div class="form-validation-modal__backdrop" data-alert-close></div>
 
-        <div class="form-validation-modal__content">
-            <h3 id="accommodation-validation-title" class="form-validation-modal__title">
-                {{ $isEditing ? 'No se pudo actualizar el hospedaje' : 'No se pudo crear el hospedaje' }}
-            </h3>
+        <div
+            class="form-validation-modal__dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="accommodation-validation-title">
 
-            <p class="form-validation-modal__text">
-                Revisa los campos marcados y corrige los errores antes de continuar.
-            </p>
+            <div class="form-validation-modal__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v5m0 4h.01M10.29 3.86l-7.4 12.82A2 2 0 004.63 20h14.74a2 2 0 001.74-3.32l-7.4-12.82a2 2 0 00-3.48 0z" />
+                </svg>
+            </div>
 
-            <ul class="form-validation-modal__list" data-validation-alert-list>
-                @foreach ($errors->all() as $error)
+            <div class="form-validation-modal__content">
+                <h3 id="accommodation-validation-title" class="form-validation-modal__title">
+                    {{ $isEditing ? 'No se pudo actualizar el hospedaje' : 'No se pudo crear el hospedaje' }}
+                </h3>
+
+                <p class="form-validation-modal__text">
+                    Revisa los campos marcados y corrige los errores antes de continuar.
+                </p>
+
+                <ul class="form-validation-modal__list" data-validation-alert-list>
+                    @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
+                    @endforeach
+                </ul>
+            </div>
 
-        <div class="form-validation-modal__actions">
-            <button type="button" class="form-validation-modal__close" data-alert-close>
-                Cerrar y revisar
-            </button>
+            <div class="form-validation-modal__actions">
+                <button type="button" class="form-validation-modal__close" data-alert-close>
+                    Cerrar y revisar
+                </button>
+            </div>
         </div>
     </div>
-</div>
 
     <form method="POST"
         action="{{ $isEditing ? route('admin.accommodations.update', $accommodation) : route('admin.accommodations.store') }}"
@@ -77,7 +77,7 @@
         <input type="hidden" name="active_tab" id="active-tab-input" value="{{ old('active_tab', session('active_tab', 'general')) }}">
 
         @if($isEditing)
-            @method('PUT')
+        @method('PUT')
         @endif
 
         {{-- TABS NAVIGATION --}}
@@ -132,7 +132,7 @@
                                     required>
 
                                 @error('name.es')
-                                    <p class="form-input-error-message">{{ $message }}</p>
+                                <p class="form-input-error-message">{{ $message }}</p>
                                 @enderror
                             </div>
 
@@ -149,7 +149,7 @@
                                     required>
 
                                 @error('name.en')
-                                    <p class="form-input-error-message">{{ $message }}</p>
+                                <p class="form-input-error-message">{{ $message }}</p>
                                 @enderror
                             </div>
                         </div>
@@ -170,7 +170,7 @@
                                 <p class="form-help">Este texto se usa en la URL interna del hospedaje.</p>
 
                                 @error('slug')
-                                    <p class="form-input-error-message">{{ $message }}</p>
+                                <p class="form-input-error-message">{{ $message }}</p>
                                 @enderror
                             </div>
 
@@ -188,7 +188,7 @@
                                     required>
 
                                 @error('host_name')
-                                    <p class="form-input-error-message">{{ $message }}</p>
+                                <p class="form-input-error-message">{{ $message }}</p>
                                 @enderror
                             </div>
                         </div>
@@ -214,7 +214,7 @@
                                     required>
 
                                 @error('location')
-                                    <p class="form-input-error-message">{{ $message }}</p>
+                                <p class="form-input-error-message">{{ $message }}</p>
                                 @enderror
                             </div>
 
@@ -235,7 +235,7 @@
                                 <p class="form-help">Usa únicamente números, sin espacios ni guiones.</p>
 
                                 @error('phone')
-                                    <p class="form-input-error-message">{{ $message }}</p>
+                                <p class="form-input-error-message">{{ $message }}</p>
                                 @enderror
                             </div>
                         </div>
@@ -256,7 +256,7 @@
                             <p class="form-help">Este será el enlace de redirección hacia Airbnb u otra plataforma externa.</p>
 
                             @error('external_url')
-                                <p class="form-input-error-message">{{ $message }}</p>
+                            <p class="form-input-error-message">{{ $message }}</p>
                             @enderror
                         </div>
                     </div>
@@ -304,7 +304,7 @@
                                     required>{{ old('short_description.es', $accommodation->short_description['es'] ?? '') }}</textarea>
 
                                 @error('short_description.es')
-                                    <p class="form-input-error-message">{{ $message }}</p>
+                                <p class="form-input-error-message">{{ $message }}</p>
                                 @enderror
                             </div>
 
@@ -319,7 +319,7 @@
                                     required>{{ old('short_description.en', $accommodation->short_description['en'] ?? '') }}</textarea>
 
                                 @error('short_description.en')
-                                    <p class="form-input-error-message">{{ $message }}</p>
+                                <p class="form-input-error-message">{{ $message }}</p>
                                 @enderror
                             </div>
                         </div>
@@ -345,7 +345,7 @@
                                     required>
 
                                 @error('guests')
-                                    <p class="form-input-error-message">{{ $message }}</p>
+                                <p class="form-input-error-message">{{ $message }}</p>
                                 @enderror
                             </div>
 
@@ -363,7 +363,7 @@
                                     required>
 
                                 @error('bedrooms')
-                                    <p class="form-input-error-message">{{ $message }}</p>
+                                <p class="form-input-error-message">{{ $message }}</p>
                                 @enderror
                             </div>
                         </div>
@@ -383,7 +383,7 @@
                                     required>
 
                                 @error('beds')
-                                    <p class="form-input-error-message">{{ $message }}</p>
+                                <p class="form-input-error-message">{{ $message }}</p>
                                 @enderror
                             </div>
 
@@ -401,7 +401,7 @@
                                     required>
 
                                 @error('bathrooms')
-                                    <p class="form-input-error-message">{{ $message }}</p>
+                                <p class="form-input-error-message">{{ $message }}</p>
                                 @enderror
                             </div>
                         </div>
@@ -412,7 +412,7 @@
                             <h3 class="form-card-title">Amenidades</h3>
                         </div>
 
-  <p class="form-help">
+                        <p class="form-help">
                             Agregar las Amenidades por coma. Ejm: Wifi, Cocina, Parqueo
                         </p>
 
@@ -435,7 +435,7 @@
                                 </p>
 
                                 @error('amenities.es')
-                                    <p class="form-input-error-message">{{ $message }}</p>
+                                <p class="form-input-error-message">{{ $message }}</p>
                                 @enderror
                             </div>
 
@@ -457,7 +457,7 @@
                                 </p>
 
                                 @error('amenities.en')
-                                    <p class="form-input-error-message">{{ $message }}</p>
+                                <p class="form-input-error-message">{{ $message }}</p>
                                 @enderror
                             </div>
                         </div>
@@ -517,26 +517,26 @@
                         </label>
 
                         @error('main_image')
-                            <p class="form-input-error-message mt-3">{{ $message }}</p>
+                        <p class="form-input-error-message mt-3">{{ $message }}</p>
                         @enderror
 
                         <div class="accommodation-main-preview-list" id="main-image-preview-wrapper">
                             @if(!empty($accommodation->main_image))
-                                <div class="accommodation-main-preview-card" id="main-image-preview-card">
-                                    <img
-                                        id="main-image-preview"
-                                        src="{{ asset($accommodation->main_image) }}"
-                                        alt="Main image preview"
-                                        class="accommodation-main-preview-image">
-                                </div>
+                            <div class="accommodation-main-preview-card" id="main-image-preview-card">
+                                <img
+                                    id="main-image-preview"
+                                    src="{{ asset($accommodation->main_image) }}"
+                                    alt="Main image preview"
+                                    class="accommodation-main-preview-image">
+                            </div>
                             @else
-                                <div class="accommodation-main-preview-card hidden" id="main-image-preview-card">
-                                    <img
-                                        id="main-image-preview"
-                                        src=""
-                                        alt="Main image preview"
-                                        class="accommodation-main-preview-image">
-                                </div>
+                            <div class="accommodation-main-preview-card hidden" id="main-image-preview-card">
+                                <img
+                                    id="main-image-preview"
+                                    src=""
+                                    alt="Main image preview"
+                                    class="accommodation-main-preview-image">
+                            </div>
                             @endif
                         </div>
 
@@ -592,9 +592,9 @@
                             multiple>
 
                         @php
-                            $existingGalleryImages = is_array($accommodation->gallery_images ?? null)
-                                ? $accommodation->gallery_images
-                                : [];
+                        $existingGalleryImages = is_array($accommodation->gallery_images ?? null)
+                        ? $accommodation->gallery_images
+                        : [];
                         @endphp
 
                         <div
@@ -606,43 +606,43 @@
                         </div>
 
                         @error('gallery_images')
-                            <p class="form-input-error-message mt-3">{{ $message }}</p>
+                        <p class="form-input-error-message mt-3">{{ $message }}</p>
                         @enderror
 
                         @error('gallery_images.*')
-                            <p class="form-input-error-message mt-3">{{ $message }}</p>
+                        <p class="form-input-error-message mt-3">{{ $message }}</p>
                         @enderror
 
                         <div class="accommodation-gallery-preview-grid" id="gallery-preview-grid"></div>
 
                         @if(!empty($existingGalleryImages))
-                            <div class="mt-6">
-                                <h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-4">
-                                    Imágenes actuales
-                                </h4>
+                        <div class="mt-6">
+                            <h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-4">
+                                Imágenes actuales
+                            </h4>
 
-                                <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="existing-gallery-grid">
-                                    @foreach($existingGalleryImages as $index => $image)
-                                        <label
-                                            class="block accommodation-existing-gallery-item"
-                                            data-existing-gallery-item>
-                                            <img
-                                                src="{{ asset($image) }}"
-                                                alt="Gallery image {{ $index + 1 }}"
-                                                class="w-full h-28 object-cover rounded-xl border border-gray-200 dark:border-gray-700">
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="existing-gallery-grid">
+                                @foreach($existingGalleryImages as $index => $image)
+                                <label
+                                    class="block accommodation-existing-gallery-item"
+                                    data-existing-gallery-item>
+                                    <img
+                                        src="{{ asset($image) }}"
+                                        alt="Gallery image {{ $index + 1 }}"
+                                        class="w-full h-28 object-cover rounded-xl border border-gray-200 dark:border-gray-700">
 
-                                            <span class="mt-2 inline-flex items-center gap-2 text-sm text-red-600">
-                                                <input
-                                                    type="checkbox"
-                                                    name="gallery_remove[]"
-                                                    value="{{ $index }}"
-                                                    class="existing-gallery-remove-checkbox">
-                                                Quitar esta imagen
-                                            </span>
-                                        </label>
-                                    @endforeach
-                                </div>
+                                    <span class="mt-2 inline-flex items-center gap-2 text-sm text-red-600">
+                                        <input
+                                            type="checkbox"
+                                            name="gallery_remove[]"
+                                            value="{{ $index }}"
+                                            class="existing-gallery-remove-checkbox">
+                                        Quitar esta imagen
+                                    </span>
+                                </label>
+                                @endforeach
                             </div>
+                        </div>
                         @endif
 
                     </div>
